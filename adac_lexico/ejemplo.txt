@@ -1,0 +1,5 @@
+-- Cesar
+
+integer x;
+boolean x_y;  -- variable booleana de locos
+char y__z; -- jeje
