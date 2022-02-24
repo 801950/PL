@@ -117,6 +117,7 @@ TOKEN :
 		}
 
 }
+
 //------------ Símbolo inicial de la gramática. Para análisis léxico no hace falta más
 void S () : 
 {
