@@ -67,6 +67,138 @@ public class adac implements adacConstants {
         jj_consume_token(tIDERR);
         break;
         }
+      case tIF:{
+        jj_consume_token(tIF);
+        break;
+        }
+      case tTHEN:{
+        jj_consume_token(tTHEN);
+        break;
+        }
+      case tELSE:{
+        jj_consume_token(tELSE);
+        break;
+        }
+      case tEND:{
+        jj_consume_token(tEND);
+        break;
+        }
+      case tWHILE:{
+        jj_consume_token(tWHILE);
+        break;
+        }
+      case tDO:{
+        jj_consume_token(tDO);
+        break;
+        }
+      case tASIG:{
+        jj_consume_token(tASIG);
+        break;
+        }
+      case tPUT:{
+        jj_consume_token(tPUT);
+        break;
+        }
+      case tAND:{
+        jj_consume_token(tAND);
+        break;
+        }
+      case tOR:{
+        jj_consume_token(tOR);
+        break;
+        }
+      case tNOT:{
+        jj_consume_token(tNOT);
+        break;
+        }
+      case tMAYEQ:{
+        jj_consume_token(tMAYEQ);
+        break;
+        }
+      case tMENEQ:{
+        jj_consume_token(tMENEQ);
+        break;
+        }
+      case tEQ:{
+        jj_consume_token(tEQ);
+        break;
+        }
+      case tMAY:{
+        jj_consume_token(tMAY);
+        break;
+        }
+      case tMEN:{
+        jj_consume_token(tMEN);
+        break;
+        }
+      case tDIST:{
+        jj_consume_token(tDIST);
+        break;
+        }
+      case tTRUE:{
+        jj_consume_token(tTRUE);
+        break;
+        }
+      case tFALSE:{
+        jj_consume_token(tFALSE);
+        break;
+        }
+      case tPOPEN:{
+        jj_consume_token(tPOPEN);
+        break;
+        }
+      case tPCLOSE:{
+        jj_consume_token(tPCLOSE);
+        break;
+        }
+      case tC2:{
+        jj_consume_token(tC2);
+        break;
+        }
+      case tC1:{
+        jj_consume_token(tC1);
+        break;
+        }
+      case tVAL:{
+        jj_consume_token(tVAL);
+        break;
+        }
+      case tREF:{
+        jj_consume_token(tREF);
+        break;
+        }
+      case tFUNC:{
+        jj_consume_token(tFUNC);
+        break;
+        }
+      case tPROC:{
+        jj_consume_token(tPROC);
+        break;
+        }
+      case tCOMA:{
+        jj_consume_token(tCOMA);
+        break;
+        }
+      case tRET:{
+        jj_consume_token(tRET);
+        break;
+        }
+      case tIS:{
+        jj_consume_token(tIS);
+        break;
+        }
+      case tCORCHETEOPEN:{
+        jj_consume_token(tCORCHETEOPEN);
+        break;
+        }
+      case tCORCHETECLOSE:{
+        jj_consume_token(tCORCHETECLOSE);
+        break;
+        }
+      case tGET:{
+        jj_consume_token(tGET);
+        break;
+        }
       default:
         jj_la1[0] = jj_gen;
         jj_consume_token(-1);
@@ -74,11 +206,44 @@ public class adac implements adacConstants {
       }
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case tCOM:
+      case tPOPEN:
+      case tPCLOSE:
+      case tC2:
+      case tC1:
+      case tCOMA:
+      case tCORCHETEOPEN:
+      case tCORCHETECLOSE:
       case tBEGIN:
       case tBOOL:
       case tCHAR:
       case tINT:
       case tEOL:
+      case tFUNC:
+      case tPROC:
+      case tIS:
+      case tVAL:
+      case tREF:
+      case tRET:
+      case tIF:
+      case tTHEN:
+      case tELSE:
+      case tEND:
+      case tWHILE:
+      case tDO:
+      case tASIG:
+      case tPUT:
+      case tGET:
+      case tAND:
+      case tOR:
+      case tNOT:
+      case tMAYEQ:
+      case tMENEQ:
+      case tEQ:
+      case tMAY:
+      case tMEN:
+      case tDIST:
+      case tTRUE:
+      case tFALSE:
       case tIDERR:
       case tID:
       case tERROR:{
@@ -105,11 +270,16 @@ public class adac implements adacConstants {
   static private int jj_gen;
   static final private int[] jj_la1 = new int[2];
   static private int[] jj_la1_0;
+  static private int[] jj_la1_1;
   static {
 	   jj_la1_init_0();
+	   jj_la1_init_1();
 	}
 	private static void jj_la1_init_0() {
-	   jj_la1_0 = new int[] {0xff80,0xff80,};
+	   jj_la1_0 = new int[] {0xffffff80,0xffffff80,};
+	}
+	private static void jj_la1_init_1() {
+	   jj_la1_1 = new int[] {0x3fffd,0x3fffd,};
 	}
 
   /** Constructor with InputStream. */
@@ -255,7 +425,7 @@ public class adac implements adacConstants {
   /** Generate ParseException. */
   static public ParseException generateParseException() {
 	 jj_expentries.clear();
-	 boolean[] la1tokens = new boolean[16];
+	 boolean[] la1tokens = new boolean[50];
 	 if (jj_kind >= 0) {
 	   la1tokens[jj_kind] = true;
 	   jj_kind = -1;
@@ -266,10 +436,13 @@ public class adac implements adacConstants {
 		   if ((jj_la1_0[i] & (1<<j)) != 0) {
 			 la1tokens[j] = true;
 		   }
+		   if ((jj_la1_1[i] & (1<<j)) != 0) {
+			 la1tokens[32+j] = true;
+		   }
 		 }
 	   }
 	 }
-	 for (int i = 0; i < 16; i++) {
+	 for (int i = 0; i < 50; i++) {
 	   if (la1tokens[i]) {
 		 jj_expentry = new int[1];
 		 jj_expentry[0] = i;

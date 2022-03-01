@@ -19,21 +19,89 @@ public interface adacConstants {
   /** RegularExpression Id. */
   int tCOM = 7;
   /** RegularExpression Id. */
-  int tBEGIN = 8;
+  int tPOPEN = 8;
   /** RegularExpression Id. */
-  int tBOOL = 9;
+  int tPCLOSE = 9;
   /** RegularExpression Id. */
-  int tCHAR = 10;
+  int tC2 = 10;
   /** RegularExpression Id. */
-  int tINT = 11;
+  int tC1 = 11;
   /** RegularExpression Id. */
-  int tEOL = 12;
+  int tCOMA = 12;
   /** RegularExpression Id. */
-  int tIDERR = 13;
+  int tCORCHETEOPEN = 13;
   /** RegularExpression Id. */
-  int tID = 14;
+  int tCORCHETECLOSE = 14;
   /** RegularExpression Id. */
-  int tERROR = 15;
+  int tBEGIN = 15;
+  /** RegularExpression Id. */
+  int tBOOL = 16;
+  /** RegularExpression Id. */
+  int tCHAR = 17;
+  /** RegularExpression Id. */
+  int tINT = 18;
+  /** RegularExpression Id. */
+  int tEOL = 19;
+  /** RegularExpression Id. */
+  int tFUNC = 20;
+  /** RegularExpression Id. */
+  int tPROC = 21;
+  /** RegularExpression Id. */
+  int tIS = 22;
+  /** RegularExpression Id. */
+  int tVAL = 23;
+  /** RegularExpression Id. */
+  int tREF = 24;
+  /** RegularExpression Id. */
+  int tRET = 25;
+  /** RegularExpression Id. */
+  int tIF = 26;
+  /** RegularExpression Id. */
+  int tTHEN = 27;
+  /** RegularExpression Id. */
+  int tELSE = 28;
+  /** RegularExpression Id. */
+  int tEND = 29;
+  /** RegularExpression Id. */
+  int tWHILE = 30;
+  /** RegularExpression Id. */
+  int tDO = 31;
+  /** RegularExpression Id. */
+  int tASIG = 32;
+  /** RegularExpression Id. */
+  int tPUTLINE = 33;
+  /** RegularExpression Id. */
+  int tPUT = 34;
+  /** RegularExpression Id. */
+  int tGET = 35;
+  /** RegularExpression Id. */
+  int tAND = 36;
+  /** RegularExpression Id. */
+  int tOR = 37;
+  /** RegularExpression Id. */
+  int tNOT = 38;
+  /** RegularExpression Id. */
+  int tMAYEQ = 39;
+  /** RegularExpression Id. */
+  int tMENEQ = 40;
+  /** RegularExpression Id. */
+  int tEQ = 41;
+  /** RegularExpression Id. */
+  int tMAY = 42;
+  /** RegularExpression Id. */
+  int tMEN = 43;
+  /** RegularExpression Id. */
+  int tDIST = 44;
+  /** RegularExpression Id. */
+  int tTRUE = 45;
+  /** RegularExpression Id. */
+  int tFALSE = 46;
+  /** RegularExpression Id. */
+  int tIDERR = 47;
+  /** RegularExpression Id. */
+  int tID = 48;
+  /** RegularExpression Id. */
+  int tERROR = 49;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -48,11 +116,45 @@ public interface adacConstants {
     "<DIGIT>",
     "<ALNUM>",
     "<tCOM>",
+    "\"(\"",
+    "\")\"",
+    "\"\\\"\"",
+    "\"\\\'\"",
+    "\",\"",
+    "\"[\"",
+    "\"]\"",
     "\"begin\"",
     "\"boolean\"",
     "\"character\"",
     "\"integer\"",
     "\";\"",
+    "\"function\"",
+    "\"procedure\"",
+    "\"is\"",
+    "\"val\"",
+    "\"ref\"",
+    "\"return\"",
+    "\"if\"",
+    "\"then\"",
+    "\"else\"",
+    "\"end\"",
+    "\"while\"",
+    "\"do\"",
+    "\":=\"",
+    "\"put_line\"",
+    "\"put\"",
+    "\"get\"",
+    "\"and\"",
+    "\"or\"",
+    "\"not\"",
+    "\">=\"",
+    "\"<=\"",
+    "\"=\"",
+    "\">\"",
+    "\"<\"",
+    "\"<>\"",
+    "\"true\"",
+    "\"false\"",
     "<tIDERR>",
     "<tID>",
     "<tERROR>",

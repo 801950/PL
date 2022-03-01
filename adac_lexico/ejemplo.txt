@@ -3,3 +3,5 @@
 integer x;
 boolean x_y;  -- variable booleana de locos
 char y__z; -- jeje
+char __x;
+integer 2_22tt;

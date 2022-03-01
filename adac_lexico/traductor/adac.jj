@@ -71,39 +71,231 @@ TOKEN :
 
 }
 
+TOKEN:
+{
+	< tPOPEN: "(" >
+		{
+			infoToken("parentesis de apertura",matchedToken);
+		}
+	
+|	< tPCLOSE: ")" >
+		{
+			infoToken("parentesis de clausura",matchedToken);
+		}
+	
+|	< tC2 : "\"" >
+		{
+			infoToken("comillas dobles",matchedToken);
+		}
+
+|	< tC1 : "\'" >
+		{
+			infoToken("comillas simples",matchedToken);
+		}
+
+|	< tCOMA : "," >
+		{
+			infoToken("coma", matchedToken);
+		}
+		
+|	< tCORCHETEOPEN : "[">
+		{
+			infoToken("corchete de apertura", matchedToken);
+		}
+
+|	< tCORCHETECLOSE : "]" >
+		{
+			infoToken("corchete de apertura", matchedToken);
+		}
+}
+
 TOKEN :
 {
  	< tBEGIN: "begin" >
  		{
-			//infoToken("comentario",matchedToken);
+			infoToken("inicio de programa",matchedToken);
  			//mostrar la información pedida
  		}
+
 |	< tBOOL: "boolean" >
 		 {
 			infoToken("tipo de dato",matchedToken);
 		 }
+
 |	< tCHAR: "character" >
 		{
 			infoToken("tipo de dato",matchedToken);
 		}
+
 | 	< tINT: "integer" >
 		{
 			infoToken("tipo de dato",matchedToken);
 		}
+
 |	< tEOL: ";" >
-		 {
+		{
 			 infoToken("fin de instrucción", matchedToken);
-		 }
+		}
+
+|	< tFUNC: "function" >
+		{
+			 infoToken("inicio cabecera función", matchedToken);
+		}
+		
+|	< tPROC: "procedure" >
+		{
+			 infoToken("inicio cabecera procedimiento", matchedToken);
+		}
+
+|	< tIS : "is" >
+		{
+			infoToken("fin cabecera función/procedimiento", matchedToken);
+		}
+		
+|	< tVAL :  "val" >
+		{
+			infoToken("parámetro por valor", matchedToken);
+		}
+
+|	< tREF : "ref" >
+		{
+			infoToken("parámetro por referecia", matchedToken);
+		}
+
+|	< tRET : "return" >
+		{
+			infoToken("valor devuelto", matchedToken);
+		}
+
 }
+
+TOKEN :
+{
+	< tIF: "if" >
+		{
+			infoToken("sentencia if", matchedToken);
+		}
+	
+|	< tTHEN: "then" >
+		{
+			infoToken("sentencia then", matchedToken);
+		}
+
+|	< tELSE: "else" >
+		{
+			infoToken("sentencia else", matchedToken);
+		}
+
+|	< tEND: "end" >
+		{
+			infoToken("fin de sentencia", matchedToken);
+		}
+
+|	< tWHILE : "while" >
+		{
+			infoToken("bucle while", matchedToken);
+		}
+
+|	< tDO : "do" >
+		{
+			infoToken("sentencia do", matchedToken);
+		}
+}
+
+TOKEN:
+{
+	< tASIG : ":=" >
+		{
+			infoToken("operador de asignación", matchedToken);
+		}
+
+|	< tPUTLINE : "put_line" >
+		{
+			infoToken("escritura de una línea", matchedToken);
+		}
+
+|	< tPUT : "put" >
+		{
+			infoToken("escritura de un caracter", matchedToken);
+		}
+|	< tGET : "get" >
+		{
+			infoToken("lectura de un caracter", matchedToken);
+		}
+}
+
+TOKEN  : 
+{
+	< tAND : "and">
+		{
+			infoToken("operador lógico", matchedToken);
+		}
+
+|	< tOR : "or">
+		{
+			infoToken("operador lógico", matchedToken);
+		}
+
+|	< tNOT : "not" >
+		{
+			infoToken("operador lógico", matchedToken);
+		}
+	
+|	< tMAYEQ : ">=" >
+		{
+			infoToken("operador lógico", matchedToken);
+		}
+
+|	< tMENEQ : "<=" >
+		{
+			infoToken("operador lógico", matchedToken);
+		}
+
+|	< tEQ : "=" >
+		{
+			infoToken("operador lógico", matchedToken);
+		}
+
+|	< tMAY : ">" >
+		{
+			infoToken("operador lógico", matchedToken);
+		}
+
+|	< tMEN : "<" >
+		{
+			infoToken("operador lógico", matchedToken);
+		}
+
+|	< tDIST : "<>" >
+		{
+			infoToken("operador lógico", matchedToken);
+		}
+	
+|	< tTRUE : "true" >
+		{
+			infoToken("constante lógica", matchedToken);
+		}
+	
+|	< tFALSE : "false" >
+		{
+			infoToken("constante lógica", matchedToken);
+		}
+}
+
 
 TOKEN : 
 {
-	< tIDERR: (< LETTER > | ("_"(< ALNUM >)+)*) (< ALNUM > | "_" (< ALNUM >)+)* 			"__" (< ALNUM > | "_" (< ALNUM >)+)* >
+	< tIDERR: (< LETTER > | ("_"(< ALNUM >)+)+ | "__" ) 
+				(< ALNUM > | "_" (< ALNUM >)+)* "__" 
+				(< ALNUM > | "_" (< ALNUM >)+)* >
 		{
 			System.out.println("ERROR LÉXICO: (" + matchedToken.beginLine + "," + matchedToken.beginColumn + "): símbolo no reconocido " + matchedToken.image);
 		}
-|	< tID: (< LETTER > | ("_"(< ALNUM >)+)*) (< ALNUM >)* ("_" (< ALNUM >)+)* 				(< ALNUM >)* >
-//	< tID: (< LETTER > | ("_"(< ALNUM >)+)*) (< ALNUM > | "_" (< ALNUM >)+)* >
+	< tIDERR2 : < DIGIT > ( "_" | <ALNUM> )*
+		{
+			System.out.println("ERROR LÉXICO: (" + matchedToken.beginLine + "," + matchedToken.beginColumn + "): símbolo no reconocido " + matchedToken.image);
+		}
+|	< tID: ( < LETTER > | ("_"(< ALNUM >)+)+ ) ( < ALNUM > | "_"(< ALNUM >)+ )* >
 		{
 			infoToken("identificador", matchedToken);
 		}
@@ -125,7 +317,7 @@ void S () :
 }
 {
 	( 
-		< tBEGIN > | < tBOOL > | < tCHAR > | < tCOM > | < tEOL > | < tID > | < tINT > | < tERROR > | < tIDERR >
+		< tBEGIN > | < tBOOL > | < tCHAR > | < tCOM > | < tEOL > | < tID > | < tINT > | < tERROR > | < tIDERR2 > | < tIDERR > | < tIF > | < tTHEN > | < tELSE > | < tEND > | < tWHILE > | < tDO > | < tASIG > | < tPUT > | < tAND > | < tOR > | < tNOT > | < tMAYEQ > | < tMENEQ > | < tEQ > | < tMAY > | < tMEN > | < tDIST > | < tTRUE > | < tFALSE > | < tPOPEN > | < tPCLOSE > | < tC2 > | < tC1 > | < tVAL > | < tREF > | < tFUNC > | < tPROC > | < tCOMA > | < tRET > | < tIS > | < tCORCHETEOPEN > | < tCORCHETECLOSE > | < tGET >
 	)+
 	< EOF >
 }
