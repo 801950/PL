@@ -285,22 +285,26 @@ TOKEN  :
 
 TOKEN : 
 {
-	< tIDERR: (< LETTER > | ("_"(< ALNUM >)+)+ | "__" ) 
-				(< ALNUM > | "_" (< ALNUM >)+)* "__" 
-				(< ALNUM > | "_" (< ALNUM >)+)* >
+	< tIDERR: (< LETTER > | ( "_"(< ALNUM >)+)+ )*(< ALNUM > | "_"(< ALNUM >)+)*"__"( < ALNUM > | "_" (< ALNUM >)+ )* >
 		{
 			System.out.println("ERROR LÉXICO: (" + matchedToken.beginLine + "," + matchedToken.beginColumn + "): símbolo no reconocido " + matchedToken.image);
 		}
-	< tIDERR2 : < DIGIT > ( "_" | <ALNUM> )*
+|	< tIDERR2 : < DIGIT > ( "_" | <ALNUM> )* >
 		{
 			System.out.println("ERROR LÉXICO: (" + matchedToken.beginLine + "," + matchedToken.beginColumn + "): símbolo no reconocido " + matchedToken.image);
 		}
-|	< tID: ( < LETTER > | ("_"(< ALNUM >)+)+ ) ( < ALNUM > | "_"(< ALNUM >)+ )* >
+|	< tID:  (< LETTER > | ("_"(< ALNUM >)+)+ ) ( < ALNUM > | "_"(< ALNUM >)+ )* >
 		{
 			infoToken("identificador", matchedToken);
 		}
 }
-
+TOKEN : 
+{
+	< tDP : ":" >
+		{
+			infoToken("literal",matchedToken);
+		}
+}
 TOKEN :
 {   
 	< tERROR: ~[] >
@@ -317,7 +321,7 @@ void S () :
 }
 {
 	( 
-		< tBEGIN > | < tBOOL > | < tCHAR > | < tCOM > | < tEOL > | < tID > | < tINT > | < tERROR > | < tIDERR2 > | < tIDERR > | < tIF > | < tTHEN > | < tELSE > | < tEND > | < tWHILE > | < tDO > | < tASIG > | < tPUT > | < tAND > | < tOR > | < tNOT > | < tMAYEQ > | < tMENEQ > | < tEQ > | < tMAY > | < tMEN > | < tDIST > | < tTRUE > | < tFALSE > | < tPOPEN > | < tPCLOSE > | < tC2 > | < tC1 > | < tVAL > | < tREF > | < tFUNC > | < tPROC > | < tCOMA > | < tRET > | < tIS > | < tCORCHETEOPEN > | < tCORCHETECLOSE > | < tGET >
+		< tBEGIN > | < tBOOL > | < tCHAR > | < tCOM > | < tEOL >  | < tID > | < tINT > | < tIDERR > | < tERROR >   | < tIF > | < tTHEN > | < tELSE > | < tEND > | < tWHILE > | < tDO > | < tASIG > | < tPUT > | < tAND > | < tOR > | < tNOT > | < tMAYEQ > | < tMENEQ > | < tEQ > | < tMAY > | < tMEN > | < tDIST > | < tTRUE > | < tFALSE > | < tPOPEN > | < tPCLOSE > | < tC2 > | < tC1 > | < tVAL > | < tREF > | < tFUNC > | < tPROC > | < tCOMA > | < tRET > | < tIS > | < tCORCHETEOPEN > | < tCORCHETECLOSE > | < tGET > | < tIDERR2 > | < tPUTLINE > | < tDP >
 	)+
 	< EOF >
 }
