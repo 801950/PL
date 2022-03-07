@@ -2,6 +2,9 @@
 
 integer x;
 boolean x_y;  -- variable booleana de locos
-char y__z; -- jeje
-char __x;
+character y__z; -- jeje
+character __x;
 integer 2_22tt;
+
+put_line ("dec_b(",num,"lslsl""dd""",base,"): ",enB); 
+IF

@@ -59,12 +59,12 @@ public class adac implements adacConstants {
         jj_consume_token(tINT);
         break;
         }
-      case tERROR:{
-        jj_consume_token(tERROR);
-        break;
-        }
       case tIDERR:{
         jj_consume_token(tIDERR);
+        break;
+        }
+      case tERROR:{
+        jj_consume_token(tERROR);
         break;
         }
       case tIF:{
@@ -199,6 +199,50 @@ public class adac implements adacConstants {
         jj_consume_token(tGET);
         break;
         }
+      case tPUTLINE:{
+        jj_consume_token(tPUTLINE);
+        break;
+        }
+      case tNUM:{
+        jj_consume_token(tNUM);
+        break;
+        }
+      case tSUM:{
+        jj_consume_token(tSUM);
+        break;
+        }
+      case tRES:{
+        jj_consume_token(tRES);
+        break;
+        }
+      case tMUL:{
+        jj_consume_token(tMUL);
+        break;
+        }
+      case tDIV:{
+        jj_consume_token(tDIV);
+        break;
+        }
+      case tMOD:{
+        jj_consume_token(tMOD);
+        break;
+        }
+      case tCHAR2INT:{
+        jj_consume_token(tCHAR2INT);
+        break;
+        }
+      case tINT2CHAR:{
+        jj_consume_token(tINT2CHAR);
+        break;
+        }
+      case tSTRING:{
+        jj_consume_token(tSTRING);
+        break;
+        }
+      case tCARACTER:{
+        jj_consume_token(tCARACTER);
+        break;
+        }
       default:
         jj_la1[0] = jj_gen;
         jj_consume_token(-1);
@@ -213,6 +257,7 @@ public class adac implements adacConstants {
       case tCOMA:
       case tCORCHETEOPEN:
       case tCORCHETECLOSE:
+      case tNUM:
       case tBEGIN:
       case tBOOL:
       case tCHAR:
@@ -224,6 +269,8 @@ public class adac implements adacConstants {
       case tVAL:
       case tREF:
       case tRET:
+      case tINT2CHAR:
+      case tCHAR2INT:
       case tIF:
       case tTHEN:
       case tELSE:
@@ -231,6 +278,7 @@ public class adac implements adacConstants {
       case tWHILE:
       case tDO:
       case tASIG:
+      case tPUTLINE:
       case tPUT:
       case tGET:
       case tAND:
@@ -244,6 +292,13 @@ public class adac implements adacConstants {
       case tDIST:
       case tTRUE:
       case tFALSE:
+      case tSUM:
+      case tRES:
+      case tMUL:
+      case tDIV:
+      case tMOD:
+      case tSTRING:
+      case tCARACTER:
       case tIDERR:
       case tID:
       case tERROR:{
@@ -279,7 +334,7 @@ public class adac implements adacConstants {
 	   jj_la1_0 = new int[] {0xffffff80,0xffffff80,};
 	}
 	private static void jj_la1_init_1() {
-	   jj_la1_1 = new int[] {0x3fffd,0x3fffd,};
+	   jj_la1_1 = new int[] {0xfffffff,0xfffffff,};
 	}
 
   /** Constructor with InputStream. */
@@ -425,7 +480,7 @@ public class adac implements adacConstants {
   /** Generate ParseException. */
   static public ParseException generateParseException() {
 	 jj_expentries.clear();
-	 boolean[] la1tokens = new boolean[50];
+	 boolean[] la1tokens = new boolean[60];
 	 if (jj_kind >= 0) {
 	   la1tokens[jj_kind] = true;
 	   jj_kind = -1;
@@ -442,7 +497,7 @@ public class adac implements adacConstants {
 		 }
 	   }
 	 }
-	 for (int i = 0; i < 50; i++) {
+	 for (int i = 0; i < 60; i++) {
 	   if (la1tokens[i]) {
 		 jj_expentry = new int[1];
 		 jj_expentry[0] = i;

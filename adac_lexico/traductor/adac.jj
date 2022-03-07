@@ -41,7 +41,7 @@ public class adac {
 }
 PARSER_END(adac)
 //------------ descripción del AL
-SKIP :
+SKIP:
 {
 	" "
 |	"\t"
@@ -59,7 +59,7 @@ TOKEN_MGR_DECLS : {
 	}
 }
 
-TOKEN :
+TOKEN:
 {
  	< #LETTER: (["a"-"z","A"-"Z"]) >
 |	< #DIGIT: ["0"-"9"] >
@@ -68,7 +68,6 @@ TOKEN :
 		{
 			infoToken("comentario",matchedToken);
 		}
-
 }
 
 TOKEN:
@@ -81,8 +80,7 @@ TOKEN:
 |	< tPCLOSE: ")" >
 		{
 			infoToken("parentesis de clausura",matchedToken);
-		}
-	
+		}	
 |	< tC2 : "\"" >
 		{
 			infoToken("comillas dobles",matchedToken);
@@ -107,9 +105,13 @@ TOKEN:
 		{
 			infoToken("corchete de apertura", matchedToken);
 		}
+|	< tNUM : (< DIGIT >)+ >
+		{
+			infoToken("numero",matchedToken);
+		}
 }
 
-TOKEN :
+TOKEN:
 {
  	< tBEGIN: "begin" >
  		{
@@ -166,24 +168,31 @@ TOKEN :
 		{
 			infoToken("valor devuelto", matchedToken);
 		}
-
+|	< tINT2CHAR : "int2char" >
+		{
+			infoToken("función", matchedToken);
+		}
+|	< tCHAR2INT : "char2int" >
+		{
+			infoToken("función", matchedToken);
+		}
 }
 
-TOKEN :
+TOKEN:
 {
 	< tIF: "if" >
 		{
-			infoToken("sentencia if", matchedToken);
+			infoToken("sentencia", matchedToken);
 		}
 	
 |	< tTHEN: "then" >
 		{
-			infoToken("sentencia then", matchedToken);
+			infoToken("sentencia", matchedToken);
 		}
 
 |	< tELSE: "else" >
 		{
-			infoToken("sentencia else", matchedToken);
+			infoToken("sentencia", matchedToken);
 		}
 
 |	< tEND: "end" >
@@ -191,72 +200,72 @@ TOKEN :
 			infoToken("fin de sentencia", matchedToken);
 		}
 
-|	< tWHILE : "while" >
+|	< tWHILE: "while" >
 		{
-			infoToken("bucle while", matchedToken);
+			infoToken("bucle", matchedToken);
 		}
 
-|	< tDO : "do" >
+|	< tDO: "do" >
 		{
-			infoToken("sentencia do", matchedToken);
+			infoToken("sentencia", matchedToken);
 		}
 }
 
 TOKEN:
 {
-	< tASIG : ":=" >
+	< tASIG: ":=" >
 		{
 			infoToken("operador de asignación", matchedToken);
 		}
 
-|	< tPUTLINE : "put_line" >
+|	< tPUTLINE: "put_line" >
 		{
 			infoToken("escritura de una línea", matchedToken);
 		}
 
-|	< tPUT : "put" >
+|	< tPUT: "put" >
 		{
 			infoToken("escritura de un caracter", matchedToken);
 		}
-|	< tGET : "get" >
+|	< tGET: "get" >
 		{
 			infoToken("lectura de un caracter", matchedToken);
 		}
 }
 
-TOKEN  : 
+TOKEN: 
 {
-	< tAND : "and">
+	< tAND: "and">
 		{
 			infoToken("operador lógico", matchedToken);
 		}
 
-|	< tOR : "or">
+|	< tOR: "or">
 		{
 			infoToken("operador lógico", matchedToken);
 		}
 
-|	< tNOT : "not" >
+|	< tNOT: "not" >
 		{
 			infoToken("operador lógico", matchedToken);
 		}
 	
-|	< tMAYEQ : ">=" >
+|	< tMAYEQ: ">=" >
 		{
 			infoToken("operador lógico", matchedToken);
 		}
 
-|	< tMENEQ : "<=" >
+|	< tMENEQ: "<=" >
 		{
 			infoToken("operador lógico", matchedToken);
 		}
 
-|	< tEQ : "=" >
+|	< tEQ: "=" >
 		{
 			infoToken("operador lógico", matchedToken);
 		}
 
-|	< tMAY : ">" >
+|	< tMAY: ">" >
 		{
 			infoToken("operador lógico", matchedToken);
 		}
@@ -282,14 +291,46 @@ TOKEN  :
 		}
 }
 
-
-TOKEN : 
+TOKEN: 
 {
-	< tIDERR: (< LETTER > | ( "_"(< ALNUM >)+)+ )*(< ALNUM > | "_"(< ALNUM >)+)*"__"( < ALNUM > | "_" (< ALNUM >)+ )* >
+	< tSUM: "+">
 		{
-			System.out.println("ERROR LÉXICO: (" + matchedToken.beginLine + "," + matchedToken.beginColumn + "): símbolo no reconocido " + matchedToken.image);
+			infoToken("operador aritmético", matchedToken);
 		}
-|	< tIDERR2 : < DIGIT > ( "_" | <ALNUM> )* >
+
+|	< tRES: "-">
+		{
+			infoToken("operador aritmético", matchedToken);
+		}
+
+|	< tMUL: "*">
+		{
+			infoToken("operador aritmético", matchedToken);
+		}
+
+|	< tDIV: "div">
+		{
+			infoToken("operador aritmético", matchedToken);
+		}
+		
+|	< tMOD: "mod">
+		{
+			infoToken("operador aritmético", matchedToken);
+		}
+|	< tSTRING : "\"" ("\"\"")* (("\"\"")* (~["\""])*)* "\"" >
+		{
+			infoToken("cadena de caracteres", matchedToken);
+		}
+|	< tCARACTER : "\'" (~[])? "\'" >
+		{
+			infoToken("caracter", matchedToken);
+		}
+}
+
+
+TOKEN:
+{
+	< tIDERR: ((< LETTER > | ( "_"(< ALNUM >)+)+ )*(< ALNUM > | "_"(< ALNUM >)+)*"__"( < ALNUM > | "_" (< ALNUM >)+ )*) | (< DIGIT > ( "_" | <ALNUM> )*) >
 		{
 			System.out.println("ERROR LÉXICO: (" + matchedToken.beginLine + "," + matchedToken.beginColumn + "): símbolo no reconocido " + matchedToken.image);
 		}
@@ -298,14 +339,8 @@ TOKEN :
 			infoToken("identificador", matchedToken);
 		}
 }
-TOKEN : 
-{
-	< tDP : ":" >
-		{
-			infoToken("literal",matchedToken);
-		}
-}
-TOKEN :
+
+TOKEN:
 {   
 	< tERROR: ~[] >
 		{
@@ -321,7 +356,7 @@ void S () :
 }
 {
 	( 
-		< tBEGIN > | < tBOOL > | < tCHAR > | < tCOM > | < tEOL >  | < tID > | < tINT > | < tIDERR > | < tERROR >   | < tIF > | < tTHEN > | < tELSE > | < tEND > | < tWHILE > | < tDO > | < tASIG > | < tPUT > | < tAND > | < tOR > | < tNOT > | < tMAYEQ > | < tMENEQ > | < tEQ > | < tMAY > | < tMEN > | < tDIST > | < tTRUE > | < tFALSE > | < tPOPEN > | < tPCLOSE > | < tC2 > | < tC1 > | < tVAL > | < tREF > | < tFUNC > | < tPROC > | < tCOMA > | < tRET > | < tIS > | < tCORCHETEOPEN > | < tCORCHETECLOSE > | < tGET > | < tIDERR2 > | < tPUTLINE > | < tDP >
+		< tBEGIN > | < tBOOL > | < tCHAR > | < tCOM > | < tEOL >  | < tID > | < tINT > | < tIDERR > | < tERROR >   | < tIF > | < tTHEN > | < tELSE > | < tEND > | < tWHILE > | < tDO > | < tASIG > | < tPUT > | < tAND > | < tOR > | < tNOT > | < tMAYEQ > | < tMENEQ > | < tEQ > | < tMAY > | < tMEN > | < tDIST > | < tTRUE > | < tFALSE > | < tPOPEN > | < tPCLOSE > | < tC2 > | < tC1 > | < tVAL > | < tREF > | < tFUNC > | < tPROC > | < tCOMA > | < tRET > | < tIS > | < tCORCHETEOPEN > | < tCORCHETECLOSE > | < tGET > | < tPUTLINE > | < tNUM > | < tSUM > | < tRES > | < tMUL > | < tDIV > | < tMOD >  | < tCHAR2INT > | < tINT2CHAR > | < tSTRING > | < tCARACTER>
 	)+
 	< EOF >
 }
