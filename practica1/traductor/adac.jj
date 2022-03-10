@@ -1,16 +1,11 @@
 //*****************************************************************
 // File:   adac.jj
 // Author: Nerea Gallego, César Borja
-// Date:   ...........
+// Date:   Marzo 2022
 // Coms:   Un tutorial sobre el análisis léxico con javacc
 //         https://javacc.github.io/javacc/tutorials/token-manager.html
 //*****************************************************************
 
-// options {
-//   IGNORE_CASE = false;
-//   COMMON_TOKEN_ACTION = false;
-//   ...
-// }
 
 PARSER_BEGIN(adac)
 package traductor;
@@ -360,4 +355,3 @@ void S () :
 	)+
 	< EOF >
 }
-

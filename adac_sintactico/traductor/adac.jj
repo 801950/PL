@@ -1,0 +1,230 @@
+//*****************************************************************
+// File:   adac.jj
+// Author: Nerea Gallego, César Borja
+// Date:   ...........
+// Coms:   Un tutorial sobre el análisis léxico con javacc
+//         https://javacc.github.io/javacc/tutorials/token-manager.html
+//*****************************************************************
+
+options {
+   DEBUG_PARSER = true;
+}
+
+PARSER_BEGIN(adac)
+package traductor;
+
+public class adac {
+    public static void main(String[] args) {
+    	adac parser;
+
+    	try {
+	    	if(args.length == 0) { //entrada desde stdin
+				parser = new adac(System.in);
+			}
+			else { //entrada desde fichero en args[0]
+	            parser = new adac(new java.io.FileInputStream(args[0])); 
+			}
+			parser.S(); //invoca símbolo inicial de la gramática
+		}
+		catch (java.io.FileNotFoundException e) {
+			System.err.println ("Fichero " + args[0] + " no encontrado.");
+		}
+		catch (TokenMgrError e) {
+        	System.err.println("LEX_ERROR: " + e.getMessage());
+        }
+        catch (ParseException e) {
+        	System.err.println("SINT_ERROR: " + e.getMessage());
+        } 
+    }
+}
+PARSER_END(adac)
+//------------ descripción del AL
+SKIP:
+{
+	" "
+|	"\t"
+|	"\n"
+	
+}
+//---------------------------------------------------------
+TOKEN_MGR_DECLS : {
+	//lo declarado aquí estará en "ejemploTokenManager"
+	//también estará, por ejemplo, "lengthOfMatch", "image", ...
+	static int nPalInt = 0;
+	static int valNums = 0;
+	static void infoToken(String mensaje, Token token){
+		System.out.println("(" + token.beginLine + "," + token.beginColumn + "): " + mensaje + " " + token.image);
+	}
+}
+
+TOKEN:
+{
+ 	< #LETTER: (["a"-"z","A"-"Z"]) >
+|	< #DIGIT: ["0"-"9"] >
+|	< #ALNUM: (< LETTER > | < DIGIT >) >
+/*|   < tCOM: "--"(~["\n"])*"\n" >*/
+}
+
+TOKEN:
+{
+	< tPOPEN: "(" >
+|	< tPCLOSE: ")" >	
+|	< tC2 : "\"" >
+|	< tC1 : "\'" >
+|	< tCOMA : "," >
+|	< tCORCHETEOPEN : "[">
+|	< tCORCHETECLOSE : "]" >
+|	< tNUM : (< DIGIT >)+ >
+
+}
+
+TOKEN:
+{
+ 	< tBEGIN: "begin" >
+|	< tBOOL: "boolean" >
+|	< tCHAR: "character" >
+| 	< tINT: "integer" >
+|	< tEOL: ";" >
+|	< tFUNC: "function" >
+|	< tPROC: "procedure" >
+|	< tIS : "is" >
+|	< tVAL :  "val" >
+|	< tREF : "ref" >
+|	< tRET : "return" >
+|	< tINT2CHAR : "int2char" >
+|	< tCHAR2INT : "char2int" >
+}
+
+TOKEN:
+{
+	< tIF: "if" >
+|	< tTHEN: "then" >
+|	< tELSE: "else" >
+|	< tEND: "end" >
+|	< tWHILE: "while" >
+|	< tDO: "do" >
+}
+
+TOKEN:
+{
+	< tASIG: ":=" >
+|	< tPUTLINE: "put_line" >
+|	< tPUT: "put" >
+|	< tGET: "get" >
+}
+
+TOKEN: 
+{
+	< tAND: "and">
+|	< tOR: "or">
+|	< tNOT: "not" >
+|	< tMAYEQ: ">=" >
+|	< tMENEQ: "<=" >
+|	< tEQ: "=" >
+|	< tMAY: ">" >
+|	< tMEN : "<" >
+|	< tDIST : "<>" >
+|	< tTRUE : "true" >
+|	< tFALSE : "false" >
+}
+
+TOKEN: 
+{
+	< tSUM: "+">
+|	< tRES: "-">
+|	< tMUL: "*">
+|	< tDIV: "div">	
+|	< tMOD: "mod">
+|	< tSTRING : "\"" ("\"\"")* (("\"\"")* (~["\""])*)* "\"" >
+|	< tCARACTER : "\'" (~[])? "\'" >
+}
+
+
+TOKEN:
+{
+/*	< tIDERR: ((< LETTER > | ( "_"(< ALNUM >)+)+ )*(< ALNUM > | "_"(< ALNUM >)+)*"__"( < ALNUM > | "_" (< ALNUM >)+ )*) | (< DIGIT > ( "_" | <ALNUM> )*) >
+		{
+			System.out.println("ERROR LÉXICO: (" + matchedToken.beginLine + "," + matchedToken.beginColumn + "): símbolo no reconocido " + matchedToken.image);
+		}
+|*/	< tID:  (< LETTER > | ("_"(< ALNUM >)+)+ ) ( < ALNUM > | "_"(< ALNUM >)+ )* >
+}
+
+SPECIAL_TOKEN : {
+	< tCOM: "--"(~["\n"])*"\n" >
+|	< tERROR: ~[] >
+		{
+			System.out.println("ERROR LÉXICO: (" + matchedToken.beginLine + "," + matchedToken.beginColumn + "): símbolo no reconocido " + matchedToken.image);
+		}
+}
+
+void S () : 
+{
+
+}
+{
+	prog()
+}
+
+//------------ Símbolo inicial de la gramática. Para análisis léxico no hace falta más
+void prog () : 
+{
+
+}
+{
+  		<tPROC>
+  		<tID>
+  		<tIS>
+ 		declaracion_variables()
+		inst()
+//  		declaracion_procs_funcs
+ // 		bloque_sentencias
+}
+
+void declaracion_variables():
+{
+
+}
+{
+	( declaracion() <tEOL> )*
+}
+
+void declaracion():
+{
+
+}{
+	tipo_variable() 
+	lista_vars()
+}
+void tipo_variable():
+{
+
+}
+{
+	<tINT> | <tCHAR> | <tBOOL>
+}
+
+void lista_vars():
+{
+
+}
+{
+	variable() ( <tCOMA> variable() )*
+}
+
+void variable():
+{
+
+}
+{
+	LOOKAHEAD(2)
+  	<tID> <tCORCHETEOPEN> <tNUM> <tCORCHETECLOSE>
+| 	<tID>
+}
+
+void inst():
+{
+
+}
+{
+		<tID> <tASIG> <tNUM> <tEOL>
+}
