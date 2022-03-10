@@ -11,113 +11,113 @@ public interface adacConstants {
   /** End of File. */
   int EOF = 0;
   /** RegularExpression Id. */
-  int LETTER = 4;
+  int tCOM = 4;
   /** RegularExpression Id. */
-  int DIGIT = 5;
+  int LETTER = 5;
   /** RegularExpression Id. */
-  int ALNUM = 6;
+  int DIGIT = 6;
   /** RegularExpression Id. */
-  int tPOPEN = 7;
+  int ALNUM = 7;
   /** RegularExpression Id. */
-  int tPCLOSE = 8;
+  int tPOPEN = 8;
   /** RegularExpression Id. */
-  int tC2 = 9;
+  int tPCLOSE = 9;
   /** RegularExpression Id. */
-  int tC1 = 10;
+  int tC2 = 10;
   /** RegularExpression Id. */
-  int tCOMA = 11;
+  int tC1 = 11;
   /** RegularExpression Id. */
-  int tCORCHETEOPEN = 12;
+  int tCOMA = 12;
   /** RegularExpression Id. */
-  int tCORCHETECLOSE = 13;
+  int tCORCHETEOPEN = 13;
   /** RegularExpression Id. */
-  int tNUM = 14;
+  int tCORCHETECLOSE = 14;
   /** RegularExpression Id. */
-  int tBEGIN = 15;
+  int tNUM = 15;
   /** RegularExpression Id. */
-  int tBOOL = 16;
+  int tBEGIN = 16;
   /** RegularExpression Id. */
-  int tCHAR = 17;
+  int tBOOL = 17;
   /** RegularExpression Id. */
-  int tINT = 18;
+  int tCHAR = 18;
   /** RegularExpression Id. */
-  int tEOL = 19;
+  int tINT = 19;
   /** RegularExpression Id. */
-  int tFUNC = 20;
+  int tEOL = 20;
   /** RegularExpression Id. */
-  int tPROC = 21;
+  int tFUNC = 21;
   /** RegularExpression Id. */
-  int tIS = 22;
+  int tPROC = 22;
   /** RegularExpression Id. */
-  int tVAL = 23;
+  int tIS = 23;
   /** RegularExpression Id. */
-  int tREF = 24;
+  int tVAL = 24;
   /** RegularExpression Id. */
-  int tRET = 25;
+  int tREF = 25;
   /** RegularExpression Id. */
-  int tINT2CHAR = 26;
+  int tRET = 26;
   /** RegularExpression Id. */
-  int tCHAR2INT = 27;
+  int tINT2CHAR = 27;
   /** RegularExpression Id. */
-  int tIF = 28;
+  int tCHAR2INT = 28;
   /** RegularExpression Id. */
-  int tTHEN = 29;
+  int tIF = 29;
   /** RegularExpression Id. */
-  int tELSE = 30;
+  int tTHEN = 30;
   /** RegularExpression Id. */
-  int tEND = 31;
+  int tELSE = 31;
   /** RegularExpression Id. */
-  int tWHILE = 32;
+  int tEND = 32;
   /** RegularExpression Id. */
-  int tDO = 33;
+  int tWHILE = 33;
   /** RegularExpression Id. */
-  int tASIG = 34;
+  int tDO = 34;
   /** RegularExpression Id. */
-  int tPUTLINE = 35;
+  int tASIG = 35;
   /** RegularExpression Id. */
-  int tPUT = 36;
+  int tPUTLINE = 36;
   /** RegularExpression Id. */
-  int tGET = 37;
+  int tPUT = 37;
   /** RegularExpression Id. */
-  int tAND = 38;
+  int tGET = 38;
   /** RegularExpression Id. */
-  int tOR = 39;
+  int tAND = 39;
   /** RegularExpression Id. */
-  int tNOT = 40;
+  int tOR = 40;
   /** RegularExpression Id. */
-  int tMAYEQ = 41;
+  int tNOT = 41;
   /** RegularExpression Id. */
-  int tMENEQ = 42;
+  int tMAYEQ = 42;
   /** RegularExpression Id. */
-  int tEQ = 43;
+  int tMENEQ = 43;
   /** RegularExpression Id. */
-  int tMAY = 44;
+  int tEQ = 44;
   /** RegularExpression Id. */
-  int tMEN = 45;
+  int tMAY = 45;
   /** RegularExpression Id. */
-  int tDIST = 46;
+  int tMEN = 46;
   /** RegularExpression Id. */
-  int tTRUE = 47;
+  int tDIST = 47;
   /** RegularExpression Id. */
-  int tFALSE = 48;
+  int tTRUE = 48;
   /** RegularExpression Id. */
-  int tSUM = 49;
+  int tFALSE = 49;
   /** RegularExpression Id. */
-  int tRES = 50;
+  int tSUM = 50;
   /** RegularExpression Id. */
-  int tMUL = 51;
+  int tRES = 51;
   /** RegularExpression Id. */
-  int tDIV = 52;
+  int tMUL = 52;
   /** RegularExpression Id. */
-  int tMOD = 53;
+  int tDIV = 53;
   /** RegularExpression Id. */
-  int tSTRING = 54;
+  int tMOD = 54;
   /** RegularExpression Id. */
-  int tCARACTER = 55;
+  int tSTRING = 55;
   /** RegularExpression Id. */
-  int tID = 56;
+  int tCARACTER = 56;
   /** RegularExpression Id. */
-  int tCOM = 57;
+  int tID = 57;
   /** RegularExpression Id. */
   int tERROR = 58;
 
@@ -130,6 +130,7 @@ public interface adacConstants {
     "\" \"",
     "\"\\t\"",
     "\"\\n\"",
+    "<tCOM>",
     "<LETTER>",
     "<DIGIT>",
     "<ALNUM>",
@@ -183,7 +184,6 @@ public interface adacConstants {
     "<tSTRING>",
     "<tCARACTER>",
     "<tID>",
-    "<tCOM>",
     "<tERROR>",
   };
 

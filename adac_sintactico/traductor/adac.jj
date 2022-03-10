@@ -57,6 +57,10 @@ TOKEN_MGR_DECLS : {
 	}
 }
 
+SPECIAL_TOKEN : {
+	< tCOM: "--"(~["\n"])*"\n" >
+}
+
 TOKEN:
 {
  	< #LETTER: (["a"-"z","A"-"Z"]) >
@@ -150,8 +154,8 @@ TOKEN:
 }
 
 SPECIAL_TOKEN : {
-	< tCOM: "--"(~["\n"])*"\n" >
-|	< tERROR: ~[] >
+/*	< tCOM: "--"(~["\n"])*"\n" >
+|*/	< tERROR: ~[] >
 		{
 			System.out.println("ERROR LÉXICO: (" + matchedToken.beginLine + "," + matchedToken.beginColumn + "): símbolo no reconocido " + matchedToken.image);
 		}
@@ -163,6 +167,7 @@ void S () :
 }
 {
 	prog()
+	< EOF >
 }
 
 //------------ Símbolo inicial de la gramática. Para análisis léxico no hace falta más
@@ -171,13 +176,12 @@ void prog () :
 
 }
 {
-  		<tPROC>
-  		<tID>
-  		<tIS>
- 		declaracion_variables()
-		inst()
-//  		declaracion_procs_funcs
- // 		bloque_sentencias
+  	<tPROC>
+  	<tID>
+  	<tIS>
+ 	declaracion_variables()
+  	declaracion_procs_funcs()
+	bloque_sentencias()
 }
 
 void declaracion_variables():
@@ -221,10 +225,83 @@ void variable():
 | 	<tID>
 }
 
+void declaracion_procs_funcs():
+{
+
+}
+{
+	inst()
+|	( declaracion_proc_func() )*
+}
+
+void declaracion_proc_func():
+{
+
+}
+{
+
+	(cabecera_procedimiento() | cabecera_funcion())
+	declaracion_variables() bloque_sentencias()
+	
+}
+
+void cabecera_procedimiento():
+{
+	
+}
+{
+	<tPROC> <tID> <tPOPEN> lista_parametros() <tPCLOSE> <tIS>
+}
+
+void cabecera_funcion():
+{
+	
+}
+{
+	<tFUNC> tipo_variable() <tID> <tPOPEN> lista_parametros() <tPCLOSE> <tIS>
+}
+
+void lista_parametros():
+{
+
+}
+{
+	(parametro())*
+}
+
+void parametro():
+{
+
+}
+{
+	(<tVAL> | <tREF>) tipo_variable() variable() (<tCOMA> variable())* 
+}
+
+void bloque_sentencias():
+{
+	
+}
+{
+	<tBEGIN>
+	(inst() )*
+	<tEND>
+}
+
+
 void inst():
 {
 
 }
 {
-		<tID> <tASIG> <tNUM> <tEOL>
+	inst_asignacion()
+}
+
+void inst_asignacion():
+{
+
+}
+{
+	<tID> <tASIG> ((<tRES>)? <tNUM>
+/*|	<tID> <tASIG> <tC1> <LETTER> <tC1> <tEOL>*/
+|	 (<tTRUE> | <tFALSE>) ) <tEOL>
 }

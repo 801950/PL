@@ -3,9 +3,15 @@ procedure cambio_base is
 integer num, base;
 integer enB;
 
-cesar := 10;
-char x;
-x = 's';
-bool e,q;
-s := true;
-f := false; ---kskksksksksk
+--cesar := 10;
+--char x;
+--x = 's';
+--bool e,q;
+--s := true;
+--f := false; ---kskksksksksk
+
+procedure escrib_vect (val boolean v[101]) is
+begin
+end
+begin
+end

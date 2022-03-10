@@ -31,6 +31,7 @@ public class adac implements adacConstants {
     try {
 
       prog();
+      jj_consume_token(0);
     } finally {
       trace_return("S");
     }
@@ -45,7 +46,8 @@ public class adac implements adacConstants {
       jj_consume_token(tID);
       jj_consume_token(tIS);
       declaracion_variables();
-      inst();
+      declaracion_procs_funcs();
+      bloque_sentencias();
     } finally {
       trace_return("prog");
     }
@@ -164,16 +166,236 @@ public class adac implements adacConstants {
     }
 }
 
+  static final public void declaracion_procs_funcs() throws ParseException {
+    trace_call("declaracion_procs_funcs");
+    try {
+
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tID:{
+        inst();
+        break;
+        }
+      default:
+        jj_la1[5] = jj_gen;
+        label_3:
+        while (true) {
+          switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+          case tFUNC:
+          case tPROC:{
+            ;
+            break;
+            }
+          default:
+            jj_la1[4] = jj_gen;
+            break label_3;
+          }
+          declaracion_proc_func();
+        }
+      }
+    } finally {
+      trace_return("declaracion_procs_funcs");
+    }
+}
+
+  static final public void declaracion_proc_func() throws ParseException {
+    trace_call("declaracion_proc_func");
+    try {
+
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tPROC:{
+        cabecera_procedimiento();
+        break;
+        }
+      case tFUNC:{
+        cabecera_funcion();
+        break;
+        }
+      default:
+        jj_la1[6] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+      declaracion_variables();
+      bloque_sentencias();
+    } finally {
+      trace_return("declaracion_proc_func");
+    }
+}
+
+  static final public void cabecera_procedimiento() throws ParseException {
+    trace_call("cabecera_procedimiento");
+    try {
+
+      jj_consume_token(tPROC);
+      jj_consume_token(tID);
+      jj_consume_token(tPOPEN);
+      lista_parametros();
+      jj_consume_token(tPCLOSE);
+      jj_consume_token(tIS);
+    } finally {
+      trace_return("cabecera_procedimiento");
+    }
+}
+
+  static final public void cabecera_funcion() throws ParseException {
+    trace_call("cabecera_funcion");
+    try {
+
+      jj_consume_token(tFUNC);
+      tipo_variable();
+      jj_consume_token(tID);
+      jj_consume_token(tPOPEN);
+      lista_parametros();
+      jj_consume_token(tPCLOSE);
+      jj_consume_token(tIS);
+    } finally {
+      trace_return("cabecera_funcion");
+    }
+}
+
+  static final public void lista_parametros() throws ParseException {
+    trace_call("lista_parametros");
+    try {
+
+      label_4:
+      while (true) {
+        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+        case tVAL:
+        case tREF:{
+          ;
+          break;
+          }
+        default:
+          jj_la1[7] = jj_gen;
+          break label_4;
+        }
+        parametro();
+      }
+    } finally {
+      trace_return("lista_parametros");
+    }
+}
+
+  static final public void parametro() throws ParseException {
+    trace_call("parametro");
+    try {
+
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tVAL:{
+        jj_consume_token(tVAL);
+        break;
+        }
+      case tREF:{
+        jj_consume_token(tREF);
+        break;
+        }
+      default:
+        jj_la1[8] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+      tipo_variable();
+      variable();
+      label_5:
+      while (true) {
+        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+        case tCOMA:{
+          ;
+          break;
+          }
+        default:
+          jj_la1[9] = jj_gen;
+          break label_5;
+        }
+        jj_consume_token(tCOMA);
+        variable();
+      }
+    } finally {
+      trace_return("parametro");
+    }
+}
+
+  static final public void bloque_sentencias() throws ParseException {
+    trace_call("bloque_sentencias");
+    try {
+
+      jj_consume_token(tBEGIN);
+      label_6:
+      while (true) {
+        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+        case tID:{
+          ;
+          break;
+          }
+        default:
+          jj_la1[10] = jj_gen;
+          break label_6;
+        }
+        inst();
+      }
+      jj_consume_token(tEND);
+    } finally {
+      trace_return("bloque_sentencias");
+    }
+}
+
   static final public void inst() throws ParseException {
     trace_call("inst");
     try {
 
-      jj_consume_token(tID);
-      jj_consume_token(tASIG);
-      jj_consume_token(tNUM);
-      jj_consume_token(tEOL);
+      inst_asignacion();
     } finally {
       trace_return("inst");
+    }
+}
+
+  static final public void inst_asignacion() throws ParseException {
+    trace_call("inst_asignacion");
+    try {
+
+      jj_consume_token(tID);
+      jj_consume_token(tASIG);
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tNUM:
+      case tRES:{
+        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+        case tRES:{
+          jj_consume_token(tRES);
+          break;
+          }
+        default:
+          jj_la1[11] = jj_gen;
+          ;
+        }
+        jj_consume_token(tNUM);
+        break;
+        }
+      case tTRUE:
+      case tFALSE:{
+        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+        case tTRUE:{
+          jj_consume_token(tTRUE);
+          break;
+          }
+        case tFALSE:{
+          jj_consume_token(tFALSE);
+          break;
+          }
+        default:
+          jj_la1[12] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
+        break;
+        }
+      default:
+        jj_la1[13] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+      jj_consume_token(tEOL);
+    } finally {
+      trace_return("inst_asignacion");
     }
 }
 
@@ -204,7 +426,7 @@ public class adac implements adacConstants {
   static private Token jj_scanpos, jj_lastpos;
   static private int jj_la;
   static private int jj_gen;
-  static final private int[] jj_la1 = new int[4];
+  static final private int[] jj_la1 = new int[14];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -212,10 +434,10 @@ public class adac implements adacConstants {
 	   jj_la1_init_1();
 	}
 	private static void jj_la1_init_0() {
-	   jj_la1_0 = new int[] {0x70000,0x70000,0x800,0x0,};
+	   jj_la1_0 = new int[] {0xe0000,0xe0000,0x1000,0x0,0x600000,0x0,0x600000,0x3000000,0x3000000,0x1000,0x0,0x0,0x0,0x8000,};
 	}
 	private static void jj_la1_init_1() {
-	   jj_la1_1 = new int[] {0x0,0x0,0x0,0x1000000,};
+	   jj_la1_1 = new int[] {0x0,0x0,0x0,0x2000000,0x0,0x2000000,0x0,0x0,0x0,0x0,0x2000000,0x80000,0x30000,0xb0000,};
 	}
   static final private JJCalls[] jj_2_rtns = new JJCalls[1];
   static private boolean jj_rescan = false;
@@ -242,7 +464,7 @@ public class adac implements adacConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 4; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 14; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -257,7 +479,7 @@ public class adac implements adacConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 4; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 14; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -275,7 +497,7 @@ public class adac implements adacConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 4; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 14; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -294,7 +516,7 @@ public class adac implements adacConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 4; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 14; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -311,7 +533,7 @@ public class adac implements adacConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 4; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 14; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -321,7 +543,7 @@ public class adac implements adacConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 4; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 14; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -459,7 +681,7 @@ public class adac implements adacConstants {
 	   la1tokens[jj_kind] = true;
 	   jj_kind = -1;
 	 }
-	 for (int i = 0; i < 4; i++) {
+	 for (int i = 0; i < 14; i++) {
 	   if (jj_la1[i] == jj_gen) {
 		 for (int j = 0; j < 32; j++) {
 		   if ((jj_la1_0[i] & (1<<j)) != 0) {
