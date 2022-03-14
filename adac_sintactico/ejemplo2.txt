@@ -14,4 +14,9 @@ procedure escrib_vect (val boolean v[101]) is
 begin
 end
 begin
+    x := true;
+    y := 8;
+    z := -654;
+    m := 's';
+    return 2 + 9;
 end

@@ -29,21 +29,21 @@ public interface adacConstants {
   /** RegularExpression Id. */
   int tCOMA = 12;
   /** RegularExpression Id. */
-  int tCORCHETEOPEN = 13;
+  int tPC = 13;
   /** RegularExpression Id. */
-  int tCORCHETECLOSE = 14;
+  int tCORCHETEOPEN = 14;
   /** RegularExpression Id. */
-  int tNUM = 15;
+  int tCORCHETECLOSE = 15;
   /** RegularExpression Id. */
-  int tBEGIN = 16;
+  int tNUM = 16;
   /** RegularExpression Id. */
-  int tBOOL = 17;
+  int tBEGIN = 17;
   /** RegularExpression Id. */
-  int tCHAR = 18;
+  int tBOOL = 18;
   /** RegularExpression Id. */
-  int tINT = 19;
+  int tCHAR = 19;
   /** RegularExpression Id. */
-  int tEOL = 20;
+  int tINT = 20;
   /** RegularExpression Id. */
   int tFUNC = 21;
   /** RegularExpression Id. */
@@ -139,6 +139,7 @@ public interface adacConstants {
     "\"\\\"\"",
     "\"\\\'\"",
     "\",\"",
+    "\";\"",
     "\"[\"",
     "\"]\"",
     "<tNUM>",
@@ -146,7 +147,6 @@ public interface adacConstants {
     "\"boolean\"",
     "\"character\"",
     "\"integer\"",
-    "\";\"",
     "\"function\"",
     "\"procedure\"",
     "\"is\"",

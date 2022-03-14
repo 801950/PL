@@ -76,9 +76,11 @@ TOKEN:
 |	< tC2 : "\"" >
 |	< tC1 : "\'" >
 |	< tCOMA : "," >
+|	< tPC: ";" >
 |	< tCORCHETEOPEN : "[">
 |	< tCORCHETECLOSE : "]" >
 |	< tNUM : (< DIGIT >)+ >
+//|	< tLETTER: < LETTER > >
 
 }
 
@@ -88,7 +90,6 @@ TOKEN:
 |	< tBOOL: "boolean" >
 |	< tCHAR: "character" >
 | 	< tINT: "integer" >
-|	< tEOL: ";" >
 |	< tFUNC: "function" >
 |	< tPROC: "procedure" >
 |	< tIS : "is" >
@@ -189,13 +190,14 @@ void declaracion_variables():
 
 }
 {
-	( declaracion() <tEOL> )*
+	( declaracion() <tPC> )*
 }
 
 void declaracion():
 {
 
-}{
+}
+{
 	tipo_variable() 
 	lista_vars()
 }
@@ -287,13 +289,22 @@ void bloque_sentencias():
 	<tEND>
 }
 
-
 void inst():
 {
 
 }
 {
-	inst_asignacion()
+	(inst_asignacion() 
+//|	inst_leer()
+//|	inst_escribir()
+//|	inst_saltar_linea()
+//|	inst_escribir_linea()
+//|	LOOKAHEAD(2) inst_invoc_proc()
+//|	inst_seleccion()
+|	inst_iteracion()
+|	inst_return()	
+)
+	<tPC>
 }
 
 void inst_asignacion():
@@ -301,7 +312,132 @@ void inst_asignacion():
 
 }
 {
-	<tID> <tASIG> ((<tRES>)? <tNUM>
-/*|	<tID> <tASIG> <tC1> <LETTER> <tC1> <tEOL>*/
-|	 (<tTRUE> | <tFALSE>) ) <tEOL>
+	asignable()
+	<tASIG>
+	expresion()
+}
+
+void inst_iteracion():
+{
+
+}
+{
+	<tWHILE>
+	expresion()
+	<tDO>
+	(inst())*
+	<tEND>
+}
+
+void inst_return():
+{
+
+}
+{
+	<tRET> expresion()
+}
+
+void lista_cero_o_mas_exps():
+{
+
+}
+{
+	( lista_una_o_mas_exps() )?
+}
+
+void lista_una_o_mas_exps():
+{
+
+}
+{
+	expresion() ( lista_una_o_mas_exps() )?
+}
+
+void asignable():
+{
+	
+}
+{
+	LOOKAHEAD(2)
+	<tID> <tCORCHETEOPEN> <tNUM> <tCORCHETECLOSE>
+|	<tID> 
+}
+
+void expresion():
+{
+
+}
+{
+	expresion_simple() ( operador_relacional() expresion_simple() )?
+}
+
+void operador_relacional():
+{
+
+}
+{
+	<tEQ>
+|	<tMAYEQ>
+|	<tMENEQ>
+|	<tMAY>
+|	<tMEN>
+|	<tDIST>
+}
+
+void expresion_simple():
+{
+
+}
+{
+	( <tSUM> | <tRES> )?
+	termino() (operador_aditivo() termino())*
+}
+
+void operador_aditivo():
+{
+	
+}
+{
+	<tSUM>
+|	<tRES>
+| 	<tOR>
+}
+
+void termino():
+{
+
+}
+{
+	factor() ( operador_multiplicativo() factor())*
+}
+
+
+void operador_multiplicativo():
+{
+
+}
+{
+	<tMUL>
+|	<tMOD>
+|	<tDIV>
+|	<tAND>
+}
+
+void factor():
+{
+	
+}
+{
+	<tNOT> factor()
+|	<tPOPEN> expresion() <tPCLOSE>
+|	<tINT2CHAR> <tPOPEN> expresion() <tPCLOSE> 
+|	<tCHAR2INT> <tPOPEN> expresion() <tPCLOSE>
+|	LOOKAHEAD(2) <tID> <tPOPEN> lista_cero_o_mas_exps() <tPCLOSE>
+|	LOOKAHEAD(2) <tID> <tCORCHETEOPEN> expresion() <tCORCHETECLOSE>
+|	<tID>
+| 	<tNUM>
+| 	<tCARACTER>
+| 	<tSTRING>
+| 	<tTRUE>
+| 	<tFALSE>
 }

@@ -71,7 +71,7 @@ public class adac implements adacConstants {
           break label_1;
         }
         declaracion();
-        jj_consume_token(tEOL);
+        jj_consume_token(tPC);
       }
     } finally {
       trace_return("declaracion_variables");
@@ -171,6 +171,8 @@ public class adac implements adacConstants {
     try {
 
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tRET:
+      case tWHILE:
       case tID:{
         inst();
         break;
@@ -323,6 +325,8 @@ public class adac implements adacConstants {
       label_6:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+        case tRET:
+        case tWHILE:
         case tID:{
           ;
           break;
@@ -343,7 +347,25 @@ public class adac implements adacConstants {
     trace_call("inst");
     try {
 
-      inst_asignacion();
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tID:{
+        inst_asignacion();
+        break;
+        }
+      case tWHILE:{
+        inst_iteracion();
+        break;
+        }
+      case tRET:{
+        inst_return();
+        break;
+        }
+      default:
+        jj_la1[11] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+      jj_consume_token(tPC);
     } finally {
       trace_return("inst");
     }
@@ -353,49 +375,413 @@ public class adac implements adacConstants {
     trace_call("inst_asignacion");
     try {
 
-      jj_consume_token(tID);
+      asignable();
       jj_consume_token(tASIG);
+      expresion();
+    } finally {
+      trace_return("inst_asignacion");
+    }
+}
+
+  static final public void inst_iteracion() throws ParseException {
+    trace_call("inst_iteracion");
+    try {
+
+      jj_consume_token(tWHILE);
+      expresion();
+      jj_consume_token(tDO);
+      label_7:
+      while (true) {
+        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+        case tRET:
+        case tWHILE:
+        case tID:{
+          ;
+          break;
+          }
+        default:
+          jj_la1[12] = jj_gen;
+          break label_7;
+        }
+        inst();
+      }
+      jj_consume_token(tEND);
+    } finally {
+      trace_return("inst_iteracion");
+    }
+}
+
+  static final public void inst_return() throws ParseException {
+    trace_call("inst_return");
+    try {
+
+      jj_consume_token(tRET);
+      expresion();
+    } finally {
+      trace_return("inst_return");
+    }
+}
+
+  static final public void lista_cero_o_mas_exps() throws ParseException {
+    trace_call("lista_cero_o_mas_exps");
+    try {
+
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tPOPEN:
       case tNUM:
+      case tINT2CHAR:
+      case tCHAR2INT:
+      case tNOT:
+      case tTRUE:
+      case tFALSE:
+      case tSUM:
+      case tRES:
+      case tSTRING:
+      case tCARACTER:
+      case tID:{
+        lista_una_o_mas_exps();
+        break;
+        }
+      default:
+        jj_la1[13] = jj_gen;
+        ;
+      }
+    } finally {
+      trace_return("lista_cero_o_mas_exps");
+    }
+}
+
+  static final public void lista_una_o_mas_exps() throws ParseException {
+    trace_call("lista_una_o_mas_exps");
+    try {
+
+      expresion();
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tPOPEN:
+      case tNUM:
+      case tINT2CHAR:
+      case tCHAR2INT:
+      case tNOT:
+      case tTRUE:
+      case tFALSE:
+      case tSUM:
+      case tRES:
+      case tSTRING:
+      case tCARACTER:
+      case tID:{
+        lista_una_o_mas_exps();
+        break;
+        }
+      default:
+        jj_la1[14] = jj_gen;
+        ;
+      }
+    } finally {
+      trace_return("lista_una_o_mas_exps");
+    }
+}
+
+  static final public void asignable() throws ParseException {
+    trace_call("asignable");
+    try {
+
+      if (jj_2_2(2)) {
+        jj_consume_token(tID);
+        jj_consume_token(tCORCHETEOPEN);
+        jj_consume_token(tNUM);
+        jj_consume_token(tCORCHETECLOSE);
+      } else {
+        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+        case tID:{
+          jj_consume_token(tID);
+          break;
+          }
+        default:
+          jj_la1[15] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
+      }
+    } finally {
+      trace_return("asignable");
+    }
+}
+
+  static final public void expresion() throws ParseException {
+    trace_call("expresion");
+    try {
+
+      expresion_simple();
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tMAYEQ:
+      case tMENEQ:
+      case tEQ:
+      case tMAY:
+      case tMEN:
+      case tDIST:{
+        operador_relacional();
+        expresion_simple();
+        break;
+        }
+      default:
+        jj_la1[16] = jj_gen;
+        ;
+      }
+    } finally {
+      trace_return("expresion");
+    }
+}
+
+  static final public void operador_relacional() throws ParseException {
+    trace_call("operador_relacional");
+    try {
+
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tEQ:{
+        jj_consume_token(tEQ);
+        break;
+        }
+      case tMAYEQ:{
+        jj_consume_token(tMAYEQ);
+        break;
+        }
+      case tMENEQ:{
+        jj_consume_token(tMENEQ);
+        break;
+        }
+      case tMAY:{
+        jj_consume_token(tMAY);
+        break;
+        }
+      case tMEN:{
+        jj_consume_token(tMEN);
+        break;
+        }
+      case tDIST:{
+        jj_consume_token(tDIST);
+        break;
+        }
+      default:
+        jj_la1[17] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    } finally {
+      trace_return("operador_relacional");
+    }
+}
+
+  static final public void expresion_simple() throws ParseException {
+    trace_call("expresion_simple");
+    try {
+
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tSUM:
       case tRES:{
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+        case tSUM:{
+          jj_consume_token(tSUM);
+          break;
+          }
         case tRES:{
           jj_consume_token(tRES);
           break;
           }
         default:
-          jj_la1[11] = jj_gen;
-          ;
-        }
-        jj_consume_token(tNUM);
-        break;
-        }
-      case tTRUE:
-      case tFALSE:{
-        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-        case tTRUE:{
-          jj_consume_token(tTRUE);
-          break;
-          }
-        case tFALSE:{
-          jj_consume_token(tFALSE);
-          break;
-          }
-        default:
-          jj_la1[12] = jj_gen;
+          jj_la1[18] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
         break;
         }
       default:
-        jj_la1[13] = jj_gen;
+        jj_la1[19] = jj_gen;
+        ;
+      }
+      termino();
+      label_8:
+      while (true) {
+        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+        case tOR:
+        case tSUM:
+        case tRES:{
+          ;
+          break;
+          }
+        default:
+          jj_la1[20] = jj_gen;
+          break label_8;
+        }
+        operador_aditivo();
+        termino();
+      }
+    } finally {
+      trace_return("expresion_simple");
+    }
+}
+
+  static final public void operador_aditivo() throws ParseException {
+    trace_call("operador_aditivo");
+    try {
+
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tSUM:{
+        jj_consume_token(tSUM);
+        break;
+        }
+      case tRES:{
+        jj_consume_token(tRES);
+        break;
+        }
+      case tOR:{
+        jj_consume_token(tOR);
+        break;
+        }
+      default:
+        jj_la1[21] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
-      jj_consume_token(tEOL);
     } finally {
-      trace_return("inst_asignacion");
+      trace_return("operador_aditivo");
+    }
+}
+
+  static final public void termino() throws ParseException {
+    trace_call("termino");
+    try {
+
+      factor();
+      label_9:
+      while (true) {
+        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+        case tAND:
+        case tMUL:
+        case tDIV:
+        case tMOD:{
+          ;
+          break;
+          }
+        default:
+          jj_la1[22] = jj_gen;
+          break label_9;
+        }
+        operador_multiplicativo();
+        factor();
+      }
+    } finally {
+      trace_return("termino");
+    }
+}
+
+  static final public void operador_multiplicativo() throws ParseException {
+    trace_call("operador_multiplicativo");
+    try {
+
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tMUL:{
+        jj_consume_token(tMUL);
+        break;
+        }
+      case tMOD:{
+        jj_consume_token(tMOD);
+        break;
+        }
+      case tDIV:{
+        jj_consume_token(tDIV);
+        break;
+        }
+      case tAND:{
+        jj_consume_token(tAND);
+        break;
+        }
+      default:
+        jj_la1[23] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    } finally {
+      trace_return("operador_multiplicativo");
+    }
+}
+
+  static final public void factor() throws ParseException {
+    trace_call("factor");
+    try {
+
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tNOT:{
+        jj_consume_token(tNOT);
+        factor();
+        break;
+        }
+      case tPOPEN:{
+        jj_consume_token(tPOPEN);
+        expresion();
+        jj_consume_token(tPCLOSE);
+        break;
+        }
+      case tINT2CHAR:{
+        jj_consume_token(tINT2CHAR);
+        jj_consume_token(tPOPEN);
+        expresion();
+        jj_consume_token(tPCLOSE);
+        break;
+        }
+      case tCHAR2INT:{
+        jj_consume_token(tCHAR2INT);
+        jj_consume_token(tPOPEN);
+        expresion();
+        jj_consume_token(tPCLOSE);
+        break;
+        }
+      default:
+        jj_la1[24] = jj_gen;
+        if (jj_2_3(2)) {
+          jj_consume_token(tID);
+          jj_consume_token(tPOPEN);
+          lista_cero_o_mas_exps();
+          jj_consume_token(tPCLOSE);
+        } else if (jj_2_4(2)) {
+          jj_consume_token(tID);
+          jj_consume_token(tCORCHETEOPEN);
+          expresion();
+          jj_consume_token(tCORCHETECLOSE);
+        } else {
+          switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+          case tID:{
+            jj_consume_token(tID);
+            break;
+            }
+          case tNUM:{
+            jj_consume_token(tNUM);
+            break;
+            }
+          case tCARACTER:{
+            jj_consume_token(tCARACTER);
+            break;
+            }
+          case tSTRING:{
+            jj_consume_token(tSTRING);
+            break;
+            }
+          case tTRUE:{
+            jj_consume_token(tTRUE);
+            break;
+            }
+          case tFALSE:{
+            jj_consume_token(tFALSE);
+            break;
+            }
+          default:
+            jj_la1[25] = jj_gen;
+            jj_consume_token(-1);
+            throw new ParseException();
+          }
+        }
+      }
+    } finally {
+      trace_return("factor");
     }
 }
 
@@ -405,6 +791,51 @@ public class adac implements adacConstants {
     try { return (!jj_3_1()); }
     catch(LookaheadSuccess ls) { return true; }
     finally { jj_save(0, xla); }
+  }
+
+  static private boolean jj_2_2(int xla)
+ {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return (!jj_3_2()); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(1, xla); }
+  }
+
+  static private boolean jj_2_3(int xla)
+ {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return (!jj_3_3()); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(2, xla); }
+  }
+
+  static private boolean jj_2_4(int xla)
+ {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return (!jj_3_4()); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(3, xla); }
+  }
+
+  static private boolean jj_3_2()
+ {
+    if (jj_scan_token(tID)) return true;
+    if (jj_scan_token(tCORCHETEOPEN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_4()
+ {
+    if (jj_scan_token(tID)) return true;
+    if (jj_scan_token(tCORCHETEOPEN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_3()
+ {
+    if (jj_scan_token(tID)) return true;
+    if (jj_scan_token(tPOPEN)) return true;
+    return false;
   }
 
   static private boolean jj_3_1()
@@ -426,7 +857,7 @@ public class adac implements adacConstants {
   static private Token jj_scanpos, jj_lastpos;
   static private int jj_la;
   static private int jj_gen;
-  static final private int[] jj_la1 = new int[14];
+  static final private int[] jj_la1 = new int[26];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -434,12 +865,12 @@ public class adac implements adacConstants {
 	   jj_la1_init_1();
 	}
 	private static void jj_la1_init_0() {
-	   jj_la1_0 = new int[] {0xe0000,0xe0000,0x1000,0x0,0x600000,0x0,0x600000,0x3000000,0x3000000,0x1000,0x0,0x0,0x0,0x8000,};
+	   jj_la1_0 = new int[] {0x1c0000,0x1c0000,0x1000,0x0,0x600000,0x4000000,0x600000,0x3000000,0x3000000,0x1000,0x4000000,0x4000000,0x4000000,0x18010100,0x18010100,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x18000100,0x10000,};
 	}
 	private static void jj_la1_init_1() {
-	   jj_la1_1 = new int[] {0x0,0x0,0x0,0x2000000,0x0,0x2000000,0x0,0x0,0x0,0x0,0x2000000,0x80000,0x30000,0xb0000,};
+	   jj_la1_1 = new int[] {0x0,0x0,0x0,0x2000000,0x0,0x2000002,0x0,0x0,0x0,0x0,0x2000002,0x2000002,0x2000002,0x38f0200,0x38f0200,0x2000000,0xfc00,0xfc00,0xc0000,0xc0000,0xc0100,0xc0100,0x700080,0x700080,0x200,0x3830000,};
 	}
-  static final private JJCalls[] jj_2_rtns = new JJCalls[1];
+  static final private JJCalls[] jj_2_rtns = new JJCalls[4];
   static private boolean jj_rescan = false;
   static private int jj_gc = 0;
 
@@ -464,7 +895,7 @@ public class adac implements adacConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 26; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -479,7 +910,7 @@ public class adac implements adacConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 26; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -497,7 +928,7 @@ public class adac implements adacConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 26; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -516,7 +947,7 @@ public class adac implements adacConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 26; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -533,7 +964,7 @@ public class adac implements adacConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 26; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -543,7 +974,7 @@ public class adac implements adacConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 26; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -681,7 +1112,7 @@ public class adac implements adacConstants {
 	   la1tokens[jj_kind] = true;
 	   jj_kind = -1;
 	 }
-	 for (int i = 0; i < 14; i++) {
+	 for (int i = 0; i < 26; i++) {
 	   if (jj_la1[i] == jj_gen) {
 		 for (int j = 0; j < 32; j++) {
 		   if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -768,7 +1199,7 @@ public class adac implements adacConstants {
 
   static private void jj_rescan_token() {
 	 jj_rescan = true;
-	 for (int i = 0; i < 1; i++) {
+	 for (int i = 0; i < 4; i++) {
 	   try {
 		 JJCalls p = jj_2_rtns[i];
 
@@ -777,6 +1208,9 @@ public class adac implements adacConstants {
 			 jj_la = p.arg; jj_lastpos = jj_scanpos = p.first;
 			 switch (i) {
 			   case 0: jj_3_1(); break;
+			   case 1: jj_3_2(); break;
+			   case 2: jj_3_3(); break;
+			   case 3: jj_3_4(); break;
 			 }
 		   }
 		   p = p.next;
