@@ -12,6 +12,9 @@ integer enB;
 
 procedure escrib_vect (val boolean v[101]) is
 begin
+    while i <= n do
+        i := i + 1;
+    end
 end
 begin
     x := true;

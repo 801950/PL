@@ -223,7 +223,7 @@ void variable():
 }
 {
 	LOOKAHEAD(2)
-  	<tID> <tCORCHETEOPEN> <tNUM> <tCORCHETECLOSE>
+	<tID> <tCORCHETEOPEN> <tNUM> <tCORCHETECLOSE>
 | 	<tID>
 }
 
@@ -232,9 +232,10 @@ void declaracion_procs_funcs():
 
 }
 {
-	inst()
-|	( declaracion_proc_func() )*
+	( declaracion_proc_func() )*
 }
+
+
 
 void declaracion_proc_func():
 {
@@ -276,7 +277,7 @@ void parametro():
 
 }
 {
-	(<tVAL> | <tREF>) tipo_variable() variable() (<tCOMA> variable())* 
+	(<tVAL> | <tREF>) tipo_variable() lista_vars() 
 }
 
 void bloque_sentencias():
@@ -301,10 +302,11 @@ void inst():
 //|	inst_escribir_linea()
 //|	LOOKAHEAD(2) inst_invoc_proc()
 //|	inst_seleccion()
-|	inst_iteracion()
+
 |	inst_return()	
 )
 	<tPC>
+	|	inst_iteracion()
 }
 
 void inst_asignacion():
@@ -312,7 +314,7 @@ void inst_asignacion():
 
 }
 {
-	asignable()
+	variable()
 	<tASIG>
 	expresion()
 }
@@ -351,16 +353,6 @@ void lista_una_o_mas_exps():
 }
 {
 	expresion() ( lista_una_o_mas_exps() )?
-}
-
-void asignable():
-{
-	
-}
-{
-	LOOKAHEAD(2)
-	<tID> <tCORCHETEOPEN> <tNUM> <tCORCHETECLOSE>
-|	<tID> 
 }
 
 void expresion():
