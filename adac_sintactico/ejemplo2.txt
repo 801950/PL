@@ -21,5 +21,8 @@ begin
     y := 8;
     z := -654;
     m := 's';
+    get (dato);
+    put_line("hola nerea");
+    put_line ("fib(", i,") = ", fn);
     return 2 + 9;
 end
