@@ -249,19 +249,38 @@ public class adac implements adacConstants {
     trace_call("lista_parametros");
     try {
 
-      label_4:
-      while (true) {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tVAL:
+      case tREF:{
+        parametro();
+        label_4:
+        while (true) {
+          switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+          case tPC:{
+            ;
+            break;
+            }
+          default:
+            jj_la1[6] = jj_gen;
+            break label_4;
+          }
+          jj_consume_token(tPC);
+          parametro();
+        }
+        break;
+        }
+      default:
+        jj_la1[8] = jj_gen;
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
         case tVAL:
         case tREF:{
-          ;
+          parametro();
           break;
           }
         default:
-          jj_la1[6] = jj_gen;
-          break label_4;
+          jj_la1[7] = jj_gen;
+          ;
         }
-        parametro();
       }
     } finally {
       trace_return("lista_parametros");
@@ -282,7 +301,7 @@ public class adac implements adacConstants {
         break;
         }
       default:
-        jj_la1[7] = jj_gen;
+        jj_la1[9] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -302,6 +321,7 @@ public class adac implements adacConstants {
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
         case tRET:
+        case tIF:
         case tWHILE:
         case tPUTLINE:
         case tPUT:
@@ -311,7 +331,7 @@ public class adac implements adacConstants {
           break;
           }
         default:
-          jj_la1[8] = jj_gen;
+          jj_la1[10] = jj_gen;
           break label_5;
         }
         inst();
@@ -346,7 +366,7 @@ public class adac implements adacConstants {
           break;
           }
         default:
-          jj_la1[9] = jj_gen;
+          jj_la1[11] = jj_gen;
           if (jj_2_2(2)) {
             inst_invoc_proc();
           } else {
@@ -360,7 +380,7 @@ public class adac implements adacConstants {
               break;
               }
             default:
-              jj_la1[10] = jj_gen;
+              jj_la1[12] = jj_gen;
               jj_consume_token(-1);
               throw new ParseException();
             }
@@ -373,13 +393,96 @@ public class adac implements adacConstants {
         inst_iteracion();
         break;
         }
+      case tIF:{
+        inst_seleccion();
+        break;
+        }
       default:
-        jj_la1[11] = jj_gen;
+        jj_la1[13] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
     } finally {
       trace_return("inst");
+    }
+}
+
+  static final public void inst_asignacion() throws ParseException {
+    trace_call("inst_asignacion");
+    try {
+
+      variable();
+      jj_consume_token(tASIG);
+      if (jj_2_3(2)) {
+        inst_invoc_proc();
+      } else {
+        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+        case tPOPEN:
+        case tNUM:
+        case tINT2CHAR:
+        case tCHAR2INT:
+        case tNOT:
+        case tTRUE:
+        case tFALSE:
+        case tSUM:
+        case tRES:
+        case tSTRING:
+        case tCARACTER:
+        case tID:{
+          lista_una_o_mas_exps();
+          break;
+          }
+        default:
+          jj_la1[14] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
+      }
+    } finally {
+      trace_return("inst_asignacion");
+    }
+}
+
+  static final public void inst_iteracion() throws ParseException {
+    trace_call("inst_iteracion");
+    try {
+
+      jj_consume_token(tWHILE);
+      expresion();
+      jj_consume_token(tDO);
+      label_6:
+      while (true) {
+        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+        case tRET:
+        case tIF:
+        case tWHILE:
+        case tPUTLINE:
+        case tPUT:
+        case tGET:
+        case tID:{
+          ;
+          break;
+          }
+        default:
+          jj_la1[15] = jj_gen;
+          break label_6;
+        }
+        inst();
+      }
+      jj_consume_token(tEND);
+    } finally {
+      trace_return("inst_iteracion");
+    }
+}
+
+  static final public void inst_return() throws ParseException {
+    trace_call("inst_return");
+    try {
+
+      jj_consume_token(tRET);
+      expresion();
+    } finally {
+      trace_return("inst_return");
     }
 }
 
@@ -402,7 +505,40 @@ public class adac implements adacConstants {
 
       jj_consume_token(tPUT);
       jj_consume_token(tPOPEN);
-      printable();
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tPOPEN:
+      case tNUM:
+      case tINT2CHAR:
+      case tCHAR2INT:
+      case tNOT:
+      case tTRUE:
+      case tFALSE:
+      case tSUM:
+      case tRES:
+      case tSTRING:
+      case tCARACTER:
+      case tID:{
+        printable();
+        label_7:
+        while (true) {
+          switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+          case tCOMA:{
+            ;
+            break;
+            }
+          default:
+            jj_la1[16] = jj_gen;
+            break label_7;
+          }
+          jj_consume_token(tCOMA);
+          printable();
+        }
+        break;
+        }
+      default:
+        jj_la1[17] = jj_gen;
+        ;
+      }
       jj_consume_token(tPCLOSE);
     } finally {
       trace_return("inst_escribir");
@@ -415,47 +551,43 @@ public class adac implements adacConstants {
 
       jj_consume_token(tPUTLINE);
       jj_consume_token(tPOPEN);
-      printable();
-      label_6:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-        case tCOMA:{
-          ;
-          break;
-          }
-        default:
-          jj_la1[12] = jj_gen;
-          break label_6;
-        }
-        jj_consume_token(tCOMA);
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tPOPEN:
+      case tNUM:
+      case tINT2CHAR:
+      case tCHAR2INT:
+      case tNOT:
+      case tTRUE:
+      case tFALSE:
+      case tSUM:
+      case tRES:
+      case tSTRING:
+      case tCARACTER:
+      case tID:{
         printable();
+        label_8:
+        while (true) {
+          switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+          case tCOMA:{
+            ;
+            break;
+            }
+          default:
+            jj_la1[18] = jj_gen;
+            break label_8;
+          }
+          jj_consume_token(tCOMA);
+          printable();
+        }
+        break;
+        }
+      default:
+        jj_la1[19] = jj_gen;
+        ;
       }
       jj_consume_token(tPCLOSE);
     } finally {
       trace_return("inst_escribir_linea");
-    }
-}
-
-  static final public void printable() throws ParseException {
-    trace_call("printable");
-    try {
-
-      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case tSTRING:{
-        jj_consume_token(tSTRING);
-        break;
-        }
-      case tID:{
-        inst_invoc_proc();
-        break;
-        }
-      default:
-        jj_la1[13] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
-      }
-    } finally {
-      trace_return("printable");
     }
 }
 
@@ -478,8 +610,8 @@ public class adac implements adacConstants {
       case tSTRING:
       case tCARACTER:
       case tID:{
-        lista_una_o_mas_exps();
-        label_7:
+        printable();
+        label_9:
         while (true) {
           switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
           case tCOMA:{
@@ -487,16 +619,16 @@ public class adac implements adacConstants {
             break;
             }
           default:
-            jj_la1[14] = jj_gen;
-            break label_7;
+            jj_la1[20] = jj_gen;
+            break label_9;
           }
           jj_consume_token(tCOMA);
-          lista_una_o_mas_exps();
+          printable();
         }
         break;
         }
       default:
-        jj_la1[15] = jj_gen;
+        jj_la1[21] = jj_gen;
         ;
       }
       jj_consume_token(tPCLOSE);
@@ -505,29 +637,60 @@ public class adac implements adacConstants {
     }
 }
 
-  static final public void inst_asignacion() throws ParseException {
-    trace_call("inst_asignacion");
+  static final public void printable() throws ParseException {
+    trace_call("printable");
     try {
 
-      variable();
-      jj_consume_token(tASIG);
-      expresion();
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tSTRING:{
+        jj_consume_token(tSTRING);
+        break;
+        }
+      default:
+        jj_la1[22] = jj_gen;
+        if (jj_2_4(2)) {
+          inst_invoc_proc();
+        } else {
+          switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+          case tPOPEN:
+          case tNUM:
+          case tINT2CHAR:
+          case tCHAR2INT:
+          case tNOT:
+          case tTRUE:
+          case tFALSE:
+          case tSUM:
+          case tRES:
+          case tSTRING:
+          case tCARACTER:
+          case tID:{
+            lista_una_o_mas_exps();
+            break;
+            }
+          default:
+            jj_la1[23] = jj_gen;
+            jj_consume_token(-1);
+            throw new ParseException();
+          }
+        }
+      }
     } finally {
-      trace_return("inst_asignacion");
+      trace_return("printable");
     }
 }
 
-  static final public void inst_iteracion() throws ParseException {
-    trace_call("inst_iteracion");
+  static final public void inst_seleccion() throws ParseException {
+    trace_call("inst_seleccion");
     try {
 
-      jj_consume_token(tWHILE);
+      jj_consume_token(tIF);
       expresion();
-      jj_consume_token(tDO);
-      label_8:
+      jj_consume_token(tTHEN);
+      label_10:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
         case tRET:
+        case tIF:
         case tWHILE:
         case tPUTLINE:
         case tPUT:
@@ -537,25 +700,42 @@ public class adac implements adacConstants {
           break;
           }
         default:
-          jj_la1[16] = jj_gen;
-          break label_8;
+          jj_la1[24] = jj_gen;
+          break label_10;
         }
         inst();
       }
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tELSE:{
+        jj_consume_token(tELSE);
+        label_11:
+        while (true) {
+          switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+          case tRET:
+          case tIF:
+          case tWHILE:
+          case tPUTLINE:
+          case tPUT:
+          case tGET:
+          case tID:{
+            ;
+            break;
+            }
+          default:
+            jj_la1[25] = jj_gen;
+            break label_11;
+          }
+          inst();
+        }
+        break;
+        }
+      default:
+        jj_la1[26] = jj_gen;
+        ;
+      }
       jj_consume_token(tEND);
     } finally {
-      trace_return("inst_iteracion");
-    }
-}
-
-  static final public void inst_return() throws ParseException {
-    trace_call("inst_return");
-    try {
-
-      jj_consume_token(tRET);
-      expresion();
-    } finally {
-      trace_return("inst_return");
+      trace_return("inst_seleccion");
     }
 }
 
@@ -580,7 +760,7 @@ public class adac implements adacConstants {
         break;
         }
       default:
-        jj_la1[17] = jj_gen;
+        jj_la1[27] = jj_gen;
         ;
       }
     } finally {
@@ -610,7 +790,7 @@ public class adac implements adacConstants {
         break;
         }
       default:
-        jj_la1[18] = jj_gen;
+        jj_la1[28] = jj_gen;
         ;
       }
     } finally {
@@ -635,7 +815,7 @@ public class adac implements adacConstants {
         break;
         }
       default:
-        jj_la1[19] = jj_gen;
+        jj_la1[29] = jj_gen;
         ;
       }
     } finally {
@@ -673,7 +853,7 @@ public class adac implements adacConstants {
         break;
         }
       default:
-        jj_la1[20] = jj_gen;
+        jj_la1[30] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -699,18 +879,18 @@ public class adac implements adacConstants {
           break;
           }
         default:
-          jj_la1[21] = jj_gen;
+          jj_la1[31] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
         break;
         }
       default:
-        jj_la1[22] = jj_gen;
+        jj_la1[32] = jj_gen;
         ;
       }
       termino();
-      label_9:
+      label_12:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
         case tOR:
@@ -720,8 +900,8 @@ public class adac implements adacConstants {
           break;
           }
         default:
-          jj_la1[23] = jj_gen;
-          break label_9;
+          jj_la1[33] = jj_gen;
+          break label_12;
         }
         operador_aditivo();
         termino();
@@ -749,7 +929,7 @@ public class adac implements adacConstants {
         break;
         }
       default:
-        jj_la1[24] = jj_gen;
+        jj_la1[34] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -763,7 +943,7 @@ public class adac implements adacConstants {
     try {
 
       factor();
-      label_10:
+      label_13:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
         case tAND:
@@ -774,8 +954,8 @@ public class adac implements adacConstants {
           break;
           }
         default:
-          jj_la1[25] = jj_gen;
-          break label_10;
+          jj_la1[35] = jj_gen;
+          break label_13;
         }
         operador_multiplicativo();
         factor();
@@ -807,7 +987,7 @@ public class adac implements adacConstants {
         break;
         }
       default:
-        jj_la1[26] = jj_gen;
+        jj_la1[36] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -847,13 +1027,13 @@ public class adac implements adacConstants {
         break;
         }
       default:
-        jj_la1[27] = jj_gen;
-        if (jj_2_3(2)) {
+        jj_la1[37] = jj_gen;
+        if (jj_2_5(2)) {
           jj_consume_token(tID);
           jj_consume_token(tPOPEN);
           lista_cero_o_mas_exps();
           jj_consume_token(tPCLOSE);
-        } else if (jj_2_4(2)) {
+        } else if (jj_2_6(2)) {
           jj_consume_token(tID);
           jj_consume_token(tCORCHETEOPEN);
           expresion();
@@ -885,7 +1065,7 @@ public class adac implements adacConstants {
             break;
             }
           default:
-            jj_la1[28] = jj_gen;
+            jj_la1[38] = jj_gen;
             jj_consume_token(-1);
             throw new ParseException();
           }
@@ -928,23 +1108,52 @@ public class adac implements adacConstants {
     finally { jj_save(3, xla); }
   }
 
-  static private boolean jj_3_4()
+  static private boolean jj_2_5(int xla)
+ {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return (!jj_3_5()); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(4, xla); }
+  }
+
+  static private boolean jj_2_6(int xla)
+ {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return (!jj_3_6()); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(5, xla); }
+  }
+
+  static private boolean jj_3_6()
  {
     if (jj_scan_token(tID)) return true;
     if (jj_scan_token(tCORCHETEOPEN)) return true;
     return false;
   }
 
-  static private boolean jj_3_3()
+  static private boolean jj_3_5()
  {
     if (jj_scan_token(tID)) return true;
     if (jj_scan_token(tPOPEN)) return true;
     return false;
   }
 
+  static private boolean jj_3R_inst_invoc_proc_375_5_14()
+ {
+    if (jj_scan_token(tID)) return true;
+    if (jj_scan_token(tPOPEN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_4()
+ {
+    if (jj_3R_inst_invoc_proc_375_5_14()) return true;
+    return false;
+  }
+
   static private boolean jj_3_2()
  {
-    if (jj_3R_inst_invoc_proc_354_9_11()) return true;
+    if (jj_3R_inst_invoc_proc_375_5_14()) return true;
     return false;
   }
 
@@ -955,10 +1164,9 @@ public class adac implements adacConstants {
     return false;
   }
 
-  static private boolean jj_3R_inst_invoc_proc_354_9_11()
+  static private boolean jj_3_3()
  {
-    if (jj_scan_token(tID)) return true;
-    if (jj_scan_token(tPOPEN)) return true;
+    if (jj_3R_inst_invoc_proc_375_5_14()) return true;
     return false;
   }
 
@@ -974,7 +1182,7 @@ public class adac implements adacConstants {
   static private Token jj_scanpos, jj_lastpos;
   static private int jj_la;
   static private int jj_gen;
-  static final private int[] jj_la1 = new int[29];
+  static final private int[] jj_la1 = new int[39];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -982,12 +1190,12 @@ public class adac implements adacConstants {
 	   jj_la1_init_1();
 	}
 	private static void jj_la1_init_0() {
-	   jj_la1_0 = new int[] {0x1c0000,0x1c0000,0x1000,0x0,0x600000,0x600000,0x3000000,0x3000000,0x4000000,0x0,0x4000000,0x4000000,0x1000,0x0,0x1000,0x18010100,0x4000000,0x18010100,0x18010100,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x18000100,0x10000,};
+	   jj_la1_0 = new int[] {0x1c0000,0x1c0000,0x1000,0x0,0x600000,0x600000,0x2000,0x3000000,0x3000000,0x3000000,0x24000000,0x0,0x4000000,0x24000000,0x18010100,0x24000000,0x1000,0x18010100,0x1000,0x18010100,0x1000,0x18010100,0x0,0x18010100,0x24000000,0x24000000,0x80000000,0x18010100,0x18010100,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x18000100,0x10000,};
 	}
 	private static void jj_la1_init_1() {
-	   jj_la1_1 = new int[] {0x0,0x0,0x0,0x2000000,0x0,0x0,0x0,0x0,0x2000072,0x70,0x2000000,0x2000072,0x0,0x2800000,0x0,0x38f0200,0x2000072,0x38f0200,0x38f0200,0xfc00,0xfc00,0xc0000,0xc0000,0xc0100,0xc0100,0x700080,0x700080,0x200,0x3830000,};
+	   jj_la1_1 = new int[] {0x0,0x0,0x0,0x2000000,0x0,0x0,0x0,0x0,0x0,0x0,0x2000072,0x70,0x2000000,0x2000072,0x38f0200,0x2000072,0x0,0x38f0200,0x0,0x38f0200,0x0,0x38f0200,0x800000,0x38f0200,0x2000072,0x2000072,0x0,0x38f0200,0x38f0200,0xfc00,0xfc00,0xc0000,0xc0000,0xc0100,0xc0100,0x700080,0x700080,0x200,0x3830000,};
 	}
-  static final private JJCalls[] jj_2_rtns = new JJCalls[4];
+  static final private JJCalls[] jj_2_rtns = new JJCalls[6];
   static private boolean jj_rescan = false;
   static private int jj_gc = 0;
 
@@ -1012,7 +1220,7 @@ public class adac implements adacConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 29; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 39; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1027,7 +1235,7 @@ public class adac implements adacConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 29; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 39; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1045,7 +1253,7 @@ public class adac implements adacConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 29; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 39; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1064,7 +1272,7 @@ public class adac implements adacConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 29; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 39; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1081,7 +1289,7 @@ public class adac implements adacConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 29; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 39; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1091,7 +1299,7 @@ public class adac implements adacConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 29; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 39; i++) jj_la1[i] = -1;
 	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1229,7 +1437,7 @@ public class adac implements adacConstants {
 	   la1tokens[jj_kind] = true;
 	   jj_kind = -1;
 	 }
-	 for (int i = 0; i < 29; i++) {
+	 for (int i = 0; i < 39; i++) {
 	   if (jj_la1[i] == jj_gen) {
 		 for (int j = 0; j < 32; j++) {
 		   if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -1316,7 +1524,7 @@ public class adac implements adacConstants {
 
   static private void jj_rescan_token() {
 	 jj_rescan = true;
-	 for (int i = 0; i < 4; i++) {
+	 for (int i = 0; i < 6; i++) {
 	   try {
 		 JJCalls p = jj_2_rtns[i];
 
@@ -1328,6 +1536,8 @@ public class adac implements adacConstants {
 			   case 1: jj_3_2(); break;
 			   case 2: jj_3_3(); break;
 			   case 3: jj_3_4(); break;
+			   case 4: jj_3_5(); break;
+			   case 5: jj_3_6(); break;
 			 }
 		   }
 		   p = p.next;

@@ -22,7 +22,8 @@ begin
     z := -654;
     m := 's';
     get (dato);
-    put_line("hola nerea");
+    put("hola nerea");
     put_line ("fib(", i,") = ", fn);
+    dato (n,"lslsk",7+9*5div874);
     return 2 + 9;
 end

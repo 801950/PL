@@ -269,7 +269,8 @@ void lista_parametros():
 
 }
 {
-	(parametro())*
+	parametro() (<tPC> parametro())*
+|	(parametro())?
 }
 
 void parametro():
@@ -296,63 +297,19 @@ void inst():
 }
 {
 	(inst_leer()
-|	inst_escribir()
 //|	inst_saltar_linea()
+|	inst_escribir()
 |	inst_escribir_linea()
 |	LOOKAHEAD(2) inst_invoc_proc()
-|	inst_asignacion() 
-//|	inst_seleccion()
-
+|	inst_asignacion()
 |	inst_return()	
 )
 	<tPC>
 	|	inst_iteracion()
+	|	inst_seleccion()
 }
 
-void inst_leer():
-{
 
-}
-{
-	<tGET> <tPOPEN> variable() <tPCLOSE>
-}
-
-void inst_escribir():
-{
-
-}
-{
-	<tPUT> <tPOPEN> printable() //(<tCOMA> printable())* 
-	<tPCLOSE>
-}
-
-void inst_escribir_linea():
-{
-
-}
-{
-	<tPUTLINE> <tPOPEN> printable() (<tCOMA> printable())* 
-	<tPCLOSE>
-}
-
-void printable():
-{
-
-}
-{
-	<tSTRING>
-|	inst_invoc_proc()
-|	lista_una_o_mas_exps()
-
-}
-
-void inst_invoc_proc():
-{
-
-}
-{
-	<tID> <tPOPEN> (lista_una_o_mas_exps() (<tCOMA> lista_una_o_mas_exps())*)? <tPCLOSE>
-}
 
 void inst_asignacion():
 {
@@ -361,7 +318,7 @@ void inst_asignacion():
 {
 	variable()
 	<tASIG>
-	expresion()
+	(LOOKAHEAD(2) inst_invoc_proc() | lista_una_o_mas_exps())
 }
 
 void inst_iteracion():
@@ -382,6 +339,59 @@ void inst_return():
 }
 {
 	<tRET> expresion()
+}
+
+void inst_leer():
+{
+
+}
+{
+	<tGET> <tPOPEN> variable() <tPCLOSE>
+}
+
+void inst_escribir():
+{
+
+}
+{
+    <tPUT> <tPOPEN> (printable() (<tCOMA> printable())* )?
+    <tPCLOSE>
+}
+
+void inst_escribir_linea():
+{
+
+}
+{
+    <tPUTLINE> <tPOPEN> (printable() (<tCOMA> printable())* )?
+    <tPCLOSE>
+}
+
+void inst_invoc_proc():
+{
+
+}
+{
+    <tID> <tPOPEN> (printable() (<tCOMA> printable())*)? <tPCLOSE>
+}
+
+void printable():
+{
+
+}
+{
+    <tSTRING>
+|    LOOKAHEAD(2) inst_invoc_proc()
+|    lista_una_o_mas_exps()
+
+}
+
+void inst_seleccion():
+{
+
+}
+{
+	<tIF> expresion() <tTHEN> (inst())* (<tELSE> (inst())* )? <tEND>
 }
 
 void lista_cero_o_mas_exps():
