@@ -13,6 +13,9 @@ options {
 PARSER_BEGIN(adac)
 package traductor;
 
+import java.util.*;
+import java.lang.Exception.*;
+
 public class adac {
     public static void main(String[] args) {
     	adac parser;
@@ -37,6 +40,7 @@ public class adac {
         } 
     }
 }
+
 PARSER_END(adac)
 //------------ descripción del AL
 SKIP:
@@ -66,7 +70,6 @@ TOKEN:
  	< #LETTER: (["a"-"z","A"-"Z"]) >
 |	< #DIGIT: ["0"-"9"] >
 |	< #ALNUM: (< LETTER > | < DIGIT >) >
-/*|   < tCOM: "--"(~["\n"])*"\n" >*/
 }
 
 TOKEN:
@@ -80,7 +83,6 @@ TOKEN:
 |	< tCORCHETEOPEN : "[">
 |	< tCORCHETECLOSE : "]" >
 |	< tNUM : (< DIGIT >)+ >
-//|	< tLETTER: < LETTER > >
 
 }
 
@@ -98,6 +100,7 @@ TOKEN:
 |	< tRET : "return" >
 |	< tINT2CHAR : "int2char" >
 |	< tCHAR2INT : "char2int" >
+| 	< tSkL : "skip_line" >
 }
 
 TOKEN:
@@ -147,16 +150,11 @@ TOKEN:
 
 TOKEN:
 {
-/*	< tIDERR: ((< LETTER > | ( "_"(< ALNUM >)+)+ )*(< ALNUM > | "_"(< ALNUM >)+)*"__"( < ALNUM > | "_" (< ALNUM >)+ )*) | (< DIGIT > ( "_" | <ALNUM> )*) >
-		{
-			System.out.println("ERROR LÉXICO: (" + matchedToken.beginLine + "," + matchedToken.beginColumn + "): símbolo no reconocido " + matchedToken.image);
-		}
-|*/	< tID:  (< LETTER > | ("_"(< ALNUM >)+)+ ) ( < ALNUM > | "_"(< ALNUM >)+ )* >
+	< tID:  (< LETTER > | ("_"(< ALNUM >)+)+ ) ( < ALNUM > | "_"(< ALNUM >)+ )* >
 }
 
 SPECIAL_TOKEN : {
-/*	< tCOM: "--"(~["\n"])*"\n" >
-|*/	< tERROR: ~[] >
+	< tERROR: ~[] >
 		{
 			System.out.println("ERROR LÉXICO: (" + matchedToken.beginLine + "," + matchedToken.beginColumn + "): símbolo no reconocido " + matchedToken.image);
 		}
@@ -223,7 +221,7 @@ void variable():
 }
 {
 	LOOKAHEAD(2)
-	<tID> <tCORCHETEOPEN> expresion_simple() <tCORCHETECLOSE>
+	<tID> <tCORCHETEOPEN> expresion() <tCORCHETECLOSE>
 | 	<tID>
 }
 
@@ -269,8 +267,7 @@ void lista_parametros():
 
 }
 {
-	parametro() (<tPC> parametro())*
-|	(parametro())?
+	(parametro() (<tPC> parametro())*)?
 }
 
 void parametro():
@@ -286,9 +283,15 @@ void bloque_sentencias():
 	
 }
 {
-	<tBEGIN>
-	(inst() )*
-	<tEND>
+	try {
+		<tBEGIN>
+		(inst() )*
+		<tEND>
+	} catch (ParseException e){
+		Set<Integer> conjSinc = infoParseException(e);
+		conjSinc.add(tEND);
+		recuperacionPanico(e.currentToken.next,conjSinc);
+	}
 }
 
 void inst():
@@ -296,17 +299,45 @@ void inst():
 
 }
 {
-	(inst_leer()
-//|	inst_saltar_linea()
-|	inst_escribir()
-|	inst_escribir_linea()
-|	LOOKAHEAD(2) inst_invoc_proc()
-|	inst_asignacion()
-|	inst_return()	
-)
-	<tPC>
-	|	inst_iteracion()
-	|	inst_seleccion()
+	inst_acaban_pc() 
+|	inst_acaban_end()
+}
+
+void inst_acaban_pc():
+{
+
+}
+{
+	try {
+		(inst_leer()
+		|	inst_saltar_linea()
+		|	inst_escribir()
+		|	inst_escribir_linea()
+		|	LOOKAHEAD(2) inst_invoc_proc()
+		|	inst_asignacion()
+		|	inst_return()	
+		)
+			<tPC>
+	} catch(ParseException e){
+		Set<Integer> conjSinc = infoParseException(e);
+		conjSinc.add(tPC);
+		recuperacionPanico(e.currentToken.next,conjSinc);
+	}
+}
+
+void inst_acaban_end():
+{
+
+}
+{
+	try{
+		(inst_iteracion()
+	|	inst_seleccion() ) <tEND>
+	} catch(ParseException e){
+		Set<Integer> conjSinc = infoParseException(e);
+		conjSinc.add(tEND);
+		recuperacionPanico(e.currentToken.next,conjSinc);
+	}
 }
 
 
@@ -318,7 +349,7 @@ void inst_asignacion():
 {
 	variable()
 	<tASIG>
-	(LOOKAHEAD(2) inst_invoc_proc() | lista_una_o_mas_exps())
+	lista_una_o_mas_exps()
 }
 
 void inst_iteracion():
@@ -330,7 +361,6 @@ void inst_iteracion():
 	expresion()
 	<tDO>
 	(inst())*
-	<tEND>
 }
 
 void inst_return():
@@ -346,7 +376,13 @@ void inst_leer():
 
 }
 {
-	<tGET> <tPOPEN> variable() <tPCLOSE>
+	try {
+		<tGET> <tPOPEN> variable() (<tCOMA> variable())* <tPCLOSE>
+	} catch(ParseException e){
+		Set<Integer> conjSinc = infoParseException(e);
+		conjSinc.add(tPCLOSE);
+		recuperacionPanico(e.currentToken.next,conjSinc);
+	}
 }
 
 void inst_escribir():
@@ -354,8 +390,14 @@ void inst_escribir():
 
 }
 {
-    <tPUT> <tPOPEN> (printable() (<tCOMA> printable())* )?
-    <tPCLOSE>
+    try {
+		<tPUT> <tPOPEN> (lista_una_o_mas_exps())?
+    	<tPCLOSE>
+	} catch(ParseException e){
+		Set<Integer> conjSinc = infoParseException(e);
+		conjSinc.add(tPCLOSE);
+		recuperacionPanico(e.currentToken.next,conjSinc);
+	}
 }
 
 void inst_escribir_linea():
@@ -363,8 +405,14 @@ void inst_escribir_linea():
 
 }
 {
-    <tPUTLINE> <tPOPEN> (printable() (<tCOMA> printable())* )?
-    <tPCLOSE>
+    try {
+		<tPUTLINE> <tPOPEN> (lista_una_o_mas_exps())?
+    	<tPCLOSE>
+	} catch(ParseException e) {
+		Set<Integer> conjSinc = infoParseException(e);
+		conjSinc.add(tPCLOSE);
+		recuperacionPanico(e.currentToken.next,conjSinc);
+	}
 }
 
 void inst_invoc_proc():
@@ -372,18 +420,13 @@ void inst_invoc_proc():
 
 }
 {
-    <tID> <tPOPEN> (printable() (<tCOMA> printable())*)? <tPCLOSE>
-}
-
-void printable():
-{
-
-}
-{
-    <tSTRING>
-|    LOOKAHEAD(2) inst_invoc_proc()
-|    lista_una_o_mas_exps()
-
+    try {
+		<tID> <tPOPEN> (lista_una_o_mas_exps())? <tPCLOSE>
+	} catch (ParseException e){
+		Set<Integer> conjSinc = infoParseException(e);
+		conjSinc.add(tPCLOSE);
+		recuperacionPanico(e.currentToken.next,conjSinc);
+	}
 }
 
 void inst_seleccion():
@@ -391,7 +434,21 @@ void inst_seleccion():
 
 }
 {
-	<tIF> expresion() <tTHEN> (inst())* (<tELSE> (inst())* )? <tEND>
+	<tIF> expresion() <tTHEN> (inst())* (<tELSE> (inst())* )? 
+}
+
+void inst_saltar_linea():
+{
+
+}
+{
+	try {
+		<tSkL> <tPOPEN> <tPCLOSE>
+	} catch (ParseException e){
+		Set<Integer> conjSinc = infoParseException(e);
+		conjSinc.add(tPCLOSE);
+		recuperacionPanico(e.currentToken.next,conjSinc);
+	}
 }
 
 void lista_cero_o_mas_exps():
@@ -407,7 +464,7 @@ void lista_una_o_mas_exps():
 
 }
 {
-	expresion() ( lista_una_o_mas_exps() )?
+	expresion() (<tCOMA> lista_una_o_mas_exps())?
 }
 
 void expresion():
@@ -436,7 +493,7 @@ void expresion_simple():
 
 }
 {
-	( <tSUM> | <tRES> )?
+	(<tRES> | <tSUM>)?
 	termino() (operador_aditivo() termino())*
 }
 
@@ -475,11 +532,10 @@ void factor():
 	
 }
 {
+	 
 	<tNOT> factor()
 |	<tPOPEN> expresion() <tPCLOSE>
-|	<tINT2CHAR> <tPOPEN> expresion() <tPCLOSE> 
-|	<tCHAR2INT> <tPOPEN> expresion() <tPCLOSE>
-|	LOOKAHEAD(2) <tID> <tPOPEN> lista_cero_o_mas_exps() <tPCLOSE>
+| 	LOOKAHEAD(2) factor_con_par()
 |	LOOKAHEAD(2) <tID> <tCORCHETEOPEN> expresion() <tCORCHETECLOSE>
 |	<tID>
 | 	<tNUM>
@@ -487,4 +543,43 @@ void factor():
 | 	<tSTRING>
 | 	<tTRUE>
 | 	<tFALSE>
+}
+
+void factor_con_par():
+{
+
+}
+{
+	try {
+		<tINT2CHAR> <tPOPEN> expresion() <tPCLOSE> 
+		|	<tCHAR2INT> <tPOPEN> expresion() <tPCLOSE>
+		|	LOOKAHEAD(2) <tID> <tPOPEN> lista_cero_o_mas_exps() <tPCLOSE>
+	} catch(ParseException e){
+		Set<Integer> conjSinc = infoParseException(e);
+		conjSinc.add(tPCLOSE);
+		recuperacionPanico(e.currentToken.next,conjSinc);
+	}
+}
+
+
+JAVACODE
+Set<Integer> infoParseException(ParseException e){
+	Set<Integer> esperados = new HashSet<Integer>();
+	System.err.println("ERROR SINT: ('" + e.currentToken.next.image + "'," + e.currentToken.next.beginLine + "," + e.currentToken.next.beginColumn + ")");
+	System.err.println("Se esperaba uno de los siguientes tokens:");
+	for (int i = 0; i < e.expectedTokenSequences.length ; i++){
+		esperados.add(e.expectedTokenSequences[i][0]);
+		System.err.println("\t" + adacConstants.tokenImage[e.expectedTokenSequences[i][0]]);
+	}
+	return esperados;
+}
+
+JAVACODE
+void recuperacionPanico(Token tInesperado, Set<Integer> conjSinc){
+	System.err.println("----> Recupero modo pánico: " + "\n----> Saltando todo hasta token de conjunto de sincronización");
+	Token t = getNextToken();
+	while(!conjSinc.contains(t.kind) && t.kind != EOF){
+		System.err.println("Descartando token (" + adacConstants.tokenImage[t.kind] + "," + t.image + ")");
+		t = getNextToken();
+	}
 }
