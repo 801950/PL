@@ -26,7 +26,7 @@ procedure laberinto is
             while i < filas do
                 j := 0;
                 while j < columnas do
-                    get(laberinto[indice(filas,columnas,i,j)]);
+                    get(laberinto[indice(columnas,i,j)]);
                     j := j + 1;
                 end
                 i := i + 1;
@@ -41,10 +41,10 @@ procedure laberinto is
         integer i,j;
     begin 
         i := 0; 
-            while i < fils do
+            while i < filas do
                 j := 0; 
-                while j < cols do
-                    put(laberinto[indice (cols, i, j)]); 
+                while j < columnas do
+                    put(laberinto[indice (columnas, i, j)]); 
                     j := j + 1; 
                 end
                 i := i + 1; 
@@ -56,7 +56,7 @@ procedure laberinto is
         return salx = posx and saly = posy;
     end
 
-    function boolean valido(ref character lab[500000], val integer posx,posy, cols;val character c) is
+    function boolean valido(ref character lab[500000], val integer posx,posy, cols; val character c) is
         integer ind;
     begin
         ind := indice(cols,posx,posy);
