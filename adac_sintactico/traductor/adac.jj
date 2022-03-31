@@ -561,7 +561,6 @@ void factor_con_par():
 	}
 }
 
-
 JAVACODE
 Set<Integer> infoParseException(ParseException e){
 	Set<Integer> esperados = new HashSet<Integer>();

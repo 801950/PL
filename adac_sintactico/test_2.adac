@@ -1,0 +1,41 @@
+--------------------------------------------------------------------------
+procedure canibales_misioneros is
+--------------------------------------------------------------------------
+integer steps;
+--------------------------------------------------------------------------
+procedure CM_search(ref integer board[5]) is
+
+--------------------------------------------------------------------------
+begin
+    if isGoalState(board) then
+        put_line("Solución alcanzada!");
+    else
+        if getBoat(board) = 0 then --barco en orilla izquierda
+end
+
+--------------------------------------------------------------------------
+
+begin
+    put_line();
+    put_line("Algoritmo para resolver el problema de los misioneros y loc caníbales con búsqueda en profundidad");
+
+    --   el estado se representa como un vector de 5 componentes:
+    -- {numMisionerosIzq, numCanibalesIzq, orillaBote, numMisionerosDcha,
+    -- numCanibalesDcha}
+    integer board[5];
+
+    -- estado inicial: {3,3,0,0,0}
+    board[0] := 3;
+    board[1] := 3;
+    board[2] := 0;
+    board[3] := 0;
+    board[4] := 0;
+    
+
+    steps := 0;
+
+    CM_search();
+
+    put_line();
+    put_line("Finalizado en ", steps, "pasos.");
+end

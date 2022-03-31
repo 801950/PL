@@ -1,0 +1,99 @@
+procedure laberinto is
+    integer filas,columnas;
+    character laberinto_structure[500000];
+    integer posicionx, posiciony;
+    integer finx,finy;
+
+    function integer indice(val integer columnas, i, j) is
+    begin
+        return i*columnas + j;
+    end
+
+    function boolean cargar_laberinto(ref integer nfilas, ncolumnas; ref character laberinto [500000]) is
+        integer i,j;
+    begin
+        get(filas);
+        get(columnas);
+        skip_line();
+        if ncolumnas*nfilas > 500000 then
+            put_line("Laberinto demasido grande. Se esperaban 500000 componentes, redibidas: ", ncolumnas*nfilas);
+            return false;
+        else if nfilas*ncolumnas < 4*3 then
+            put_line("El laberinto es demasiado pequeño");
+            return false;
+        else
+            i := 0;
+            while i < filas do
+                j := 0;
+                while j < columnas do
+                    get(laberinto[indice(filas,columnas,i,j)]);
+                    j := j + 1;
+                end
+                i := i + 1;
+            end
+            return true;
+        end
+        end
+        return true;
+    end
+
+    procedure imprimir_laberinto(val integer filas, columnas; val character laberinto [500000]) is
+        integer i,j;
+    begin 
+        i := 0; 
+            while i < fils do
+                j := 0; 
+                while j < cols do
+                    put(laberinto[indice (cols, i, j)]); 
+                    j := j + 1; 
+                end
+                i := i + 1; 
+            end
+    end
+
+    function boolean estoy_en_la_salida(val integer salx, saly, posx, posy) is
+    begin
+        return salx = posx and saly = posy;
+    end
+
+    function boolean valido(ref character lab[500000], val integer posx,posy, cols;val character c) is
+        integer ind;
+    begin
+        ind := indice(cols,posx,posy);
+        return lab[ind] = c;
+    end
+
+    function boolean marcar(ref character lab[500000]; val integer posx, posy, cols; val character c) is
+    begin
+        lab[indice(cols,posx,posy)] := c;
+    end
+
+    procedure salir(ref character lab[500000]; val integer filas,columnas,salx,saly; ref integer posx,posy) is
+    begin
+        imprimir_laberinto(filas,columnas,lab);
+        if not estoy_salida(salx,saly,posx,posy) then
+            if valido(lab,posx,posy,columnas,' ') then
+                marcar(lab,posx,posy,columnas,'o');
+                if salir(lab,filas,columnas,salx,saly,posx+1,posy) or salir(lab,filas,columnas,salx,saly,posx,posy-1) or salir(lab,filas,columnas,salx,saly,posx-1,posy) or salir(lab,filas,columnas,salx,saly,posx,posy+1) then
+                    return true;
+                else 
+                    if valido(lab,posx,posy,columnas,'o') then
+                        marcar(lab,posx,posy,columnas,' ');
+                    end
+                end
+            end
+        else
+            return true;
+        end
+        return false;
+    end
+begin
+    if cargar_laberinto(filas, columnas,laberinto_structure) then
+        finx := columnas-2;
+        finy := filas - 2;
+        posicionx := 1;
+        posiciony := 1;
+    --    laberinto_structure[indice(columnas,1,1)] := 'o';
+        salir(laberinto_structure,filas, columnas,finx,finy,1,1);
+    end
+end
