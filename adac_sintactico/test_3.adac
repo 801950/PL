@@ -1,0 +1,75 @@
+procedure test_3 is 
+
+    procedure mover_izquierda() is
+    begin
+        put_line();
+        put_line();
+        put_line();
+        put_line();
+        put_line();
+        put_line();
+        put_line();
+        put_line();
+        put_line();
+        put_line();
+        put_line();
+        put_line();
+        put_line("ヘ(^_^ヘ)");
+        put_line("   \  \");
+        put_line("    ---");
+        put_line("    | |");
+
+    end
+
+    procedure mover_derecha() is
+    begin
+        put_line();
+        put_line();
+        put_line();
+        put_line();
+        put_line();
+        put_line();
+        put_line();
+        put_line();
+        put_line();
+        put_line();
+        put_line();
+        put_line();
+        put_line("(ノ^_^)ノ");
+        put_line(" /  /");
+        put_line(" ---");
+        put_line(" | |");
+
+    end
+
+    procedure bailar() is
+        integer i, j;
+    begin
+        i := 0;
+        while i < 10000 do
+            mover_izquierda();
+            mover_derecha();
+            i := i + 1;
+        end
+        put_line();
+        put_line();
+        put_line();
+        put_line();
+        put_line();
+        put_line();
+        put_line();
+        put_line();
+        put_line();
+        put_line();
+        put_line();
+        put_line();
+        put_line("┌（★ｏ☆）┘");
+        put_line("   \  \");
+        put_line("    ---");
+        put_line("   /  /");
+
+    end
+
+begin
+    bailar();
+end

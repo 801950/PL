@@ -5,20 +5,20 @@
 --max_gris
 --pixels por filas (one byte per pixel, binary)
 
-procedure invertir_pgm is
-	integer formato; 
+procedure pintar is
+    integer formato; 
 	integer fils, cols; 
 	integer max_gris; 
 	character image [500000];
 
-	---------------------------------------------------
+    ---------------------------------------------------
 	function integer indice (val integer fils, cols; val integer i, j) is 
 	begin
 		return i*cols + j; 
 	end
 
-	---------------------------------------------------
-	function boolean cargar_imagen (ref integer formato, fils, cols, prof; ref character imagen [500000]) is
+    ---------------------------------------------------
+    function boolean cargar_imagen (ref integer formato, fils, cols, prof; ref character imagen [500000]) is
 		character c; 
 		integer i, j; 
 	begin
@@ -46,7 +46,7 @@ procedure invertir_pgm is
         end
 	end
 
-	---------------------------------------------------
+    ---------------------------------------------------
 	procedure guardar_imagen (val integer formato, fils, cols, prof; ref character imagen [500000]) is
 		character c; 
 		integer i, j; 
@@ -65,27 +65,36 @@ procedure invertir_pgm is
 		end
 	end
 
-	---------------------------------------------------
-	procedure invertir_imagen (val integer formato, fils, cols, prof; ref character imagen [500000]) is
+    ---------------------------------------------------
+    procedure pintar_figura (fils, cols, prof; ref character imagen [500000]) is
 		character c; 
-		integer i, j, idx; 
+		integer i, j, idx;
+        boolean pintando;
 	begin
-		i := 0; 
+        pintando := false;
+		i := 0;
 		while i < fils do
 			j := 0; 
 			while j < cols do
                 idx := indice (fils, cols, i, j); 
-				imagen [idx] := int2char (max_gris - char2int (imagen [idx])); 			   
-				j := j + 1; 
+                if pintando then
+                    if imagen[idx] = int2char(0) then
+                        -- contorno alcanzado, deja de pintar
+				        pintando := false;
+                    else
+                        imagen[idx] := int2char(0);
+                else if imagen[idx] > int2char(0) then
+                    pintando := true;
+				j := j + 1;
 			end
-			i := i + 1; 
+			i := i + 1;
 		end
 	end
 
----------------------------------------------------
-begin
-	if cargar_imagen (formato, fils, cols, max_gris, image) then
-        invertir_imagen (formato, fils, cols, max_gris, image); 
-        guardar_imagen (formato, fils, cols, max_gris, image);
+    ---------------------------------------------------
+    begin
+        if cargar_imagen (formato, fils, cols, max_gris, image) then
+            pintar_figura (formato, fils, cols, max_gris, image); 
+            guardar_imagen (formato, fils, cols, max_gris, image);
+        end
     end
-end

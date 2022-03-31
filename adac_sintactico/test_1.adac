@@ -1,4 +1,4 @@
-procedure laberinto is
+procedure test_1 is
     integer filas,columnas;
     character laberinto_structure[500000];
     integer posicionx, posiciony;
@@ -37,41 +37,42 @@ procedure laberinto is
         return true;
     end
 
-    procedure imprimir_laberinto(val integer filas, columnas; val character laberinto [500000]) is
+    procedure imprimir_laberinto(val integer filas, columnas; ref character laberinto [500000]) is
         integer i,j;
     begin 
         i := 0; 
-            while i < filas do
-                j := 0; 
-                while j < columnas do
-                    put(laberinto[indice (columnas, i, j)]); 
-                    j := j + 1; 
-                end
-                i := i + 1; 
+        while i < filas do
+            j := 0; 
+            while j < columnas do
+                put(laberinto[indice (columnas, i, j)]); 
+                j := j + 1; 
             end
+            i := i + 1; 
+        end
+        put_line();
     end
 
     function boolean estoy_en_la_salida(val integer salx, saly, posx, posy) is
     begin
-        return salx = posx and saly = posy;
+        return (salx = posx) and (saly = posy);
     end
 
-    function boolean valido(ref character lab[500000], val integer posx,posy, cols; val character c) is
+    function boolean valido(ref character lab[500000]; val integer posx,posy, cols; val character c) is
         integer ind;
     begin
         ind := indice(cols,posx,posy);
         return lab[ind] = c;
     end
 
-    function boolean marcar(ref character lab[500000]; val integer posx, posy, cols; val character c) is
+    procedure marcar(ref character lab[500000]; val integer posx, posy, cols; val character c) is
     begin
         lab[indice(cols,posx,posy)] := c;
     end
 
-    procedure salir(ref character lab[500000]; val integer filas,columnas,salx,saly; ref integer posx,posy) is
+    function boolean salir(ref character lab[500000]; val integer filas,columnas,salx,saly; val integer posx,posy) is
     begin
         imprimir_laberinto(filas,columnas,lab);
-        if not estoy_salida(salx,saly,posx,posy) then
+        if not estoy_en_la_salida(salx,saly,posx,posy) then
             if valido(lab,posx,posy,columnas,' ') then
                 marcar(lab,posx,posy,columnas,'o');
                 if salir(lab,filas,columnas,salx,saly,posx+1,posy) or salir(lab,filas,columnas,salx,saly,posx,posy-1) or salir(lab,filas,columnas,salx,saly,posx-1,posy) or salir(lab,filas,columnas,salx,saly,posx,posy+1) then
@@ -94,6 +95,11 @@ begin
         posicionx := 1;
         posiciony := 1;
     --    laberinto_structure[indice(columnas,1,1)] := 'o';
-        salir(laberinto_structure,filas, columnas,finx,finy,1,1);
+        if salir(laberinto_structure,filas, columnas,finx,finy,1,1) then
+            put_line("Ha salido con exito");
+            imprimir_laberinto(filas,columnas,laberinto_structure);
+        else
+            put_line("No ha encontrado salida");
+        end
     end
 end
