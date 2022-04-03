@@ -11,6 +11,10 @@ begin
         put_line("Solución alcanzada!");
     else
         if getBoat(board) = 0 then --barco en orilla izquierda
+
+        else
+
+        end
 end
 
 --------------------------------------------------------------------------
