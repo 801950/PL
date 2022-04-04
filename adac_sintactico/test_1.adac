@@ -72,7 +72,7 @@ procedure test_1 is
     function boolean salir(ref character lab[500000]; val integer filas,columnas,salx,saly; val integer posx,posy) is
     begin
         imprimir_laberinto(filas,columnas,lab);
-        put_line("Posicion: x=",posx," y=",posy);
+        put_line("Posicion: x=",posy," y=",posx);
         if not estoy_en_la_salida(salx,saly,posx,posy) then
             if valido(lab,posx,posy,columnas,' ') then
                 marcar(lab,posx,posy,columnas,'o');
@@ -111,6 +111,6 @@ begin
         else
             put_line("No ha encontrado salida");
         end
-        put_line("Salida: x=",finx," y=",finy);
+        put_line("Salida: x=",finy," y=",finx);
     end
 end
