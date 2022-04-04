@@ -6,7 +6,7 @@ procedure test_1 is
 
     function integer indice(val integer columnas, i, j) is
     begin
-        return i*columnas + j;
+        return j*columnas + i;
     end
 
     function boolean cargar_laberinto(ref integer nfilas, ncolumnas; ref character laberinto [500000]) is
@@ -72,15 +72,25 @@ procedure test_1 is
     function boolean salir(ref character lab[500000]; val integer filas,columnas,salx,saly; val integer posx,posy) is
     begin
         imprimir_laberinto(filas,columnas,lab);
+        put_line("Posicion: x=",posx," y=",posy);
         if not estoy_en_la_salida(salx,saly,posx,posy) then
             if valido(lab,posx,posy,columnas,' ') then
                 marcar(lab,posx,posy,columnas,'o');
-                if salir(lab,filas,columnas,salx,saly,posx+1,posy) or salir(lab,filas,columnas,salx,saly,posx,posy-1) or salir(lab,filas,columnas,salx,saly,posx-1,posy) or salir(lab,filas,columnas,salx,saly,posx,posy+1) then
+                if salir(lab,filas,columnas,salx,saly,posx+1,posy) then
+                    return true;
+                else if salir(lab,filas,columnas,salx,saly,posx,posy-1) then
+                    return true;
+                else if salir(lab,filas,columnas,salx,saly,posx-1,posy) then
+                    return true;
+                else if salir(lab,filas,columnas,salx,saly,posx,posy+1) then
                     return true;
                 else 
                     if valido(lab,posx,posy,columnas,'o') then
                         marcar(lab,posx,posy,columnas,' ');
                     end
+                end
+                end
+                end
                 end
             end
         else
@@ -90,8 +100,8 @@ procedure test_1 is
     end
 begin
     if cargar_laberinto(filas, columnas,laberinto_structure) then
-        finx := columnas-2;
-        finy := filas - 2;
+        finx := filas-2;
+        finy := columnas - 2;
         posicionx := 1;
         posiciony := 1;
     --    laberinto_structure[indice(columnas,1,1)] := 'o';
@@ -101,5 +111,6 @@ begin
         else
             put_line("No ha encontrado salida");
         end
+        put_line("Salida: x=",finx," y=",finy);
     end
 end
