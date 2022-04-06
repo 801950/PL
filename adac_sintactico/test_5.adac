@@ -5,11 +5,12 @@
 --max_gris
 --pixels por filas (one byte per pixel, binary)
 
-procedure pintar is
+procedure girar_180 is
     integer formato; 
 	integer fils, cols; 
 	integer max_gris; 
 	character image [500000];
+    character rotated [500000];
 
     ---------------------------------------------------
 	function integer indice (val integer fils, cols; val integer i, j) is 
@@ -66,25 +67,17 @@ procedure pintar is
 	end
 
     ---------------------------------------------------
-    procedure pintar_figura (fils, cols, prof; ref character imagen [500000]) is
+    procedure girar_imagen (val integer fils, cols, prof; ref character imagen [500000], rotated [500000]) is
 		character c; 
-		integer i, j, idx;
-        boolean pintando;
+		integer i, j, idx, idx_r;
 	begin
-        pintando := false;
 		i := 0;
 		while i < fils do
-			j := 0; 
+			j := 0;
 			while j < cols do
-                idx := indice (fils, cols, i, j); 
-                if pintando then
-                    if imagen[idx] = int2char(0) then
-                        -- contorno alcanzado, deja de pintar
-				        pintando := false;
-                    else
-                        imagen[idx] := int2char(0);
-                else if imagen[idx] > int2char(0) then
-                    pintando := true;
+                idx := indice (fils, cols, i, j);
+                idx_r := indice (fils, cols, fils-i, cols-j);
+                rotated[idx_r] := imagen[idx];
 				j := j + 1;
 			end
 			i := i + 1;
@@ -92,9 +85,9 @@ procedure pintar is
 	end
 
     ---------------------------------------------------
-    begin
-        if cargar_imagen (formato, fils, cols, max_gris, image) then
-            pintar_figura (formato, fils, cols, max_gris, image); 
-            guardar_imagen (formato, fils, cols, max_gris, image);
-        end
+begin
+    if cargar_imagen (formato, fils, cols, max_gris, image) then
+        girar_imagen (fils, cols, max_gris, image, rotated); 
+        guardar_imagen (formato, fils, cols, max_gris, rotated);
     end
+end
