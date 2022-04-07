@@ -19,7 +19,6 @@ import lib.symbolTable.*;
 import lib.symbolTable.exceptions.*;
 
 
-
 public class adac {
 
 	static SymbolTable ts = new SymbolTable();
