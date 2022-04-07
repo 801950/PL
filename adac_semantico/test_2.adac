@@ -1,0 +1,77 @@
+-- ordenación por fusión
+-- el fichero contiene en la primera componente cuántos elementos se quieren ordenar y en las siguientes componentes, los números a ordenar
+--------------------------------------------------------------------------
+procedure test_2 is
+--------------------------------------------------------------------------
+    integer v[500000];
+    integer n;
+--------------------------------------------------------------------------
+
+    procedure  boolean cargar_vector(ref integer n; ref integer v[500000]) is
+        integer i;
+    begin
+        get(n);
+        if n > 500000 then
+            put_line("Hay demasiadas componentes a ordenar");
+            return false;
+        else
+            i := 0;
+            while i < n do
+                get(v[i]);
+                i := i + 1;
+            end
+            return true;
+        end
+    end
+
+    procedure fusion(ref integer v[500000]; val integer inf, med, sup) is
+        integer h, i, j, k;
+        integer b[500000];
+    begin
+        h := inf;
+        i := i;
+        j := med + 1;
+        while (h <= med) and (j <= sup) do
+            if v[h] <= v[j] then
+                b[i] := v[h];
+                h := h + 1;
+            else 
+                b[i] := v[j];
+                j := j + 1;
+            end
+            i := i + 1;
+        end
+        if h > med then
+            k := j;
+            while k <= sup do
+                b[i] := v[k];
+                i := i + 1;
+                k := k + 1;
+            end
+        else 
+            k := h;
+            while k <= med do
+                b[i] := v[k];
+                i := i + 1;
+                k := k + 1;
+            end
+        end
+        k := inf;
+        while k <= sup do
+            v[k] := b[k-inf+1];
+        end
+    end
+
+    procedure ordenar(ref integer v[500000]; val integer inf,sup) is
+        integer medio;
+    begin
+        if inf < sup then
+            medio := (inf + sup) div 2
+            ordenar(v, inf, medio);
+            ordenar(v, medio + i, sup);
+            fusion(v, inf, medio, sup);
+        end
+    end
+begin
+
+end

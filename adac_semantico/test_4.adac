@@ -1,0 +1,86 @@
+-- calculadora
+procedure test_4 is
+
+    procedure mostrar_menu() is
+    begin
+        put_line("MENU: calculadora");
+        put_line("Introduzca el número de la operación correspondiente:");
+        put_line("0 - Para salir");
+        put_line("1 - Para realizar una suma");
+        put_line("2 - Para realizar una resta");
+        put_line("3 - Para realizar una multiplicación");
+        put_line("4 - Para realizar una división");
+        put_line("5 - Para calcular el módulo");
+        put_line();
+    end
+
+    function integer get_operacion() is
+        integer op;
+    begin
+        get(op);
+        while(op < 0) or (op > 5) do
+            put_line("Operación no reconocida");
+            put_line();
+            mostrar_menu();
+            get(op);
+        end
+        return op;
+    end
+
+    function integer get_param1() is
+        integer x;
+    begin
+        put_line("Introduce un número entero:");
+        get(x);
+        return x;
+    end
+
+    function integer get_param2() is
+        integer x;
+    begin
+        put_line("Introduce otro número entero:");
+        get(x);
+        return x;
+    end
+
+    procedure calcular() is
+        integer a, b, op;
+    begin
+        mostrar_menu();
+        op := get_operacion();
+        while op <> 0 do
+            a := get_param1(); 
+            b := get_param2();   
+            if op = 1 then
+                put_line(a, " + ", b, " = ", a + b);
+            else if op = 2 then
+                put_line(a, " - ", b , " = ", a - b);
+            else if op = 3 then
+                put_line(a, " * ", b, " = ", a*b);
+            else if op = 4 then
+                if b = 0 then 
+                    put_line("ERROR! NO SE PUEDE DIVIDIR ENTRE 0");
+                else 
+                    put_line(a, " / ", b, " = ", a div b);
+                end
+            else if op = 5 then
+                if b <= 0 then 
+                    put_line("ERROR! NO SE PUEDE CALCULAR EL MÓDULO DE 0 O NUMERO NEGATIVO");
+                else
+                    put_line(a, " mod ", b, " = ", a mod b);
+                end
+            end
+            end
+            end
+            end
+            end
+            mostrar_menu();
+            op := get_operacion();
+        end
+        put_line("ADIOS!");
+        
+    end
+
+begin
+    calcular();
+end

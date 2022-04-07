@@ -1,0 +1,34 @@
+--cambios de base
+procedure cambio_base is
+integer num, base;
+integer enB;
+
+--cesar := -10;
+--char x;
+--x = 's';
+--bool e,q;
+--s := true;
+--f := false; ---kskksksksksk
+
+function integer min (val integer x, y) is
+begin
+  if x > y then return (y); else return (x); end
+end
+
+procedure escrib_vect (val boolean v[101]) is
+begin
+    while i <= n do
+        i := i + 1;
+    end
+end
+begin
+    x := true;
+    y := 8;
+    z := -654;
+    m := 's';
+    get (dato);
+    put("hola nerea");
+    put_line ("fib(", i,") = ", fn;
+    dato (n,"lslsk",7+9*5div 874);
+    return -min(5,-9);
+end
