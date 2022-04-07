@@ -1,13 +1,17 @@
 test_1: Busca la solución a un laberinto suministrado por la entrada estándar. 
     Se puede sumintrar desde un fichero redirigiendo la entrada estándar.
-    El fichero debe contener en la primerwa linea la cantidad de filas que contiene el laberinto y a continuación la cantidad de columnas.
+    El fichero debe contener en la primerwa linea la cantidad de filas que 
+    contiene el laberinto y a continuación la cantidad de columnas.
     El laberinto tiene el formato con el siguiente código:
         '#' indica que es una pared del laberinto y por consecuente, no puede pasar por ahí.
         ' ' es un hueco por el que puede pasar.
         'o' indica que ya ha pasado por ese camino. 
     Al ejecutar el laberinto, va marcando con 'o' por dónde ha pasado.
-    La busqueda del camino finaliza cuando llega al hueco que debe haber en el hueco de abajo a la derecha.
-    En el caso de que no encuentre ningún camino para resolver el laberinto porque no hay hueco abajo a la derecha o porque no hay un camino para llegar hasta ahí, indica un mensaje.
+    La busqueda del camino finaliza cuando llega al hueco que debe haber en el
+    hueco de abajo a la derecha.
+    En el caso de que no encuentre ningún camino para resolver el laberinto 
+    porque no hay hueco abajo a la derecha o porque no hay un camino para 
+    llegar hasta ahí, indica un mensaje.
     Un ejemplo de la entrada esperada es:
 
         11 20
@@ -23,4 +27,38 @@ test_1: Busca la solución a un laberinto suministrado por la entrada estándar.
         # #               #
         ###################
     
-    El programa muestra durante la búsqueda, el camino por el que pasa, indicando con coordenadas,la posición por la que está buscando el camino y el retroceso que realiza en la búsqueda si en camino no es correcto.
+    El programa muestra durante la búsqueda, el camino por el que pasa, 
+    indicando con coordenadas, la posición por la que está buscando el camino y 
+    el retroceso que realiza en la búsqueda si en camino no es correcto.
+    
+    Ejecución: ./maquinap test_1 < <laberinto_entrada>
+
+test_2: Ordena una secuencia de números enteros con el algoritmo de merge sort.
+    Se introduce por la entrada estándar la cantidad de números enteros que se 
+    quieren leer y, a continuación, una secuencia de de números enteros que se 
+    quieren ordenar.
+    El programa devuelve por pantalla, la secuencia de números enteros 
+    introducida, ordenada de menor a mayor.
+
+    Ejecución: ./maquinap test_2
+
+test_3: Muñeco bailongo.
+    Imprime por la salida estandar una secuencia de pasos de baile de un 
+    muñeco. 
+
+    Ejecución: ./maquinap test_3
+
+test_4: Calculadora que interacciónacon el usuario.
+    Muestra al inicio el funcionamiento de la calculadora ofertando las 
+    distintas operaciones que puede realizar.
+    Cuando el usuario selecciona una operación introduciendo un número de 
+    operación válido, se le solicitan las los números con los que va a operar.
+    Una vez se realiza la operación muestra el resultado por pantalla.
+
+    Ejecución: ./maquinap test_4
+
+test_5: Girar imagen en blanco y negro 180º.
+    Gira una imagen en formato pgm pasada por la entrada estandar y devuelve 
+    por la salida estandar la misma imagen girada 180º.
+
+    Ejecución: ./maquinap test_5 < imagen.pgm > imagen_girada.pgm

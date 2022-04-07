@@ -15,8 +15,15 @@ package traductor;
 
 import java.util.*;
 import java.lang.Exception.*;
+import lib.symbolTable.*;
+import lib.symbolTable.exceptions.*;
+
+
 
 public class adac {
+
+	static SymbolTable ts = new SymbolTable();
+
     public static void main(String[] args) {
     	adac parser;
 
@@ -193,36 +200,62 @@ void declaracion_variables():
 
 void declaracion():
 {
-
+	Symbol s = null;
+	Symbol.Types tipo;
+	Token t1;
 }
 {
-	tipo_variable() 
-	lista_vars()
+	tipo = tipo_variable() 
+	lista_vars(tipo)
 }
-void tipo_variable():
-{
-
-}
-{
-	<tINT> | <tCHAR> | <tBOOL>
-}
-
-void lista_vars():
+Symbol.Types tipo_variable():
 {
 
 }
 {
-	variable() ( <tCOMA> variable() )*
+	<tINT> 
+		{
+			return Symbol.Types.INT;
+		}
+| 	<tCHAR> 
+		{
+			return Symbol.Types.CHAR;
+		}
+| 	<tBOOL>
+		{
+			return Symbol.Types.BOOL;
+		}
 }
 
-void variable():
+void lista_vars(Symbol.Types tipo):
 {
 
+}
+{
+	variable(tipo) ( <tCOMA> variable(tipo) )*
+}
+
+void variable(Symbol.Types tipo):
+{
+	Token t1, t2;
 }
 {
 	LOOKAHEAD(2)
-	<tID> <tCORCHETEOPEN> expresion() <tCORCHETECLOSE>
-| 	<tID>
+	t1 = <tID> <tCORCHETEOPEN> expresion() <tCORCHETECLOSE>
+| 	t1 = <tID>
+		{
+			try{
+				if(tipo == Symbol.Types.INT){
+					ts.insertSymbol(new SymbolInt(t1.image));
+				} else if (tipo == Symbol.Types.CHAR){
+					ts.insertSymbol(new SymbolChar(t1.image));
+				} else if (tipo == Symbol.Types.BOOL){
+					ts.insertSymbol(new SymbolBool(t1.image));
+				}
+			} catch (AlreadyDefinedSymbolException e) {
+				
+			}
+		}
 }
 
 void declaracion_procs_funcs():
@@ -241,9 +274,25 @@ void declaracion_proc_func():
 }
 {
 
-	(cabecera_procedimiento() | cabecera_funcion())
-	declaracion_variables() bloque_sentencias()
+	declaracion_procedimientos()
+|	declaracion_funciones()
 	
+}
+
+void declaracion_procedimientos():
+{
+
+}
+{
+	cabecera_procedimiento() declaracion_variables() bloque_sentencias()
+}
+
+void declaracion_funciones():
+{
+
+}
+{
+	cabecera_funcion() declaracion_variables() bloque_sentencias()
 }
 
 void cabecera_procedimiento():
@@ -272,10 +321,10 @@ void lista_parametros():
 
 void parametro():
 {
-
+	Symbol.Types tipo;
 }
 {
-	(<tVAL> | <tREF>) tipo_variable() lista_vars() 
+	(<tVAL> | <tREF>) tipo = tipo_variable() lista_vars(tipo) 
 }
 
 void bloque_sentencias():
@@ -285,7 +334,7 @@ void bloque_sentencias():
 {
 	try {
 		<tBEGIN>
-		(inst() )*
+		(inst() | declaracion_proc_func() )*
 		<tEND>
 	} catch (ParseException e){
 		Set<Integer> conjSinc = infoParseException(e);
@@ -347,9 +396,19 @@ void inst_asignacion():
 
 }
 {
-	variable()
+	asignable()
 	<tASIG>
 	lista_una_o_mas_exps()
+}
+
+void asignable():
+{
+}
+{
+	LOOKAHEAD(2)
+	<tID> <tCORCHETEOPEN> expresion() <tCORCHETECLOSE>
+| 	<tID>
+		
 }
 
 void inst_iteracion():
@@ -377,7 +436,7 @@ void inst_leer():
 }
 {
 	try {
-		<tGET> <tPOPEN> variable() (<tCOMA> variable())* <tPCLOSE>
+		<tGET> <tPOPEN> asignable() (<tCOMA> asignable())* <tPCLOSE>
 	} catch(ParseException e){
 		Set<Integer> conjSinc = infoParseException(e);
 		conjSinc.add(tPCLOSE);
