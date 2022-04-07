@@ -1,6 +1,6 @@
 -- Girar imagen en blanco y negro 180º
 
---Formato del fichero:
+--Formato del fichero que se debe pasar por la entrada estándar:
 
 --P5
 --fils cols
