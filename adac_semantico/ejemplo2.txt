@@ -2,6 +2,7 @@
 procedure cambio_base is
 integer num, base;
 integer enB;
+integer x[3+2];
 
 --cesar := -10;
 --char x;

@@ -7,7 +7,7 @@
 //*****************************************************************
 
 options {
-   DEBUG_PARSER = true;
+   DEBUG_PARSER = false;
 }
 
 PARSER_BEGIN(adac)
@@ -187,6 +187,9 @@ void prog () :
  	declaracion_variables()
   	declaracion_procs_funcs()
 	bloque_sentencias()
+/*	{
+		System.err.println(ts.toString());
+	}*/
 }
 
 void declaracion_variables():
@@ -240,7 +243,7 @@ void variable(Symbol.Types tipo):
 }
 {
 	LOOKAHEAD(2)
-	t1 = <tID> <tCORCHETEOPEN> expresion() <tCORCHETECLOSE>
+	t1 = <tID> <tCORCHETEOPEN> <tNUM> <tCORCHETECLOSE>
 | 	t1 = <tID>
 		{
 			try{
@@ -252,7 +255,7 @@ void variable(Symbol.Types tipo):
 					ts.insertSymbol(new SymbolBool(t1.image));
 				}
 			} catch (AlreadyDefinedSymbolException e) {
-				
+			//	System.out.println("El símbolo " + t1.image + " ya está definido"); 
 			}
 		}
 }

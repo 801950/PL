@@ -7,7 +7,7 @@ procedure test_2 is
     integer n;
 --------------------------------------------------------------------------
 
-    procedure  boolean cargar_vector(ref integer n; ref integer v[500000]) is
+    function boolean cargar_vector(ref integer n; ref integer v[500000]) is
         integer i;
     begin
         get(n);
