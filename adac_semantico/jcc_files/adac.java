@@ -6,6 +6,7 @@ import java.util.*;
 import java.lang.Exception.*;
 import lib.symbolTable.*;
 import lib.symbolTable.exceptions.*;
+import lib.errores.*;
 
 
 public class adac implements adacConstants {
@@ -129,7 +130,7 @@ System.err.println(ts.toString());
 try{
                                 ts.insertSymbol(new SymbolArray(t1.image,0,Integer.parseInt(t2.image)-1,tipo));
                         } catch (AlreadyDefinedSymbolException e) {
-                        //	System.out.println("El símbolo " + t1.image + " ya está definido"); 
+                                ErrorSemantico.deteccion(e, t1);
                         }
     } else {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
@@ -144,7 +145,7 @@ try{
                                         ts.insertSymbol(new SymbolBool(t1.image));
                                 }
                         } catch (AlreadyDefinedSymbolException e) {
-                        //	System.out.println("El símbolo " + t1.image + " ya está definido"); 
+                                ErrorSemantico.deteccion(e, t1);
                         }
         break;
         }
@@ -194,27 +195,42 @@ try{
     cabecera_procedimiento();
     declaracion_variables();
     bloque_sentencias();
+ts.removeBlock();
 }
 
   static final public void declaracion_funciones() throws ParseException {
     cabecera_funcion();
     declaracion_variables();
     bloque_sentencias();
+ts.removeBlock();
 }
 
-  static final public void cabecera_procedimiento() throws ParseException {
+  static final public void cabecera_procedimiento() throws ParseException {Token t;
     jj_consume_token(tPROC);
-    jj_consume_token(tID);
+    t = jj_consume_token(tID);
+try{
+                                ts.insertSymbol(new SymbolProcedure(t.image,null));
+                        } catch(AlreadyDefinedSymbolException e){
+                                ErrorSemantico.deteccion(e, t);
+                        }
+                        ts.insertBlock();
     jj_consume_token(tPOPEN);
     lista_parametros();
     jj_consume_token(tPCLOSE);
     jj_consume_token(tIS);
 }
 
-  static final public void cabecera_funcion() throws ParseException {
+  static final public void cabecera_funcion() throws ParseException {Token t;
+        Symbol.Types tipo;
     jj_consume_token(tFUNC);
-    tipo_variable();
-    jj_consume_token(tID);
+    tipo = tipo_variable();
+    t = jj_consume_token(tID);
+try{
+                                ts.insertSymbol(new SymbolFunction(t.image,null,tipo));
+                        } catch(AlreadyDefinedSymbolException e){
+                                ErrorSemantico.deteccion(e, t);
+                        }
+                        ts.insertBlock();
     jj_consume_token(tPOPEN);
     lista_parametros();
     jj_consume_token(tPCLOSE);
@@ -1021,27 +1037,7 @@ Set<Integer> conjSinc = infoParseException(e);
     finally { jj_save(5, xla); }
   }
 
-  static private boolean jj_3R_factor_con_par_622_17_14()
- {
-    if (jj_scan_token(tINT2CHAR)) return true;
-    if (jj_scan_token(tPOPEN)) return true;
-    return false;
-  }
-
-  static private boolean jj_3_5()
- {
-    if (jj_scan_token(tID)) return true;
-    if (jj_scan_token(tCORCHETEOPEN)) return true;
-    return false;
-  }
-
-  static private boolean jj_3_4()
- {
-    if (jj_3R_factor_con_par_621_9_13()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_inst_invoc_proc_491_5_12()
+  static private boolean jj_3R_inst_invoc_proc_521_5_12()
  {
     if (jj_scan_token(tID)) return true;
     if (jj_scan_token(tPOPEN)) return true;
@@ -1055,13 +1051,13 @@ Set<Integer> conjSinc = infoParseException(e);
     return false;
   }
 
-  static private boolean jj_3R_factor_con_par_621_9_13()
+  static private boolean jj_3R_factor_con_par_651_9_13()
  {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_factor_con_par_622_17_14()) {
+    if (jj_3R_factor_con_par_652_17_14()) {
     jj_scanpos = xsp;
-    if (jj_3R_factor_con_par_623_25_15()) {
+    if (jj_3R_factor_con_par_653_25_15()) {
     jj_scanpos = xsp;
     if (jj_3_6()) return true;
     }
@@ -1071,7 +1067,7 @@ Set<Integer> conjSinc = infoParseException(e);
 
   static private boolean jj_3_2()
  {
-    if (jj_3R_inst_invoc_proc_491_5_12()) return true;
+    if (jj_3R_inst_invoc_proc_521_5_12()) return true;
     return false;
   }
 
@@ -1082,9 +1078,16 @@ Set<Integer> conjSinc = infoParseException(e);
     return false;
   }
 
-  static private boolean jj_3R_factor_con_par_623_25_15()
+  static private boolean jj_3R_factor_con_par_653_25_15()
  {
     if (jj_scan_token(tCHAR2INT)) return true;
+    if (jj_scan_token(tPOPEN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_factor_con_par_652_17_14()
+ {
+    if (jj_scan_token(tINT2CHAR)) return true;
     if (jj_scan_token(tPOPEN)) return true;
     return false;
   }
@@ -1093,6 +1096,19 @@ Set<Integer> conjSinc = infoParseException(e);
  {
     if (jj_scan_token(tID)) return true;
     if (jj_scan_token(tCORCHETEOPEN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_5()
+ {
+    if (jj_scan_token(tID)) return true;
+    if (jj_scan_token(tCORCHETEOPEN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_4()
+ {
+    if (jj_3R_factor_con_par_651_9_13()) return true;
     return false;
   }
 

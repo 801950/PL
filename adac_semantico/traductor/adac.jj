@@ -17,6 +17,7 @@ import java.util.*;
 import java.lang.Exception.*;
 import lib.symbolTable.*;
 import lib.symbolTable.exceptions.*;
+import lib.errores.*;
 
 
 public class adac {
@@ -248,7 +249,7 @@ void variable(Symbol.Types tipo):
 			try{
 				ts.insertSymbol(new SymbolArray(t1.image,0,Integer.parseInt(t2.image)-1,tipo));
 			} catch (AlreadyDefinedSymbolException e) {
-			//	System.out.println("El símbolo " + t1.image + " ya está definido"); 
+				ErrorSemantico.deteccion(e, t1);
 			}
 		}
 | 	t1 = <tID>
@@ -262,7 +263,7 @@ void variable(Symbol.Types tipo):
 					ts.insertSymbol(new SymbolBool(t1.image));
 				}
 			} catch (AlreadyDefinedSymbolException e) {
-			//	System.out.println("El símbolo " + t1.image + " ya está definido"); 
+				ErrorSemantico.deteccion(e, t1);
 			}
 		}
 }
@@ -293,7 +294,12 @@ void declaracion_procedimientos():
 
 }
 {
-	cabecera_procedimiento() declaracion_variables() bloque_sentencias()
+	cabecera_procedimiento() 
+	declaracion_variables() 
+	bloque_sentencias()
+		{
+			ts.removeBlock();
+		}
 }
 
 void declaracion_funciones():
@@ -302,22 +308,46 @@ void declaracion_funciones():
 }
 {
 	cabecera_funcion() declaracion_variables() bloque_sentencias()
+		{
+			ts.removeBlock();
+		}
 }
 
 void cabecera_procedimiento():
 {
+	Token t;
 	
 }
 {
-	<tPROC> <tID> <tPOPEN> lista_parametros() <tPCLOSE> <tIS>
+	<tPROC> t = <tID> 
+		{
+			try{
+				ts.insertSymbol(new SymbolProcedure(t.image,null));
+			} catch(AlreadyDefinedSymbolException e){
+				ErrorSemantico.deteccion(e, t);
+			}
+			ts.insertBlock();
+		}
+	<tPOPEN> lista_parametros() <tPCLOSE> <tIS>
+		
 }
 
 void cabecera_funcion():
 {
-	
+	Token t;
+	Symbol.Types tipo;
 }
 {
-	<tFUNC> tipo_variable() <tID> <tPOPEN> lista_parametros() <tPCLOSE> <tIS>
+	<tFUNC> tipo = tipo_variable() t = <tID> 
+		{
+			try{
+				ts.insertSymbol(new SymbolFunction(t.image,null,tipo));
+			} catch(AlreadyDefinedSymbolException e){
+				ErrorSemantico.deteccion(e, t);
+			}
+			ts.insertBlock();
+		}
+	<tPOPEN> lista_parametros() <tPCLOSE> <tIS>
 }
 
 void lista_parametros():
