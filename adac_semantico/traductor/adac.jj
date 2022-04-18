@@ -187,9 +187,9 @@ void prog () :
  	declaracion_variables()
   	declaracion_procs_funcs()
 	bloque_sentencias()
-/*	{
+	{
 		System.err.println(ts.toString());
-	}*/
+	}
 }
 
 void declaracion_variables():
@@ -243,7 +243,14 @@ void variable(Symbol.Types tipo):
 }
 {
 	LOOKAHEAD(2)
-	t1 = <tID> <tCORCHETEOPEN> <tNUM> <tCORCHETECLOSE>
+	t1 = <tID> <tCORCHETEOPEN> t2 = <tNUM> <tCORCHETECLOSE>
+		{
+			try{
+				ts.insertSymbol(new SymbolArray(t1.image,0,Integer.parseInt(t2.image)-1,tipo));
+			} catch (AlreadyDefinedSymbolException e) {
+			//	System.out.println("El símbolo " + t1.image + " ya está definido"); 
+			}
+		}
 | 	t1 = <tID>
 		{
 			try{

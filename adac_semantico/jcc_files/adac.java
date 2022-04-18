@@ -48,6 +48,7 @@ public class adac implements adacConstants {
     declaracion_variables();
     declaracion_procs_funcs();
     bloque_sentencias();
+System.err.println(ts.toString());
 }
 
   static final public void declaracion_variables() throws ParseException {
@@ -123,8 +124,13 @@ public class adac implements adacConstants {
     if (jj_2_1(2)) {
       t1 = jj_consume_token(tID);
       jj_consume_token(tCORCHETEOPEN);
-      jj_consume_token(tNUM);
+      t2 = jj_consume_token(tNUM);
       jj_consume_token(tCORCHETECLOSE);
+try{
+                                ts.insertSymbol(new SymbolArray(t1.image,0,Integer.parseInt(t2.image)-1,tipo));
+                        } catch (AlreadyDefinedSymbolException e) {
+                        //	System.out.println("El símbolo " + t1.image + " ya está definido"); 
+                        }
     } else {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case tID:{
@@ -1015,21 +1021,7 @@ Set<Integer> conjSinc = infoParseException(e);
     finally { jj_save(5, xla); }
   }
 
-  static private boolean jj_3_6()
- {
-    if (jj_scan_token(tID)) return true;
-    if (jj_scan_token(tPOPEN)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_factor_con_par_616_25_15()
- {
-    if (jj_scan_token(tCHAR2INT)) return true;
-    if (jj_scan_token(tPOPEN)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_factor_con_par_615_17_14()
+  static private boolean jj_3R_factor_con_par_622_17_14()
  {
     if (jj_scan_token(tINT2CHAR)) return true;
     if (jj_scan_token(tPOPEN)) return true;
@@ -1045,11 +1037,11 @@ Set<Integer> conjSinc = infoParseException(e);
 
   static private boolean jj_3_4()
  {
-    if (jj_3R_factor_con_par_614_9_13()) return true;
+    if (jj_3R_factor_con_par_621_9_13()) return true;
     return false;
   }
 
-  static private boolean jj_3R_inst_invoc_proc_484_5_12()
+  static private boolean jj_3R_inst_invoc_proc_491_5_12()
  {
     if (jj_scan_token(tID)) return true;
     if (jj_scan_token(tPOPEN)) return true;
@@ -1063,13 +1055,13 @@ Set<Integer> conjSinc = infoParseException(e);
     return false;
   }
 
-  static private boolean jj_3R_factor_con_par_614_9_13()
+  static private boolean jj_3R_factor_con_par_621_9_13()
  {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_factor_con_par_615_17_14()) {
+    if (jj_3R_factor_con_par_622_17_14()) {
     jj_scanpos = xsp;
-    if (jj_3R_factor_con_par_616_25_15()) {
+    if (jj_3R_factor_con_par_623_25_15()) {
     jj_scanpos = xsp;
     if (jj_3_6()) return true;
     }
@@ -1077,16 +1069,30 @@ Set<Integer> conjSinc = infoParseException(e);
     return false;
   }
 
+  static private boolean jj_3_2()
+ {
+    if (jj_3R_inst_invoc_proc_491_5_12()) return true;
+    return false;
+  }
+
+  static private boolean jj_3_6()
+ {
+    if (jj_scan_token(tID)) return true;
+    if (jj_scan_token(tPOPEN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_factor_con_par_623_25_15()
+ {
+    if (jj_scan_token(tCHAR2INT)) return true;
+    if (jj_scan_token(tPOPEN)) return true;
+    return false;
+  }
+
   static private boolean jj_3_1()
  {
     if (jj_scan_token(tID)) return true;
     if (jj_scan_token(tCORCHETEOPEN)) return true;
-    return false;
-  }
-
-  static private boolean jj_3_2()
- {
-    if (jj_3R_inst_invoc_proc_484_5_12()) return true;
     return false;
   }
 
