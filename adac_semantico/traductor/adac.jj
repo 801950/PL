@@ -208,41 +208,41 @@ void declaracion_variables():
 void declaracion():
 {
 	Symbol s = null;
-	Symbol.Types tipo;
 	Token t1;
+	Attributes at = new Attributes();
 }
 {
-	tipo = tipo_variable() 
-	lista_vars(tipo)
+	tipo_variable(at) 
+	lista_vars(at)
 }
-Symbol.Types tipo_variable():
+void tipo_variable(Attributes at):
 {
 
 }
 {
 	<tINT> 
 		{
-			return Symbol.Types.INT;
+			at.type = Symbol.Types.INT;
 		}
 | 	<tCHAR> 
 		{
-			return Symbol.Types.CHAR;
+			at.type = Symbol.Types.CHAR;
 		}
 | 	<tBOOL>
 		{
-			return Symbol.Types.BOOL;
+			at.type = Symbol.Types.BOOL;
 		}
 }
 
-void lista_vars(Symbol.Types tipo):
+void lista_vars(Attributes at):
 {
 
 }
 {
-	variable(tipo) ( <tCOMA> variable(tipo) )*
+	variable(at) ( <tCOMA> variable(at) )*
 }
 
-void variable(Symbol.Types tipo):
+void variable(Attributes at):
 {
 	Token t1, t2;
 }
@@ -250,25 +250,11 @@ void variable(Symbol.Types tipo):
 	LOOKAHEAD(2)
 	t1 = <tID> <tCORCHETEOPEN> t2 = <tNUM> <tCORCHETECLOSE>
 		{
-			try{
-				ts.insertSymbol(new SymbolArray(t1.image,0,Integer.parseInt(t2.image)-1,tipo));
-			} catch (AlreadyDefinedSymbolException e) {
-				err.deteccion(e, t1);
-			}
+			semFuncs.insertArraySymbolTab(ts,t1,at,t2);
 		}
 | 	t1 = <tID>
 		{
-			try{
-				if(tipo == Symbol.Types.INT){
-					ts.insertSymbol(new SymbolInt(t1.image));
-				} else if (tipo == Symbol.Types.CHAR){
-					ts.insertSymbol(new SymbolChar(t1.image));
-				} else if (tipo == Symbol.Types.BOOL){
-					ts.insertSymbol(new SymbolBool(t1.image));
-				}
-			} catch (AlreadyDefinedSymbolException e) {
-				err.deteccion(e, t1);
-			}
+			semFuncs.insertVariableSymbolTab(ts,t1,at);
 		}
 }
 
@@ -325,12 +311,7 @@ void cabecera_procedimiento():
 {
 	<tPROC> t = <tID> 
 		{
-			try{
-				ts.insertSymbol(new SymbolProcedure(t.image,null));
-			} catch(AlreadyDefinedSymbolException e){
-				err.deteccion(e, t);
-			}
-			ts.insertBlock();
+			semFuncs.insertProcedureSymbolTab(ts,t);
 		}
 	<tPOPEN> lista_parametros() <tPCLOSE> <tIS>
 		
@@ -340,16 +321,12 @@ void cabecera_funcion():
 {
 	Token t;
 	Symbol.Types tipo;
+	Attributes at = new Attributes();
 }
 {
-	<tFUNC> tipo = tipo_variable() t = <tID>
+	<tFUNC> tipo_variable(at) t = <tID>
 		{
-			try{
-				ts.insertSymbol(new SymbolFunction(t.image,null,tipo));
-			} catch(AlreadyDefinedSymbolException e){
-				err.deteccion(e, t);
-			}
-			ts.insertBlock();
+			semFuncs.insertFunctionSymbolTab(ts,t,at);
 		}
 	<tPOPEN> lista_parametros() <tPCLOSE> <tIS>
 }
@@ -365,9 +342,10 @@ void lista_parametros():
 void parametro():
 {
 	Symbol.Types tipo;
+	Attributes at = new Attributes();
 }
 {
-	(<tVAL> | <tREF>) tipo = tipo_variable() lista_vars(tipo) 
+	(<tVAL> | <tREF>) tipo_variable(at) lista_vars(at) 
 }
 
 void bloque_sentencias():

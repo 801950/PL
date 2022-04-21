@@ -76,27 +76,27 @@ System.err.println(ts.toString());
 }
 
   static final public void declaracion() throws ParseException {Symbol s = null;
-        Symbol.Types tipo;
         Token t1;
-    tipo = tipo_variable();
-    lista_vars(tipo);
+        Attributes at = new Attributes();
+    tipo_variable(at);
+    lista_vars(at);
 }
 
-  static final public Symbol.Types tipo_variable() throws ParseException {
+  static final public void tipo_variable(Attributes at) throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case tINT:{
       jj_consume_token(tINT);
-{if ("" != null) return Symbol.Types.INT;}
+at.type = Symbol.Types.INT;
       break;
       }
     case tCHAR:{
       jj_consume_token(tCHAR);
-{if ("" != null) return Symbol.Types.CHAR;}
+at.type = Symbol.Types.CHAR;
       break;
       }
     case tBOOL:{
       jj_consume_token(tBOOL);
-{if ("" != null) return Symbol.Types.BOOL;}
+at.type = Symbol.Types.BOOL;
       break;
       }
     default:
@@ -104,11 +104,10 @@ System.err.println(ts.toString());
       jj_consume_token(-1);
       throw new ParseException();
     }
-    throw new Error("Missing return statement in function");
 }
 
-  static final public void lista_vars(Symbol.Types tipo) throws ParseException {
-    variable(tipo);
+  static final public void lista_vars(Attributes at) throws ParseException {
+    variable(at);
     label_2:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
@@ -121,36 +120,22 @@ System.err.println(ts.toString());
         break label_2;
       }
       jj_consume_token(tCOMA);
-      variable(tipo);
+      variable(at);
     }
 }
 
-  static final public void variable(Symbol.Types tipo) throws ParseException {Token t1, t2;
+  static final public void variable(Attributes at) throws ParseException {Token t1, t2;
     if (jj_2_1(2)) {
       t1 = jj_consume_token(tID);
       jj_consume_token(tCORCHETEOPEN);
       t2 = jj_consume_token(tNUM);
       jj_consume_token(tCORCHETECLOSE);
-try{
-                                ts.insertSymbol(new SymbolArray(t1.image,0,Integer.parseInt(t2.image)-1,tipo));
-                        } catch (AlreadyDefinedSymbolException e) {
-                                err.deteccion(e, t1);
-                        }
+semFuncs.insertArraySymbolTab(ts,t1,at,t2);
     } else {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case tID:{
         t1 = jj_consume_token(tID);
-try{
-                                if(tipo == Symbol.Types.INT){
-                                        ts.insertSymbol(new SymbolInt(t1.image));
-                                } else if (tipo == Symbol.Types.CHAR){
-                                        ts.insertSymbol(new SymbolChar(t1.image));
-                                } else if (tipo == Symbol.Types.BOOL){
-                                        ts.insertSymbol(new SymbolBool(t1.image));
-                                }
-                        } catch (AlreadyDefinedSymbolException e) {
-                                err.deteccion(e, t1);
-                        }
+semFuncs.insertVariableSymbolTab(ts,t1,at);
         break;
         }
       default:
@@ -226,11 +211,12 @@ try{
 
   static final public void cabecera_funcion() throws ParseException {Token t;
         Symbol.Types tipo;
+        Attributes at = new Attributes();
     jj_consume_token(tFUNC);
-    tipo = tipo_variable();
+    tipo_variable(at);
     t = jj_consume_token(tID);
 try{
-                                ts.insertSymbol(new SymbolFunction(t.image,null,tipo));
+                                ts.insertSymbol(new SymbolFunction(t.image,null,at.type));
                         } catch(AlreadyDefinedSymbolException e){
                                 err.deteccion(e, t);
                         }
@@ -269,6 +255,7 @@ try{
 }
 
   static final public void parametro() throws ParseException {Symbol.Types tipo;
+        Attributes at = new Attributes();
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case tVAL:{
       jj_consume_token(tVAL);
@@ -283,8 +270,8 @@ try{
       jj_consume_token(-1);
       throw new ParseException();
     }
-    tipo = tipo_variable();
-    lista_vars(tipo);
+    tipo_variable(at);
+    lista_vars(at);
 }
 
   static final public void bloque_sentencias() throws ParseException {
@@ -737,11 +724,7 @@ Set<Integer> conjSinc = infoParseException(e);
       jj_la1[26] = jj_gen;
       ;
     }
-if((at2.type != null && at1.type == at2.type) || at2.type == null){
-                                at.type = at1.type;
-                        } else {
-                                err.deteccion("Tipos incorrectos",null);
-                        }
+semFuncs.check2types(at1, at2, at);
 }
 
   static final public void operador_relacional() throws ParseException {
@@ -818,11 +801,7 @@ if((at2.type != null && at1.type == at2.type) || at2.type == null){
       operador_aditivo(at3);
       termino(at2);
     }
-if((at1.type != at3.type || at2.type != at3.type) && at3.type != null){
-                                err.deteccion("Tipos incorrectos", null);
-                        } else {
-                                at.type = at1.type;
-                        }
+semFuncs.check2typesWithOperator(at1,at2,at3,at);
 }
 
   static final public void operador_aditivo(Attributes at) throws ParseException {
@@ -870,11 +849,7 @@ at.type = Symbol.Types.BOOL;
       operador_multiplicativo(at3);
       factor(at2);
     }
-if((at1.type != at3.type || at2.type != at3.type) && at3.type != null){
-                                err.deteccion("Tipos incorrectos", null);
-                        } else {
-                                at.type = at1.type;
-                        }
+semFuncs.check2typesWithOperator(at1,at2,at3,at);
 }
 
   static final public void operador_multiplicativo(Attributes at) throws ParseException {
@@ -931,29 +906,12 @@ semFuncs.checkBool(at);
         jj_consume_token(tCORCHETEOPEN);
         expresion(at);
         jj_consume_token(tCORCHETECLOSE);
-try {
-                                s = ts.getSymbol(t.image);
-                                if(s.type != Symbol.Types.ARRAY) {
-                                        err.deteccion("Identificador usado no es un array", t);
-                                }
-                                else {
-                                        SymbolArray sa = (SymbolArray) s;
-                                        at.type = sa.baseType;
-                                }
-
-                        } catch(SymbolNotFoundException e){
-                                err.deteccion(e,t);
-                        }
+semFuncs.checkArray(ts,t,at);
       } else {
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
         case tID:{
           t = jj_consume_token(tID);
-try {
-                                s = ts.getSymbol(t.image);
-                                at.type = s.type;
-                        } catch(SymbolNotFoundException e) {
-                                err.deteccion(e, t);
-                        }
+
           break;
           }
         case tNUM:{
@@ -1094,26 +1052,13 @@ Set<Integer> conjSinc = infoParseException(e);
     finally { jj_save(5, xla); }
   }
 
-  static private boolean jj_3_2()
- {
-    if (jj_3R_inst_invoc_proc_526_5_12()) return true;
-    return false;
-  }
-
-  static private boolean jj_3_6()
- {
-    if (jj_scan_token(tID)) return true;
-    if (jj_scan_token(tPOPEN)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_factor_con_par_743_9_13()
+  static private boolean jj_3R_factor_con_par_702_9_13()
  {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_factor_con_par_744_17_14()) {
+    if (jj_3R_factor_con_par_703_17_14()) {
     jj_scanpos = xsp;
-    if (jj_3R_factor_con_par_748_25_15()) {
+    if (jj_3R_factor_con_par_707_25_15()) {
     jj_scanpos = xsp;
     if (jj_3_6()) return true;
     }
@@ -1121,10 +1066,24 @@ Set<Integer> conjSinc = infoParseException(e);
     return false;
   }
 
-  static private boolean jj_3R_factor_con_par_748_25_15()
+  static private boolean jj_3R_factor_con_par_707_25_15()
  {
     if (jj_scan_token(tCHAR2INT)) return true;
     if (jj_scan_token(tPOPEN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_inst_invoc_proc_514_5_12()
+ {
+    if (jj_scan_token(tID)) return true;
+    if (jj_scan_token(tPOPEN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_3()
+ {
+    if (jj_scan_token(tID)) return true;
+    if (jj_scan_token(tCORCHETEOPEN)) return true;
     return false;
   }
 
@@ -1137,7 +1096,20 @@ Set<Integer> conjSinc = infoParseException(e);
 
   static private boolean jj_3_4()
  {
-    if (jj_3R_factor_con_par_743_9_13()) return true;
+    if (jj_3R_factor_con_par_702_9_13()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_factor_con_par_703_17_14()
+ {
+    if (jj_scan_token(tINT2CHAR)) return true;
+    if (jj_scan_token(tPOPEN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_2()
+ {
+    if (jj_3R_inst_invoc_proc_514_5_12()) return true;
     return false;
   }
 
@@ -1148,24 +1120,10 @@ Set<Integer> conjSinc = infoParseException(e);
     return false;
   }
 
-  static private boolean jj_3R_factor_con_par_744_17_14()
- {
-    if (jj_scan_token(tINT2CHAR)) return true;
-    if (jj_scan_token(tPOPEN)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_inst_invoc_proc_526_5_12()
+  static private boolean jj_3_6()
  {
     if (jj_scan_token(tID)) return true;
     if (jj_scan_token(tPOPEN)) return true;
-    return false;
-  }
-
-  static private boolean jj_3_3()
- {
-    if (jj_scan_token(tID)) return true;
-    if (jj_scan_token(tCORCHETEOPEN)) return true;
     return false;
   }
 

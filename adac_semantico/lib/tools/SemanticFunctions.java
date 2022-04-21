@@ -57,7 +57,7 @@ public class SemanticFunctions {
 		}
 	}
 
-	public void checkArray(SymbolTable ts, Token t, Attributtes at){
+	public void checkArray(SymbolTable ts, Token t, Attributes at){
 		Symbol s;
 		try {
 			s = ts.getSymbol(t.image);
@@ -82,5 +82,37 @@ public class SemanticFunctions {
 		} catch(SymbolNotFoundException e) {
 			errSem.deteccion(e, t);
 		}
+	}
+
+	public void insertArraySymbolTab(SymbolTable ts, Token t1, Attributes at, Token t2){
+		try{
+			ts.insertSymbol(new SymbolArray(t1.image,0,Integer.parseInt(t2.image)-1,at.type));
+		} catch (AlreadyDefinedSymbolException e) {
+			errSem.deteccion(e, t1);
+		}
+	}
+
+	public void insertVariableSymbolTab(SymbolTable ts, Token t1, Attributes at){
+		try{
+			if(at.type == Symbol.Types.INT){
+				ts.insertSymbol(new SymbolInt(t1.image));
+			} else if (at.type == Symbol.Types.CHAR){
+				ts.insertSymbol(new SymbolChar(t1.image));
+			} else if (at.type == Symbol.Types.BOOL){
+				ts.insertSymbol(new SymbolBool(t1.image));
+			}
+		} catch (AlreadyDefinedSymbolException e) {
+			errSem.deteccion(e, t1);
+		}
+	}
+
+
+	public void insertProcedureSymbolTab(SymbolTable ts, Token t){
+		try{
+			ts.insertSymbol(new SymbolProcedure(t.image,null));
+		} catch(AlreadyDefinedSymbolException e){
+			errSem.deteccion(e, t);
+		}
+		ts.insertBlock();
 	}
 }
