@@ -18,11 +18,15 @@ import java.lang.Exception.*;
 import lib.symbolTable.*;
 import lib.symbolTable.exceptions.*;
 import lib.errores.*;
+import lib.attributes.*;
+import lib.tools.*;
 
 
 public class adac {
 
 	static SymbolTable ts = new SymbolTable();
+	static ErrorSemantico err =  new ErrorSemantico();
+	static SemanticFunctions semFuncs = new SemanticFunctions();
 
     public static void main(String[] args) {
     	adac parser;
@@ -249,7 +253,7 @@ void variable(Symbol.Types tipo):
 			try{
 				ts.insertSymbol(new SymbolArray(t1.image,0,Integer.parseInt(t2.image)-1,tipo));
 			} catch (AlreadyDefinedSymbolException e) {
-				ErrorSemantico.deteccion(e, t1);
+				err.deteccion(e, t1);
 			}
 		}
 | 	t1 = <tID>
@@ -263,7 +267,7 @@ void variable(Symbol.Types tipo):
 					ts.insertSymbol(new SymbolBool(t1.image));
 				}
 			} catch (AlreadyDefinedSymbolException e) {
-				ErrorSemantico.deteccion(e, t1);
+				err.deteccion(e, t1);
 			}
 		}
 }
@@ -324,7 +328,7 @@ void cabecera_procedimiento():
 			try{
 				ts.insertSymbol(new SymbolProcedure(t.image,null));
 			} catch(AlreadyDefinedSymbolException e){
-				ErrorSemantico.deteccion(e, t);
+				err.deteccion(e, t);
 			}
 			ts.insertBlock();
 		}
@@ -343,7 +347,7 @@ void cabecera_funcion():
 			try{
 				ts.insertSymbol(new SymbolFunction(t.image,null,tipo));
 			} catch(AlreadyDefinedSymbolException e){
-				ErrorSemantico.deteccion(e, t);
+				err.deteccion(e, t);
 			}
 			ts.insertBlock();
 		}
@@ -442,31 +446,32 @@ void inst_asignacion():
 
 void asignable():
 {
+	Attributes at = new Attributes();
 }
 {
 	LOOKAHEAD(2)
-	<tID> <tCORCHETEOPEN> expresion() <tCORCHETECLOSE>
+	<tID> <tCORCHETEOPEN> expresion(at) <tCORCHETECLOSE>
 | 	<tID>
 		
 }
 
 void inst_iteracion():
 {
-
+	Attributes at = new Attributes();
 }
 {
 	<tWHILE>
-	expresion()
+	expresion(at)
 	<tDO>
 	(inst())*
 }
 
 void inst_return():
 {
-
+	Attributes at = new Attributes();
 }
 {
-	<tRET> expresion()
+	<tRET> expresion(at)
 }
 
 void inst_leer():
@@ -529,10 +534,10 @@ void inst_invoc_proc():
 
 void inst_seleccion():
 {
-
+	Attributes at = new Attributes();
 }
 {
-	<tIF> expresion() <tTHEN> (inst())* (<tELSE> (inst())* )? 
+	<tIF> expresion(at) <tTHEN> (inst())* (<tELSE> (inst())* )? 
 }
 
 void inst_saltar_linea():
@@ -551,7 +556,6 @@ void inst_saltar_linea():
 
 void lista_cero_o_mas_exps():
 {
-
 }
 {
 	( lista_una_o_mas_exps() )?
@@ -559,18 +563,21 @@ void lista_cero_o_mas_exps():
 
 void lista_una_o_mas_exps():
 {
-
+	Attributes at1 = new Attributes();
 }
 {
-	expresion() (<tCOMA> lista_una_o_mas_exps())?
+	expresion(at1) (<tCOMA> lista_una_o_mas_exps())?
 }
 
-void expresion():
+void expresion(Attributes at):
 {
-
+	Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
 }
 {
-	expresion_simple() ( operador_relacional() expresion_simple() )?
+	expresion_simple(at1) ( operador_relacional() expresion_simple(at2) )?
+		{
+			semFuncs.check2types(at1, at2, at);
+		}
 }
 
 void operador_relacional():
@@ -586,96 +593,134 @@ void operador_relacional():
 |	<tDIST>
 }
 
-void expresion_simple():
+void expresion_simple(Attributes at):
 {
-
+	Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
 }
 {
 	(<tRES> | <tSUM>)?
-	termino() (operador_aditivo() termino())*
+	termino(at1) (operador_aditivo(at3) termino(at2))*
+		{
+			semFuncs.check2typesWithOperator(at1,at2,at3,at);
+		}
 }
 
-void operador_aditivo():
+void operador_aditivo(Attributes at):
 {
 	
 }
 {
 	<tSUM>
+		{
+			at.type = Symbol.Types.INT;
+		}
 |	<tRES>
+		{
+			at.type = Symbol.Types.INT;
+		}
 | 	<tOR>
+		{
+			at.type = Symbol.Types.BOOL;
+		}
 }
 
-void termino():
+void termino(Attributes at):
 {
-
+	Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
+	Token t;
+	Symbol.Types expected;
 }
 {
-	factor() ( operador_multiplicativo() factor())*
+	factor(at1) (operador_multiplicativo(at3) factor(at2))*
+		{
+			semFuncs.check2typesWithOperator(at1,at2,at3,at);
+		}
 }
 
 
-void operador_multiplicativo():
+void operador_multiplicativo(Attributes at):
 {
-
+	
 }
 {
 	<tMUL>
+		{
+			at.type = Symbol.Types.INT;
+		}
 |	<tMOD>
+		{
+			at.type = Symbol.Types.INT;
+		}
 |	<tDIV>
+		{
+			at.type = Symbol.Types.INT;
+		}
 |	<tAND>
+		{
+			at.type = Symbol.Types.BOOL;
+		}
 }
 
-Symbol.Types factor():
+void factor(Attributes at):
 {
 	Token t;
 	Symbol s;
+	Symbol.Types tipo;
+	
 }
 {
 	 
-	<tNOT> factor()
-|	<tPOPEN> expresion() <tPCLOSE>
-| 	LOOKAHEAD(2) factor_con_par()
-|	LOOKAHEAD(2) <tID> <tCORCHETEOPEN> expresion() <tCORCHETECLOSE>
+	<tNOT> factor(at)
+		{
+			semFuncs.checkBool(at);
+		}
+|	<tPOPEN> expresion(at) <tPCLOSE>
+| 	LOOKAHEAD(2) factor_con_par(at)
+|	LOOKAHEAD(2) t = <tID> <tCORCHETEOPEN> expresion(at) <tCORCHETECLOSE>
+		{
+			semFuncs.checkArray(ts,t,at);
+		}
 |	t = <tID>
 		{
-			try {
-				s = ts.getSymbol(t.image);
-				return s.Type;
-			} catch(SymbolNotFoundException exception) {
-
-			}
+			
 		}
 | 	<tNUM>
 		{
-			return Symbol.Types.INT;
+			at.type = Symbol.Types.INT;
 		}
 | 	<tCARACTER>
 		{
-			return Symbol.Types.CHAR;
+			at.type = Symbol.Types.CHAR;
 		}
 | 	<tSTRING>
 		{
-			return Symbol.Types.CHAR;
+			at.type = Symbol.Types.CHAR;
 		}
 | 	<tTRUE>
 		{
-			return Symbol.Types.BOOL;
+			at.type = Symbol.Types.BOOL;
 		}
 | 	<tFALSE>
 		{
-			return Symbol.Types.BOOL;
+			at.type = Symbol.Types.BOOL;
 		}
 }
 
-void factor_con_par():
+void factor_con_par(Attributes at):
 {
-
+	Token t;
 }
 {
 	try {
-		<tINT2CHAR> <tPOPEN> expresion() <tPCLOSE> 
-		|	<tCHAR2INT> <tPOPEN> expresion() <tPCLOSE>
-		|	LOOKAHEAD(2) <tID> <tPOPEN> lista_cero_o_mas_exps() <tPCLOSE>
+		<tINT2CHAR> <tPOPEN> expresion(at) <tPCLOSE> 
+			{
+				semFuncs.checkInt(at);
+			}
+		|	<tCHAR2INT> <tPOPEN> expresion(at) <tPCLOSE>
+			{
+				semFuncs.checkChar(at);
+			}
+		|	LOOKAHEAD(2) t = <tID> <tPOPEN> lista_cero_o_mas_exps() <tPCLOSE>
 	} catch(ParseException e){
 		Set<Integer> conjSinc = infoParseException(e);
 		conjSinc.add(tPCLOSE);

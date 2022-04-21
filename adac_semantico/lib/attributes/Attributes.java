@@ -22,9 +22,15 @@ public class Attributes implements Cloneable {
     public String valString;
     //COMPLETAR
 
-    public Attributes() {
-        //COMPLETAR
+    public Attributes(){
+        type = null;
     }
+
+    public Attributes(Symbol.Types tipo) {
+        type = tipo;
+    }
+
+    
 
     public Attributes clone() {
     	try {

@@ -6,6 +6,8 @@ import java.lang.Exception.*;
 import lib.symbolTable.*;
 import lib.symbolTable.exceptions.*;
 import lib.errores.*;
+import lib.attributes.*;
+import lib.tools.*;
 
 /** Token Manager. */
 @SuppressWarnings ("unused")
