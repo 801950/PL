@@ -115,4 +115,13 @@ public class SemanticFunctions {
 		}
 		ts.insertBlock();
 	}
+
+	public void insertFunctionSymbolTab(SymbolTable ts, Token t, Attributes at){
+		try{
+			ts.insertSymbol(new SymbolFunction(t.image,null,at.type));
+		} catch(AlreadyDefinedSymbolException e){
+			errSem.deteccion(e, t);
+		}
+		ts.insertBlock();
+	}
 }
