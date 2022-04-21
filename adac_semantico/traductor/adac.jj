@@ -338,7 +338,7 @@ void cabecera_funcion():
 	Symbol.Types tipo;
 }
 {
-	<tFUNC> tipo = tipo_variable() t = <tID> 
+	<tFUNC> tipo = tipo_variable() t = <tID>
 		{
 			try{
 				ts.insertSymbol(new SymbolFunction(t.image,null,tipo));
@@ -625,9 +625,10 @@ void operador_multiplicativo():
 |	<tAND>
 }
 
-void factor():
+Symbol.Types factor():
 {
-	
+	Token t;
+	Symbol s;
 }
 {
 	 
@@ -635,12 +636,35 @@ void factor():
 |	<tPOPEN> expresion() <tPCLOSE>
 | 	LOOKAHEAD(2) factor_con_par()
 |	LOOKAHEAD(2) <tID> <tCORCHETEOPEN> expresion() <tCORCHETECLOSE>
-|	<tID>
+|	t = <tID>
+		{
+			try {
+				s = ts.getSymbol(t.image);
+				return s.Type;
+			} catch(SymbolNotFoundException exception) {
+
+			}
+		}
 | 	<tNUM>
+		{
+			return Symbol.Types.INT;
+		}
 | 	<tCARACTER>
+		{
+			return Symbol.Types.CHAR;
+		}
 | 	<tSTRING>
+		{
+			return Symbol.Types.CHAR;
+		}
 | 	<tTRUE>
+		{
+			return Symbol.Types.BOOL;
+		}
 | 	<tFALSE>
+		{
+			return Symbol.Types.BOOL;
+		}
 }
 
 void factor_con_par():
