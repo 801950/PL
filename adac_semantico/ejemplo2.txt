@@ -1,8 +1,11 @@
 --cambios de base
 procedure cambio_base is
 integer num, base;
+
 integer enB;
-integer x[3];
+boolean x[5];
+character y,m;
+integer z,fn,a,i;
 
 --cesar := -10;
 --char x;
@@ -11,13 +14,15 @@ integer x[3];
 --s := true;
 --f := false; ---kskksksksksk
 
+
+
 function integer min (val integer x, y) is
 begin
   if x > y then return (y); else return (x); end
 end
 
 procedure escrib_vect (val boolean v[101]; ref integer n) is
-    integer i,n;
+    integer i;
 begin
     while i <= n do
         i := i + 1;
@@ -28,9 +33,10 @@ begin
     y := a;
     z := -654;
     m := 's';
-    get (dato);
+
+    x[1] := 7;
     put("hola nerea");
- --   put_line ("fib(", i,") = ", fn;
-    dato (n,"lslsk",7+9*5div 874);
+    put_line ("fib(", i,") = ", fn);
+    dato (m,"lslsk",7+9*5div 874);
     return -min(5,-9);
 end

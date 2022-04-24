@@ -41,107 +41,445 @@ public class adac implements adacConstants {
     }
 
   static final public void S() throws ParseException {
-    trace_call("S");
-    try {
-
-      prog();
-      jj_consume_token(0);
-    } finally {
-      trace_return("S");
-    }
+    prog();
+    jj_consume_token(0);
 }
 
 //------------ Símbolo inicial de la gramática. Para análisis léxico no hace falta más
   static final public void prog() throws ParseException {
-    trace_call("prog");
-    try {
-
-      jj_consume_token(tPROC);
-      jj_consume_token(tID);
-      jj_consume_token(tIS);
-      declaracion_variables();
-      declaracion_procs_funcs();
-      bloque_sentencias();
+    jj_consume_token(tPROC);
+    jj_consume_token(tID);
+    jj_consume_token(tIS);
+    declaracion_variables();
+    declaracion_procs_funcs();
+    bloque_sentencias();
 System.err.println(ts.toString());
-    } finally {
-      trace_return("prog");
-    }
 }
 
   static final public void declaracion_variables() throws ParseException {
-    trace_call("declaracion_variables");
-    try {
-
-      label_1:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-        case tBOOL:
-        case tCHAR:
-        case tINT:{
-          ;
-          break;
-          }
-        default:
-          jj_la1[0] = jj_gen;
-          break label_1;
-        }
-        declaracion();
-        jj_consume_token(tPC);
-      }
-    } finally {
-      trace_return("declaracion_variables");
-    }
-}
-
-  static final public void declaracion() throws ParseException {
-    trace_call("declaracion");
-    try {
-Symbol s = null;
-        Token t1;
-        Attributes at = new Attributes();
-      tipo_variable(at);
-      lista_vars(at);
-    } finally {
-      trace_return("declaracion");
-    }
-}
-
-  static final public void tipo_variable(Attributes at) throws ParseException {
-    trace_call("tipo_variable");
-    try {
-
+    label_1:
+    while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tBOOL:
+      case tCHAR:
       case tINT:{
-        jj_consume_token(tINT);
-at.type = Symbol.Types.INT;
-        break;
-        }
-      case tCHAR:{
-        jj_consume_token(tCHAR);
-at.type = Symbol.Types.CHAR;
-        break;
-        }
-      case tBOOL:{
-        jj_consume_token(tBOOL);
-at.type = Symbol.Types.BOOL;
+        ;
         break;
         }
       default:
-        jj_la1[1] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
+        jj_la1[0] = jj_gen;
+        break label_1;
       }
-    } finally {
-      trace_return("tipo_variable");
+      declaracion();
+      jj_consume_token(tPC);
+    }
+}
+
+  static final public void declaracion() throws ParseException {Symbol s = null;
+        Token t1;
+        Attributes at = new Attributes();
+    tipo_variable(at);
+    lista_vars(at);
+}
+
+  static final public void tipo_variable(Attributes at) throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case tINT:{
+      jj_consume_token(tINT);
+at.type = Symbol.Types.INT;
+      break;
+      }
+    case tCHAR:{
+      jj_consume_token(tCHAR);
+at.type = Symbol.Types.CHAR;
+      break;
+      }
+    case tBOOL:{
+      jj_consume_token(tBOOL);
+at.type = Symbol.Types.BOOL;
+      break;
+      }
+    default:
+      jj_la1[1] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
     }
 }
 
   static final public void lista_vars(Attributes at) throws ParseException {
-    trace_call("lista_vars");
-    try {
-
+    variable(at);
+    label_2:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tCOMA:{
+        ;
+        break;
+        }
+      default:
+        jj_la1[2] = jj_gen;
+        break label_2;
+      }
+      jj_consume_token(tCOMA);
       variable(at);
-      label_2:
+    }
+}
+
+  static final public void variable(Attributes at) throws ParseException {Token t1, t2;
+    if (jj_2_1(2)) {
+      t1 = jj_consume_token(tID);
+      jj_consume_token(tCORCHETEOPEN);
+      t2 = jj_consume_token(tNUM);
+      jj_consume_token(tCORCHETECLOSE);
+semFuncs.insertArraySymbolTab(ts,t1,at,t2);
+    } else {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tID:{
+        t1 = jj_consume_token(tID);
+semFuncs.insertVariableSymbolTab(ts,t1,at);
+        break;
+        }
+      default:
+        jj_la1[3] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    }
+}
+
+  static final public void declaracion_procs_funcs() throws ParseException {
+    label_3:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tFUNC:
+      case tPROC:{
+        ;
+        break;
+        }
+      default:
+        jj_la1[4] = jj_gen;
+        break label_3;
+      }
+      declaracion_proc_func();
+    }
+}
+
+  static final public void declaracion_proc_func() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case tPROC:{
+      declaracion_procedimientos();
+      break;
+      }
+    case tFUNC:{
+      declaracion_funciones();
+      break;
+      }
+    default:
+      jj_la1[5] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+}
+
+  static final public void declaracion_procedimientos() throws ParseException {
+    cabecera_procedimiento();
+    declaracion_variables();
+    bloque_sentencias();
+ts.removeBlock();
+}
+
+  static final public void declaracion_funciones() throws ParseException {
+    cabecera_funcion();
+    declaracion_variables();
+    bloque_sentencias();
+ts.removeBlock();
+}
+
+  static final public void cabecera_procedimiento() throws ParseException {Token t;
+    jj_consume_token(tPROC);
+    t = jj_consume_token(tID);
+semFuncs.insertProcedureSymbolTab(ts,t);
+    jj_consume_token(tPOPEN);
+    lista_parametros();
+    jj_consume_token(tPCLOSE);
+    jj_consume_token(tIS);
+}
+
+  static final public void cabecera_funcion() throws ParseException {Token t;
+        Symbol.Types tipo;
+        Attributes at = new Attributes();
+    jj_consume_token(tFUNC);
+    tipo_variable(at);
+    t = jj_consume_token(tID);
+semFuncs.insertFunctionSymbolTab(ts,t,at);
+    jj_consume_token(tPOPEN);
+    lista_parametros();
+    jj_consume_token(tPCLOSE);
+    jj_consume_token(tIS);
+}
+
+  static final public void lista_parametros() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case tVAL:
+    case tREF:{
+      parametro();
+      label_4:
+      while (true) {
+        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+        case tPC:{
+          ;
+          break;
+          }
+        default:
+          jj_la1[6] = jj_gen;
+          break label_4;
+        }
+        jj_consume_token(tPC);
+        parametro();
+      }
+      break;
+      }
+    default:
+      jj_la1[7] = jj_gen;
+      ;
+    }
+}
+
+  static final public void parametro() throws ParseException {Symbol.Types tipo;
+        Attributes at = new Attributes();
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case tVAL:{
+      jj_consume_token(tVAL);
+      break;
+      }
+    case tREF:{
+      jj_consume_token(tREF);
+      break;
+      }
+    default:
+      jj_la1[8] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+    tipo_variable(at);
+    lista_vars(at);
+}
+
+  static final public void bloque_sentencias() throws ParseException {
+    try {
+      jj_consume_token(tBEGIN);
+      label_5:
+      while (true) {
+        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+        case tFUNC:
+        case tPROC:
+        case tRET:
+        case tSkL:
+        case tIF:
+        case tWHILE:
+        case tPUTLINE:
+        case tPUT:
+        case tGET:
+        case tID:{
+          ;
+          break;
+          }
+        default:
+          jj_la1[9] = jj_gen;
+          break label_5;
+        }
+        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+        case tRET:
+        case tSkL:
+        case tIF:
+        case tWHILE:
+        case tPUTLINE:
+        case tPUT:
+        case tGET:
+        case tID:{
+          inst();
+          break;
+          }
+        case tFUNC:
+        case tPROC:{
+          declaracion_proc_func();
+          break;
+          }
+        default:
+          jj_la1[10] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
+      }
+      jj_consume_token(tEND);
+    } catch (ParseException e) {
+Set<Integer> conjSinc = infoParseException(e);
+                conjSinc.add(tEND);
+                recuperacionPanico(e.currentToken.next,conjSinc);
+    }
+}
+
+  static final public void inst() throws ParseException {
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case tRET:
+    case tSkL:
+    case tPUTLINE:
+    case tPUT:
+    case tGET:
+    case tID:{
+      inst_acaban_pc();
+      break;
+      }
+    case tIF:
+    case tWHILE:{
+      inst_acaban_end();
+      break;
+      }
+    default:
+      jj_la1[11] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+}
+
+  static final public void inst_acaban_pc() throws ParseException {
+    try {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tGET:{
+        inst_leer();
+        break;
+        }
+      case tSkL:{
+        inst_saltar_linea();
+        break;
+        }
+      case tPUT:{
+        inst_escribir();
+        break;
+        }
+      case tPUTLINE:{
+        inst_escribir_linea();
+        break;
+        }
+      default:
+        jj_la1[12] = jj_gen;
+        if (jj_2_2(2)) {
+          inst_invoc_proc();
+        } else {
+          switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+          case tID:{
+            inst_asignacion();
+            break;
+            }
+          case tRET:{
+            inst_return();
+            break;
+            }
+          default:
+            jj_la1[13] = jj_gen;
+            jj_consume_token(-1);
+            throw new ParseException();
+          }
+        }
+      }
+      jj_consume_token(tPC);
+    } catch (ParseException e) {
+Set<Integer> conjSinc = infoParseException(e);
+                conjSinc.add(tPC);
+                recuperacionPanico(e.currentToken.next,conjSinc);
+    }
+}
+
+  static final public void inst_acaban_end() throws ParseException {
+    try {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tWHILE:{
+        inst_iteracion();
+        break;
+        }
+      case tIF:{
+        inst_seleccion();
+        break;
+        }
+      default:
+        jj_la1[14] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+      jj_consume_token(tEND);
+    } catch (ParseException e) {
+Set<Integer> conjSinc = infoParseException(e);
+                conjSinc.add(tEND);
+                recuperacionPanico(e.currentToken.next,conjSinc);
+    }
+}
+
+  static final public void inst_asignacion() throws ParseException {Attributes at1 = new Attributes(), at2 = new Attributes();
+    asignable(at1);
+    jj_consume_token(tASIG);
+    expresion(at2);
+semFuncs.checkAsignacion(at1,at2);
+}
+
+  static final public void asignable(Attributes at) throws ParseException {Attributes at1 = new Attributes();
+        Token t;
+    if (jj_2_3(2)) {
+      t = jj_consume_token(tID);
+      jj_consume_token(tCORCHETEOPEN);
+      expresion(at1);
+      jj_consume_token(tCORCHETECLOSE);
+semFuncs.checkAsignable(ts,t,at1,at);
+    } else {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tID:{
+        t = jj_consume_token(tID);
+semFuncs.checkAsignable(ts,t,at);
+        break;
+        }
+      default:
+        jj_la1[15] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    }
+}
+
+  static final public void inst_iteracion() throws ParseException {Attributes at = new Attributes();
+    jj_consume_token(tWHILE);
+    expresion(at);
+    jj_consume_token(tDO);
+    label_6:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tRET:
+      case tSkL:
+      case tIF:
+      case tWHILE:
+      case tPUTLINE:
+      case tPUT:
+      case tGET:
+      case tID:{
+        ;
+        break;
+        }
+      default:
+        jj_la1[16] = jj_gen;
+        break label_6;
+      }
+      inst();
+    }
+}
+
+  static final public void inst_return() throws ParseException {Attributes at = new Attributes();
+    jj_consume_token(tRET);
+    expresion(at);
+}
+
+  static final public void inst_leer() throws ParseException {Attributes at1 = new Attributes(), at2 = new Attributes();
+    try {
+      jj_consume_token(tGET);
+      jj_consume_token(tPOPEN);
+      asignable(at1);
+      label_7:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
         case tCOMA:{
@@ -149,695 +487,24 @@ at.type = Symbol.Types.BOOL;
           break;
           }
         default:
-          jj_la1[2] = jj_gen;
-          break label_2;
+          jj_la1[17] = jj_gen;
+          break label_7;
         }
         jj_consume_token(tCOMA);
-        variable(at);
+        asignable(at2);
       }
-    } finally {
-      trace_return("lista_vars");
-    }
-}
-
-  static final public void variable(Attributes at) throws ParseException {
-    trace_call("variable");
-    try {
-Token t1, t2;
-      if (jj_2_1(2)) {
-        t1 = jj_consume_token(tID);
-        jj_consume_token(tCORCHETEOPEN);
-        t2 = jj_consume_token(tNUM);
-        jj_consume_token(tCORCHETECLOSE);
-semFuncs.insertArraySymbolTab(ts,t1,at,t2);
-      } else {
-        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-        case tID:{
-          t1 = jj_consume_token(tID);
-semFuncs.insertVariableSymbolTab(ts,t1,at);
-          break;
-          }
-        default:
-          jj_la1[3] = jj_gen;
-          jj_consume_token(-1);
-          throw new ParseException();
-        }
-      }
-    } finally {
-      trace_return("variable");
-    }
-}
-
-  static final public void declaracion_procs_funcs() throws ParseException {
-    trace_call("declaracion_procs_funcs");
-    try {
-
-      label_3:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-        case tFUNC:
-        case tPROC:{
-          ;
-          break;
-          }
-        default:
-          jj_la1[4] = jj_gen;
-          break label_3;
-        }
-        declaracion_proc_func();
-      }
-    } finally {
-      trace_return("declaracion_procs_funcs");
-    }
-}
-
-  static final public void declaracion_proc_func() throws ParseException {
-    trace_call("declaracion_proc_func");
-    try {
-
-      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case tPROC:{
-        declaracion_procedimientos();
-        break;
-        }
-      case tFUNC:{
-        declaracion_funciones();
-        break;
-        }
-      default:
-        jj_la1[5] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
-      }
-    } finally {
-      trace_return("declaracion_proc_func");
-    }
-}
-
-  static final public void declaracion_procedimientos() throws ParseException {
-    trace_call("declaracion_procedimientos");
-    try {
-
-      cabecera_procedimiento();
-      declaracion_variables();
-      bloque_sentencias();
-ts.removeBlock();
-    } finally {
-      trace_return("declaracion_procedimientos");
-    }
-}
-
-  static final public void declaracion_funciones() throws ParseException {
-    trace_call("declaracion_funciones");
-    try {
-
-      cabecera_funcion();
-      declaracion_variables();
-      bloque_sentencias();
-ts.removeBlock();
-    } finally {
-      trace_return("declaracion_funciones");
-    }
-}
-
-  static final public void cabecera_procedimiento() throws ParseException {
-    trace_call("cabecera_procedimiento");
-    try {
-Token t;
-      jj_consume_token(tPROC);
-      t = jj_consume_token(tID);
-semFuncs.insertProcedureSymbolTab(ts,t);
-      jj_consume_token(tPOPEN);
-      lista_parametros();
       jj_consume_token(tPCLOSE);
-      jj_consume_token(tIS);
-    } finally {
-      trace_return("cabecera_procedimiento");
+    } catch (ParseException e) {
+Set<Integer> conjSinc = infoParseException(e);
+                conjSinc.add(tPCLOSE);
+                recuperacionPanico(e.currentToken.next,conjSinc);
     }
 }
 
-  static final public void cabecera_funcion() throws ParseException {
-    trace_call("cabecera_funcion");
+  static final public void inst_escribir() throws ParseException {Attributes at1 = new Attributes();
     try {
-Token t;
-        Symbol.Types tipo;
-        Attributes at = new Attributes();
-      jj_consume_token(tFUNC);
-      tipo_variable(at);
-      t = jj_consume_token(tID);
-semFuncs.insertFunctionSymbolTab(ts,t,at);
+      jj_consume_token(tPUT);
       jj_consume_token(tPOPEN);
-      lista_parametros();
-      jj_consume_token(tPCLOSE);
-      jj_consume_token(tIS);
-    } finally {
-      trace_return("cabecera_funcion");
-    }
-}
-
-  static final public void lista_parametros() throws ParseException {
-    trace_call("lista_parametros");
-    try {
-
-      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case tVAL:
-      case tREF:{
-        parametro();
-        label_4:
-        while (true) {
-          switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-          case tPC:{
-            ;
-            break;
-            }
-          default:
-            jj_la1[6] = jj_gen;
-            break label_4;
-          }
-          jj_consume_token(tPC);
-          parametro();
-        }
-        break;
-        }
-      default:
-        jj_la1[7] = jj_gen;
-        ;
-      }
-    } finally {
-      trace_return("lista_parametros");
-    }
-}
-
-  static final public void parametro() throws ParseException {
-    trace_call("parametro");
-    try {
-Symbol.Types tipo;
-        Attributes at = new Attributes();
-      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case tVAL:{
-        jj_consume_token(tVAL);
-        break;
-        }
-      case tREF:{
-        jj_consume_token(tREF);
-        break;
-        }
-      default:
-        jj_la1[8] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
-      }
-      tipo_variable(at);
-      lista_vars(at);
-    } finally {
-      trace_return("parametro");
-    }
-}
-
-  static final public void bloque_sentencias() throws ParseException {
-    trace_call("bloque_sentencias");
-    try {
-
-      try {
-        jj_consume_token(tBEGIN);
-        label_5:
-        while (true) {
-          switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-          case tFUNC:
-          case tPROC:
-          case tRET:
-          case tSkL:
-          case tIF:
-          case tWHILE:
-          case tPUTLINE:
-          case tPUT:
-          case tGET:
-          case tID:{
-            ;
-            break;
-            }
-          default:
-            jj_la1[9] = jj_gen;
-            break label_5;
-          }
-          switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-          case tRET:
-          case tSkL:
-          case tIF:
-          case tWHILE:
-          case tPUTLINE:
-          case tPUT:
-          case tGET:
-          case tID:{
-            inst();
-            break;
-            }
-          case tFUNC:
-          case tPROC:{
-            declaracion_proc_func();
-            break;
-            }
-          default:
-            jj_la1[10] = jj_gen;
-            jj_consume_token(-1);
-            throw new ParseException();
-          }
-        }
-        jj_consume_token(tEND);
-      } catch (ParseException e) {
-Set<Integer> conjSinc = infoParseException(e);
-                conjSinc.add(tEND);
-                recuperacionPanico(e.currentToken.next,conjSinc);
-      }
-    } finally {
-      trace_return("bloque_sentencias");
-    }
-}
-
-  static final public void inst() throws ParseException {
-    trace_call("inst");
-    try {
-
-      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case tRET:
-      case tSkL:
-      case tPUTLINE:
-      case tPUT:
-      case tGET:
-      case tID:{
-        inst_acaban_pc();
-        break;
-        }
-      case tIF:
-      case tWHILE:{
-        inst_acaban_end();
-        break;
-        }
-      default:
-        jj_la1[11] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
-      }
-    } finally {
-      trace_return("inst");
-    }
-}
-
-  static final public void inst_acaban_pc() throws ParseException {
-    trace_call("inst_acaban_pc");
-    try {
-
-      try {
-        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-        case tGET:{
-          inst_leer();
-          break;
-          }
-        case tSkL:{
-          inst_saltar_linea();
-          break;
-          }
-        case tPUT:{
-          inst_escribir();
-          break;
-          }
-        case tPUTLINE:{
-          inst_escribir_linea();
-          break;
-          }
-        default:
-          jj_la1[12] = jj_gen;
-          if (jj_2_2(2)) {
-            inst_invoc_proc();
-          } else {
-            switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-            case tID:{
-              inst_asignacion();
-              break;
-              }
-            case tRET:{
-              inst_return();
-              break;
-              }
-            default:
-              jj_la1[13] = jj_gen;
-              jj_consume_token(-1);
-              throw new ParseException();
-            }
-          }
-        }
-        jj_consume_token(tPC);
-      } catch (ParseException e) {
-Set<Integer> conjSinc = infoParseException(e);
-                conjSinc.add(tPC);
-                recuperacionPanico(e.currentToken.next,conjSinc);
-      }
-    } finally {
-      trace_return("inst_acaban_pc");
-    }
-}
-
-  static final public void inst_acaban_end() throws ParseException {
-    trace_call("inst_acaban_end");
-    try {
-
-      try {
-        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-        case tWHILE:{
-          inst_iteracion();
-          break;
-          }
-        case tIF:{
-          inst_seleccion();
-          break;
-          }
-        default:
-          jj_la1[14] = jj_gen;
-          jj_consume_token(-1);
-          throw new ParseException();
-        }
-        jj_consume_token(tEND);
-      } catch (ParseException e) {
-Set<Integer> conjSinc = infoParseException(e);
-                conjSinc.add(tEND);
-                recuperacionPanico(e.currentToken.next,conjSinc);
-      }
-    } finally {
-      trace_return("inst_acaban_end");
-    }
-}
-
-  static final public void inst_asignacion() throws ParseException {
-    trace_call("inst_asignacion");
-    try {
-Attributes at1 = new Attributes();
-      asignable();
-      jj_consume_token(tASIG);
-      lista_una_o_mas_exps(at1);
-    } finally {
-      trace_return("inst_asignacion");
-    }
-}
-
-  static final public void asignable() throws ParseException {
-    trace_call("asignable");
-    try {
-Attributes at = new Attributes();
-      if (jj_2_3(2)) {
-        jj_consume_token(tID);
-        jj_consume_token(tCORCHETEOPEN);
-        expresion(at);
-        jj_consume_token(tCORCHETECLOSE);
-      } else {
-        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-        case tID:{
-          jj_consume_token(tID);
-          break;
-          }
-        default:
-          jj_la1[15] = jj_gen;
-          jj_consume_token(-1);
-          throw new ParseException();
-        }
-      }
-    } finally {
-      trace_return("asignable");
-    }
-}
-
-  static final public void inst_iteracion() throws ParseException {
-    trace_call("inst_iteracion");
-    try {
-Attributes at = new Attributes();
-      jj_consume_token(tWHILE);
-      expresion(at);
-      jj_consume_token(tDO);
-      label_6:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-        case tRET:
-        case tSkL:
-        case tIF:
-        case tWHILE:
-        case tPUTLINE:
-        case tPUT:
-        case tGET:
-        case tID:{
-          ;
-          break;
-          }
-        default:
-          jj_la1[16] = jj_gen;
-          break label_6;
-        }
-        inst();
-      }
-    } finally {
-      trace_return("inst_iteracion");
-    }
-}
-
-  static final public void inst_return() throws ParseException {
-    trace_call("inst_return");
-    try {
-Attributes at = new Attributes();
-      jj_consume_token(tRET);
-      expresion(at);
-    } finally {
-      trace_return("inst_return");
-    }
-}
-
-  static final public void inst_leer() throws ParseException {
-    trace_call("inst_leer");
-    try {
-
-      try {
-        jj_consume_token(tGET);
-        jj_consume_token(tPOPEN);
-        asignable();
-        label_7:
-        while (true) {
-          switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-          case tCOMA:{
-            ;
-            break;
-            }
-          default:
-            jj_la1[17] = jj_gen;
-            break label_7;
-          }
-          jj_consume_token(tCOMA);
-          asignable();
-        }
-        jj_consume_token(tPCLOSE);
-      } catch (ParseException e) {
-Set<Integer> conjSinc = infoParseException(e);
-                conjSinc.add(tPCLOSE);
-                recuperacionPanico(e.currentToken.next,conjSinc);
-      }
-    } finally {
-      trace_return("inst_leer");
-    }
-}
-
-  static final public void inst_escribir() throws ParseException {
-    trace_call("inst_escribir");
-    try {
-Attributes at1 = new Attributes();
-      try {
-        jj_consume_token(tPUT);
-        jj_consume_token(tPOPEN);
-        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-        case tPOPEN:
-        case tNUM:
-        case tINT2CHAR:
-        case tCHAR2INT:
-        case tNOT:
-        case tTRUE:
-        case tFALSE:
-        case tSUM:
-        case tRES:
-        case tSTRING:
-        case tCARACTER:
-        case tID:{
-          lista_una_o_mas_exps(at1);
-          break;
-          }
-        default:
-          jj_la1[18] = jj_gen;
-          ;
-        }
-        jj_consume_token(tPCLOSE);
-      } catch (ParseException e) {
-Set<Integer> conjSinc = infoParseException(e);
-                conjSinc.add(tPCLOSE);
-                recuperacionPanico(e.currentToken.next,conjSinc);
-      }
-    } finally {
-      trace_return("inst_escribir");
-    }
-}
-
-  static final public void inst_escribir_linea() throws ParseException {
-    trace_call("inst_escribir_linea");
-    try {
-Attributes at1 = new Attributes();
-      try {
-        jj_consume_token(tPUTLINE);
-        jj_consume_token(tPOPEN);
-        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-        case tPOPEN:
-        case tNUM:
-        case tINT2CHAR:
-        case tCHAR2INT:
-        case tNOT:
-        case tTRUE:
-        case tFALSE:
-        case tSUM:
-        case tRES:
-        case tSTRING:
-        case tCARACTER:
-        case tID:{
-          lista_una_o_mas_exps(at1);
-          break;
-          }
-        default:
-          jj_la1[19] = jj_gen;
-          ;
-        }
-        jj_consume_token(tPCLOSE);
-      } catch (ParseException e) {
-Set<Integer> conjSinc = infoParseException(e);
-                conjSinc.add(tPCLOSE);
-                recuperacionPanico(e.currentToken.next,conjSinc);
-      }
-    } finally {
-      trace_return("inst_escribir_linea");
-    }
-}
-
-  static final public void inst_invoc_proc() throws ParseException {
-    trace_call("inst_invoc_proc");
-    try {
-Attributes at1 = new Attributes();
-      try {
-        jj_consume_token(tID);
-        jj_consume_token(tPOPEN);
-        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-        case tPOPEN:
-        case tNUM:
-        case tINT2CHAR:
-        case tCHAR2INT:
-        case tNOT:
-        case tTRUE:
-        case tFALSE:
-        case tSUM:
-        case tRES:
-        case tSTRING:
-        case tCARACTER:
-        case tID:{
-          lista_una_o_mas_exps(at1);
-          break;
-          }
-        default:
-          jj_la1[20] = jj_gen;
-          ;
-        }
-        jj_consume_token(tPCLOSE);
-      } catch (ParseException e) {
-Set<Integer> conjSinc = infoParseException(e);
-                conjSinc.add(tPCLOSE);
-                recuperacionPanico(e.currentToken.next,conjSinc);
-      }
-    } finally {
-      trace_return("inst_invoc_proc");
-    }
-}
-
-  static final public void inst_seleccion() throws ParseException {
-    trace_call("inst_seleccion");
-    try {
-Attributes at = new Attributes();
-      jj_consume_token(tIF);
-      expresion(at);
-      jj_consume_token(tTHEN);
-      label_8:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-        case tRET:
-        case tSkL:
-        case tIF:
-        case tWHILE:
-        case tPUTLINE:
-        case tPUT:
-        case tGET:
-        case tID:{
-          ;
-          break;
-          }
-        default:
-          jj_la1[21] = jj_gen;
-          break label_8;
-        }
-        inst();
-      }
-      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case tELSE:{
-        jj_consume_token(tELSE);
-        label_9:
-        while (true) {
-          switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-          case tRET:
-          case tSkL:
-          case tIF:
-          case tWHILE:
-          case tPUTLINE:
-          case tPUT:
-          case tGET:
-          case tID:{
-            ;
-            break;
-            }
-          default:
-            jj_la1[22] = jj_gen;
-            break label_9;
-          }
-          inst();
-        }
-        break;
-        }
-      default:
-        jj_la1[23] = jj_gen;
-        ;
-      }
-    } finally {
-      trace_return("inst_seleccion");
-    }
-}
-
-  static final public void inst_saltar_linea() throws ParseException {
-    trace_call("inst_saltar_linea");
-    try {
-
-      try {
-        jj_consume_token(tSkL);
-        jj_consume_token(tPOPEN);
-        jj_consume_token(tPCLOSE);
-      } catch (ParseException e) {
-Set<Integer> conjSinc = infoParseException(e);
-                conjSinc.add(tPCLOSE);
-                recuperacionPanico(e.currentToken.next,conjSinc);
-      }
-    } finally {
-      trace_return("inst_saltar_linea");
-    }
-}
-
-  static final public void lista_cero_o_mas_exps() throws ParseException {
-    trace_call("lista_cero_o_mas_exps");
-    try {
-Attributes at = new Attributes();
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case tPOPEN:
       case tNUM:
@@ -851,389 +518,493 @@ Attributes at = new Attributes();
       case tSTRING:
       case tCARACTER:
       case tID:{
-        lista_una_o_mas_exps(at);
+        lista_una_o_mas_exps(at1);
         break;
         }
       default:
-        jj_la1[24] = jj_gen;
+        jj_la1[18] = jj_gen;
         ;
       }
-    } finally {
-      trace_return("lista_cero_o_mas_exps");
-    }
-}
-
-  static final public void lista_una_o_mas_exps(Attributes at) throws ParseException {
-    trace_call("lista_una_o_mas_exps");
-    try {
-Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
-      expresion(at1);
-      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case tCOMA:{
-        at3.token = jj_consume_token(tCOMA);
-        lista_una_o_mas_exps(at2);
-        break;
-        }
-      default:
-        jj_la1[25] = jj_gen;
-        ;
-      }
-semFuncs.check2types(at1,at2,at3,at);
-    } finally {
-      trace_return("lista_una_o_mas_exps");
-    }
-}
-
-  static final public void expresion(Attributes at) throws ParseException {
-    trace_call("expresion");
-    try {
-Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
-      expresion_simple(at1);
-      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case tMAYEQ:
-      case tMENEQ:
-      case tEQ:
-      case tMAY:
-      case tMEN:
-      case tDIST:{
-        operador_relacional(at3);
-        expresion_simple(at2);
-        break;
-        }
-      default:
-        jj_la1[26] = jj_gen;
-        ;
-      }
-semFuncs.check2types(at1, at2, at3, at);
-    } finally {
-      trace_return("expresion");
-    }
-}
-
-  static final public void operador_relacional(Attributes at) throws ParseException {
-    trace_call("operador_relacional");
-    try {
-Token t;
-      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case tEQ:{
-        t = jj_consume_token(tEQ);
-at.token = t;
-        break;
-        }
-      case tMAYEQ:{
-        t = jj_consume_token(tMAYEQ);
-at.token = t;
-        break;
-        }
-      case tMENEQ:{
-        t = jj_consume_token(tMENEQ);
-at.token = t;
-        break;
-        }
-      case tMAY:{
-        t = jj_consume_token(tMAY);
-at.token = t;
-        break;
-        }
-      case tMEN:{
-        t = jj_consume_token(tMEN);
-at.token = t;
-        break;
-        }
-      case tDIST:{
-        t = jj_consume_token(tDIST);
-at.token = t;
-        break;
-        }
-      default:
-        jj_la1[27] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
-      }
-    } finally {
-      trace_return("operador_relacional");
-    }
-}
-
-  static final public void expresion_simple(Attributes at) throws ParseException {
-    trace_call("expresion_simple");
-    try {
-Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
-      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case tSUM:
-      case tRES:{
-        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-        case tRES:{
-          jj_consume_token(tRES);
-          break;
-          }
-        case tSUM:{
-          jj_consume_token(tSUM);
-          break;
-          }
-        default:
-          jj_la1[28] = jj_gen;
-          jj_consume_token(-1);
-          throw new ParseException();
-        }
-        break;
-        }
-      default:
-        jj_la1[29] = jj_gen;
-        ;
-      }
-      termino(at1);
-      label_10:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-        case tOR:
-        case tSUM:
-        case tRES:{
-          ;
-          break;
-          }
-        default:
-          jj_la1[30] = jj_gen;
-          break label_10;
-        }
-        operador_aditivo(at3);
-        termino(at2);
-      }
-semFuncs.check2typesWithOperator(at1,at2,at3,at);
-    } finally {
-      trace_return("expresion_simple");
-    }
-}
-
-  static final public void operador_aditivo(Attributes at) throws ParseException {
-    trace_call("operador_aditivo");
-    try {
-
-      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case tSUM:{
-        jj_consume_token(tSUM);
-at.type = Symbol.Types.INT;
-        break;
-        }
-      case tRES:{
-        jj_consume_token(tRES);
-at.type = Symbol.Types.INT;
-        break;
-        }
-      case tOR:{
-        jj_consume_token(tOR);
-at.type = Symbol.Types.BOOL;
-        break;
-        }
-      default:
-        jj_la1[31] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
-      }
-    } finally {
-      trace_return("operador_aditivo");
-    }
-}
-
-  static final public void termino(Attributes at) throws ParseException {
-    trace_call("termino");
-    try {
-Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
-        Token t;
-        Symbol.Types expected;
-      factor(at1);
-      label_11:
-      while (true) {
-        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-        case tAND:
-        case tMUL:
-        case tDIV:
-        case tMOD:{
-          ;
-          break;
-          }
-        default:
-          jj_la1[32] = jj_gen;
-          break label_11;
-        }
-        operador_multiplicativo(at3);
-        factor(at2);
-      }
-semFuncs.check2typesWithOperator(at1,at2,at3,at);
-    } finally {
-      trace_return("termino");
-    }
-}
-
-  static final public void operador_multiplicativo(Attributes at) throws ParseException {
-    trace_call("operador_multiplicativo");
-    try {
-Token t;
-      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case tMUL:{
-        t = jj_consume_token(tMUL);
-at.type = Symbol.Types.INT;
-                        at.token = t;
-        break;
-        }
-      case tMOD:{
-        t = jj_consume_token(tMOD);
-at.type = Symbol.Types.INT;
-                        at.token = t;
-        break;
-        }
-      case tDIV:{
-        t = jj_consume_token(tDIV);
-at.type = Symbol.Types.INT;
-                        at.token = t;
-        break;
-        }
-      case tAND:{
-        t = jj_consume_token(tAND);
-at.type = Symbol.Types.BOOL;
-                        at.token = t;
-        break;
-        }
-      default:
-        jj_la1[33] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
-      }
-    } finally {
-      trace_return("operador_multiplicativo");
-    }
-}
-
-  static final public void factor(Attributes at) throws ParseException {
-    trace_call("factor");
-    try {
-Token t;
-        Symbol s;
-        Symbol.Types tipo;
-      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case tNOT:{
-        jj_consume_token(tNOT);
-        factor(at);
-semFuncs.checkBool(at);
-        break;
-        }
-      case tPOPEN:{
-        jj_consume_token(tPOPEN);
-        expresion(at);
-        jj_consume_token(tPCLOSE);
-        break;
-        }
-      default:
-        jj_la1[34] = jj_gen;
-        if (jj_2_4(2)) {
-          factor_con_par(at);
-        } else if (jj_2_5(2)) {
-          t = jj_consume_token(tID);
-          jj_consume_token(tCORCHETEOPEN);
-          expresion(at);
-          jj_consume_token(tCORCHETECLOSE);
-semFuncs.checkArray(ts,t,at);
-        } else {
-          switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-          case tID:{
-            t = jj_consume_token(tID);
-// comprobar que está en la tabla de símbolos y asignarle el tipo;
-                        at.token = t;
-                        semFuncs.checkVariable(ts,t,at);
-            break;
-            }
-          case tNUM:{
-            t = jj_consume_token(tNUM);
-at.type = Symbol.Types.INT;
-                        at.token = t;
-            break;
-            }
-          case tCARACTER:{
-            t = jj_consume_token(tCARACTER);
-at.type = Symbol.Types.CHAR;
-                        at.token = t;
-            break;
-            }
-          case tSTRING:{
-            t = jj_consume_token(tSTRING);
-at.type = Symbol.Types.CHAR;
-                        at.token = t;
-            break;
-            }
-          case tTRUE:{
-            t = jj_consume_token(tTRUE);
-at.type = Symbol.Types.BOOL;
-                        at.token = t;
-            break;
-            }
-          case tFALSE:{
-            t = jj_consume_token(tFALSE);
-at.type = Symbol.Types.BOOL;
-                        at.token = t;
-            break;
-            }
-          default:
-            jj_la1[35] = jj_gen;
-            jj_consume_token(-1);
-            throw new ParseException();
-          }
-        }
-      }
-    } finally {
-      trace_return("factor");
-    }
-}
-
-  static final public void factor_con_par(Attributes at) throws ParseException {
-    trace_call("factor_con_par");
-    try {
-Token t;
-      try {
-        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-        case tINT2CHAR:{
-          jj_consume_token(tINT2CHAR);
-          jj_consume_token(tPOPEN);
-          expresion(at);
-          jj_consume_token(tPCLOSE);
-semFuncs.checkInt(at);
-          break;
-          }
-        case tCHAR2INT:{
-          jj_consume_token(tCHAR2INT);
-          jj_consume_token(tPOPEN);
-          expresion(at);
-          jj_consume_token(tPCLOSE);
-semFuncs.checkChar(at);
-          break;
-          }
-        default:
-          jj_la1[36] = jj_gen;
-          if (jj_2_6(2)) {
-            t = jj_consume_token(tID);
-            jj_consume_token(tPOPEN);
-            lista_cero_o_mas_exps();
-            jj_consume_token(tPCLOSE);
-// comprobar que t está en la tabla de símbolos
-                                // invocación a función
-                                at.token = t;
-          } else {
-            jj_consume_token(-1);
-            throw new ParseException();
-          }
-        }
-      } catch (ParseException e) {
+      jj_consume_token(tPCLOSE);
+    } catch (ParseException e) {
 Set<Integer> conjSinc = infoParseException(e);
                 conjSinc.add(tPCLOSE);
                 recuperacionPanico(e.currentToken.next,conjSinc);
-      }
-    } finally {
-      trace_return("factor_con_par");
     }
 }
 
-  static Set<Integer> infoParseException(ParseException e) throws ParseException {
-    trace_call("infoParseException");
-    try {Set<Integer> esperados = new HashSet<Integer>();
+  static final public void inst_escribir_linea() throws ParseException {Attributes at1 = new Attributes();
+    try {
+      jj_consume_token(tPUTLINE);
+      jj_consume_token(tPOPEN);
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tPOPEN:
+      case tNUM:
+      case tINT2CHAR:
+      case tCHAR2INT:
+      case tNOT:
+      case tTRUE:
+      case tFALSE:
+      case tSUM:
+      case tRES:
+      case tSTRING:
+      case tCARACTER:
+      case tID:{
+        lista_una_o_mas_exps(at1);
+        break;
+        }
+      default:
+        jj_la1[19] = jj_gen;
+        ;
+      }
+      jj_consume_token(tPCLOSE);
+    } catch (ParseException e) {
+Set<Integer> conjSinc = infoParseException(e);
+                conjSinc.add(tPCLOSE);
+                recuperacionPanico(e.currentToken.next,conjSinc);
+    }
+}
+
+  static final public void inst_invoc_proc() throws ParseException {Attributes at1 = new Attributes();
+    try {
+      jj_consume_token(tID);
+      jj_consume_token(tPOPEN);
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tPOPEN:
+      case tNUM:
+      case tINT2CHAR:
+      case tCHAR2INT:
+      case tNOT:
+      case tTRUE:
+      case tFALSE:
+      case tSUM:
+      case tRES:
+      case tSTRING:
+      case tCARACTER:
+      case tID:{
+        lista_una_o_mas_exps(at1);
+        break;
+        }
+      default:
+        jj_la1[20] = jj_gen;
+        ;
+      }
+      jj_consume_token(tPCLOSE);
+    } catch (ParseException e) {
+Set<Integer> conjSinc = infoParseException(e);
+                conjSinc.add(tPCLOSE);
+                recuperacionPanico(e.currentToken.next,conjSinc);
+    }
+}
+
+  static final public void inst_seleccion() throws ParseException {Attributes at = new Attributes();
+    jj_consume_token(tIF);
+    expresion(at);
+    jj_consume_token(tTHEN);
+    label_8:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tRET:
+      case tSkL:
+      case tIF:
+      case tWHILE:
+      case tPUTLINE:
+      case tPUT:
+      case tGET:
+      case tID:{
+        ;
+        break;
+        }
+      default:
+        jj_la1[21] = jj_gen;
+        break label_8;
+      }
+      inst();
+    }
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case tELSE:{
+      jj_consume_token(tELSE);
+      label_9:
+      while (true) {
+        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+        case tRET:
+        case tSkL:
+        case tIF:
+        case tWHILE:
+        case tPUTLINE:
+        case tPUT:
+        case tGET:
+        case tID:{
+          ;
+          break;
+          }
+        default:
+          jj_la1[22] = jj_gen;
+          break label_9;
+        }
+        inst();
+      }
+      break;
+      }
+    default:
+      jj_la1[23] = jj_gen;
+      ;
+    }
+}
+
+  static final public void inst_saltar_linea() throws ParseException {
+    try {
+      jj_consume_token(tSkL);
+      jj_consume_token(tPOPEN);
+      jj_consume_token(tPCLOSE);
+    } catch (ParseException e) {
+Set<Integer> conjSinc = infoParseException(e);
+                conjSinc.add(tPCLOSE);
+                recuperacionPanico(e.currentToken.next,conjSinc);
+    }
+}
+
+  static final public void lista_cero_o_mas_exps() throws ParseException {Attributes at = new Attributes();
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case tPOPEN:
+    case tNUM:
+    case tINT2CHAR:
+    case tCHAR2INT:
+    case tNOT:
+    case tTRUE:
+    case tFALSE:
+    case tSUM:
+    case tRES:
+    case tSTRING:
+    case tCARACTER:
+    case tID:{
+      lista_una_o_mas_exps(at);
+      break;
+      }
+    default:
+      jj_la1[24] = jj_gen;
+      ;
+    }
+}
+
+  static final public void lista_una_o_mas_exps(Attributes at) throws ParseException {Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
+    expresion(at1);
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case tCOMA:{
+      at3.token = jj_consume_token(tCOMA);
+      lista_una_o_mas_exps(at2);
+      break;
+      }
+    default:
+      jj_la1[25] = jj_gen;
+      ;
+    }
+}
+
+  static final public void expresion(Attributes at) throws ParseException {Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
+    expresion_simple(at1);
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case tMAYEQ:
+    case tMENEQ:
+    case tEQ:
+    case tMAY:
+    case tMEN:
+    case tDIST:{
+      operador_relacional(at3);
+      expresion_simple(at2);
+      break;
+      }
+    default:
+      jj_la1[26] = jj_gen;
+      ;
+    }
+semFuncs.check2typesWithRelationalOperator(at1, at2, at3, at);
+}
+
+  static final public void operador_relacional(Attributes at) throws ParseException {Token t;
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case tEQ:{
+      t = jj_consume_token(tEQ);
+at.token = t;
+      break;
+      }
+    case tMAYEQ:{
+      t = jj_consume_token(tMAYEQ);
+at.token = t;
+      break;
+      }
+    case tMENEQ:{
+      t = jj_consume_token(tMENEQ);
+at.token = t;
+      break;
+      }
+    case tMAY:{
+      t = jj_consume_token(tMAY);
+at.token = t;
+      break;
+      }
+    case tMEN:{
+      t = jj_consume_token(tMEN);
+at.token = t;
+      break;
+      }
+    case tDIST:{
+      t = jj_consume_token(tDIST);
+at.token = t;
+      break;
+      }
+    default:
+      jj_la1[27] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+}
+
+  static final public void expresion_simple(Attributes at) throws ParseException {Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case tSUM:
+    case tRES:{
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tRES:{
+        jj_consume_token(tRES);
+        break;
+        }
+      case tSUM:{
+        jj_consume_token(tSUM);
+        break;
+        }
+      default:
+        jj_la1[28] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+      break;
+      }
+    default:
+      jj_la1[29] = jj_gen;
+      ;
+    }
+    termino(at1);
+    label_10:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tOR:
+      case tSUM:
+      case tRES:{
+        ;
+        break;
+        }
+      default:
+        jj_la1[30] = jj_gen;
+        break label_10;
+      }
+      operador_aditivo(at3);
+      termino(at2);
+    }
+semFuncs.check2typesWithOperator(at1,at2,at3,at);
+}
+
+  static final public void operador_aditivo(Attributes at) throws ParseException {Token t;
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case tSUM:{
+      t = jj_consume_token(tSUM);
+at.type = Symbol.Types.INT;
+                        at.token = t;
+      break;
+      }
+    case tRES:{
+      t = jj_consume_token(tRES);
+at.type = Symbol.Types.INT;
+                        at.token = t;
+      break;
+      }
+    case tOR:{
+      t = jj_consume_token(tOR);
+at.type = Symbol.Types.BOOL;
+                        at.token = t;
+      break;
+      }
+    default:
+      jj_la1[31] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+}
+
+  static final public void termino(Attributes at) throws ParseException {Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
+        Token t;
+        Symbol.Types expected;
+    factor(at1);
+    label_11:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tAND:
+      case tMUL:
+      case tDIV:
+      case tMOD:{
+        ;
+        break;
+        }
+      default:
+        jj_la1[32] = jj_gen;
+        break label_11;
+      }
+      operador_multiplicativo(at3);
+      factor(at2);
+    }
+semFuncs.check2typesWithOperator(at1,at2,at3,at);
+}
+
+  static final public void operador_multiplicativo(Attributes at) throws ParseException {Token t;
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case tMUL:{
+      t = jj_consume_token(tMUL);
+at.type = Symbol.Types.INT;
+                        at.token = t;
+      break;
+      }
+    case tMOD:{
+      t = jj_consume_token(tMOD);
+at.type = Symbol.Types.INT;
+                        at.token = t;
+      break;
+      }
+    case tDIV:{
+      t = jj_consume_token(tDIV);
+at.type = Symbol.Types.INT;
+                        at.token = t;
+      break;
+      }
+    case tAND:{
+      t = jj_consume_token(tAND);
+at.type = Symbol.Types.BOOL;
+                        at.token = t;
+      break;
+      }
+    default:
+      jj_la1[33] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
+}
+
+  static final public void factor(Attributes at) throws ParseException {Token t;
+        Symbol s;
+        Symbol.Types tipo;
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case tNOT:{
+      jj_consume_token(tNOT);
+      factor(at);
+semFuncs.checkBool(at);
+      break;
+      }
+    case tPOPEN:{
+      jj_consume_token(tPOPEN);
+      expresion(at);
+      jj_consume_token(tPCLOSE);
+      break;
+      }
+    default:
+      jj_la1[34] = jj_gen;
+      if (jj_2_4(2)) {
+        factor_con_par(at);
+      } else if (jj_2_5(2)) {
+        t = jj_consume_token(tID);
+        jj_consume_token(tCORCHETEOPEN);
+        expresion(at);
+        jj_consume_token(tCORCHETECLOSE);
+semFuncs.checkArray(ts,t,at);
+      } else {
+        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+        case tID:{
+          t = jj_consume_token(tID);
+// comprobar que está en la tabla de símbolos y asignarle el tipo;
+                        at.token = t;
+                        semFuncs.checkVariable(ts,t,at);
+          break;
+          }
+        case tNUM:{
+          t = jj_consume_token(tNUM);
+at.type = Symbol.Types.INT;
+                        at.token = t;
+          break;
+          }
+        case tCARACTER:{
+          t = jj_consume_token(tCARACTER);
+at.type = Symbol.Types.CHAR;
+                        at.token = t;
+          break;
+          }
+        case tSTRING:{
+          t = jj_consume_token(tSTRING);
+at.type = Symbol.Types.CHAR;
+                        at.token = t;
+          break;
+          }
+        case tTRUE:{
+          t = jj_consume_token(tTRUE);
+at.type = Symbol.Types.BOOL;
+                        at.token = t;
+          break;
+          }
+        case tFALSE:{
+          t = jj_consume_token(tFALSE);
+at.type = Symbol.Types.BOOL;
+                        at.token = t;
+          break;
+          }
+        default:
+          jj_la1[35] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
+      }
+    }
+}
+
+  static final public void factor_con_par(Attributes at) throws ParseException {Token t;
+    try {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case tINT2CHAR:{
+        jj_consume_token(tINT2CHAR);
+        jj_consume_token(tPOPEN);
+        expresion(at);
+        jj_consume_token(tPCLOSE);
+semFuncs.checkInt(at);
+        break;
+        }
+      case tCHAR2INT:{
+        jj_consume_token(tCHAR2INT);
+        jj_consume_token(tPOPEN);
+        expresion(at);
+        jj_consume_token(tPCLOSE);
+semFuncs.checkChar(at);
+        break;
+        }
+      default:
+        jj_la1[36] = jj_gen;
+        if (jj_2_6(2)) {
+          t = jj_consume_token(tID);
+          jj_consume_token(tPOPEN);
+          lista_cero_o_mas_exps();
+          jj_consume_token(tPCLOSE);
+// comprobar que t está en la tabla de símbolos
+                                // invocación a función
+                                at.token = t;
+                                semFuncs.checkFunction(ts,t,at);
+        } else {
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
+      }
+    } catch (ParseException e) {
+Set<Integer> conjSinc = infoParseException(e);
+                conjSinc.add(tPCLOSE);
+                recuperacionPanico(e.currentToken.next,conjSinc);
+    }
+}
+
+  static Set<Integer> infoParseException(ParseException e) throws ParseException {Set<Integer> esperados = new HashSet<Integer>();
         System.err.println("ERROR SINT: ('" + e.currentToken.next.image + "'," + e.currentToken.next.beginLine + "," + e.currentToken.next.beginColumn + ")");
         System.err.println("Se esperaba uno de los siguientes tokens:");
         for (int i = 0; i < e.expectedTokenSequences.length ; i++){
@@ -1241,22 +1012,14 @@ Set<Integer> conjSinc = infoParseException(e);
                 System.err.println("\t" + adacConstants.tokenImage[e.expectedTokenSequences[i][0]]);
         }
         return esperados;
-    } finally {
-      trace_return("infoParseException");
-    }
   }
 
-  static void recuperacionPanico(Token tInesperado, Set<Integer> conjSinc) throws ParseException {
-    trace_call("recuperacionPanico");
-    try {System.err.println("----> Recupero modo p\u00e1nico: " + "\n----> Saltando todo hasta token de conjunto de sincronizaci\u00f3n");
+  static void recuperacionPanico(Token tInesperado, Set<Integer> conjSinc) throws ParseException {System.err.println("----> Recupero modo p\u00e1nico: " + "\n----> Saltando todo hasta token de conjunto de sincronizaci\u00f3n");
         Token t = getNextToken();
         while(!conjSinc.contains(t.kind) && t.kind != EOF){
                 System.err.println("Descartando token (" + adacConstants.tokenImage[t.kind] + "," + t.image + ")");
                 t = getNextToken();
         }
-    } finally {
-      trace_return("recuperacionPanico");
-    }
   }
 
   static private boolean jj_2_1(int xla)
@@ -1307,58 +1070,23 @@ Set<Integer> conjSinc = infoParseException(e);
     finally { jj_save(5, xla); }
   }
 
-  static private boolean jj_3R_factor_con_par_725_9_13()
- {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_factor_con_par_726_17_14()) {
-    jj_scanpos = xsp;
-    if (jj_3R_factor_con_par_730_25_15()) {
-    jj_scanpos = xsp;
-    if (jj_3_6()) return true;
-    }
-    }
-    return false;
-  }
-
   static private boolean jj_3_2()
  {
-    if (jj_3R_inst_invoc_proc_504_5_12()) return true;
+    if (jj_3R_inst_invoc_proc_515_5_12()) return true;
     return false;
   }
 
-  static private boolean jj_3R_factor_con_par_730_25_15()
- {
-    if (jj_scan_token(tCHAR2INT)) return true;
-    if (jj_scan_token(tPOPEN)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_factor_con_par_726_17_14()
+  static private boolean jj_3R_factor_con_par_737_17_14()
  {
     if (jj_scan_token(tINT2CHAR)) return true;
     if (jj_scan_token(tPOPEN)) return true;
     return false;
   }
 
-  static private boolean jj_3_1()
- {
-    if (jj_scan_token(tID)) return true;
-    if (jj_scan_token(tCORCHETEOPEN)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_inst_invoc_proc_504_5_12()
+  static private boolean jj_3R_inst_invoc_proc_515_5_12()
  {
     if (jj_scan_token(tID)) return true;
     if (jj_scan_token(tPOPEN)) return true;
-    return false;
-  }
-
-  static private boolean jj_3_3()
- {
-    if (jj_scan_token(tID)) return true;
-    if (jj_scan_token(tCORCHETEOPEN)) return true;
     return false;
   }
 
@@ -1371,7 +1099,7 @@ Set<Integer> conjSinc = infoParseException(e);
 
   static private boolean jj_3_4()
  {
-    if (jj_3R_factor_con_par_725_9_13()) return true;
+    if (jj_3R_factor_con_par_736_9_13()) return true;
     return false;
   }
 
@@ -1379,6 +1107,41 @@ Set<Integer> conjSinc = infoParseException(e);
  {
     if (jj_scan_token(tID)) return true;
     if (jj_scan_token(tPOPEN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_factor_con_par_736_9_13()
+ {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_factor_con_par_737_17_14()) {
+    jj_scanpos = xsp;
+    if (jj_3R_factor_con_par_741_25_15()) {
+    jj_scanpos = xsp;
+    if (jj_3_6()) return true;
+    }
+    }
+    return false;
+  }
+
+  static private boolean jj_3R_factor_con_par_741_25_15()
+ {
+    if (jj_scan_token(tCHAR2INT)) return true;
+    if (jj_scan_token(tPOPEN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_3()
+ {
+    if (jj_scan_token(tID)) return true;
+    if (jj_scan_token(tCORCHETEOPEN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_1()
+ {
+    if (jj_scan_token(tID)) return true;
+    if (jj_scan_token(tCORCHETEOPEN)) return true;
     return false;
   }
 
@@ -1411,9 +1174,6 @@ Set<Integer> conjSinc = infoParseException(e);
   static private boolean jj_rescan = false;
   static private int jj_gc = 0;
 
-  {
-      enable_tracing();
-  }
   /** Constructor with InputStream. */
   public adac(java.io.InputStream stream) {
 	  this(stream, null);
@@ -1532,7 +1292,6 @@ Set<Integer> conjSinc = infoParseException(e);
 		   }
 		 }
 	   }
-	   trace_token(token, "");
 	   return token;
 	 }
 	 token = oldToken;
@@ -1576,7 +1335,6 @@ Set<Integer> conjSinc = infoParseException(e);
 	 else token = token.next = token_source.getNextToken();
 	 jj_ntk = -1;
 	 jj_gen++;
-	   trace_token(token, " (in getNextToken)");
 	 return token;
   }
 
@@ -1685,53 +1443,12 @@ Set<Integer> conjSinc = infoParseException(e);
 	 return trace_enabled;
   }
 
-  static private int trace_indent = 0;
-/** Enable tracing. */
+  /** Enable tracing. */
   static final public void enable_tracing() {
-	 trace_enabled = true;
   }
 
-/** Disable tracing. */
+  /** Disable tracing. */
   static final public void disable_tracing() {
-	 trace_enabled = false;
-  }
-
-  static protected void trace_call(String s) {
-	 if (trace_enabled) {
-	   for (int i = 0; i < trace_indent; i++) { System.out.print(" "); }
-	   System.out.println("Call:	" + s);
-	 }
-	 trace_indent = trace_indent + 2;
-  }
-
-  static protected void trace_return(String s) {
-	 trace_indent = trace_indent - 2;
-	 if (trace_enabled) {
-	   for (int i = 0; i < trace_indent; i++) { System.out.print(" "); }
-	   System.out.println("Return: " + s);
-	 }
-  }
-
-  static protected void trace_token(Token t, String where) {
-	 if (trace_enabled) {
-	   for (int i = 0; i < trace_indent; i++) { System.out.print(" "); }
-	   System.out.print("Consumed token: <" + tokenImage[t.kind]);
-	   if (t.kind != 0 && !tokenImage[t.kind].equals("\"" + t.image + "\"")) {
-		 System.out.print(": \"" + TokenMgrError.addEscapes(t.image) + "\"");
-	   }
-	   System.out.println(" at line " + t.beginLine + " column " + t.beginColumn + ">" + where);
-	 }
-  }
-
-  static protected void trace_scan(Token t1, int t2) {
-	 if (trace_enabled) {
-	   for (int i = 0; i < trace_indent; i++) { System.out.print(" "); }
-	   System.out.print("Visited token: <" + tokenImage[t1.kind]);
-	   if (t1.kind != 0 && !tokenImage[t1.kind].equals("\"" + t1.image + "\"")) {
-		 System.out.print(": \"" + TokenMgrError.addEscapes(t1.image) + "\"");
-	   }
-	   System.out.println(" at line " + t1.beginLine + " column " + t1.beginColumn + ">; Expected token: <" + tokenImage[t2] + ">");
-	 }
   }
 
   static private void jj_rescan_token() {
