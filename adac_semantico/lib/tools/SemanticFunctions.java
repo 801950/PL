@@ -13,6 +13,7 @@ import java.util.*;
 import traductor.Token;
 import lib.attributes.*;
 import lib.symbolTable.*;
+import lib.symbolTable.Symbol.Types;
 import lib.symbolTable.exceptions.*;
 import lib.errores.*;
 
@@ -24,40 +25,67 @@ public class SemanticFunctions {
 	}
 
 	public void checkInt(Attributes at){
+	//	System.err.println("CheckInt");
 		if(at.type != Symbol.Types.INT){
-			errSem.deteccion("Tipo esperado: INT", null);
+			errSem.deteccion("Tipo esperado: INT", at.token);
 		}
 	}
 
 	public void checkBool(Attributes at) {
+	//	System.err.println("CheckBool");
 		if(at.type != Symbol.Types.BOOL){
-			errSem.deteccion("Tipo esperado: boolean",null);
+			errSem.deteccion("Tipo esperado: boolean",at.token);
 		}
 	}
 
 	public void checkChar(Attributes at) {
+	//	System.err.println("CheckChar");
 		if(at.type != Symbol.Types.CHAR){
-			errSem.deteccion("Tipo esperado: char",null);
+			errSem.deteccion("Tipo esperado: char",at.token);
 		}
 	}
 
-	public void check2types(Attributes at1, Attributes at2, Attributes at){
-		if((at2.type != null && at1.type == at2.type) || at2.type == null){
+	public void check2types(Attributes at1, Attributes at2, Attributes at3, Attributes at){
+	//	System.err.println("check2types");
+		if(at2.type == null || (at2.type != null && at1.type.equals(at2.type))){
+		//	System.err.println("	1 componente");
 			at.type = at1.type;
+			at.token = at1.token;
 		} else {
-			errSem.deteccion("Tipos incorrectos",null);
+		//	System.err.println("	" + at2.type);
+			at.type = Symbol.Types.UNDEFINED;
+			at.token = new Token(at1.token.kind);
+			at.token.beginLine = at1.token.beginLine;
+			at.token.beginColumn = at1.token.beginColumn;
+			at.token.endLine = at2.token.endLine;
+			at.token.endColumn = at2.token.endColumn;
+			at.token.image = at1.token.image + " " + at3.token.image + " " + at2.token.image;
+			errSem.deteccion("Tipos incorrectos",at.token);
 		}
 	}
 
 	public void check2typesWithOperator(Attributes at1, Attributes at2, Attributes at3, Attributes at) {
-		if((at1.type != at3.type || at2.type != at3.type) && at3.type != null){
-			errSem.deteccion("Tipos incorrectos", null);
+	//	System.err.println("check2typesWithOperator");
+	//	System.err.println(at1.type == null);
+		if(at3.type != null && at2.type != null && (at1.type != at3.type|| at2.type != at3.type)){
+	//		System.err.println("	" + at2.type + " " + at3.type);
+			at.type = Symbol.Types.UNDEFINED;
+			at.token = new Token(at1.token.kind);
+			at.token.beginLine = at1.token.beginLine;
+			at.token.beginColumn = at1.token.beginColumn;
+			at.token.endLine = at2.token.endLine;
+			at.token.endColumn = at2.token.endColumn;
+			at.token.image = at1.token.image + " " + at3.token.image + " " + at2.token.image;
+			errSem.deteccion("Tipos incorrectos", at.token);
 		} else { 
+		//	System.err.println("	" + at1.type);
 			at.type = at1.type;
+			at.token = at1.token;
 		}
 	}
 
 	public void checkArray(SymbolTable ts, Token t, Attributes at){
+	//	System.err.println("checkArray");
 		Symbol s;
 		try {
 			s = ts.getSymbol(t.image);
@@ -75,11 +103,13 @@ public class SemanticFunctions {
 	}
 
 	public void checkVariable(SymbolTable ts, Token t, Attributes at){
+	//	System.err.println("checkVariable");
 		Symbol s;
 		try {
 			s = ts.getSymbol(t.image);
 			at.type = s.type;
 		} catch(SymbolNotFoundException e) {
+			at.type = Types.UNDEFINED;
 			errSem.deteccion(e, t);
 		}
 	}

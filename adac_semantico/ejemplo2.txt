@@ -2,7 +2,7 @@
 procedure cambio_base is
 integer num, base;
 integer enB;
-integer x[3+2];
+integer x[3];
 
 --cesar := -10;
 --char x;
@@ -16,7 +16,8 @@ begin
   if x > y then return (y); else return (x); end
 end
 
-procedure escrib_vect (val boolean v[101]) is
+procedure escrib_vect (val boolean v[101]; ref integer n) is
+    integer i,n;
 begin
     while i <= n do
         i := i + 1;
@@ -24,12 +25,12 @@ begin
 end
 begin
     x := true;
-    y := 8;
+    y := a;
     z := -654;
     m := 's';
     get (dato);
     put("hola nerea");
-    put_line ("fib(", i,") = ", fn;
+ --   put_line ("fib(", i,") = ", fn;
     dato (n,"lslsk",7+9*5div 874);
     return -min(5,-9);
 end

@@ -7,7 +7,7 @@
 //*****************************************************************
 
 options {
-   DEBUG_PARSER = false;
+   DEBUG_PARSER = true;
 }
 
 PARSER_BEGIN(adac)
@@ -25,7 +25,7 @@ import lib.tools.*;
 public class adac {
 
 	static SymbolTable ts = new SymbolTable();
-	static ErrorSemantico err =  new ErrorSemantico();
+//	static ErrorSemantico err =  new ErrorSemantico();
 	static SemanticFunctions semFuncs = new SemanticFunctions();
 
     public static void main(String[] args) {
@@ -414,12 +414,12 @@ void inst_acaban_end():
 
 void inst_asignacion():
 {
-
+	Attributes at1 = new Attributes();
 }
 {
 	asignable()
 	<tASIG>
-	lista_una_o_mas_exps()
+	lista_una_o_mas_exps(at1)
 }
 
 void asignable():
@@ -468,11 +468,11 @@ void inst_leer():
 
 void inst_escribir():
 {
-
+	Attributes at1 = new Attributes();
 }
 {
     try {
-		<tPUT> <tPOPEN> (lista_una_o_mas_exps())?
+		<tPUT> <tPOPEN> (lista_una_o_mas_exps(at1))?
     	<tPCLOSE>
 	} catch(ParseException e){
 		Set<Integer> conjSinc = infoParseException(e);
@@ -483,11 +483,11 @@ void inst_escribir():
 
 void inst_escribir_linea():
 {
-
+	Attributes at1 = new Attributes();
 }
 {
     try {
-		<tPUTLINE> <tPOPEN> (lista_una_o_mas_exps())?
+		<tPUTLINE> <tPOPEN> (lista_una_o_mas_exps(at1))?
     	<tPCLOSE>
 	} catch(ParseException e) {
 		Set<Integer> conjSinc = infoParseException(e);
@@ -498,11 +498,11 @@ void inst_escribir_linea():
 
 void inst_invoc_proc():
 {
-
+	Attributes at1 = new Attributes();
 }
 {
     try {
-		<tID> <tPOPEN> (lista_una_o_mas_exps())? <tPCLOSE>
+		<tID> <tPOPEN> (lista_una_o_mas_exps(at1))? <tPCLOSE>
 	} catch (ParseException e){
 		Set<Integer> conjSinc = infoParseException(e);
 		conjSinc.add(tPCLOSE);
@@ -534,17 +534,21 @@ void inst_saltar_linea():
 
 void lista_cero_o_mas_exps():
 {
+	Attributes at = new Attributes();
 }
 {
-	( lista_una_o_mas_exps() )?
+	( lista_una_o_mas_exps(at) )?
 }
 
-void lista_una_o_mas_exps():
+void lista_una_o_mas_exps(Attributes at):
 {
-	Attributes at1 = new Attributes();
+	Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
 }
 {
-	expresion(at1) (<tCOMA> lista_una_o_mas_exps())?
+	expresion(at1) (at3.token = <tCOMA> lista_una_o_mas_exps(at2))?
+		{
+			semFuncs.check2types(at1,at2,at3,at);
+		}
 }
 
 void expresion(Attributes at):
@@ -552,23 +556,41 @@ void expresion(Attributes at):
 	Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
 }
 {
-	expresion_simple(at1) ( operador_relacional() expresion_simple(at2) )?
+	expresion_simple(at1) ( operador_relacional(at3) expresion_simple(at2) )?
 		{
-			semFuncs.check2types(at1, at2, at);
+			semFuncs.check2types(at1, at2, at3, at);
 		}
 }
 
-void operador_relacional():
+void operador_relacional(Attributes at):
 {
-
+	Token t;
 }
 {
-	<tEQ>
-|	<tMAYEQ>
-|	<tMENEQ>
-|	<tMAY>
-|	<tMEN>
-|	<tDIST>
+	t = <tEQ>
+		{
+			at.token = t;
+		}
+|	t = <tMAYEQ>
+		{
+			at.token = t;
+		}
+|	t = <tMENEQ>
+		{
+			at.token = t;
+		}
+|	t = <tMAY>
+		{
+			at.token = t;
+		}
+|	t = <tMEN>
+		{
+			at.token = t;
+		}
+|	t = <tDIST>
+		{
+			at.token = t;
+		}
 }
 
 void expresion_simple(Attributes at):
@@ -618,24 +640,28 @@ void termino(Attributes at):
 
 void operador_multiplicativo(Attributes at):
 {
-	
+	Token t;
 }
 {
-	<tMUL>
+	t = <tMUL>
 		{
 			at.type = Symbol.Types.INT;
+			at.token = t;
 		}
-|	<tMOD>
+|	t = <tMOD>
 		{
 			at.type = Symbol.Types.INT;
+			at.token = t;
 		}
-|	<tDIV>
+|	t = <tDIV>
 		{
 			at.type = Symbol.Types.INT;
+			at.token = t;
 		}
-|	<tAND>
+|	t = <tAND>
 		{
 			at.type = Symbol.Types.BOOL;
+			at.token = t;
 		}
 }
 
@@ -660,27 +686,34 @@ void factor(Attributes at):
 		}
 |	t = <tID>
 		{
-			
+			// comprobar que está en la tabla de símbolos y asignarle el tipo;
+			at.token = t;
+			semFuncs.checkVariable(ts,t,at);
 		}
-| 	<tNUM>
+| 	t = <tNUM>
 		{
 			at.type = Symbol.Types.INT;
+			at.token = t;
 		}
-| 	<tCARACTER>
+| 	t = <tCARACTER>
 		{
 			at.type = Symbol.Types.CHAR;
+			at.token = t;
 		}
-| 	<tSTRING>
+| 	t = <tSTRING>
 		{
 			at.type = Symbol.Types.CHAR;
+			at.token = t;
 		}
-| 	<tTRUE>
+| 	t = <tTRUE>
 		{
 			at.type = Symbol.Types.BOOL;
+			at.token = t;
 		}
-| 	<tFALSE>
+| 	t = <tFALSE>
 		{
 			at.type = Symbol.Types.BOOL;
+			at.token = t;
 		}
 }
 
@@ -699,6 +732,11 @@ void factor_con_par(Attributes at):
 				semFuncs.checkChar(at);
 			}
 		|	LOOKAHEAD(2) t = <tID> <tPOPEN> lista_cero_o_mas_exps() <tPCLOSE>
+			{
+				// comprobar que t está en la tabla de símbolos
+				// invocación a función
+				at.token = t;
+			}
 	} catch(ParseException e){
 		Set<Integer> conjSinc = infoParseException(e);
 		conjSinc.add(tPCLOSE);

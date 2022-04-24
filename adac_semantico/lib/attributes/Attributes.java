@@ -11,6 +11,7 @@ package lib.attributes;
 import lib.symbolTable.*;
 import java.util.ArrayList;
 import java.util.AbstractMap.SimpleEntry;
+import traductor.Token;
 
 public class Attributes implements Cloneable {
     public Symbol.Types type;
@@ -21,6 +22,8 @@ public class Attributes implements Cloneable {
     public char valChar;
     public String valString;
     //COMPLETAR
+
+    public Token token;
 
     public Attributes(){
         type = null;
