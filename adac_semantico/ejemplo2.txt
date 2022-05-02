@@ -5,7 +5,7 @@ integer num, base;
 integer enB;
 boolean x[5];
 character y,m;
-integer z,fn,a,i;
+integer z,fn,a,i[7];
 
 --cesar := -10;
 --char x;
@@ -29,12 +29,13 @@ begin
     end
 end
 begin
-    x := true;
-    y := a;
-    z := -654;
+    --x := true;
     m := 's';
+    y := m;
+    z := -654;
 
-    x[1] := 7;
+    --x[1] := 7;
+    get(i[1]);
     put("hola nerea");
     put_line ("fib(", i,") = ", fn);
     dato (m,"lslsk",7+9*5div 874);

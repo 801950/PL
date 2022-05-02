@@ -47,7 +47,8 @@ public class Attributes implements Cloneable {
     public String toString() {
         return
             "type = " + type + "\n" +
-            "parClass = " + parClass + "\n" ;
+            "parClass = " + parClass + "\n" +
+            "token = " + token.image + "\n" ;
             //COMPLETAR
         
     }

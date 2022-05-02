@@ -446,6 +446,7 @@ semFuncs.checkAsignable(ts,t,at);
   static final public void inst_iteracion() throws ParseException {Attributes at = new Attributes();
     jj_consume_token(tWHILE);
     expresion(at);
+semFuncs.checkBool(at);
     jj_consume_token(tDO);
     label_6:
     while (true) {
@@ -494,6 +495,7 @@ semFuncs.checkAsignable(ts,t,at);
         asignable(at2);
       }
       jj_consume_token(tPCLOSE);
+semFuncs.checkAsignableGet(at1,at2);
     } catch (ParseException e) {
 Set<Integer> conjSinc = infoParseException(e);
                 conjSinc.add(tPCLOSE);
@@ -1072,18 +1074,11 @@ Set<Integer> conjSinc = infoParseException(e);
 
   static private boolean jj_3_2()
  {
-    if (jj_3R_inst_invoc_proc_515_5_12()) return true;
+    if (jj_3R_inst_invoc_proc_521_5_12()) return true;
     return false;
   }
 
-  static private boolean jj_3R_factor_con_par_737_17_14()
- {
-    if (jj_scan_token(tINT2CHAR)) return true;
-    if (jj_scan_token(tPOPEN)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_inst_invoc_proc_515_5_12()
+  static private boolean jj_3R_inst_invoc_proc_521_5_12()
  {
     if (jj_scan_token(tID)) return true;
     if (jj_scan_token(tPOPEN)) return true;
@@ -1099,7 +1094,7 @@ Set<Integer> conjSinc = infoParseException(e);
 
   static private boolean jj_3_4()
  {
-    if (jj_3R_factor_con_par_736_9_13()) return true;
+    if (jj_3R_factor_con_par_742_9_13()) return true;
     return false;
   }
 
@@ -1110,13 +1105,13 @@ Set<Integer> conjSinc = infoParseException(e);
     return false;
   }
 
-  static private boolean jj_3R_factor_con_par_736_9_13()
+  static private boolean jj_3R_factor_con_par_742_9_13()
  {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_factor_con_par_737_17_14()) {
+    if (jj_3R_factor_con_par_743_17_14()) {
     jj_scanpos = xsp;
-    if (jj_3R_factor_con_par_741_25_15()) {
+    if (jj_3R_factor_con_par_747_25_15()) {
     jj_scanpos = xsp;
     if (jj_3_6()) return true;
     }
@@ -1124,7 +1119,7 @@ Set<Integer> conjSinc = infoParseException(e);
     return false;
   }
 
-  static private boolean jj_3R_factor_con_par_741_25_15()
+  static private boolean jj_3R_factor_con_par_747_25_15()
  {
     if (jj_scan_token(tCHAR2INT)) return true;
     if (jj_scan_token(tPOPEN)) return true;
@@ -1142,6 +1137,13 @@ Set<Integer> conjSinc = infoParseException(e);
  {
     if (jj_scan_token(tID)) return true;
     if (jj_scan_token(tCORCHETEOPEN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_factor_con_par_743_17_14()
+ {
+    if (jj_scan_token(tINT2CHAR)) return true;
+    if (jj_scan_token(tPOPEN)) return true;
     return false;
   }
 

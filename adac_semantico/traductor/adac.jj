@@ -451,6 +451,9 @@ void inst_iteracion():
 {
 	<tWHILE>
 	expresion(at)
+		{
+			semFuncs.checkBool(at);
+		}
 	<tDO>
 	(inst())*
 }
@@ -470,6 +473,9 @@ void inst_leer():
 {
 	try {
 		<tGET> <tPOPEN> asignable(at1) (<tCOMA> asignable(at2))* <tPCLOSE>
+			{
+				semFuncs.checkAsignableGet(at1,at2);
+			}
 	} catch(ParseException e){
 		Set<Integer> conjSinc = infoParseException(e);
 		conjSinc.add(tPCLOSE);

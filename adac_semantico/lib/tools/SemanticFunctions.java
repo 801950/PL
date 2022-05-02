@@ -188,6 +188,7 @@ public class SemanticFunctions {
 	public void checkAsignable(SymbolTable ts, Token t, Attributes at){
 		Symbol s;
 		at.token = t;
+//		System.out.println("Check asignable");
 		try{
 			s = ts.getSymbol(t.image);
 			if(s.type == Symbol.Types.ARRAY){
@@ -199,9 +200,20 @@ public class SemanticFunctions {
 			} else {
 				at.type = s.type;
 			}
+	//		System.out.println(at);
 		} catch (SymbolNotFoundException e){
 			at.type = Types.UNDEFINED;
 			errSem.deteccion(e, t);
+		}
+	}
+
+	public void checkAsignableGet(Attributes at1, Attributes at2){
+//		System.out.println("Check get");
+
+		if(at1.type == null || (at1.type != Symbol.Types.INT && at1.type != Symbol.Types.CHAR)){
+			errSem.deteccion("Tipo no asignable para la funcion get()", at1.token);
+		} else if (at2.type != null && (at2.type != Symbol.Types.INT && at2.type != Symbol.Types.CHAR)){
+			errSem.deteccion("Tipo no asignable para la funcion get()", at2.token);
 		}
 	}
 
