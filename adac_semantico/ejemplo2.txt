@@ -14,11 +14,9 @@ integer z,fn,a,i[7];
 --s := true;
 --f := false; ---kskksksksksk
 
-
-
 function integer min (val integer x, y) is
 begin
-  if x > y then return (y); else return (x); end
+  if x > y then return ('a'); else return (x); end
 end
 
 procedure escrib_vect (val boolean v[101]; ref integer n) is
@@ -27,6 +25,10 @@ begin
     while i <= n do
         i := i + 1;
     end
+    if(1) then
+        i := i +1;
+    end
+    return 3;
 end
 begin
     --x := true;
@@ -37,6 +39,7 @@ begin
     --x[1] := 7;
     get(i[1]);
     put("hola nerea");
+    put(x);
     put_line ("fib(", i,") = ", fn);
     dato (m,"lslsk",7+9*5div 874);
     return -min(5,-9);

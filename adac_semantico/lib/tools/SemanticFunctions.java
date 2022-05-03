@@ -126,6 +126,8 @@ public class SemanticFunctions {
 		Symbol s;
 		try {
 			s = ts.getSymbol(t.image);
+			if(s.type == Symbol.Types.PROCEDURE || s.type == Symbol.Types.FUNCTION) errSem.deteccion("Se esperaban ()", t);
+			else if(s.type == Symbol.Types.ARRAY) errSem.deteccion("Se esperaban []", t);
 			at.type = s.type;
 		} catch(SymbolNotFoundException e) {
 			at.type = Types.UNDEFINED;
@@ -176,9 +178,17 @@ public class SemanticFunctions {
 
 	public void checkFunction(SymbolTable ts, Token t, Attributes at){
 		SymbolFunction sf;
+		Symbol s;
 		try {
-			sf = (SymbolFunction) ts.getSymbol(t.image);
-			at.type = sf.returnType;
+			s = ts.getSymbol(t.image);
+			if(s instanceof SymbolFunction){
+				sf = (SymbolFunction) s;
+				at.type = sf.returnType;
+			} else {
+				errSem.deteccion("Se esperaba una invocación a función", t);
+				at.type = s.type;
+			}
+			
 		} catch(SymbolNotFoundException e) {
 			at.type = Types.UNDEFINED;
 			errSem.deteccion(e, t);
@@ -250,4 +260,20 @@ public class SemanticFunctions {
 				errSem.deteccion("Tipo esperado: "+at1.type, at2.token);
 		}
 	}
+
+	public void checkFunction(Stack<Symbol> stack, Attributes at){
+		if(stack.size()== 0) errSem.deteccion("No se esperaba instrucción return", at.token);
+		else {
+			Symbol s = stack.peek();
+			if(s instanceof SymbolFunction){
+				SymbolFunction sf;
+				sf = (SymbolFunction)s;
+				if(at.type == null || sf.returnType == null || sf.returnType != at.type) errSem.deteccion("El valor de retorno no es del tipo correcto. Se esperaba: " + sf.returnType, at.token);
+			} else errSem.deteccion("Instrucción return fuera de función", at.token);
+		}
+	}
+
+	// public void checkReturn(SymbolFunction sf, Attributes at){
+	// 	if(at.type == null || sf.returnType == null || sf.returnType != at.type) errSem.deteccion("El valor de retorno no es del tipo correcto. Se esperaba: " + sf.returnType, at.token);
+	// }
 }

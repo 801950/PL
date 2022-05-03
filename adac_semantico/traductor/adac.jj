@@ -20,6 +20,7 @@ import lib.symbolTable.exceptions.*;
 import lib.errores.*;
 import lib.attributes.*;
 import lib.tools.*;
+import java.util.Stack;
 
 
 public class adac {
@@ -27,6 +28,8 @@ public class adac {
 	static SymbolTable ts = new SymbolTable();
 //	static ErrorSemantico err =  new ErrorSemantico();
 	static SemanticFunctions semFuncs = new SemanticFunctions();
+
+	static Stack<Symbol> stack = new Stack<Symbol>(); 
 
     public static void main(String[] args) {
     	adac parser;
@@ -289,6 +292,7 @@ void declaracion_procedimientos():
 	bloque_sentencias()
 		{
 			ts.removeBlock();
+			stack.pop();
 		}
 }
 
@@ -300,6 +304,7 @@ void declaracion_funciones():
 	cabecera_funcion() declaracion_variables() bloque_sentencias()
 		{
 			ts.removeBlock();
+			stack.pop();
 		}
 }
 
@@ -312,6 +317,7 @@ void cabecera_procedimiento():
 	<tPROC> t = <tID> 
 		{
 			semFuncs.insertProcedureSymbolTab(ts,t);
+			stack.push(ts.getSymbol(t.image));
 		}
 	<tPOPEN> lista_parametros() <tPCLOSE> <tIS>
 		
@@ -327,6 +333,7 @@ void cabecera_funcion():
 	<tFUNC> tipo_variable(at) t = <tID>
 		{
 			semFuncs.insertFunctionSymbolTab(ts,t,at);
+			stack.push(ts.getSymbol(t.image));
 		}
 	<tPOPEN> lista_parametros() <tPCLOSE> <tIS>
 }
@@ -461,9 +468,15 @@ void inst_iteracion():
 void inst_return():
 {
 	Attributes at = new Attributes();
+	Symbol s;
+	SymbolFunction sf = new SymbolFunction("",null,null);
+	Token t;
 }
 {
-	<tRET> expresion(at)
+	t = <tRET>	expresion(at)
+		{
+			semFuncs.checkFunction(stack, at);
+		}
 }
 
 void inst_leer():
@@ -489,7 +502,7 @@ void inst_escribir():
 }
 {
     try {
-		<tPUT> <tPOPEN> (lista_una_o_mas_exps(at1))?
+		<tPUT> <tPOPEN> lista_una_o_mas_exps(at1)
     	<tPCLOSE>
 	} catch(ParseException e){
 		Set<Integer> conjSinc = infoParseException(e);
@@ -532,7 +545,12 @@ void inst_seleccion():
 	Attributes at = new Attributes();
 }
 {
-	<tIF> expresion(at) <tTHEN> (inst())* (<tELSE> (inst())* )? 
+	<tIF> 
+	expresion(at) 
+		{
+			semFuncs.checkBool(at);
+		}
+	<tTHEN> (inst())* (<tELSE> (inst())* )? 
 }
 
 void inst_saltar_linea():
@@ -703,7 +721,6 @@ void factor(Attributes at):
 		}
 |	t = <tID>
 		{
-			// comprobar que está en la tabla de símbolos y asignarle el tipo;
 			at.token = t;
 			semFuncs.checkVariable(ts,t,at);
 		}
@@ -750,8 +767,6 @@ void factor_con_par(Attributes at):
 			}
 		|	LOOKAHEAD(2) t = <tID> <tPOPEN> lista_cero_o_mas_exps() <tPCLOSE>
 			{
-				// comprobar que t está en la tabla de símbolos
-				// invocación a función
 				at.token = t;
 				semFuncs.checkFunction(ts,t,at);
 			}
