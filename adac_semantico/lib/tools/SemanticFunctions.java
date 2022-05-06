@@ -160,7 +160,7 @@ public class SemanticFunctions {
 
 	public void insertProcedureSymbolTab(SymbolTable ts, Token t){
 		try{
-			ts.insertSymbol(new SymbolProcedure(t.image,null));
+			ts.insertSymbol(new SymbolProcedure(t.image,new ArrayList<Symbol>()));
 		} catch(AlreadyDefinedSymbolException e){
 			errSem.deteccion(e, t);
 		}
@@ -169,7 +169,7 @@ public class SemanticFunctions {
 
 	public void insertFunctionSymbolTab(SymbolTable ts, Token t, Attributes at){
 		try{
-			ts.insertSymbol(new SymbolFunction(t.image,null,at.type));
+			ts.insertSymbol(new SymbolFunction(t.image,new ArrayList<Symbol>(),at.type));
 		} catch(AlreadyDefinedSymbolException e){
 			errSem.deteccion(e, t);
 		}
@@ -275,25 +275,60 @@ public class SemanticFunctions {
 
 	public void insertParametro(SymbolTable ts, Attributes at, Attributes at1, Token t){
 		Symbol s;
-		if(at1.type != null){
+		System.out.println(at);
+		System.out.println(at1.type == null);
+		System.out.println(at1.parClass == null);
+//		System.out.println(at1);
+		System.out.println(t.image);
+		if(at1.type != null && at1.parClass != null && at.token != null){
+			System.out.println("Intento añadir el token");
 			s = ts.getSymbol(at.token.image);
 			if(s instanceof SymbolProcedure){
+				System.out.println("es un procedimiento");
 				SymbolProcedure sf = (SymbolProcedure)s;
-				
+				if(t.image != null){
+					System.out.println("El tipo es: " + at1.type + " pasado por " + at1.parClass);
+					if(at1.type == Symbol.Types.INT){
+						sf.parList.add(new SymbolInt(t.image,at1.parClass));
+						insertVariableSymbolTab(ts, t, at1);
+					} else if(at1.type == Symbol.Types.CHAR){
+						sf.parList.add(new SymbolChar(t.image,at1.parClass));
+						insertVariableSymbolTab(ts, t, at1);
+					} else if(at1.type == Symbol.Types.BOOL){
+						sf.parList.add(new SymbolBool(t.image,at1.parClass));
+						insertVariableSymbolTab(ts, t, at1);
+					} else {
+						errSem.deteccion("Tipo no permitido", t);
+					}
+				}
 			} else if(s instanceof SymbolFunction){
+				System.out.println("Es una función");
 				SymbolFunction sf = (SymbolFunction)s;
+				if(t.image != null){
+					System.out.println("El tipo es: " + at1.type + " pasado por " + at1.parClass);
+					if(at1.type == Symbol.Types.INT){
+						sf.parList.add(new SymbolInt(t.image,at1.parClass));
+						insertVariableSymbolTab(ts, t, at1);
+					} else if(at1.type == Symbol.Types.CHAR){
+						sf.parList.add(new SymbolChar(t.image,at1.parClass));
+						insertVariableSymbolTab(ts, t, at1);
+					} else if(at1.type == Symbol.Types.BOOL){
+						sf.parList.add(new SymbolBool(t.image,at1.parClass));
+						insertVariableSymbolTab(ts, t, at1);
+					} else {
+						errSem.deteccion("Tipo no permitido", t);
+					}
+				}
+			} else {
+				errSem.deteccion("Tipo incorrecto", at.token);
 			}
 		} else {
 			errSem.deteccion("No se encuentra el tipo del parámetro", t);
 		}
 	}
 
-	public void insertParameterType(Attributes at, Token t){
-		if(t!=null){
-
-		} else {
-			errSem.deteccion("Tipo de parámetro no reconocido", t);
-		}
+	public void insertParameterType(Attributes at, Symbol.ParameterClass parameterclass){
+		at.parClass = parameterclass;
 	}
 
 	// public void checkReturn(SymbolFunction sf, Attributes at){

@@ -341,8 +341,10 @@ void cabecera_funcion():
 		{
 			semFuncs.insertFunctionSymbolTab(ts,t,at);
 			stack.push(ts.getSymbol(t.image));
+			at.token = t;
+			at.type = Symbol.Types.FUNCTION;
 		}
-	<tPOPEN> lista_parametros() <tPCLOSE> <tIS>
+	<tPOPEN> lista_parametros(at) <tPCLOSE> <tIS>
 }
 
 void lista_parametros(Attributes at):
@@ -357,10 +359,21 @@ void parametro(Attributes at):
 {
 	Symbol.Types tipo;
 	Attributes at1 = new Attributes();
+	Token t;
 }
 {
 	// PREGUNTAR A JOAQUIN
-	(<tVAL> | <tREF>) tipo_variable(at1) lista_parametros_formales(at,at1)
+	( <tVAL>
+		{
+			semFuncs.insertParameterType(at1,Symbol.ParameterClass.VAL);
+		} 
+	| <tREF>
+		{
+			semFuncs.insertParameterType(at1,Symbol.ParameterClass.REF);
+		})
+	
+ 
+	tipo_variable(at1) lista_parametros_formales(at,at1)
 }
 
 void lista_parametros_formales(Attributes at,Attributes at1):
@@ -371,7 +384,7 @@ void lista_parametros_formales(Attributes at,Attributes at1):
 	parametro_formal(at,at1) ( <tCOMA> parametro_formal(at,at1) )*
 }
 
-void parametros_formales(Attributes at,Attributes at1):
+void parametro_formal(Attributes at,Attributes at1):
 {
 	Token t1, t2;
 }
@@ -383,6 +396,7 @@ void parametros_formales(Attributes at,Attributes at1):
 		}
 | 	t1 = <tID>
 		{
+			semFuncs.insertParametro(ts,at,at1,t1);
 		//	semFuncs.insertVariableSymbolTab(ts,t1,at);
 		}
 }
