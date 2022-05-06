@@ -273,6 +273,29 @@ public class SemanticFunctions {
 		}
 	}
 
+	public void insertParametro(SymbolTable ts, Attributes at, Attributes at1, Token t){
+		Symbol s;
+		if(at1.type != null){
+			s = ts.getSymbol(at.token.image);
+			if(s instanceof SymbolProcedure){
+				SymbolProcedure sf = (SymbolProcedure)s;
+				
+			} else if(s instanceof SymbolFunction){
+				SymbolFunction sf = (SymbolFunction)s;
+			}
+		} else {
+			errSem.deteccion("No se encuentra el tipo del parámetro", t);
+		}
+	}
+
+	public void insertParameterType(Attributes at, Token t){
+		if(t!=null){
+
+		} else {
+			errSem.deteccion("Tipo de parámetro no reconocido", t);
+		}
+	}
+
 	// public void checkReturn(SymbolFunction sf, Attributes at){
 	// 	if(at.type == null || sf.returnType == null || sf.returnType != at.type) errSem.deteccion("El valor de retorno no es del tipo correcto. Se esperaba: " + sf.returnType, at.token);
 	// }

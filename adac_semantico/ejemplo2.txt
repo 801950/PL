@@ -21,6 +21,17 @@ end
 
 procedure escrib_vect (val boolean v[101]; ref integer n) is
     integer i;
+    procedure escrib_vect2 (val boolean v[101]; ref integer n) is
+        integer i;
+        begin
+        while i <= n do
+            i := i + 1;
+        end
+        if(1) then
+            i := i +1;
+        end
+        return 3;
+    end
 begin
     while i <= n do
         i := i + 1;

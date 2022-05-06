@@ -288,7 +288,8 @@ void declaracion_procedimientos():
 }
 {
 	cabecera_procedimiento() 
-	declaracion_variables() 
+	declaracion_variables()
+	(declaracion_proc_func())* 
 	bloque_sentencias()
 		{
 			ts.removeBlock();
@@ -301,7 +302,10 @@ void declaracion_funciones():
 
 }
 {
-	cabecera_funcion() declaracion_variables() bloque_sentencias()
+	cabecera_funcion() 
+	declaracion_variables()
+	(declaracion_proc_func())* 
+	bloque_sentencias()
 		{
 			ts.removeBlock();
 			stack.pop();
@@ -311,6 +315,7 @@ void declaracion_funciones():
 void cabecera_procedimiento():
 {
 	Token t;
+	Attributes at = new Attributes();
 	
 }
 {
@@ -318,8 +323,10 @@ void cabecera_procedimiento():
 		{
 			semFuncs.insertProcedureSymbolTab(ts,t);
 			stack.push(ts.getSymbol(t.image));
+			at.token = t;
+			at.type = Symbol.Types.PROCEDURE;
 		}
-	<tPOPEN> lista_parametros() <tPCLOSE> <tIS>
+	<tPOPEN> lista_parametros(at) <tPCLOSE> <tIS>
 		
 }
 
@@ -338,22 +345,46 @@ void cabecera_funcion():
 	<tPOPEN> lista_parametros() <tPCLOSE> <tIS>
 }
 
-void lista_parametros():
+void lista_parametros(Attributes at):
 {
 
 }
 {
-	(parametro() (<tPC> parametro())*)?
+	(parametro(at) (<tPC> parametro(at))*)?
 }
 
-void parametro():
+void parametro(Attributes at):
 {
 	Symbol.Types tipo;
-	Attributes at = new Attributes();
+	Attributes at1 = new Attributes();
 }
 {
 	// PREGUNTAR A JOAQUIN
-	(<tVAL> | <tREF>) tipo_variable(at) lista_vars(at) 
+	(<tVAL> | <tREF>) tipo_variable(at1) lista_parametros_formales(at,at1)
+}
+
+void lista_parametros_formales(Attributes at,Attributes at1):
+{
+
+}
+{
+	parametro_formal(at,at1) ( <tCOMA> parametro_formal(at,at1) )*
+}
+
+void parametros_formales(Attributes at,Attributes at1):
+{
+	Token t1, t2;
+}
+{
+	LOOKAHEAD(2)
+	t1 = <tID> <tCORCHETEOPEN> t2 = <tNUM> <tCORCHETECLOSE>
+		{
+		//	semFuncs.insertArraySymbolTab(ts,t1,at,t2);
+		}
+| 	t1 = <tID>
+		{
+		//	semFuncs.insertVariableSymbolTab(ts,t1,at);
+		}
 }
 
 void bloque_sentencias():
@@ -363,7 +394,7 @@ void bloque_sentencias():
 {
 	try {
 		<tBEGIN>
-		(inst() | declaracion_proc_func() )*
+		(inst())*
 		<tEND>
 	} catch (ParseException e){
 		Set<Integer> conjSinc = infoParseException(e);
