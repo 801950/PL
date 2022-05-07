@@ -52,6 +52,7 @@ public class SemanticFunctions {
 		//	System.err.println("	1 componente");
 			at.type = at1.type;
 			at.token = at1.token;
+			at.constante = at1.constante;
 		} else if(at1.type.equals(at2.type)){
 			at.type = Symbol.Types.BOOL;
 			at.token = new Token(at1.token.kind);
@@ -60,6 +61,7 @@ public class SemanticFunctions {
 			at.token.endLine = at2.token.endLine;
 			at.token.endColumn = at2.token.endColumn;
 			at.token.image = at1.token.image + " " + at3.token.image + " " + at2.token.image;
+			at.constante = true;
 		} else {
 		//	System.err.println("	" + at2.type);
 			at.type = Symbol.Types.UNDEFINED;
@@ -69,6 +71,7 @@ public class SemanticFunctions {
 			at.token.endLine = at2.token.endLine;
 			at.token.endColumn = at2.token.endColumn;
 			at.token.image = at1.token.image + " " + at3.token.image + " " + at2.token.image;
+			at.constante = true;
 			errSem.deteccion("Tipos incorrectos",at.token);
 		}
 	}
@@ -86,6 +89,7 @@ public class SemanticFunctions {
 			at.token.endLine = at2.token.endLine;
 			at.token.endColumn = at2.token.endColumn;
 			at.token.image = at1.token.image + " " + at3.token.image + " " + at2.token.image;
+			at.constante = true;
 			errSem.deteccion("Tipos incorrectos", at.token);
 		} else if(at3.type != null && at2.type != null){
 		//	System.err.println("	" + at2.type + " " + at3.type);
@@ -96,10 +100,12 @@ public class SemanticFunctions {
 			at.token.endLine = at2.token.endLine;
 			at.token.endColumn = at2.token.endColumn;
 			at.token.image = at1.token.image + " " + at3.token.image + " " + at2.token.image;
+			at.constante = true;
 		} else { 
 		//	System.err.println("	" + at1.type);
 			at.type = at1.type;
 			at.token = at1.token;
+			at.constante = at1.constante;
 		}
 	}
 
@@ -115,6 +121,9 @@ public class SemanticFunctions {
 				SymbolArray sa = (SymbolArray) s; 
 				at.type = sa.baseType; 
 			}
+			Token k = at.token;
+			at.token.image = t.image + "[" + k.image + "]";
+			at.token.kind = t.kind;
 
 		} catch(SymbolNotFoundException e){
 			errSem.deteccion(e,t);
@@ -275,19 +284,16 @@ public class SemanticFunctions {
 
 	public void insertParametro(SymbolTable ts, Attributes at, Attributes at1, Token t){
 		Symbol s;
-		System.out.println(at);
-		System.out.println(at1.type == null);
-		System.out.println(at1.parClass == null);
-//		System.out.println(at1);
-		System.out.println(t.image);
+// 		System.out.println(at);
+// 		System.out.println(at1.type == null);
+// 		System.out.println(at1.parClass == null);
+// //		System.out.println(at1);
+// 		System.out.println(t.image);
 		if(at1.type != null && at1.parClass != null && at.token != null){
-			System.out.println("Intento añadir el token");
 			s = ts.getSymbol(at.token.image);
 			if(s instanceof SymbolProcedure){
-				System.out.println("es un procedimiento");
 				SymbolProcedure sf = (SymbolProcedure)s;
 				if(t.image != null){
-					System.out.println("El tipo es: " + at1.type + " pasado por " + at1.parClass);
 					if(at1.type == Symbol.Types.INT){
 						sf.parList.add(new SymbolInt(t.image,at1.parClass));
 						insertVariableSymbolTab(ts, t, at1);
@@ -302,10 +308,9 @@ public class SemanticFunctions {
 					}
 				}
 			} else if(s instanceof SymbolFunction){
-				System.out.println("Es una función");
 				SymbolFunction sf = (SymbolFunction)s;
 				if(t.image != null){
-					System.out.println("El tipo es: " + at1.type + " pasado por " + at1.parClass);
+			//		System.out.println("El tipo es: " + at1.type + " pasado por " + at1.parClass);
 					if(at1.type == Symbol.Types.INT){
 						sf.parList.add(new SymbolInt(t.image,at1.parClass));
 						insertVariableSymbolTab(ts, t, at1);
@@ -329,6 +334,71 @@ public class SemanticFunctions {
 
 	public void insertParameterType(Attributes at, Symbol.ParameterClass parameterclass){
 		at.parClass = parameterclass;
+	}
+
+	public void saveInfoParameter(Attributes at, Attributes at1, Attributes at2){
+		System.err.println("Añado un parametro ");
+		at.par.add(new Parameter(at1.constante,at1.type,at1.token));
+		if(at2.par.size()>0){
+			for(Parameter e : at2.par) at.par.add(e);
+		//	at.par = at2.par;
+			System.err.println(at2.par.size());
+		} 
+		System.err.println(at.par.size());
+		if(at2.token != null){
+			at.token = new Token(at1.token.kind);
+			at.token.beginLine = at1.token.beginLine;
+			at.token.beginColumn = at1.token.beginColumn;
+			at.token.endLine = at2.token.endLine;
+			at.token.endColumn = at2.token.endColumn;
+			at.token.image = at1.token.image + ", " + at2.token.image;
+		} else {
+			at.token = at1.token;
+		}
+		
+	}
+
+	public void comprobacionParametros(Attributes at, Token t, SymbolTable ts){
+		try{
+			Symbol s = ts.getSymbol(t.image);
+			if(s instanceof SymbolProcedure){
+				SymbolProcedure sf = (SymbolProcedure)s;
+				if(sf.parList.size() == at.par.size()){
+					int i = 0;
+					for(Symbol s1 : sf.parList) {
+						Parameter p = at.par.get(i);
+						if(s1.type != p.type){
+							errSem.deteccion("Se esperaba un parámetro del tipo " + s1.type,p.token );
+						}
+						if(s1.parClass == Symbol.ParameterClass.REF && p.constante)
+							errSem.deteccion("Se esperaba un paso por referencia", p.token);
+						i++;	
+					}
+				} else {
+					errSem.deteccion("Se esperaban " + sf.parList.size() + " parametros", at.token);
+				}
+			} else if(s instanceof SymbolFunction){
+				SymbolFunction sf = (SymbolFunction)s;
+				if(sf.parList.size() == at.par.size()){
+					int i = 0;
+					for(Symbol s1 : sf.parList) {
+						Parameter p = at.par.get(i);
+						if(s1.type != p.type){
+							errSem.deteccion("Se esperaba un parámetro del tipo " + s1.type,p.token );
+						}
+						if(s1.parClass == Symbol.ParameterClass.REF && p.constante)
+							errSem.deteccion("Se esperaba un paso por referencia", p.token);
+						i++;
+					}
+				} else {
+					errSem.deteccion("Se esperaban " + sf.parList.size() + " parametros", t);
+				}
+			} else {
+				errSem.deteccion("Se esperaba un procedimiento o función", t);
+			}
+		} catch(SymbolNotFoundException e){
+			errSem.deteccion(e, t);
+		}
 	}
 
 	// public void checkReturn(SymbolFunction sf, Attributes at){

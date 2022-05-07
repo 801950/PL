@@ -9,7 +9,9 @@
 
 package lib.attributes;
 import lib.symbolTable.*;
+
 import java.util.ArrayList;
+import java.util.Stack;
 import java.util.AbstractMap.SimpleEntry;
 import traductor.Token;
 
@@ -21,18 +23,21 @@ public class Attributes implements Cloneable {
     public boolean valBool;
     public char valChar;
     public String valString;
+    public boolean constante;
+    public ArrayList<Parameter> par;
     //COMPLETAR
 
     public Token token;
 
     public Attributes(){
         type = null;
+        par = new ArrayList<Parameter>();
     }
 
     public Attributes(Symbol.Types tipo) {
         type = tipo;
+        par = new ArrayList<Parameter>();
     }
-
     
 
     public Attributes clone() {
@@ -48,8 +53,8 @@ public class Attributes implements Cloneable {
         return
             "type = " + type + "\n" +
             "parClass = " + parClass + "\n" +
-            "token = " + token.image + "\n" ;
+            "token = " + token.image + "\n" +
+            "constante = " + constante + "\n";
             //COMPLETAR
-        
     }
 }

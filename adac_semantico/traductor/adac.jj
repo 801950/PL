@@ -438,7 +438,7 @@ void inst_acaban_pc():
 		|	inst_escribir_linea()
 		|	LOOKAHEAD(2) inst_invoc_proc()
 		|	inst_asignacion()
-		|	inst_return()	
+		|	inst_return()
 		)
 			<tPC>
 	} catch(ParseException e){
@@ -574,10 +574,14 @@ void inst_escribir_linea():
 void inst_invoc_proc():
 {
 	Attributes at1 = new Attributes();
+	Token t;
 }
 {
     try {
-		<tID> <tPOPEN> (lista_una_o_mas_exps(at1))? <tPCLOSE>
+		t = <tID> <tPOPEN> (lista_una_o_mas_exps(at1))? <tPCLOSE>
+			{
+				semFuncs.comprobacionParametros(at1,t,ts);
+			}
 	} catch (ParseException e){
 		Set<Integer> conjSinc = infoParseException(e);
 		conjSinc.add(tPCLOSE);
@@ -626,6 +630,9 @@ void lista_una_o_mas_exps(Attributes at):
 }
 {
 	expresion(at1) (at3.token = <tCOMA> lista_una_o_mas_exps(at2))?
+		{
+			semFuncs.saveInfoParameter(at,at1,at2);
+		}
 }
 
 void expresion(Attributes at):
@@ -757,42 +764,50 @@ void factor(Attributes at):
 	<tNOT> factor(at)
 		{
 			semFuncs.checkBool(at);
+			at.constante = true;
 		}
 |	<tPOPEN> expresion(at) <tPCLOSE>
 | 	LOOKAHEAD(2) factor_con_par(at)
 |	LOOKAHEAD(2) t = <tID> <tCORCHETEOPEN> expresion(at) <tCORCHETECLOSE>
 		{
 			semFuncs.checkArray(ts,t,at);
+			at.constante = false;
 		}
 |	t = <tID>
 		{
 			at.token = t;
 			semFuncs.checkVariable(ts,t,at);
+			at.constante = false;
 		}
 | 	t = <tNUM>
 		{
 			at.type = Symbol.Types.INT;
 			at.token = t;
+			at.constante = true;
 		}
 | 	t = <tCARACTER>
 		{
 			at.type = Symbol.Types.CHAR;
 			at.token = t;
+			at.constante = true;
 		}
 | 	t = <tSTRING>
 		{
 			at.type = Symbol.Types.CHAR;
 			at.token = t;
+			at.constante = true;
 		}
 | 	t = <tTRUE>
 		{
 			at.type = Symbol.Types.BOOL;
 			at.token = t;
+			at.constante = true;
 		}
 | 	t = <tFALSE>
 		{
 			at.type = Symbol.Types.BOOL;
 			at.token = t;
+			at.constante = true;
 		}
 }
 
@@ -805,14 +820,17 @@ void factor_con_par(Attributes at):
 		<tINT2CHAR> <tPOPEN> expresion(at) <tPCLOSE> 
 			{
 				semFuncs.checkInt(at);
+				at.constante = true;
 			}
 		|	<tCHAR2INT> <tPOPEN> expresion(at) <tPCLOSE>
 			{
 				semFuncs.checkChar(at);
+				at.constante = true;
 			}
 		|	LOOKAHEAD(2) t = <tID> <tPOPEN> lista_cero_o_mas_exps() <tPCLOSE>
 			{
 				at.token = t;
+				at.constante = true;
 				semFuncs.checkFunction(ts,t,at);
 			}
 	} catch(ParseException e){

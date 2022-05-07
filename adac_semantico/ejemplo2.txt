@@ -19,9 +19,9 @@ begin
   if x > y then return ('a'); else return (x); end
 end
 
-procedure escrib_vect (val boolean v[101]; ref integer n) is
+procedure escrib_vect (val boolean v; ref integer n) is
     integer i;
-    procedure escrib_vect2 (val boolean v[101]; ref integer n) is
+    procedure escrib_vect2 (val boolean v; ref integer n) is
         integer i;
         begin
         while i <= n do
@@ -30,7 +30,6 @@ procedure escrib_vect (val boolean v[101]; ref integer n) is
         if(1) then
             i := i +1;
         end
-        return 3;
     end
 begin
     while i <= n do
@@ -39,10 +38,10 @@ begin
     if(1) then
         i := i +1;
     end
-    return 3;
 end
 begin
     --x := true;
+    x[1] := true;
     m := 's';
     y := m;
     z := -654;
@@ -53,5 +52,5 @@ begin
     put(x);
     put_line ("fib(", i,") = ", fn);
     dato (m,"lslsk",7+9*5div 874);
-    return -min(5,-9);
+    escrib_vect(x[1], z);
 end

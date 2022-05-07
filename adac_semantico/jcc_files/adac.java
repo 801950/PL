@@ -615,8 +615,9 @@ Set<Integer> conjSinc = infoParseException(e);
 }
 
   static final public void inst_invoc_proc() throws ParseException {Attributes at1 = new Attributes();
+        Token t;
     try {
-      jj_consume_token(tID);
+      t = jj_consume_token(tID);
       jj_consume_token(tPOPEN);
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case tPOPEN:
@@ -639,6 +640,7 @@ Set<Integer> conjSinc = infoParseException(e);
         ;
       }
       jj_consume_token(tPCLOSE);
+semFuncs.comprobacionParametros(at1,t,ts);
     } catch (ParseException e) {
 Set<Integer> conjSinc = infoParseException(e);
                 conjSinc.add(tPCLOSE);
@@ -749,6 +751,7 @@ Set<Integer> conjSinc = infoParseException(e);
       jj_la1[27] = jj_gen;
       ;
     }
+semFuncs.saveInfoParameter(at,at1,at2);
 }
 
   static final public void expresion(Attributes at) throws ParseException {Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
@@ -946,6 +949,7 @@ at.type = Symbol.Types.BOOL;
       jj_consume_token(tNOT);
       factor(at);
 semFuncs.checkBool(at);
+                        at.constante = true;
       break;
       }
     case tPOPEN:{
@@ -964,42 +968,49 @@ semFuncs.checkBool(at);
         expresion(at);
         jj_consume_token(tCORCHETECLOSE);
 semFuncs.checkArray(ts,t,at);
+                        at.constante = false;
       } else {
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
         case tID:{
           t = jj_consume_token(tID);
 at.token = t;
                         semFuncs.checkVariable(ts,t,at);
+                        at.constante = false;
           break;
           }
         case tNUM:{
           t = jj_consume_token(tNUM);
 at.type = Symbol.Types.INT;
                         at.token = t;
+                        at.constante = true;
           break;
           }
         case tCARACTER:{
           t = jj_consume_token(tCARACTER);
 at.type = Symbol.Types.CHAR;
                         at.token = t;
+                        at.constante = true;
           break;
           }
         case tSTRING:{
           t = jj_consume_token(tSTRING);
 at.type = Symbol.Types.CHAR;
                         at.token = t;
+                        at.constante = true;
           break;
           }
         case tTRUE:{
           t = jj_consume_token(tTRUE);
 at.type = Symbol.Types.BOOL;
                         at.token = t;
+                        at.constante = true;
           break;
           }
         case tFALSE:{
           t = jj_consume_token(tFALSE);
 at.type = Symbol.Types.BOOL;
                         at.token = t;
+                        at.constante = true;
           break;
           }
         default:
@@ -1020,6 +1031,7 @@ at.type = Symbol.Types.BOOL;
         expresion(at);
         jj_consume_token(tPCLOSE);
 semFuncs.checkInt(at);
+                                at.constante = true;
         break;
         }
       case tCHAR2INT:{
@@ -1028,6 +1040,7 @@ semFuncs.checkInt(at);
         expresion(at);
         jj_consume_token(tPCLOSE);
 semFuncs.checkChar(at);
+                                at.constante = true;
         break;
         }
       default:
@@ -1038,6 +1051,7 @@ semFuncs.checkChar(at);
           lista_cero_o_mas_exps();
           jj_consume_token(tPCLOSE);
 at.token = t;
+                                at.constante = true;
                                 semFuncs.checkFunction(ts,t,at);
         } else {
           jj_consume_token(-1);
@@ -1125,17 +1139,10 @@ Set<Integer> conjSinc = infoParseException(e);
     finally { jj_save(6, xla); }
   }
 
-  static private boolean jj_3R_factor_con_par_805_17_17()
+  static private boolean jj_3R_factor_con_par_825_25_18()
  {
-    if (jj_scan_token(tINT2CHAR)) return true;
+    if (jj_scan_token(tCHAR2INT)) return true;
     if (jj_scan_token(tPOPEN)) return true;
-    return false;
-  }
-
-  static private boolean jj_3_4()
- {
-    if (jj_scan_token(tID)) return true;
-    if (jj_scan_token(tCORCHETEOPEN)) return true;
     return false;
   }
 
@@ -1148,11 +1155,18 @@ Set<Integer> conjSinc = infoParseException(e);
 
   static private boolean jj_3_5()
  {
-    if (jj_3R_factor_con_par_804_9_16()) return true;
+    if (jj_3R_factor_con_par_819_9_16()) return true;
     return false;
   }
 
-  static private boolean jj_3_7()
+  static private boolean jj_3_4()
+ {
+    if (jj_scan_token(tID)) return true;
+    if (jj_scan_token(tCORCHETEOPEN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_inst_invoc_proc_580_5_15()
  {
     if (jj_scan_token(tID)) return true;
     if (jj_scan_token(tPOPEN)) return true;
@@ -1166,9 +1180,9 @@ Set<Integer> conjSinc = infoParseException(e);
     return false;
   }
 
-  static private boolean jj_3R_inst_invoc_proc_579_5_15()
+  static private boolean jj_3R_factor_con_par_820_17_17()
  {
-    if (jj_scan_token(tID)) return true;
+    if (jj_scan_token(tINT2CHAR)) return true;
     if (jj_scan_token(tPOPEN)) return true;
     return false;
   }
@@ -1180,30 +1194,30 @@ Set<Integer> conjSinc = infoParseException(e);
     return false;
   }
 
-  static private boolean jj_3R_factor_con_par_804_9_16()
+  static private boolean jj_3_3()
  {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_factor_con_par_805_17_17()) {
-    jj_scanpos = xsp;
-    if (jj_3R_factor_con_par_809_25_18()) {
-    jj_scanpos = xsp;
-    if (jj_3_7()) return true;
-    }
-    }
+    if (jj_3R_inst_invoc_proc_580_5_15()) return true;
     return false;
   }
 
-  static private boolean jj_3R_factor_con_par_809_25_18()
+  static private boolean jj_3_7()
  {
-    if (jj_scan_token(tCHAR2INT)) return true;
+    if (jj_scan_token(tID)) return true;
     if (jj_scan_token(tPOPEN)) return true;
     return false;
   }
 
-  static private boolean jj_3_3()
+  static private boolean jj_3R_factor_con_par_819_9_16()
  {
-    if (jj_3R_inst_invoc_proc_579_5_15()) return true;
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_factor_con_par_820_17_17()) {
+    jj_scanpos = xsp;
+    if (jj_3R_factor_con_par_825_25_18()) {
+    jj_scanpos = xsp;
+    if (jj_3_7()) return true;
+    }
+    }
     return false;
   }
 

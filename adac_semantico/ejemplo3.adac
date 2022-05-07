@@ -1,0 +1,25 @@
+--cambios de base
+procedure cambio_base is
+
+integer z;
+boolean x[5];
+character y,m;
+
+function integer min (val integer x, y) is
+begin
+  if x > y then return ('a'); else return (x); end
+end
+
+procedure escrib_vect (val boolean v; ref integer n) is
+    integer i;
+begin
+    while i <= n do
+        i := i + 1;
+    end
+    if(1) then
+        i := i +1;
+    end
+end
+begin
+    escrib_vect(x[1],z);
+end
