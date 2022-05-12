@@ -14,10 +14,12 @@ public class Parameter {
     public boolean constante;
     public Symbol.Types type;
     public Token token;
+    public int dimension;
 
-    public Parameter(boolean b, Symbol.Types t, Token tok){
+    public Parameter(boolean b, Symbol.Types t, Token tok,int d){
         constante = b;
         type = t;
         this.token = tok;
+        this.dimension = d;
     }
 }

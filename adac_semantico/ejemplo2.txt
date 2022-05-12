@@ -3,7 +3,8 @@ procedure cambio_base is
 integer num, base;
 
 integer enB;
-boolean x[5];
+integer x[5];
+integer xb[5];
 character y,m;
 integer z,fn,a,i[7];
 
@@ -39,9 +40,17 @@ begin
         i := i +1;
     end
 end
+
+function integer contar (val integer x[5]; val integer y) is
+begin
+    if(x[1] <= 0) then
+        x[1] := 1;
+    end
+    return 2;
+end
+
 begin
     --x := true;
-    x[1] := true;
     m := 's';
     y := m;
     z := -654;
@@ -52,5 +61,9 @@ begin
     put(x);
     put_line ("fib(", i,") = ", fn);
     dato (m,"lslsk",7+9*5div 874);
-    escrib_vect(x[1], z);
+--    escrib_vect(x[1], z);
+    z := contar(x,enB);
+    if(x = xb) then
+       x[2] := 2;
+    end
 end

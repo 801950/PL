@@ -362,7 +362,6 @@ void parametro(Attributes at):
 	Token t;
 }
 {
-	// PREGUNTAR A JOAQUIN
 	( <tVAL>
 		{
 			semFuncs.insertParameterType(at1,Symbol.ParameterClass.VAL);
@@ -392,6 +391,7 @@ void parametro_formal(Attributes at,Attributes at1):
 	LOOKAHEAD(2)
 	t1 = <tID> <tCORCHETEOPEN> t2 = <tNUM> <tCORCHETECLOSE>
 		{
+			semFuncs.insertVector(ts,t1,t2,at,at1);
 		//	semFuncs.insertArraySymbolTab(ts,t1,at,t2);
 		}
 | 	t1 = <tID>
@@ -814,6 +814,7 @@ void factor(Attributes at):
 void factor_con_par(Attributes at):
 {
 	Token t;
+	Attributes at1 = new Attributes();
 }
 {
 	try {
@@ -827,11 +828,12 @@ void factor_con_par(Attributes at):
 				semFuncs.checkChar(at);
 				at.constante = true;
 			}
-		|	LOOKAHEAD(2) t = <tID> <tPOPEN> lista_cero_o_mas_exps() <tPCLOSE>
+		|	LOOKAHEAD(2) t = <tID> <tPOPEN> (lista_una_o_mas_exps(at1))? <tPCLOSE>
 			{
 				at.token = t;
 				at.constante = true;
 				semFuncs.checkFunction(ts,t,at);
+				semFuncs.comprobacionParametros(at1,t,ts);
 			}
 	} catch(ParseException e){
 		Set<Integer> conjSinc = infoParseException(e);

@@ -48,12 +48,15 @@ public class SemanticFunctions {
 	public void check2typesWithRelationalOperator(Attributes at1, Attributes at2, Attributes at3, Attributes at){
 	//	System.err.println(at1.type +" " +  at2.type);
 	//	System.err.println("check2types");
+		System.out.println(at1.token.image);
 		if(at2.type == null) {
 		//	System.err.println("	1 componente");
 			at.type = at1.type;
 			at.token = at1.token;
+			at.dimension = at1.dimension;
 			at.constante = at1.constante;
-		} else if(at1.type.equals(at2.type)){
+		
+		} else if(at1.type.equals(at2.type) && at1.type != Symbol.Types.ARRAY){
 			at.type = Symbol.Types.BOOL;
 			at.token = new Token(at1.token.kind);
 			at.token.beginLine = at1.token.beginLine;
@@ -106,7 +109,9 @@ public class SemanticFunctions {
 			at.type = at1.type;
 			at.token = at1.token;
 			at.constante = at1.constante;
+			at.dimension = at1.dimension;
 		}
+		System.out.println(at.token.image);
 	}
 
 	public void checkArray(SymbolTable ts, Token t, Attributes at){
@@ -136,8 +141,12 @@ public class SemanticFunctions {
 		try {
 			s = ts.getSymbol(t.image);
 			if(s.type == Symbol.Types.PROCEDURE || s.type == Symbol.Types.FUNCTION) errSem.deteccion("Se esperaban ()", t);
-			else if(s.type == Symbol.Types.ARRAY) errSem.deteccion("Se esperaban []", t);
+			else if(s.type == Symbol.Types.ARRAY) {
+				SymbolArray sa = (SymbolArray)s;
+				at.dimension = sa.maxInd + 1;
+			}
 			at.type = s.type;
+			
 		} catch(SymbolNotFoundException e) {
 			at.type = Types.UNDEFINED;
 			errSem.deteccion(e, t);
@@ -338,7 +347,7 @@ public class SemanticFunctions {
 
 	public void saveInfoParameter(Attributes at, Attributes at1, Attributes at2){
 		System.err.println("Añado un parametro ");
-		at.par.add(new Parameter(at1.constante,at1.type,at1.token));
+		at.par.add(new Parameter(at1.constante,at1.type,at1.token, at1.dimension));
 		if(at2.par.size()>0){
 			for(Parameter e : at2.par) at.par.add(e);
 		//	at.par = at2.par;
@@ -370,8 +379,18 @@ public class SemanticFunctions {
 						if(s1.type != p.type){
 							errSem.deteccion("Se esperaba un parámetro del tipo " + s1.type,p.token );
 						}
-						if(s1.parClass == Symbol.ParameterClass.REF && p.constante)
+						if(s1.type == Symbol.Types.ARRAY){
+							System.out.println("Hay un vector");
+							SymbolArray sa = (SymbolArray)s1;
+							int l = p.dimension - 1;
+							System.out.println(sa.maxInd + " " + l);
+							if(sa.maxInd != l){
+								errSem.deteccion("Los vectores deben ser de la misma dimensión", t);
+							}
+						}
+						if(s1.parClass == Symbol.ParameterClass.REF && p.constante){
 							errSem.deteccion("Se esperaba un paso por referencia", p.token);
+						}
 						i++;	
 					}
 				} else {
@@ -386,8 +405,18 @@ public class SemanticFunctions {
 						if(s1.type != p.type){
 							errSem.deteccion("Se esperaba un parámetro del tipo " + s1.type,p.token );
 						}
-						if(s1.parClass == Symbol.ParameterClass.REF && p.constante)
+						if(s1.type == Symbol.Types.ARRAY){
+							System.out.println("Hay un vector");
+							SymbolArray sa = (SymbolArray)s1;
+							int l = p.dimension - 1;
+							System.out.println(sa.maxInd + " " + l);
+							if(sa.maxInd != l){
+								errSem.deteccion("Los vectores deben ser de la misma dimensión", t);
+							}
+						}
+						if(s1.parClass == Symbol.ParameterClass.REF && p.constante){
 							errSem.deteccion("Se esperaba un paso por referencia", p.token);
+						}
 						i++;
 					}
 				} else {
@@ -398,6 +427,43 @@ public class SemanticFunctions {
 			}
 		} catch(SymbolNotFoundException e){
 			errSem.deteccion(e, t);
+		}
+	}
+
+	public void insertVector(SymbolTable ts, Token t1, Token t2, Attributes at, Attributes at1){
+		Symbol s;
+		if(at1.type != null && at1.parClass != null && at.token != null){
+			s = ts.getSymbol(at.token.image);
+			if(s instanceof SymbolProcedure){
+				SymbolProcedure sf = (SymbolProcedure)s;
+				if(t1.image != null && t2.image != null){
+					if(at1.type == Symbol.Types.INT || at1.type == Types.CHAR || at1.type == Symbol.Types.BOOL){
+						sf.parList.add(new SymbolArray(t1.image,0,Integer.valueOf(t2.image)-1,at1.type));
+						at1.dimension = Integer.valueOf(t2.image);
+						System.out.println(at1.dimension);
+						insertArraySymbolTab(ts, t1, at1, t2);
+					} 
+				} else {
+					errSem.deteccion("No se puede deter identificador o dimensión nulos", t1);
+				}
+			} else if(s instanceof SymbolFunction){
+				SymbolFunction sf = (SymbolFunction)s;
+				if(t1.image != null && t2.image != null){
+					
+					if(at1.type == Symbol.Types.INT || at1.type == Types.CHAR || at1.type == Symbol.Types.BOOL){
+						sf.parList.add(new SymbolArray(t1.image,0,Integer.valueOf(t2.image)-1,at1.type));
+						at1.dimension = Integer.valueOf(t2.image);
+						System.out.println(at1.dimension);
+						insertArraySymbolTab(ts, t1, at1, t2);
+					} 
+				} else {
+						errSem.deteccion("No se puede deter identificador o dimensión nulos", t1);
+				}
+			} else {
+				errSem.deteccion("Tipo incorrecto", at.token);
+			}
+		} else {
+			errSem.deteccion("No se encuentra el tipo del parámetro", t1);
 		}
 	}
 

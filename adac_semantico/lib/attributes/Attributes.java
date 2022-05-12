@@ -25,9 +25,10 @@ public class Attributes implements Cloneable {
     public String valString;
     public boolean constante;
     public ArrayList<Parameter> par;
-    //COMPLETAR
 
     public Token token;
+
+    public int dimension;
 
     public Attributes(){
         type = null;
