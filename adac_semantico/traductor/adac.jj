@@ -1,5 +1,5 @@
 //*****************************************************************
-// File:   adac.jj
+// File:   adac_4.jj
 // Author: Nerea Gallego, César Borja
 // Date:   ...........
 // Coms:   Un tutorial sobre el análisis léxico con javacc
@@ -26,7 +26,7 @@ import java.util.Stack;
 public class adac {
 
 	static SymbolTable ts = new SymbolTable();
-//	static ErrorSemantico err =  new ErrorSemantico();
+
 	static SemanticFunctions semFuncs = new SemanticFunctions();
 
 	static Stack<Symbol> stack = new Stack<Symbol>();
@@ -398,12 +398,10 @@ void parametro_formal(Attributes at,Attributes at1):
 	t1 = <tID> <tCORCHETEOPEN> t2 = <tNUM> <tCORCHETECLOSE>
 		{
 			semFuncs.insertVector(ts,t1,t2,at,at1);
-		//	semFuncs.insertArraySymbolTab(ts,t1,at,t2);
 		}
 | 	t1 = <tID>
 		{
 			semFuncs.insertParametro(ts,at,at1,t1);
-		//	semFuncs.insertVariableSymbolTab(ts,t1,at);
 		}
 }
 

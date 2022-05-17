@@ -32,4 +32,41 @@ Práctica 3: Construcción de un analizador semántico para "adac"
     declaraciones de variables simples y vectores. Además permite la 
     declaración anidada de procedimientos y funciones.
 
+    La organización del proyecto es la siguiente:
+
+    practica_3/
+    ├── build.xml
+    ├── doc
+    │   └── README.txt
+    ├── lib
+    │   ├── attributes
+    │   │   ├── Attributes.java
+    │   │   └── Parameter.java
+    │   ├── errores
+    │   │   └── ErrorSemantico.java
+    │   ├── symbolTable
+    │   │   ├── exceptions
+    │   │   │   ├── AlreadyDefinedSymbolException.java
+    │   │   │   └── SymbolNotFoundException.java
+    │   │   ├── SymbolArray.java
+    │   │   ├── SymbolBool.java
+    │   │   ├── SymbolChar.java
+    │   │   ├── SymbolFunction.java
+    │   │   ├── SymbolInt.java
+    │   │   ├── Symbol.java
+    │   │   ├── SymbolProcedure.java
+    │   │   └── SymbolTable.java
+    │   └── tools
+    │       └── SemanticFunctions.java
+    └── traductor
+        └── adac_4.jj
+
+    Se ha añadido la clase Parameter. En ella se pasa información a cerca
+    de los parámetros que tiene una función o procedimiento. Esta clase es
+    de gran ayuda para realizar la comprobación de los parámetros y las invocaciones de las mismas.
     
+    Además, cabe destacar que se han modificado algunas de las funciones que 
+    han proporcionado los profesores de la asignatura. El principal ejemplo
+    emaesto es la clase nticFunctions. En ella se han añadido funciones que 
+    realizan comprobaciones de cada uno de los aspectos que permitir (o no permitir) el lenguaje. Esta clase lanza un mensaje de error cuando la comprobación detecta una invocación incorrecta en el código. También
+    cabe destacar que se han añadido algunos campos a la clase Attributes. Estos campos almacenan información de los tokens leidos y de los parámetros que se pasan.

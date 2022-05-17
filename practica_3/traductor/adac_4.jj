@@ -10,7 +10,7 @@ options {
    DEBUG_PARSER = false;
 }
 
-PARSER_BEGIN(adac)
+PARSER_BEGIN(adac_4)
 package traductor;
 
 import java.util.*;
@@ -23,7 +23,7 @@ import lib.tools.*;
 import java.util.Stack;
 
 
-public class adac {
+public class adac_4 {
 
 	static SymbolTable ts = new SymbolTable();
 //	static ErrorSemantico err =  new ErrorSemantico();
@@ -57,7 +57,7 @@ public class adac {
     }
 }
 
-PARSER_END(adac)
+PARSER_END(adac_4)
 //------------ descripción del AL
 SKIP:
 {
