@@ -29,7 +29,9 @@ public class adac {
 //	static ErrorSemantico err =  new ErrorSemantico();
 	static SemanticFunctions semFuncs = new SemanticFunctions();
 
-	static Stack<Symbol> stack = new Stack<Symbol>(); 
+	static Stack<Symbol> stack = new Stack<Symbol>();
+	
+	static SymbolProcedure principal;
 
     public static void main(String[] args) {
     	adac parser;
@@ -186,11 +188,15 @@ void S () :
 //------------ Símbolo inicial de la gramática. Para análisis léxico no hace falta más
 void prog () : 
 {
-
+	Token t;
 }
 {
   	<tPROC>
-  	<tID>
+  	t = <tID>
+	{
+		
+		principal = semFuncs.insertProcedureSymbolTab(ts, t);
+	}
   	<tIS>
  	declaracion_variables()
   	declaracion_procs_funcs()
@@ -580,6 +586,7 @@ void inst_invoc_proc():
     try {
 		t = <tID> <tPOPEN> (lista_una_o_mas_exps(at1))? <tPCLOSE>
 			{
+				semFuncs.comprobarNoPrincipal(principal,t);
 				semFuncs.comprobacionParametros(at1,t,ts);
 			}
 	} catch (ParseException e){
@@ -821,11 +828,13 @@ void factor_con_par(Attributes at):
 		<tINT2CHAR> <tPOPEN> expresion(at) <tPCLOSE> 
 			{
 				semFuncs.checkInt(at);
+				at.type = Symbol.Types.CHAR;
 				at.constante = true;
 			}
 		|	<tCHAR2INT> <tPOPEN> expresion(at) <tPCLOSE>
 			{
 				semFuncs.checkChar(at);
+				at.type = Symbol.Types.INT;
 				at.constante = true;
 			}
 		|	LOOKAHEAD(2) t = <tID> <tPOPEN> (lista_una_o_mas_exps(at1))? <tPCLOSE>

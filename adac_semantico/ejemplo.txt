@@ -1,10 +1,30 @@
--- Cesar
+procedure cerea is
+integer i;
+character c;
+integer v[5];
+integer h[5];
+boolean b, b2, b3;
 
-integer x;
-boolean x_y;  -- variable booleana de locos
-character y__z; -- jeje
-character __x;
-integer 2_22tt;
+function boolean hola(val integer v[5]; ref character c) is
+begin
+    v[1] := 0;
+    return true;
+end
 
-put_line ("dec_b(",num,"lslsl""dd""",base,"): ",enB); 
-IF
+procedure hol(ref integer v[5]) is
+begin
+    v[1] := 0;
+end
+
+begin
+    i := 5;
+    c := 'a';
+    i := i + char2int(c);
+    c := int2char(i);
+    b := false;
+    b2 := true;
+    b := hola(v,'s');
+    hol(c,i);
+
+
+end

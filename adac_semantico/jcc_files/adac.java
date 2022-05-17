@@ -20,6 +20,8 @@ public class adac implements adacConstants {
 
         static Stack<Symbol> stack = new Stack<Symbol>();
 
+        static SymbolProcedure principal;
+
     public static void main(String[] args) {
         adac parser;
 
@@ -49,9 +51,10 @@ public class adac implements adacConstants {
 }
 
 //------------ Símbolo inicial de la gramática. Para análisis léxico no hace falta más
-  static final public void prog() throws ParseException {
+  static final public void prog() throws ParseException {Token t;
     jj_consume_token(tPROC);
-    jj_consume_token(tID);
+    t = jj_consume_token(tID);
+principal = semFuncs.insertProcedureSymbolTab(ts, t);
     jj_consume_token(tIS);
     declaracion_variables();
     declaracion_procs_funcs();
@@ -642,7 +645,8 @@ Set<Integer> conjSinc = infoParseException(e);
         ;
       }
       jj_consume_token(tPCLOSE);
-semFuncs.comprobacionParametros(at1,t,ts);
+semFuncs.comprobarNoPrincipal(principal,t);
+                                semFuncs.comprobacionParametros(at1,t,ts);
     } catch (ParseException e) {
 Set<Integer> conjSinc = infoParseException(e);
                 conjSinc.add(tPCLOSE);
@@ -1034,6 +1038,7 @@ at.type = Symbol.Types.BOOL;
         expresion(at);
         jj_consume_token(tPCLOSE);
 semFuncs.checkInt(at);
+                                at.type = Symbol.Types.CHAR;
                                 at.constante = true;
         break;
         }
@@ -1043,6 +1048,7 @@ semFuncs.checkInt(at);
         expresion(at);
         jj_consume_token(tPCLOSE);
 semFuncs.checkChar(at);
+                                at.type = Symbol.Types.INT;
                                 at.constante = true;
         break;
         }
@@ -1162,19 +1168,6 @@ Set<Integer> conjSinc = infoParseException(e);
     finally { jj_save(6, xla); }
   }
 
-  static private boolean jj_3_6()
- {
-    if (jj_scan_token(tID)) return true;
-    if (jj_scan_token(tCORCHETEOPEN)) return true;
-    return false;
-  }
-
-  static private boolean jj_3_5()
- {
-    if (jj_3R_factor_con_par_820_9_16()) return true;
-    return false;
-  }
-
   static private boolean jj_3_4()
  {
     if (jj_scan_token(tID)) return true;
@@ -1182,28 +1175,28 @@ Set<Integer> conjSinc = infoParseException(e);
     return false;
   }
 
-  static private boolean jj_3R_factor_con_par_821_17_17()
+  static private boolean jj_3R_factor_con_par_828_17_17()
  {
     if (jj_scan_token(tINT2CHAR)) return true;
     if (jj_scan_token(tPOPEN)) return true;
     return false;
   }
 
-  static private boolean jj_3R_inst_invoc_proc_580_5_15()
+  static private boolean jj_3R_inst_invoc_proc_586_5_15()
  {
     if (jj_scan_token(tID)) return true;
     if (jj_scan_token(tPOPEN)) return true;
     return false;
   }
 
-  static private boolean jj_3_2()
+  static private boolean jj_3_1()
  {
     if (jj_scan_token(tID)) return true;
     if (jj_scan_token(tCORCHETEOPEN)) return true;
     return false;
   }
 
-  static private boolean jj_3_1()
+  static private boolean jj_3_2()
  {
     if (jj_scan_token(tID)) return true;
     if (jj_scan_token(tCORCHETEOPEN)) return true;
@@ -1219,17 +1212,24 @@ Set<Integer> conjSinc = infoParseException(e);
 
   static private boolean jj_3_3()
  {
-    if (jj_3R_inst_invoc_proc_580_5_15()) return true;
+    if (jj_3R_inst_invoc_proc_586_5_15()) return true;
     return false;
   }
 
-  static private boolean jj_3R_factor_con_par_820_9_16()
+  static private boolean jj_3R_factor_con_par_834_25_18()
+ {
+    if (jj_scan_token(tCHAR2INT)) return true;
+    if (jj_scan_token(tPOPEN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_factor_con_par_827_9_16()
  {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_factor_con_par_821_17_17()) {
+    if (jj_3R_factor_con_par_828_17_17()) {
     jj_scanpos = xsp;
-    if (jj_3R_factor_con_par_826_25_18()) {
+    if (jj_3R_factor_con_par_834_25_18()) {
     jj_scanpos = xsp;
     if (jj_3_7()) return true;
     }
@@ -1237,10 +1237,16 @@ Set<Integer> conjSinc = infoParseException(e);
     return false;
   }
 
-  static private boolean jj_3R_factor_con_par_826_25_18()
+  static private boolean jj_3_6()
  {
-    if (jj_scan_token(tCHAR2INT)) return true;
-    if (jj_scan_token(tPOPEN)) return true;
+    if (jj_scan_token(tID)) return true;
+    if (jj_scan_token(tCORCHETEOPEN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_5()
+ {
+    if (jj_3R_factor_con_par_827_9_16()) return true;
     return false;
   }
 

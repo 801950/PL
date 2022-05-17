@@ -48,7 +48,7 @@ public class SemanticFunctions {
 	public void check2typesWithRelationalOperator(Attributes at1, Attributes at2, Attributes at3, Attributes at){
 	//	System.err.println(at1.type +" " +  at2.type);
 	//	System.err.println("check2types");
-		System.out.println(at1.token.image);
+		// System.out.println(at1.token.image);
 		if(at2.type == null) {
 		//	System.err.println("	1 componente");
 			at.type = at1.type;
@@ -111,7 +111,7 @@ public class SemanticFunctions {
 			at.constante = at1.constante;
 			at.dimension = at1.dimension;
 		}
-		System.out.println(at.token.image);
+		// System.out.println(at.token.image);
 	}
 
 	public void checkArray(SymbolTable ts, Token t, Attributes at){
@@ -176,13 +176,15 @@ public class SemanticFunctions {
 	}
 
 
-	public void insertProcedureSymbolTab(SymbolTable ts, Token t){
+	public SymbolProcedure insertProcedureSymbolTab(SymbolTable ts, Token t){
+		SymbolProcedure p = new SymbolProcedure(t.image,new ArrayList<Symbol>());
 		try{
-			ts.insertSymbol(new SymbolProcedure(t.image,new ArrayList<Symbol>()));
+			ts.insertSymbol(p);
 		} catch(AlreadyDefinedSymbolException e){
 			errSem.deteccion(e, t);
 		}
 		ts.insertBlock();
+		return p;
 	}
 
 	public void insertFunctionSymbolTab(SymbolTable ts, Token t, Attributes at){
@@ -346,14 +348,14 @@ public class SemanticFunctions {
 	}
 
 	public void saveInfoParameter(Attributes at, Attributes at1, Attributes at2){
-		System.err.println("Añado un parametro ");
+		// System.err.println("Añado un parametro ");
 		at.par.add(new Parameter(at1.constante,at1.type,at1.token, at1.dimension));
 		if(at2.par.size()>0){
 			for(Parameter e : at2.par) at.par.add(e);
 		//	at.par = at2.par;
-			System.err.println(at2.par.size());
+			// System.err.println(at2.par.size());
 		} 
-		System.err.println(at.par.size());
+		// System.err.println(at.par.size());
 		if(at2.token != null){
 			at.token = new Token(at1.token.kind);
 			at.token.beginLine = at1.token.beginLine;
@@ -380,10 +382,10 @@ public class SemanticFunctions {
 							errSem.deteccion("Se esperaba un parámetro del tipo " + s1.type,p.token );
 						}
 						if(s1.type == Symbol.Types.ARRAY){
-							System.out.println("Hay un vector");
+							// System.out.println("Hay un vector");
 							SymbolArray sa = (SymbolArray)s1;
 							int l = p.dimension - 1;
-							System.out.println(sa.maxInd + " " + l);
+							// System.out.println(sa.maxInd + " " + l);
 							if(sa.maxInd != l){
 								errSem.deteccion("Los vectores deben ser de la misma dimensión", t);
 							}
@@ -406,10 +408,10 @@ public class SemanticFunctions {
 							errSem.deteccion("Se esperaba un parámetro del tipo " + s1.type,p.token );
 						}
 						if(s1.type == Symbol.Types.ARRAY){
-							System.out.println("Hay un vector");
+							// System.out.println("Hay un vector");
 							SymbolArray sa = (SymbolArray)s1;
 							int l = p.dimension - 1;
-							System.out.println(sa.maxInd + " " + l);
+							// System.out.println(sa.maxInd + " " + l);
 							if(sa.maxInd != l){
 								errSem.deteccion("Los vectores deben ser de la misma dimensión", t);
 							}
@@ -430,6 +432,12 @@ public class SemanticFunctions {
 		}
 	}
 
+	public void comprobarNoPrincipal(SymbolProcedure principal, Token t){
+		if(principal.name.equals(t.image)){
+			errSem.deteccion("No se puede invocar al método principal", t);
+		}
+	}
+
 	public void insertVector(SymbolTable ts, Token t1, Token t2, Attributes at, Attributes at1){
 		Symbol s;
 		if(at1.type != null && at1.parClass != null && at.token != null){
@@ -440,7 +448,7 @@ public class SemanticFunctions {
 					if(at1.type == Symbol.Types.INT || at1.type == Types.CHAR || at1.type == Symbol.Types.BOOL){
 						sf.parList.add(new SymbolArray(t1.image,0,Integer.valueOf(t2.image)-1,at1.type));
 						at1.dimension = Integer.valueOf(t2.image);
-						System.out.println(at1.dimension);
+						// System.out.println(at1.dimension);
 						insertArraySymbolTab(ts, t1, at1, t2);
 					} 
 				} else {
@@ -453,7 +461,7 @@ public class SemanticFunctions {
 					if(at1.type == Symbol.Types.INT || at1.type == Types.CHAR || at1.type == Symbol.Types.BOOL){
 						sf.parList.add(new SymbolArray(t1.image,0,Integer.valueOf(t2.image)-1,at1.type));
 						at1.dimension = Integer.valueOf(t2.image);
-						System.out.println(at1.dimension);
+						// System.out.println(at1.dimension);
 						insertArraySymbolTab(ts, t1, at1, t2);
 					} 
 				} else {
