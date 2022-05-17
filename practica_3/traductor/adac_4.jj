@@ -1,0 +1,874 @@
+//*****************************************************************
+// File:   adac.jj
+// Author: Nerea Gallego, César Borja
+// Date:   ...........
+// Coms:   Un tutorial sobre el análisis léxico con javacc
+//         https://javacc.github.io/javacc/tutorials/token-manager.html
+//*****************************************************************
+
+options {
+   DEBUG_PARSER = false;
+}
+
+PARSER_BEGIN(adac)
+package traductor;
+
+import java.util.*;
+import java.lang.Exception.*;
+import lib.symbolTable.*;
+import lib.symbolTable.exceptions.*;
+import lib.errores.*;
+import lib.attributes.*;
+import lib.tools.*;
+import java.util.Stack;
+
+
+public class adac {
+
+	static SymbolTable ts = new SymbolTable();
+//	static ErrorSemantico err =  new ErrorSemantico();
+	static SemanticFunctions semFuncs = new SemanticFunctions();
+
+	static Stack<Symbol> stack = new Stack<Symbol>();
+	
+	static SymbolProcedure principal;
+
+    public static void main(String[] args) {
+    	adac parser;
+
+    	try {
+	    	if(args.length == 0) { //entrada desde stdin
+				parser = new adac(System.in);
+			}
+			else { //entrada desde fichero en args[0]
+	            parser = new adac(new java.io.FileInputStream(args[0])); 
+			}
+			parser.S(); //invoca símbolo inicial de la gramática
+		}
+		catch (java.io.FileNotFoundException e) {
+			System.err.println ("Fichero " + args[0] + " no encontrado.");
+		}
+		catch (TokenMgrError e) {
+        	System.err.println("LEX_ERROR: " + e.getMessage());
+        }
+        catch (ParseException e) {
+        	System.err.println("SINT_ERROR: " + e.getMessage());
+        } 
+    }
+}
+
+PARSER_END(adac)
+//------------ descripción del AL
+SKIP:
+{
+	" "
+|	"\t"
+|	"\n"
+	
+}
+//---------------------------------------------------------
+TOKEN_MGR_DECLS : {
+	//lo declarado aquí estará en "ejemploTokenManager"
+	//también estará, por ejemplo, "lengthOfMatch", "image", ...
+	static int nPalInt = 0;
+	static int valNums = 0;
+	static void infoToken(String mensaje, Token token){
+		System.out.println("(" + token.beginLine + "," + token.beginColumn + "): " + mensaje + " " + token.image);
+	}
+}
+
+SPECIAL_TOKEN : {
+	< tCOM: "--"(~["\n"])*"\n" >
+}
+
+TOKEN:
+{
+ 	< #LETTER: (["a"-"z","A"-"Z"]) >
+|	< #DIGIT: ["0"-"9"] >
+|	< #ALNUM: (< LETTER > | < DIGIT >) >
+}
+
+TOKEN:
+{
+	< tPOPEN: "(" >
+|	< tPCLOSE: ")" >	
+|	< tC2 : "\"" >
+|	< tC1 : "\'" >
+|	< tCOMA : "," >
+|	< tPC: ";" >
+|	< tCORCHETEOPEN : "[">
+|	< tCORCHETECLOSE : "]" >
+|	< tNUM : (< DIGIT >)+ >
+
+}
+
+TOKEN:
+{
+ 	< tBEGIN: "begin" >
+|	< tBOOL: "boolean" >
+|	< tCHAR: "character" >
+| 	< tINT: "integer" >
+|	< tFUNC: "function" >
+|	< tPROC: "procedure" >
+|	< tIS : "is" >
+|	< tVAL :  "val" >
+|	< tREF : "ref" >
+|	< tRET : "return" >
+|	< tINT2CHAR : "int2char" >
+|	< tCHAR2INT : "char2int" >
+| 	< tSkL : "skip_line" >
+}
+
+TOKEN:
+{
+	< tIF: "if" >
+|	< tTHEN: "then" >
+|	< tELSE: "else" >
+|	< tEND: "end" >
+|	< tWHILE: "while" >
+|	< tDO: "do" >
+}
+
+TOKEN:
+{
+	< tASIG: ":=" >
+|	< tPUTLINE: "put_line" >
+|	< tPUT: "put" >
+|	< tGET: "get" >
+}
+
+TOKEN: 
+{
+	< tAND: "and">
+|	< tOR: "or">
+|	< tNOT: "not" >
+|	< tMAYEQ: ">=" >
+|	< tMENEQ: "<=" >
+|	< tEQ: "=" >
+|	< tMAY: ">" >
+|	< tMEN : "<" >
+|	< tDIST : "<>" >
+|	< tTRUE : "true" >
+|	< tFALSE : "false" >
+}
+
+TOKEN: 
+{
+	< tSUM: "+">
+|	< tRES: "-">
+|	< tMUL: "*">
+|	< tDIV: "div">	
+|	< tMOD: "mod">
+|	< tSTRING : "\"" ("\"\"")* (("\"\"")* (~["\""])*)* "\"" >
+|	< tCARACTER : "\'" (~[])? "\'" >
+}
+
+
+TOKEN:
+{
+	< tID:  (< LETTER > | ("_"(< ALNUM >)+)+ ) ( < ALNUM > | "_"(< ALNUM >)+ )* >
+}
+
+SPECIAL_TOKEN : {
+	< tERROR: ~[] >
+		{
+			System.out.println("ERROR LÉXICO: (" + matchedToken.beginLine + "," + matchedToken.beginColumn + "): símbolo no reconocido " + matchedToken.image);
+		}
+}
+
+void S () : 
+{
+
+}
+{
+	prog()
+	< EOF >
+}
+
+//------------ Símbolo inicial de la gramática. Para análisis léxico no hace falta más
+void prog () : 
+{
+	Token t;
+}
+{
+  	<tPROC>
+  	t = <tID>
+	{
+		
+		principal = semFuncs.insertProcedureSymbolTab(ts, t);
+	}
+  	<tIS>
+ 	declaracion_variables()
+  	declaracion_procs_funcs()
+	bloque_sentencias()
+	{
+		System.err.println(ts.toString());
+	}
+}
+
+void declaracion_variables():
+{
+
+}
+{
+	( declaracion() <tPC> )*
+}
+
+void declaracion():
+{
+	Symbol s = null;
+	Token t1;
+	Attributes at = new Attributes();
+}
+{
+	tipo_variable(at) 
+	lista_vars(at)
+}
+void tipo_variable(Attributes at):
+{
+
+}
+{
+	<tINT> 
+		{
+			at.type = Symbol.Types.INT;
+		}
+| 	<tCHAR> 
+		{
+			at.type = Symbol.Types.CHAR;
+		}
+| 	<tBOOL>
+		{
+			at.type = Symbol.Types.BOOL;
+		}
+}
+
+void lista_vars(Attributes at):
+{
+
+}
+{
+	variable(at) ( <tCOMA> variable(at) )*
+}
+
+void variable(Attributes at):
+{
+	Token t1, t2;
+}
+{
+	LOOKAHEAD(2)
+	t1 = <tID> <tCORCHETEOPEN> t2 = <tNUM> <tCORCHETECLOSE>
+		{
+			semFuncs.insertArraySymbolTab(ts,t1,at,t2);
+		}
+| 	t1 = <tID>
+		{
+			semFuncs.insertVariableSymbolTab(ts,t1,at);
+		}
+}
+
+void declaracion_procs_funcs():
+{
+
+}
+{
+	( declaracion_proc_func() )*
+}
+
+
+
+void declaracion_proc_func():
+{
+
+}
+{
+
+	declaracion_procedimientos()
+|	declaracion_funciones()
+	
+}
+
+void declaracion_procedimientos():
+{
+
+}
+{
+	cabecera_procedimiento() 
+	declaracion_variables()
+	(declaracion_proc_func())* 
+	bloque_sentencias()
+		{
+			ts.removeBlock();
+			stack.pop();
+		}
+}
+
+void declaracion_funciones():
+{
+
+}
+{
+	cabecera_funcion() 
+	declaracion_variables()
+	(declaracion_proc_func())* 
+	bloque_sentencias()
+		{
+			ts.removeBlock();
+			stack.pop();
+		}
+}
+
+void cabecera_procedimiento():
+{
+	Token t;
+	Attributes at = new Attributes();
+	
+}
+{
+	<tPROC> t = <tID> 
+		{
+			semFuncs.insertProcedureSymbolTab(ts,t);
+			stack.push(ts.getSymbol(t.image));
+			at.token = t;
+			at.type = Symbol.Types.PROCEDURE;
+		}
+	<tPOPEN> lista_parametros(at) <tPCLOSE> <tIS>
+		
+}
+
+void cabecera_funcion():
+{
+	Token t;
+	Symbol.Types tipo;
+	Attributes at = new Attributes();
+}
+{
+	<tFUNC> tipo_variable(at) t = <tID>
+		{
+			semFuncs.insertFunctionSymbolTab(ts,t,at);
+			stack.push(ts.getSymbol(t.image));
+			at.token = t;
+			at.type = Symbol.Types.FUNCTION;
+		}
+	<tPOPEN> lista_parametros(at) <tPCLOSE> <tIS>
+}
+
+void lista_parametros(Attributes at):
+{
+
+}
+{
+	(parametro(at) (<tPC> parametro(at))*)?
+}
+
+void parametro(Attributes at):
+{
+	Symbol.Types tipo;
+	Attributes at1 = new Attributes();
+	Token t;
+}
+{
+	( <tVAL>
+		{
+			semFuncs.insertParameterType(at1,Symbol.ParameterClass.VAL);
+		} 
+	| <tREF>
+		{
+			semFuncs.insertParameterType(at1,Symbol.ParameterClass.REF);
+		})
+	
+ 
+	tipo_variable(at1) lista_parametros_formales(at,at1)
+}
+
+void lista_parametros_formales(Attributes at,Attributes at1):
+{
+
+}
+{
+	parametro_formal(at,at1) ( <tCOMA> parametro_formal(at,at1) )*
+}
+
+void parametro_formal(Attributes at,Attributes at1):
+{
+	Token t1, t2;
+}
+{
+	LOOKAHEAD(2)
+	t1 = <tID> <tCORCHETEOPEN> t2 = <tNUM> <tCORCHETECLOSE>
+		{
+			semFuncs.insertVector(ts,t1,t2,at,at1);
+		//	semFuncs.insertArraySymbolTab(ts,t1,at,t2);
+		}
+| 	t1 = <tID>
+		{
+			semFuncs.insertParametro(ts,at,at1,t1);
+		//	semFuncs.insertVariableSymbolTab(ts,t1,at);
+		}
+}
+
+void bloque_sentencias():
+{
+	
+}
+{
+	try {
+		<tBEGIN>
+		(inst())*
+		<tEND>
+	} catch (ParseException e){
+		Set<Integer> conjSinc = infoParseException(e);
+		conjSinc.add(tEND);
+		recuperacionPanico(e.currentToken.next,conjSinc);
+	}
+}
+
+void inst():
+{
+
+}
+{
+	inst_acaban_pc() 
+|	inst_acaban_end()
+}
+
+void inst_acaban_pc():
+{
+
+}
+{
+	try {
+		(inst_leer()
+		|	inst_saltar_linea()
+		|	inst_escribir()
+		|	inst_escribir_linea()
+		|	LOOKAHEAD(2) inst_invoc_proc()
+		|	inst_asignacion()
+		|	inst_return()
+		)
+			<tPC>
+	} catch(ParseException e){
+		Set<Integer> conjSinc = infoParseException(e);
+		conjSinc.add(tPC);
+		recuperacionPanico(e.currentToken.next,conjSinc);
+	}
+}
+
+void inst_acaban_end():
+{
+
+}
+{
+	try{
+		(inst_iteracion()
+	|	inst_seleccion() ) <tEND>
+	} catch(ParseException e){
+		Set<Integer> conjSinc = infoParseException(e);
+		conjSinc.add(tEND);
+		recuperacionPanico(e.currentToken.next,conjSinc);
+	}
+}
+
+
+
+void inst_asignacion():
+{
+	Attributes at1 = new Attributes(), at2 = new Attributes();
+}
+{
+	asignable(at1)
+	<tASIG>
+	expresion(at2)
+		{
+			semFuncs.checkAsignacion(at1,at2);
+		}
+}
+
+void asignable(Attributes at):
+{
+	Attributes at1 = new Attributes();
+	Token t;
+}
+{
+	LOOKAHEAD(2)
+	t = <tID> <tCORCHETEOPEN> expresion(at1) <tCORCHETECLOSE>
+		{
+			semFuncs.checkAsignable(ts,t,at1,at);
+		}
+| 	t = <tID>
+		{
+			semFuncs.checkAsignable(ts,t,at);
+		}
+		
+}
+
+void inst_iteracion():
+{
+	Attributes at = new Attributes();
+}
+{
+	<tWHILE>
+	expresion(at)
+		{
+			semFuncs.checkBool(at);
+		}
+	<tDO>
+	(inst())*
+}
+
+void inst_return():
+{
+	Attributes at = new Attributes();
+	Symbol s;
+	SymbolFunction sf = new SymbolFunction("",null,null);
+	Token t;
+}
+{
+	t = <tRET>	expresion(at)
+		{
+			semFuncs.checkFunction(stack, at);
+		}
+}
+
+void inst_leer():
+{
+	Attributes at1 = new Attributes(), at2 = new Attributes();
+}
+{
+	try {
+		<tGET> <tPOPEN> asignable(at1) (<tCOMA> asignable(at2))* <tPCLOSE>
+			{
+				semFuncs.checkAsignableGet(at1,at2);
+			}
+	} catch(ParseException e){
+		Set<Integer> conjSinc = infoParseException(e);
+		conjSinc.add(tPCLOSE);
+		recuperacionPanico(e.currentToken.next,conjSinc);
+	}
+}
+
+void inst_escribir():
+{
+	Attributes at1 = new Attributes();
+}
+{
+    try {
+		<tPUT> <tPOPEN> lista_una_o_mas_exps(at1)
+    	<tPCLOSE>
+	} catch(ParseException e){
+		Set<Integer> conjSinc = infoParseException(e);
+		conjSinc.add(tPCLOSE);
+		recuperacionPanico(e.currentToken.next,conjSinc);
+	}
+}
+
+void inst_escribir_linea():
+{
+	Attributes at1 = new Attributes();
+}
+{
+    try {
+		<tPUTLINE> <tPOPEN> (lista_una_o_mas_exps(at1))?
+    	<tPCLOSE>
+	} catch(ParseException e) {
+		Set<Integer> conjSinc = infoParseException(e);
+		conjSinc.add(tPCLOSE);
+		recuperacionPanico(e.currentToken.next,conjSinc);
+	}
+}
+
+void inst_invoc_proc():
+{
+	Attributes at1 = new Attributes();
+	Token t;
+}
+{
+    try {
+		t = <tID> <tPOPEN> (lista_una_o_mas_exps(at1))? <tPCLOSE>
+			{
+				semFuncs.comprobarNoPrincipal(principal,t);
+				semFuncs.comprobacionParametros(at1,t,ts);
+			}
+	} catch (ParseException e){
+		Set<Integer> conjSinc = infoParseException(e);
+		conjSinc.add(tPCLOSE);
+		recuperacionPanico(e.currentToken.next,conjSinc);
+	}
+}
+
+void inst_seleccion():
+{
+	Attributes at = new Attributes();
+}
+{
+	<tIF> 
+	expresion(at) 
+		{
+			semFuncs.checkBool(at);
+		}
+	<tTHEN> (inst())* (<tELSE> (inst())* )? 
+}
+
+void inst_saltar_linea():
+{
+
+}
+{
+	try {
+		<tSkL> <tPOPEN> <tPCLOSE>
+	} catch (ParseException e){
+		Set<Integer> conjSinc = infoParseException(e);
+		conjSinc.add(tPCLOSE);
+		recuperacionPanico(e.currentToken.next,conjSinc);
+	}
+}
+
+void lista_cero_o_mas_exps():
+{
+	Attributes at = new Attributes();
+}
+{
+	( lista_una_o_mas_exps(at) )?
+}
+
+void lista_una_o_mas_exps(Attributes at):
+{
+	Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
+}
+{
+	expresion(at1) (at3.token = <tCOMA> lista_una_o_mas_exps(at2))?
+		{
+			semFuncs.saveInfoParameter(at,at1,at2);
+		}
+}
+
+void expresion(Attributes at):
+{
+	Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
+}
+{
+	expresion_simple(at1) ( operador_relacional(at3) expresion_simple(at2) )?
+		{
+			semFuncs.check2typesWithRelationalOperator(at1, at2, at3, at);
+		}
+}
+
+void operador_relacional(Attributes at):
+{
+	Token t;
+}
+{
+	t = <tEQ>
+		{
+			at.token = t;
+		}
+|	t = <tMAYEQ>
+		{
+			at.token = t;
+		}
+|	t = <tMENEQ>
+		{
+			at.token = t;
+		}
+|	t = <tMAY>
+		{
+			at.token = t;
+		}
+|	t = <tMEN>
+		{
+			at.token = t;
+		}
+|	t = <tDIST>
+		{
+			at.token = t;
+		}
+}
+
+void expresion_simple(Attributes at):
+{
+	Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
+}
+{
+	(<tRES> | <tSUM>)?
+	termino(at1) (operador_aditivo(at3) termino(at2))*
+		{
+			semFuncs.check2typesWithOperator(at1,at2,at3,at);
+		}
+}
+
+void operador_aditivo(Attributes at):
+{
+	Token t;
+}
+{
+	t = <tSUM>
+		{
+			at.type = Symbol.Types.INT;
+			at.token = t;
+		}
+|	t = <tRES>
+		{
+			at.type = Symbol.Types.INT;
+			at.token = t;
+		}
+| 	t = <tOR>
+		{
+			at.type = Symbol.Types.BOOL;
+			at.token = t;
+		}
+}
+
+void termino(Attributes at):
+{
+	Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
+	Token t;
+	Symbol.Types expected;
+}
+{
+	factor(at1) (operador_multiplicativo(at3) factor(at2))*
+		{
+			semFuncs.check2typesWithOperator(at1,at2,at3,at);
+		}
+}
+
+
+void operador_multiplicativo(Attributes at):
+{
+	Token t;
+}
+{
+	t = <tMUL>
+		{
+			at.type = Symbol.Types.INT;
+			at.token = t;
+		}
+|	t = <tMOD>
+		{
+			at.type = Symbol.Types.INT;
+			at.token = t;
+		}
+|	t = <tDIV>
+		{
+			at.type = Symbol.Types.INT;
+			at.token = t;
+		}
+|	t = <tAND>
+		{
+			at.type = Symbol.Types.BOOL;
+			at.token = t;
+		}
+}
+
+void factor(Attributes at):
+{
+	Token t;
+	Symbol s;
+	Symbol.Types tipo;
+	
+}
+{
+	 
+	<tNOT> factor(at)
+		{
+			semFuncs.checkBool(at);
+			at.constante = true;
+		}
+|	<tPOPEN> expresion(at) <tPCLOSE>
+| 	LOOKAHEAD(2) factor_con_par(at)
+|	LOOKAHEAD(2) t = <tID> <tCORCHETEOPEN> expresion(at) <tCORCHETECLOSE>
+		{
+			semFuncs.checkArray(ts,t,at);
+			at.constante = false;
+		}
+|	t = <tID>
+		{
+			at.token = t;
+			semFuncs.checkVariable(ts,t,at);
+			at.constante = false;
+		}
+| 	t = <tNUM>
+		{
+			at.type = Symbol.Types.INT;
+			at.token = t;
+			at.constante = true;
+		}
+| 	t = <tCARACTER>
+		{
+			at.type = Symbol.Types.CHAR;
+			at.token = t;
+			at.constante = true;
+		}
+| 	t = <tSTRING>
+		{
+			at.type = Symbol.Types.CHAR;
+			at.token = t;
+			at.constante = true;
+		}
+| 	t = <tTRUE>
+		{
+			at.type = Symbol.Types.BOOL;
+			at.token = t;
+			at.constante = true;
+		}
+| 	t = <tFALSE>
+		{
+			at.type = Symbol.Types.BOOL;
+			at.token = t;
+			at.constante = true;
+		}
+}
+
+void factor_con_par(Attributes at):
+{
+	Token t;
+	Attributes at1 = new Attributes();
+}
+{
+	try {
+		<tINT2CHAR> <tPOPEN> expresion(at) <tPCLOSE> 
+			{
+				semFuncs.checkInt(at);
+				at.type = Symbol.Types.CHAR;
+				at.constante = true;
+			}
+		|	<tCHAR2INT> <tPOPEN> expresion(at) <tPCLOSE>
+			{
+				semFuncs.checkChar(at);
+				at.type = Symbol.Types.INT;
+				at.constante = true;
+			}
+		|	LOOKAHEAD(2) t = <tID> <tPOPEN> (lista_una_o_mas_exps(at1))? <tPCLOSE>
+			{
+				at.token = t;
+				at.constante = true;
+				semFuncs.checkFunction(ts,t,at);
+				semFuncs.comprobacionParametros(at1,t,ts);
+			}
+	} catch(ParseException e){
+		Set<Integer> conjSinc = infoParseException(e);
+		conjSinc.add(tPCLOSE);
+		recuperacionPanico(e.currentToken.next,conjSinc);
+	}
+}
+
+JAVACODE
+Set<Integer> infoParseException(ParseException e){
+	Set<Integer> esperados = new HashSet<Integer>();
+	System.err.println("ERROR SINT: ('" + e.currentToken.next.image + "'," + e.currentToken.next.beginLine + "," + e.currentToken.next.beginColumn + ")");
+	System.err.println("Se esperaba uno de los siguientes tokens:");
+	for (int i = 0; i < e.expectedTokenSequences.length ; i++){
+		esperados.add(e.expectedTokenSequences[i][0]);
+		System.err.println("\t" + adacConstants.tokenImage[e.expectedTokenSequences[i][0]]);
+	}
+	return esperados;
+}
+
+JAVACODE
+void recuperacionPanico(Token tInesperado, Set<Integer> conjSinc){
+	System.err.println("----> Recupero modo pánico: " + "\n----> Saltando todo hasta token de conjunto de sincronización");
+	Token t = getNextToken();
+	while(!conjSinc.contains(t.kind) && t.kind != EOF){
+		System.err.println("Descartando token (" + adacConstants.tokenImage[t.kind] + "," + t.image + ")");
+		t = getNextToken();
+	}
+}
