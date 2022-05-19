@@ -14,13 +14,20 @@ PARSER_BEGIN(adac_4)
 package traductor;
 
 import java.util.*;
+import java.lang.Integer.*;
 import java.lang.Exception.*;
+import java.io.IOException;
+import java.lang.String;
 import lib.symbolTable.*;
 import lib.symbolTable.exceptions.*;
 import lib.errores.*;
 import lib.attributes.*;
+import lib.tools.codeGeneration.CodeBlock;
+import lib.tools.codeGeneration.PCodeInstruction.OpCode;
 import lib.tools.*;
 import java.util.Stack;
+import lib.tools.codeGeneration.PCodeInstruction;
+import java.io.FileWriter;
 
 
 public class adac_4 {
@@ -33,10 +40,19 @@ public class adac_4 {
 	
 	static SymbolProcedure principal;
 
+	static FileWriter f;
+
     public static void main(String[] args) {
     	adac_4 parser;
+		
+		try{
+			f = new FileWriter(args[0]+".pcode");
+		} catch(IOException e) {
+			System.out.println(e);
+		}
 
     	try {
+			
 	    	if(args.length == 0) { //entrada desde stdin
 				parser = new adac_4(System.in);
 			}
@@ -53,7 +69,7 @@ public class adac_4 {
         }
         catch (ParseException e) {
         	System.err.println("SINT_ERROR: " + e.getMessage());
-        } 
+        }
     }
 }
 
@@ -570,6 +586,15 @@ void inst_escribir_linea():
     try {
 		<tPUTLINE> <tPOPEN> (lista_una_o_mas_exps(at1))?
     	<tPCLOSE>
+		{
+		//	for(Attributes at1 : )
+			try{
+				System.out.println(at1.code.toString());
+				f.write(at1.code.toString());
+			} catch(Exception e){
+				System.err.println("Excepción: " + e.getMessage());
+			}
+		}
 	} catch(ParseException e) {
 		Set<Integer> conjSinc = infoParseException(e);
 		conjSinc.add(tPCLOSE);
@@ -629,6 +654,7 @@ void lista_cero_o_mas_exps():
 }
 {
 	( lista_una_o_mas_exps(at) )?
+	
 }
 
 void lista_una_o_mas_exps(Attributes at):
@@ -639,6 +665,8 @@ void lista_una_o_mas_exps(Attributes at):
 	expresion(at1) (at3.token = <tCOMA> lista_una_o_mas_exps(at2))?
 		{
 			semFuncs.saveInfoParameter(at,at1,at2);
+			at.code.addBlock(at1.code);
+			System.out.println("Añado el boque " + at.code.toString());
 		}
 }
 
@@ -650,6 +678,9 @@ void expresion(Attributes at):
 	expresion_simple(at1) ( operador_relacional(at3) expresion_simple(at2) )?
 		{
 			semFuncs.check2typesWithRelationalOperator(at1, at2, at3, at);
+			at.code.addBlock(at1.code);
+			System.out.println("Añado el boque " + at.code.toString());
+			
 		}
 }
 
@@ -693,6 +724,8 @@ void expresion_simple(Attributes at):
 	termino(at1) (operador_aditivo(at3) termino(at2))*
 		{
 			semFuncs.check2typesWithOperator(at1,at2,at3,at);
+			at.code.addBlock(at1.code);
+			System.out.println("Añado el boque " + at.code.toString());
 		}
 }
 
@@ -728,6 +761,9 @@ void termino(Attributes at):
 	factor(at1) (operador_multiplicativo(at3) factor(at2))*
 		{
 			semFuncs.check2typesWithOperator(at1,at2,at3,at);
+			
+			at.code.addBlock(at1.code);
+			System.out.println("Añado el boque " + at.code.toString());
 		}
 }
 
@@ -785,36 +821,48 @@ void factor(Attributes at):
 			at.token = t;
 			semFuncs.checkVariable(ts,t,at);
 			at.constante = false;
+			int n = 3, dsp = 0;
+			
 		}
 | 	t = <tNUM>
 		{
 			at.type = Symbol.Types.INT;
 			at.token = t;
 			at.constante = true;
+			at.code.addInst(PCodeInstruction.OpCode.STC,Integer.valueOf(token.image));
 		}
 | 	t = <tCARACTER>
 		{
 			at.type = Symbol.Types.CHAR;
 			at.token = t;
 			at.constante = true;
+			at.code.addInst(PCodeInstruction.OpCode.STC,Integer.parseInt(token.image));
 		}
 | 	t = <tSTRING>
 		{
 			at.type = Symbol.Types.CHAR;
 			at.token = t;
 			at.constante = true;
+			String str = at.token.image;
+			//str = str.substring(1,str.length()-1);
+			for(int i = str.length()-2; i > 0; i--){
+				at.code.addInst(PCodeInstruction.OpCode.STC,(int)str.charAt(i));
+				at.code.addInst(PCodeInstruction.OpCode.WRT,1);
+			}
 		}
 | 	t = <tTRUE>
 		{
 			at.type = Symbol.Types.BOOL;
 			at.token = t;
 			at.constante = true;
+			at.code.addInst(PCodeInstruction.OpCode.STC,1);
 		}
 | 	t = <tFALSE>
 		{
 			at.type = Symbol.Types.BOOL;
 			at.token = t;
 			at.constante = true;
+			at.code.addInst(PCodeInstruction.OpCode.STC,0);
 		}
 }
 
