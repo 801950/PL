@@ -40,7 +40,7 @@ public class adac_4 {
 	
 	static SymbolProcedure principal;
 
-	static FileWriter f;
+	static FileWriter f = null;
 
     public static void main(String[] args) {
     	adac_4 parser;
@@ -70,6 +70,11 @@ public class adac_4 {
         catch (ParseException e) {
         	System.err.println("SINT_ERROR: " + e.getMessage());
         }
+		try{
+			f.close();
+		} catch(IOException e){
+			System.err.println("ERROR CON EL FICHERO: " + e.getMessage());
+		}
     }
 }
 
@@ -214,6 +219,9 @@ void prog () :
 		principal = semFuncs.insertProcedureSymbolTab(ts, t);
 	}
   	<tIS>
+	{
+		
+	}
  	declaracion_variables()
   	declaracion_procs_funcs()
 	bloque_sentencias()
@@ -571,6 +579,15 @@ void inst_escribir():
     try {
 		<tPUT> <tPOPEN> lista_una_o_mas_exps(at1)
     	<tPCLOSE>
+		{
+			try{
+				String s = at1.code.toString();
+				for (int i = 0; i < s.length(); i++)
+                	f.write(s.charAt(i));
+			} catch(Exception e){
+				System.err.println("Excepción: " + e.getMessage());
+			}
+		}
 	} catch(ParseException e){
 		Set<Integer> conjSinc = infoParseException(e);
 		conjSinc.add(tPCLOSE);
@@ -587,10 +604,15 @@ void inst_escribir_linea():
 		<tPUTLINE> <tPOPEN> (lista_una_o_mas_exps(at1))?
     	<tPCLOSE>
 		{
-		//	for(Attributes at1 : )
 			try{
-				System.out.println(at1.code.toString());
-				f.write(at1.code.toString());
+				//System.out.println(at1.code.toString());
+				at1.code.addInst(PCodeInstruction.OpCode.STC,13);
+				at1.code.addInst(PCodeInstruction.OpCode.WRT,0);
+				at1.code.addInst(PCodeInstruction.OpCode.STC,10);
+				at1.code.addInst(PCodeInstruction.OpCode.WRT,0);
+				String s = at1.code.toString();
+				for (int i = 0; i < s.length(); i++)
+                	f.write(s.charAt(i));
 			} catch(Exception e){
 				System.err.println("Excepción: " + e.getMessage());
 			}
@@ -822,6 +844,15 @@ void factor(Attributes at):
 			semFuncs.checkVariable(ts,t,at);
 			at.constante = false;
 			int n = 3, dsp = 0;
+			for(int i = ts.st.size()-1 ; i >= 0; i--){
+				for(String s : ts.st.get(i).keySet()){
+					if(s.equals(t.image)) break;
+					else n++;
+				}
+				n = 3;
+				dsp ++;
+			}
+			at.code.addInst(PCodeInstruction.OpCode.STR,dsp,n);
 			
 		}
 | 	t = <tNUM>
@@ -845,9 +876,9 @@ void factor(Attributes at):
 			at.constante = true;
 			String str = at.token.image;
 			//str = str.substring(1,str.length()-1);
-			for(int i = str.length()-2; i > 0; i--){
+			for(int i = 1; i < str.length()-1; i++){
 				at.code.addInst(PCodeInstruction.OpCode.STC,(int)str.charAt(i));
-				at.code.addInst(PCodeInstruction.OpCode.WRT,1);
+				at.code.addInst(PCodeInstruction.OpCode.WRT,0);
 			}
 		}
 | 	t = <tTRUE>

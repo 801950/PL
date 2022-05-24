@@ -1,5 +1,0 @@
-procedure cerea is
-
-begin
-    put_line("hola");
-end

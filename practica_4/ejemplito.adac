@@ -1,0 +1,5 @@
+procedure cerea is
+
+begin
+    put("hola");
+end
