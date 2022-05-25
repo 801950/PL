@@ -210,24 +210,40 @@ void S () :
 void prog () : 
 {
 	Token t;
+	CodeBlock codeOut = new CodeBlock();
+	String s;
 }
 {
   	<tPROC>
+		{
+			codeOut.addInst(PCodeInstruction.OpCode.ENP,"L0");
+			s = codeOut.toString();
+			escribirCodigo(s);
+			codeOut.clearBlock();
+			
+		}
   	t = <tID>
-	{
-		
-		principal = semFuncs.insertProcedureSymbolTab(ts, t);
-	}
+		{
+			
+			principal = semFuncs.insertProcedureSymbolTab(ts, t);
+		}
   	<tIS>
-	{
-		
-	}
  	declaracion_variables()
   	declaracion_procs_funcs()
+		{
+			codeOut.addLabel("L0");
+			s = codeOut.toString();
+			escribirCodigo(s);
+			codeOut.clearBlock();
+		}
 	bloque_sentencias()
-	{
-		System.err.println(ts.toString());
-	}
+		{
+			codeOut.addInst(PCodeInstruction.OpCode.LVP);
+			s = codeOut.toString();
+			escribirCodigo(s);
+			codeOut.clearBlock();
+			System.err.println(ts.toString());
+		}
 }
 
 void declaracion_variables():
@@ -581,6 +597,7 @@ void inst_escribir():
     	<tPCLOSE>
 		{
 			try{
+				at1.code.encloseXMLTags("print");
 				String s = at1.code.toString();
 				for (int i = 0; i < s.length(); i++)
                 	f.write(s.charAt(i));
@@ -598,6 +615,7 @@ void inst_escribir():
 void inst_escribir_linea():
 {
 	Attributes at1 = new Attributes();
+	CodeBlock codeOut = new CodeBlock();
 }
 {
     try {
@@ -605,14 +623,21 @@ void inst_escribir_linea():
     	<tPCLOSE>
 		{
 			try{
-				//System.out.println(at1.code.toString());
-				at1.code.addInst(PCodeInstruction.OpCode.STC,13);
-				at1.code.addInst(PCodeInstruction.OpCode.WRT,0);
-				at1.code.addInst(PCodeInstruction.OpCode.STC,10);
-				at1.code.addInst(PCodeInstruction.OpCode.WRT,0);
-				String s = at1.code.toString();
-				for (int i = 0; i < s.length(); i++)
-                	f.write(s.charAt(i));
+				for(Attributes a : at1.par){
+					if(a.type == Symbol.Types.STRING){
+						System.out.println("Añado el bloquecito");
+						codeOut.addBlock(at1.code);
+					} else if(at1.par.get(i).type == Symbol.Types.INT){
+						codeOut.addBlock(at1.code);
+						codeOut.addInst(PCodeInstruction.OpCode.WRT,1);
+					}
+				}
+				codeOut.addInst(PCodeInstruction.OpCode.STC,13);
+				codeOut.addInst(PCodeInstruction.OpCode.WRT,0);
+				codeOut.addInst(PCodeInstruction.OpCode.STC,10);
+				codeOut.addInst(PCodeInstruction.OpCode.WRT,0);
+				codeOut.encloseXMLTags("print_line");
+				escribirCodigo(codeOut.toString());
 			} catch(Exception e){
 				System.err.println("Excepción: " + e.getMessage());
 			}
@@ -844,15 +869,15 @@ void factor(Attributes at):
 			semFuncs.checkVariable(ts,t,at);
 			at.constante = false;
 			int n = 3, dsp = 0;
-			for(int i = ts.st.size()-1 ; i >= 0; i--){
-				for(String s : ts.st.get(i).keySet()){
-					if(s.equals(t.image)) break;
-					else n++;
-				}
-				n = 3;
-				dsp ++;
-			}
-			at.code.addInst(PCodeInstruction.OpCode.STR,dsp,n);
+			// for(int i = ts.st.size()-1 ; i >= 0; i--){
+			// 	for(String s : ts.st.get(i).keySet()){
+			// 		if(s.equals(t.image)) break;
+			// 		else n++;
+			// 	}
+			// 	n = 3;
+			// 	dsp ++;
+			// }
+			// at.code.addInst(PCodeInstruction.OpCode.STR,dsp,n);
 			
 		}
 | 	t = <tNUM>
@@ -871,7 +896,7 @@ void factor(Attributes at):
 		}
 | 	t = <tSTRING>
 		{
-			at.type = Symbol.Types.CHAR;
+			at.type = Symbol.Types.STRING;
 			at.token = t;
 			at.constante = true;
 			String str = at.token.image;
@@ -949,5 +974,15 @@ void recuperacionPanico(Token tInesperado, Set<Integer> conjSinc){
 	while(!conjSinc.contains(t.kind) && t.kind != EOF){
 		System.err.println("Descartando token (" + adac_4Constants.tokenImage[t.kind] + "," + t.image + ")");
 		t = getNextToken();
+	}
+}
+
+JAVACODE
+void escribirCodigo(String s){
+	try{
+		for (int i = 0; i < s.length(); i++)
+            f.write(s.charAt(i));
+	} catch(IOException e){
+		System.err.println("Exception: " + e.getMessage());
 	}
 }

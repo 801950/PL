@@ -1,5 +1,6 @@
   ENP L0
 L0:
+<print_line>
   STC 104
   WRT  0
   STC 111
@@ -8,8 +9,18 @@ L0:
   WRT  0
   STC 97
   WRT  0
+  STC 104
+  WRT  0
+  STC 111
+  WRT  0
+  STC 108
+  WRT  0
+  STC 97
+  WRT  0
+  WRT  1
   STC 13
   WRT  0
   STC 10
   WRT  0
+</print_line>
   LVP

@@ -73,15 +73,28 @@ public class adac_4 implements adac_4Constants {
 
 //------------ Símbolo inicial de la gramática. Para análisis léxico no hace falta más
   static final public void prog() throws ParseException {Token t;
+        CodeBlock codeOut = new CodeBlock();
+        String s;
     jj_consume_token(tPROC);
+codeOut.addInst(PCodeInstruction.OpCode.ENP,"L0");
+                        s = codeOut.toString();
+                        escribirCodigo(s);
+                        codeOut.clearBlock();
     t = jj_consume_token(tID);
 principal = semFuncs.insertProcedureSymbolTab(ts, t);
     jj_consume_token(tIS);
-
     declaracion_variables();
     declaracion_procs_funcs();
+codeOut.addLabel("L0");
+                        s = codeOut.toString();
+                        escribirCodigo(s);
+                        codeOut.clearBlock();
     bloque_sentencias();
-System.err.println(ts.toString());
+codeOut.addInst(PCodeInstruction.OpCode.LVP);
+                        s = codeOut.toString();
+                        escribirCodigo(s);
+                        codeOut.clearBlock();
+                        System.err.println(ts.toString());
 }
 
   static final public void declaracion_variables() throws ParseException {
@@ -602,6 +615,14 @@ Set<Integer> conjSinc = infoParseException(e);
       jj_consume_token(tPOPEN);
       lista_una_o_mas_exps(at1);
       jj_consume_token(tPCLOSE);
+try{
+                                at1.code.encloseXMLTags("print");
+                                String s = at1.code.toString();
+                                for (int i = 0; i < s.length(); i++)
+                        f.write(s.charAt(i));
+                        } catch(Exception e){
+                                System.err.println("Excepci\u00f3n: " + e.getMessage());
+                        }
     } catch (ParseException e) {
 Set<Integer> conjSinc = infoParseException(e);
                 conjSinc.add(tPCLOSE);
@@ -610,6 +631,7 @@ Set<Integer> conjSinc = infoParseException(e);
 }
 
   static final public void inst_escribir_linea() throws ParseException {Attributes at1 = new Attributes();
+        CodeBlock codeOut = new CodeBlock();
     try {
       jj_consume_token(tPUTLINE);
       jj_consume_token(tPOPEN);
@@ -634,16 +656,22 @@ Set<Integer> conjSinc = infoParseException(e);
         ;
       }
       jj_consume_token(tPCLOSE);
-//	for(Attributes at1 : )
-                        try{
-                                System.out.println(at1.code.toString());
-                                at1.code.addInst(PCodeInstruction.OpCode.STC,13);
-                                at1.code.addInst(PCodeInstruction.OpCode.WRT,0);
-                                at1.code.addInst(PCodeInstruction.OpCode.STC,10);
-                                at1.code.addInst(PCodeInstruction.OpCode.WRT,0);
-                                String s = at1.code.toString();
-                                for (int i = 0; i < s.length(); i++)
-                        f.write(s.charAt(i));
+try{
+                                for(Attributes a : at1.par){
+                                        if(a.type == Symbol.Types.STRING){
+                                                System.out.println("A\u00f1ado el bloquecito");
+                                                codeOut.addBlock(a.code);
+                                        } else if(a.type == Symbol.Types.INT){
+                                                codeOut.addBlock(a.code);
+                                                codeOut.addInst(PCodeInstruction.OpCode.WRT,1);
+                                        }
+                                }
+                                codeOut.addInst(PCodeInstruction.OpCode.STC,13);
+                                codeOut.addInst(PCodeInstruction.OpCode.WRT,0);
+                                codeOut.addInst(PCodeInstruction.OpCode.STC,10);
+                                codeOut.addInst(PCodeInstruction.OpCode.WRT,0);
+                                codeOut.encloseXMLTags("print_line");
+                                escribirCodigo(codeOut.toString());
                         } catch(Exception e){
                                 System.err.println("Excepci\u00f3n: " + e.getMessage());
                         }
@@ -1027,6 +1055,16 @@ at.token = t;
                         semFuncs.checkVariable(ts,t,at);
                         at.constante = false;
                         int n = 3, dsp = 0;
+                        // for(int i = ts.st.size()-1 ; i >= 0; i--){
+                        // 	for(String s : ts.st.get(i).keySet()){
+                        // 		if(s.equals(t.image)) break;
+                        // 		else n++;
+                        // 	}
+                        // 	n = 3;
+                        // 	dsp ++;
+                        // }
+                        // at.code.addInst(PCodeInstruction.OpCode.STR,dsp,n);
+
           break;
           }
         case tNUM:{
@@ -1047,7 +1085,7 @@ at.type = Symbol.Types.CHAR;
           }
         case tSTRING:{
           t = jj_consume_token(tSTRING);
-at.type = Symbol.Types.CHAR;
+at.type = Symbol.Types.STRING;
                         at.token = t;
                         at.constante = true;
                         String str = at.token.image;
@@ -1167,6 +1205,14 @@ Set<Integer> conjSinc = infoParseException(e);
         }
   }
 
+  static void escribirCodigo(String s) throws ParseException {try{
+                for (int i = 0; i < s.length(); i++)
+            f.write(s.charAt(i));
+        } catch(IOException e){
+                System.err.println("Exception: " + e.getMessage());
+        }
+  }
+
   static private boolean jj_2_1(int xla)
  {
     jj_la = xla; jj_lastpos = jj_scanpos = token;
@@ -1223,14 +1269,48 @@ Set<Integer> conjSinc = infoParseException(e);
     finally { jj_save(6, xla); }
   }
 
-  static private boolean jj_3_4()
+  static private boolean jj_3R_factor_con_par_938_25_18()
+ {
+    if (jj_scan_token(tCHAR2INT)) return true;
+    if (jj_scan_token(tPOPEN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_factor_con_par_931_9_16()
+ {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_factor_con_par_932_17_17()) {
+    jj_scanpos = xsp;
+    if (jj_3R_factor_con_par_938_25_18()) {
+    jj_scanpos = xsp;
+    if (jj_3_7()) return true;
+    }
+    }
+    return false;
+  }
+
+  static private boolean jj_3_6()
  {
     if (jj_scan_token(tID)) return true;
     if (jj_scan_token(tCORCHETEOPEN)) return true;
     return false;
   }
 
-  static private boolean jj_3_2()
+  static private boolean jj_3R_inst_invoc_proc_658_5_15()
+ {
+    if (jj_scan_token(tID)) return true;
+    if (jj_scan_token(tPOPEN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_5()
+ {
+    if (jj_3R_factor_con_par_931_9_16()) return true;
+    return false;
+  }
+
+  static private boolean jj_3_4()
  {
     if (jj_scan_token(tID)) return true;
     if (jj_scan_token(tCORCHETEOPEN)) return true;
@@ -1244,36 +1324,23 @@ Set<Integer> conjSinc = infoParseException(e);
     return false;
   }
 
-  static private boolean jj_3_3()
- {
-    if (jj_3R_inst_invoc_proc_625_5_15()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_factor_con_par_890_17_17()
- {
-    if (jj_scan_token(tINT2CHAR)) return true;
-    if (jj_scan_token(tPOPEN)) return true;
-    return false;
-  }
-
-  static private boolean jj_3_6()
+  static private boolean jj_3_2()
  {
     if (jj_scan_token(tID)) return true;
     if (jj_scan_token(tCORCHETEOPEN)) return true;
     return false;
   }
 
-  static private boolean jj_3R_inst_invoc_proc_625_5_15()
+  static private boolean jj_3R_factor_con_par_932_17_17()
  {
-    if (jj_scan_token(tID)) return true;
+    if (jj_scan_token(tINT2CHAR)) return true;
     if (jj_scan_token(tPOPEN)) return true;
     return false;
   }
 
-  static private boolean jj_3_5()
+  static private boolean jj_3_3()
  {
-    if (jj_3R_factor_con_par_889_9_16()) return true;
+    if (jj_3R_inst_invoc_proc_658_5_15()) return true;
     return false;
   }
 
@@ -1281,27 +1348,6 @@ Set<Integer> conjSinc = infoParseException(e);
  {
     if (jj_scan_token(tID)) return true;
     if (jj_scan_token(tPOPEN)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_factor_con_par_896_25_18()
- {
-    if (jj_scan_token(tCHAR2INT)) return true;
-    if (jj_scan_token(tPOPEN)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_factor_con_par_889_9_16()
- {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_factor_con_par_890_17_17()) {
-    jj_scanpos = xsp;
-    if (jj_3R_factor_con_par_896_25_18()) {
-    jj_scanpos = xsp;
-    if (jj_3_7()) return true;
-    }
-    }
     return false;
   }
 

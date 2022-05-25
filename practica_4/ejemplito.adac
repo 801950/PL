@@ -1,5 +1,5 @@
 procedure cerea is
 
 begin
-    put("hola");
+    put_line("hola",1);
 end
