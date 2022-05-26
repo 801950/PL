@@ -1,7 +1,25 @@
   ENP L0
-; -- Simple variable "i", type INT, level 0, address [3]
-; -- Simple variable "j", type INT, level 0, address [4]
+<variable_declaration>
+; -- Simple variable "r", type INT, level 0, address [3]
+; -- Array variable "i", type INT, size 2, level 0, address [4:5]!
+; -- Simple variable "j", type INT, level 0, address [6]
+; -- Simple variable "x", type BOOL, level 0, address [7]
+</variable_declaration>
 L0:
+<Asignacion_a_variable_simple_i>
+  STC  0
+; -- Initial address of array "i"
+  SRF  0  4
+  PLUS
+  STC  1
+  ASG
+</Asignacion_a_variable_simple_i>
+<Asignacion_a_variable_simple_x>
+; -- Address of variable / parameter "x"
+  SRF  0  7
+  STC  0
+  ASG
+</Asignacion_a_variable_simple_x>
 <put_line>
 ; -- Put STRING
 <put>
@@ -13,61 +31,15 @@ L0:
   WRT  0
   STC 97
   WRT  0
+  STC 32
+  WRT  0
 </put>
 <put>
-  STC  1
-  STC  1
-  EQ
-; -- Put BOOL
-  WRT  1
-</put>
-<put>
-  STC  1
   STC  0
-  EQ
-; -- Put BOOL
-  WRT  1
-</put>
-<put>
-  STC 98
-  STC 97
-  NEQ
-; -- Put BOOL
-  WRT  1
-</put>
-<put>
-  STC  5
-  STC  4
-  GT
-; -- Put BOOL
-  WRT  1
-</put>
-<put>
-  STC  5
-  STC  5
-  GTE
-; -- Put BOOL
-  WRT  1
-</put>
-<put>
-  STC  1
-  STC  2
-  GT
-; -- Put BOOL
-  WRT  1
-</put>
-<put>
-  STC  1
-  STC  9
-  LTE
-; -- Put BOOL
-  WRT  1
-</put>
-<put>
-  STC 97
-  STC 98
-  LT
-; -- Put BOOL
+  SRF  0  4
+  PLUS
+  DRF
+; -- Put INTEGER
   WRT  1
 </put>
 ; -- CR/LF

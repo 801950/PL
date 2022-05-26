@@ -248,24 +248,31 @@ void prog () :
 
 void declaracion_variables():
 {
-
+	Attributes at = new Attributes();
+	at.dir = 3;
 }
 {
-	( declaracion() <tPC> )*
+	( declaracion(at) <tPC> )*
+	{
+		at.code.encloseXMLTags("variable_declaration");
+		escribirCodigo(at.code.toString());
+	}
 }
 
-void declaracion():
+void declaracion(Attributes at):
 {
 	Symbol s = null;
 	Token t1;
-	Attributes at = new Attributes();
+	
+	Attributes at1 = new Attributes();
 
 }
 {
 	tipo_variable(at) 
 	lista_vars(at)
 	{
-		escribirCodigo(at.code.toString());
+	//	at.code.addBlock(at1.code);
+		//escribirCodigo(at.code.toString());
 	}
 }
 void tipo_variable(Attributes at):
@@ -291,7 +298,7 @@ void lista_vars(Attributes at):
 {
 //	at.nivel = stack.size();
 	System.out.println("nivel: " + at.nivel);
-	at.dir = 2;
+	
 }
 {
 	variable(at) ( <tCOMA> variable(at) )*
@@ -304,18 +311,19 @@ void variable(Attributes at):
 {
 	Token t1, t2;
 	System.out.println("llega nivel: " + at.nivel);
-	at.dir ++;
+	
 }
 {
 	LOOKAHEAD(2)
 	t1 = <tID> <tCORCHETEOPEN> t2 = <tNUM> <tCORCHETECLOSE>
 		{
 			semFuncs.insertArraySymbolTab(ts,t1,at,t2);
+			at.dir = at.dir + Integer.parseInt(t2.image);
 		}
 | 	t1 = <tID>
 		{
 			semFuncs.insertVariableSymbolTab(ts,t1,at);
-			
+			at.dir ++;
 		}
 }
 
@@ -526,6 +534,8 @@ void inst_acaban_end():
 void inst_asignacion():
 {
 	Attributes at1 = new Attributes(), at2 = new Attributes();
+	CodeBlock codeOut = new CodeBlock();
+	Symbol s;
 }
 {
 	asignable(at1)
@@ -533,6 +543,12 @@ void inst_asignacion():
 	expresion(at2)
 		{
 			semFuncs.checkAsignacion(at1,at2);
+			codeOut.addBlock(at1.code);
+			codeOut.addBlock(at2.code);
+			codeOut.addInst(PCodeInstruction.OpCode.ASG);
+			if(at1.type == Symbol.Types.ARRAY) codeOut.encloseXMLTags("Asignacion_a_componente_de_vector_"+at1.token.image);
+			else codeOut.encloseXMLTags("Asignacion_a_variable_simple_"+at1.token.image);
+			escribirCodigo(codeOut.toString());
 		}
 }
 
@@ -540,16 +556,26 @@ void asignable(Attributes at):
 {
 	Attributes at1 = new Attributes();
 	Token t;
+	Symbol s;
 }
 {
 	LOOKAHEAD(2)
 	t = <tID> <tCORCHETEOPEN> expresion(at1) <tCORCHETECLOSE>
 		{
 			semFuncs.checkAsignable(ts,t,at1,at);
+			s = ts.getSymbol(t.image);
+			at.code.addBlock(at1.code);
+			at.code.addComment(" Initial address of array \"" + t.image +"\"");
+			at.code.addInst(PCodeInstruction.OpCode.SRF,stack.size()-s.nivel,(int)s.dir);
+			at.code.addInst(PCodeInstruction.OpCode.PLUS);	
+		//	at.type = Symbol.Types.ARRAY;		
 		}
 | 	t = <tID>
 		{
 			semFuncs.checkAsignable(ts,t,at);
+			s = ts.getSymbol(t.image);
+			at.code.addComment(" Address of variable / parameter \"" + t.image +"\"");
+			at.code.addInst(PCodeInstruction.OpCode.SRF,stack.size()-s.nivel,(int)s.dir);
 		}
 		
 }
@@ -619,30 +645,16 @@ void inst_escribir():
 						codeOut.addComment(" Put STRING");
 						codeOut.addBlock(a.code);
 					} else if(a.type == Symbol.Types.INT){
-						
-						
-						if(!a.constante){
-							a.code.addInst(PCodeInstruction.OpCode.DRF);
-						}
 						a.code.addComment(" Put INTEGER");
 						a.code.addInst(PCodeInstruction.OpCode.WRT,1);
 						a.code.encloseXMLTags("put");
 						codeOut.addBlock(a.code);
 					} else if(a.type == Symbol.Types.CHAR){
-										
-						if(!a.constante){
-							a.code.addInst(PCodeInstruction.OpCode.DRF);
-						}
 						a.code.addComment(" Put CHAR");
 						a.code.addInst(PCodeInstruction.OpCode.WRT,0);
 						a.code.encloseXMLTags("put");
 						codeOut.addBlock(a.code);
 					} else if(a.type == Symbol.Types.BOOL){
-						
-						
-						if(!a.constante){
-							a.code.addInst(PCodeInstruction.OpCode.DRF);
-						}
 						a.code.addComment(" Put BOOL");
 						a.code.addInst(PCodeInstruction.OpCode.WRT,1);
 						a.code.encloseXMLTags("put");
@@ -683,28 +695,17 @@ void inst_escribir_linea():
 						codeOut.addComment(" Put STRING");
 						codeOut.addBlock(a.code);
 					} else if(a.type == Symbol.Types.INT){
-											
-						if(!a.constante){
-							a.code.addInst(PCodeInstruction.OpCode.DRF);
-						}
 						a.code.addComment(" Put INTEGER");
 						a.code.addInst(PCodeInstruction.OpCode.WRT,1);
 						a.code.encloseXMLTags("put");
 						codeOut.addBlock(a.code);
 					} else if(a.type == Symbol.Types.CHAR){
-						
-						if(!a.constante){
-							a.code.addInst(PCodeInstruction.OpCode.DRF);
-						}
 						a.code.addComment(" Put CHAR");
 						a.code.addInst(PCodeInstruction.OpCode.WRT,0);
 						a.code.encloseXMLTags("put");
 						codeOut.addBlock(a.code);
 
 					} else if(a.type == Symbol.Types.BOOL){			
-						if(!a.constante){
-							a.code.addInst(PCodeInstruction.OpCode.DRF);
-						}
 						a.code.addComment(" Put BOOL");
 						a.code.addInst(PCodeInstruction.OpCode.WRT,1);
 						a.code.encloseXMLTags("put");
@@ -960,6 +961,11 @@ void factor(Attributes at):
 		{
 			semFuncs.checkArray(ts,t,at);
 			at.constante = false;
+		//	at.code.addBlock(at.code);
+			s = ts.getSymbol(t.image);
+			at.code.addInst(PCodeInstruction.OpCode.SRF,stack.size()-s.nivel,(int)s.dir);
+			at.code.addInst(PCodeInstruction.OpCode.PLUS);
+			at.code.addInst(PCodeInstruction.OpCode.DRF);
 		}
 |	t = <tID>
 		{
@@ -970,6 +976,7 @@ void factor(Attributes at):
 			System.out.println("nivel de declaracion: " + s.nivel + " nivel de acceso: " + stack.size());
 			at.code.addComment("Variable / parameter \"" + t.image + "\"");
 			at.code.addInst(PCodeInstruction.OpCode.SRF,stack.size()-s.nivel,(int)s.dir);
+			at.code.addInst(PCodeInstruction.OpCode.DRF);
 		}
 | 	t = <tNUM>
 		{

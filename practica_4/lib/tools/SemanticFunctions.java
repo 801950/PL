@@ -180,10 +180,11 @@ public class SemanticFunctions {
 	 */
 	public void insertArraySymbolTab(SymbolTable ts, Token t1, Attributes at, Token t2){
 		try{
-			Symbol s = new SymbolArray(t1.image,0,Integer.parseInt(t2.image)-1,at.type);
+			int n = Integer.parseInt(t2.image);
+			Symbol s = new SymbolArray(t1.image,0,n-1,at.type);
 			s.dir = at.dir;
-			s.nivel = at.nivel;
-
+			int fin_dir = (int)at.dir + n-1;
+			at.code.addComment(" Array variable \""+ t1.image+ "\", type "+at.type+", size " + n + ", level " +s.nivel+ ", address ["+ at.dir + ":" + fin_dir + "]!");
 			ts.insertSymbol(s);
 		} catch (AlreadyDefinedSymbolException e) {
 			errSem.deteccion(e, t1);

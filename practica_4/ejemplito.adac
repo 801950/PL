@@ -1,5 +1,10 @@
 procedure cerea is
-integer i,j;
+integer r;
+integer i[2];
+integer j;
+boolean x;
 begin
-    put_line("hola",1=1,1=0,'b'<>'a',5>4,5>=5,1>2,1<=9,'a'<'b');
+    i[0] := 1;
+    x := false;
+    put_line("hola ", i[0]);
 end

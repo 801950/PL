@@ -97,7 +97,8 @@ codeOut.addInst(PCodeInstruction.OpCode.LVP);
                         System.err.println(ts.toString());
 }
 
-  static final public void declaracion_variables() throws ParseException {
+  static final public void declaracion_variables() throws ParseException {Attributes at = new Attributes();
+        at.dir = 3;
     label_1:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
@@ -111,17 +112,20 @@ codeOut.addInst(PCodeInstruction.OpCode.LVP);
         jj_la1[0] = jj_gen;
         break label_1;
       }
-      declaracion();
+      declaracion(at);
       jj_consume_token(tPC);
     }
+at.code.encloseXMLTags("variable_declaration");
+                escribirCodigo(at.code.toString());
 }
 
-  static final public void declaracion() throws ParseException {Symbol s = null;
+  static final public void declaracion(Attributes at) throws ParseException {Symbol s = null;
         Token t1;
-        Attributes at = new Attributes();
+
+        Attributes at1 = new Attributes();
     tipo_variable(at);
     lista_vars(at);
-escribirCodigo(at.code.toString());
+
 }
 
   static final public void tipo_variable(Attributes at) throws ParseException {
@@ -150,7 +154,6 @@ at.type = Symbol.Types.BOOL;
 
   static final public void lista_vars(Attributes at) throws ParseException {//	at.nivel = stack.size();
         System.out.println("nivel: " + at.nivel);
-        at.dir = 2;
     variable(at);
     label_2:
     while (true) {
@@ -171,18 +174,19 @@ System.out.println("nivel: " + at.nivel);
 
   static final public void variable(Attributes at) throws ParseException {Token t1, t2;
         System.out.println("llega nivel: " + at.nivel);
-        at.dir ++;
     if (jj_2_1(2)) {
       t1 = jj_consume_token(tID);
       jj_consume_token(tCORCHETEOPEN);
       t2 = jj_consume_token(tNUM);
       jj_consume_token(tCORCHETECLOSE);
 semFuncs.insertArraySymbolTab(ts,t1,at,t2);
+                        at.dir = at.dir + Integer.parseInt(t2.image);
     } else {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case tID:{
         t1 = jj_consume_token(tID);
 semFuncs.insertVariableSymbolTab(ts,t1,at);
+                        at.dir ++;
         break;
         }
       default:
@@ -522,25 +526,44 @@ Set<Integer> conjSinc = infoParseException(e);
 }
 
   static final public void inst_asignacion() throws ParseException {Attributes at1 = new Attributes(), at2 = new Attributes();
+        CodeBlock codeOut = new CodeBlock();
+        Symbol s;
     asignable(at1);
     jj_consume_token(tASIG);
     expresion(at2);
 semFuncs.checkAsignacion(at1,at2);
+                        codeOut.addBlock(at1.code);
+                        codeOut.addBlock(at2.code);
+                        codeOut.addInst(PCodeInstruction.OpCode.ASG);
+                        if(at1.type == Symbol.Types.ARRAY) codeOut.encloseXMLTags("Asignacion_a_componente_de_vector_"+at1.token.image);
+                        else codeOut.encloseXMLTags("Asignacion_a_variable_simple_"+at1.token.image);
+                        escribirCodigo(codeOut.toString());
 }
 
   static final public void asignable(Attributes at) throws ParseException {Attributes at1 = new Attributes();
         Token t;
+        Symbol s;
     if (jj_2_4(2)) {
       t = jj_consume_token(tID);
       jj_consume_token(tCORCHETEOPEN);
       expresion(at1);
       jj_consume_token(tCORCHETECLOSE);
 semFuncs.checkAsignable(ts,t,at1,at);
+                        s = ts.getSymbol(t.image);
+                        at.code.addBlock(at1.code);
+                        at.code.addComment(" Initial address of array \"" + t.image +"\"");
+                        at.code.addInst(PCodeInstruction.OpCode.SRF,stack.size()-s.nivel,(int)s.dir);
+                        at.code.addInst(PCodeInstruction.OpCode.PLUS);
+                //	at.type = Symbol.Types.ARRAY;		
+
     } else {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case tID:{
         t = jj_consume_token(tID);
 semFuncs.checkAsignable(ts,t,at);
+                        s = ts.getSymbol(t.image);
+                        at.code.addComment(" Address of variable / parameter \"" + t.image +"\"");
+                        at.code.addInst(PCodeInstruction.OpCode.SRF,stack.size()-s.nivel,(int)s.dir);
         break;
         }
       default:
@@ -632,30 +655,16 @@ try{
                                                 codeOut.addComment(" Put STRING");
                                                 codeOut.addBlock(a.code);
                                         } else if(a.type == Symbol.Types.INT){
-
-
-                                                if(!a.constante){
-                                                        a.code.addInst(PCodeInstruction.OpCode.DRF);
-                                                }
                                                 a.code.addComment(" Put INTEGER");
                                                 a.code.addInst(PCodeInstruction.OpCode.WRT,1);
                                                 a.code.encloseXMLTags("put");
                                                 codeOut.addBlock(a.code);
                                         } else if(a.type == Symbol.Types.CHAR){
-
-                                                if(!a.constante){
-                                                        a.code.addInst(PCodeInstruction.OpCode.DRF);
-                                                }
                                                 a.code.addComment(" Put CHAR");
                                                 a.code.addInst(PCodeInstruction.OpCode.WRT,0);
                                                 a.code.encloseXMLTags("put");
                                                 codeOut.addBlock(a.code);
                                         } else if(a.type == Symbol.Types.BOOL){
-
-
-                                                if(!a.constante){
-                                                        a.code.addInst(PCodeInstruction.OpCode.DRF);
-                                                }
                                                 a.code.addComment(" Put BOOL");
                                                 a.code.addInst(PCodeInstruction.OpCode.WRT,1);
                                                 a.code.encloseXMLTags("put");
@@ -711,28 +720,17 @@ try{
                                                 codeOut.addComment(" Put STRING");
                                                 codeOut.addBlock(a.code);
                                         } else if(a.type == Symbol.Types.INT){
-
-                                                if(!a.constante){
-                                                        a.code.addInst(PCodeInstruction.OpCode.DRF);
-                                                }
                                                 a.code.addComment(" Put INTEGER");
                                                 a.code.addInst(PCodeInstruction.OpCode.WRT,1);
                                                 a.code.encloseXMLTags("put");
                                                 codeOut.addBlock(a.code);
                                         } else if(a.type == Symbol.Types.CHAR){
-
-                                                if(!a.constante){
-                                                        a.code.addInst(PCodeInstruction.OpCode.DRF);
-                                                }
                                                 a.code.addComment(" Put CHAR");
                                                 a.code.addInst(PCodeInstruction.OpCode.WRT,0);
                                                 a.code.encloseXMLTags("put");
                                                 codeOut.addBlock(a.code);
 
                                         } else if(a.type == Symbol.Types.BOOL){
-                                                if(!a.constante){
-                                                        a.code.addInst(PCodeInstruction.OpCode.DRF);
-                                                }
                                                 a.code.addComment(" Put BOOL");
                                                 a.code.addInst(PCodeInstruction.OpCode.WRT,1);
                                                 a.code.encloseXMLTags("put");
@@ -1139,6 +1137,11 @@ semFuncs.checkBool(at);
         jj_consume_token(tCORCHETECLOSE);
 semFuncs.checkArray(ts,t,at);
                         at.constante = false;
+                //	at.code.addBlock(at.code);
+                        s = ts.getSymbol(t.image);
+                        at.code.addInst(PCodeInstruction.OpCode.SRF,stack.size()-s.nivel,(int)s.dir);
+                        at.code.addInst(PCodeInstruction.OpCode.PLUS);
+                        at.code.addInst(PCodeInstruction.OpCode.DRF);
       } else {
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
         case tID:{
@@ -1150,6 +1153,7 @@ at.token = t;
                         System.out.println("nivel de declaracion: " + s.nivel + " nivel de acceso: " + stack.size());
                         at.code.addComment("Variable / parameter \"" + t.image + "\"");
                         at.code.addInst(PCodeInstruction.OpCode.SRF,stack.size()-s.nivel,(int)s.dir);
+                        at.code.addInst(PCodeInstruction.OpCode.DRF);
           break;
           }
         case tNUM:{
@@ -1359,6 +1363,55 @@ Set<Integer> conjSinc = infoParseException(e);
     finally { jj_save(6, xla); }
   }
 
+  static private boolean jj_3_4()
+ {
+    if (jj_scan_token(tID)) return true;
+    if (jj_scan_token(tCORCHETEOPEN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_factor_con_par_1034_17_17()
+ {
+    if (jj_scan_token(tINT2CHAR)) return true;
+    if (jj_scan_token(tPOPEN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_7()
+ {
+    if (jj_scan_token(tID)) return true;
+    if (jj_scan_token(tPOPEN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_inst_invoc_proc_739_5_15()
+ {
+    if (jj_scan_token(tID)) return true;
+    if (jj_scan_token(tPOPEN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_factor_con_par_1040_25_18()
+ {
+    if (jj_scan_token(tCHAR2INT)) return true;
+    if (jj_scan_token(tPOPEN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_factor_con_par_1033_9_16()
+ {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_factor_con_par_1034_17_17()) {
+    jj_scanpos = xsp;
+    if (jj_3R_factor_con_par_1040_25_18()) {
+    jj_scanpos = xsp;
+    if (jj_3_7()) return true;
+    }
+    }
+    return false;
+  }
+
   static private boolean jj_3_2()
  {
     if (jj_scan_token(tID)) return true;
@@ -1373,41 +1426,7 @@ Set<Integer> conjSinc = infoParseException(e);
     return false;
   }
 
-  static private boolean jj_3_3()
- {
-    if (jj_3R_inst_invoc_proc_738_5_15()) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_factor_con_par_1027_17_17()
- {
-    if (jj_scan_token(tINT2CHAR)) return true;
-    if (jj_scan_token(tPOPEN)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_inst_invoc_proc_738_5_15()
- {
-    if (jj_scan_token(tID)) return true;
-    if (jj_scan_token(tPOPEN)) return true;
-    return false;
-  }
-
-  static private boolean jj_3_7()
- {
-    if (jj_scan_token(tID)) return true;
-    if (jj_scan_token(tPOPEN)) return true;
-    return false;
-  }
-
   static private boolean jj_3_6()
- {
-    if (jj_scan_token(tID)) return true;
-    if (jj_scan_token(tCORCHETEOPEN)) return true;
-    return false;
-  }
-
-  static private boolean jj_3_4()
  {
     if (jj_scan_token(tID)) return true;
     if (jj_scan_token(tCORCHETEOPEN)) return true;
@@ -1416,28 +1435,13 @@ Set<Integer> conjSinc = infoParseException(e);
 
   static private boolean jj_3_5()
  {
-    if (jj_3R_factor_con_par_1026_9_16()) return true;
+    if (jj_3R_factor_con_par_1033_9_16()) return true;
     return false;
   }
 
-  static private boolean jj_3R_factor_con_par_1033_25_18()
+  static private boolean jj_3_3()
  {
-    if (jj_scan_token(tCHAR2INT)) return true;
-    if (jj_scan_token(tPOPEN)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_factor_con_par_1026_9_16()
- {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_factor_con_par_1027_17_17()) {
-    jj_scanpos = xsp;
-    if (jj_3R_factor_con_par_1033_25_18()) {
-    jj_scanpos = xsp;
-    if (jj_3_7()) return true;
-    }
-    }
+    if (jj_3R_inst_invoc_proc_739_5_15()) return true;
     return false;
   }
 
