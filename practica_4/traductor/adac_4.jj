@@ -546,8 +546,9 @@ void inst_asignacion():
 			codeOut.addBlock(at1.code);
 			codeOut.addBlock(at2.code);
 			codeOut.addInst(PCodeInstruction.OpCode.ASG);
-			if(at1.type == Symbol.Types.ARRAY) codeOut.encloseXMLTags("Asignacion_a_componente_de_vector_"+at1.token.image);
-			else codeOut.encloseXMLTags("Asignacion_a_variable_simple_"+at1.token.image);
+		//	if(type == Symbol.Types.ARRAY) codeOut.encloseXMLTags("Asignacion_a_componente_de_vector_"+at1.token.image);
+		//	else 
+			codeOut.encloseXMLTags("Asignacion_a_variable_simple_"+at1.token.image);
 			escribirCodigo(codeOut.toString());
 		}
 }
@@ -567,8 +568,7 @@ void asignable(Attributes at):
 			at.code.addBlock(at1.code);
 			at.code.addComment(" Initial address of array \"" + t.image +"\"");
 			at.code.addInst(PCodeInstruction.OpCode.SRF,stack.size()-s.nivel,(int)s.dir);
-			at.code.addInst(PCodeInstruction.OpCode.PLUS);	
-		//	at.type = Symbol.Types.ARRAY;		
+			at.code.addInst(PCodeInstruction.OpCode.PLUS);		
 		}
 | 	t = <tID>
 		{
@@ -862,7 +862,6 @@ void expresion_simple(Attributes at):
 				at1.code.addInst(PCodeInstruction.OpCode.NGI);
 			}
 			semFuncs.check2typesWithOperator(at1,at2,at3,at);
-		//	at.code.addBlock(at1.code);
 			System.out.println("Añado el boque " + at.code.toString());
 		}
 }
@@ -902,8 +901,6 @@ void termino(Attributes at):
 	factor(at1) (operador_multiplicativo(at3) factor(at2))*
 		{
 			semFuncs.check2typesWithOperator(at1,at2,at3,at);
-			
-		//	at.code.addBlock(at1.code);
 			System.out.println("Añado el boque " + at.code.toString());
 		}
 }

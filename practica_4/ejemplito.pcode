@@ -2,18 +2,27 @@
 <cerea>
   ENP L0
 <variable_declaration>
-; --- Array variable "i", type 0, size 2, level 0, address [3:4]!
+; --- Simple variable "r", type 0, level 0,  address [3]!
+; --- Array variable "i", type 0, size 2, level 0, address [4:5]!
+; --- Simple variable "j", type 0, level 0,  address [6]!
+; --- Simple variable "x", type 1, level 0,  address [7]!
 </variable_declaration>
 L0:
 <cerea_instruction_block>
 <Assignment_to_component_of_array_i>
   STC  0
 ; --- Initial address of array "i"
-  SRF  0  3
+  SRF  0  4
   PLUS 
-  STC  5
+  STC  1
   ASG 
 </Assignment_to_component_of_array_i>
+<Assignment_to__simple_variable_x>
+; --- Address of variable / parameter "x"
+  SRF  0  7
+  STC  0
+  ASG 
+</Assignment_to__simple_variable_x>
 <put>
 ; --- Put STRING "hola " (length 5)
 ; --- Standard string writing
@@ -30,9 +39,9 @@ L0:
 </put>
 <put>
 <component_of_array_i>
-  STC  1
+  STC  0
 ; --- Initial address of array "i"
-  SRF  0  3
+  SRF  0  4
   PLUS 
   DRF 
 </component_of_array_i>
