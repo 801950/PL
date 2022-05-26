@@ -1,5 +1,5 @@
 procedure cerea is
-
+integer i,j;
 begin
-    put_line("hola",1);
+    put_line("hola",1=1,1=0,'b'<>'a',5>4,5>=5,1>2,1<=9,'a'<'b');
 end

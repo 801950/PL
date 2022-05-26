@@ -10,6 +10,9 @@
 package lib.tools;
 
 import java.util.*;
+
+import org.w3c.dom.Attr;
+
 import traductor.Token;
 import lib.attributes.*;
 import lib.symbolTable.*;
@@ -64,7 +67,7 @@ public class SemanticFunctions {
 			at.token = at1.token;
 			at.dimension = at1.dimension;
 			at.constante = at1.constante;
-		
+			at.code.addBlock(at1.code);
 		} else if(at1.type.equals(at2.type) && at1.type != Symbol.Types.ARRAY){
 			at.type = Symbol.Types.BOOL;
 			at.token = new Token(at1.token.kind);
@@ -74,6 +77,9 @@ public class SemanticFunctions {
 			at.token.endColumn = at2.token.endColumn;
 			at.token.image = at1.token.image + " " + at3.token.image + " " + at2.token.image;
 			at.constante = true;
+			at.code.addBlock(at1.code);
+			at.code.addBlock(at2.code);
+			at.code.addBlock(at3.code);
 		} else {
 			at.type = Symbol.Types.UNDEFINED;
 			at.token = new Token(at1.token.kind);
@@ -111,11 +117,15 @@ public class SemanticFunctions {
 			at.token.endColumn = at2.token.endColumn;
 			at.token.image = at1.token.image + " " + at3.token.image + " " + at2.token.image;
 			at.constante = true;
+			at.code.addBlock(at1.code);
+			at.code.addBlock(at2.code);
+			at.code.addBlock(at3.code);
 		} else { 
 			at.type = at1.type;
 			at.token = at1.token;
 			at.constante = at1.constante;
 			at.dimension = at1.dimension;
+			at.code.addBlock(at1.code);
 		}
 	}
 
@@ -170,7 +180,11 @@ public class SemanticFunctions {
 	 */
 	public void insertArraySymbolTab(SymbolTable ts, Token t1, Attributes at, Token t2){
 		try{
-			ts.insertSymbol(new SymbolArray(t1.image,0,Integer.parseInt(t2.image)-1,at.type));
+			Symbol s = new SymbolArray(t1.image,0,Integer.parseInt(t2.image)-1,at.type);
+			s.dir = at.dir;
+			s.nivel = at.nivel;
+
+			ts.insertSymbol(s);
 		} catch (AlreadyDefinedSymbolException e) {
 			errSem.deteccion(e, t1);
 		}
@@ -184,11 +198,20 @@ public class SemanticFunctions {
 	public void insertVariableSymbolTab(SymbolTable ts, Token t1, Attributes at){
 		try{
 			if(at.type == Symbol.Types.INT){
-				ts.insertSymbol(new SymbolInt(t1.image));
+				Symbol s = new SymbolInt(t1.image);
+				s.dir = at.dir;
+				ts.insertSymbol(s);
+				at.code.addComment(" Simple variable \"" + t1.image + "\", type " + at.type + ", level " + s.nivel + ", address [" + at.dir + "]");
 			} else if (at.type == Symbol.Types.CHAR){
-				ts.insertSymbol(new SymbolChar(t1.image));
+				Symbol s = new SymbolChar(t1.image);
+				s.dir = at.dir;
+				ts.insertSymbol(s);
+				at.code.addComment(" Simple variable \"" + t1.image + "\", type " + at.type + ", level " + s.nivel + ", address [" + at.dir + "]");
 			} else if (at.type == Symbol.Types.BOOL){
-				ts.insertSymbol(new SymbolBool(t1.image));
+				Symbol s = new SymbolBool(t1.image);
+				s.dir = at.dir;
+				ts.insertSymbol(s);
+				at.code.addComment(" Simple variable \"" + t1.image + "\", type " + at.type + ", level " + s.nivel + ", address [" + at.dir + "]");
 			}
 		} catch (AlreadyDefinedSymbolException e) {
 			errSem.deteccion(e, t1);
@@ -209,6 +232,21 @@ public class SemanticFunctions {
 			errSem.deteccion(e, t);
 		}
 		ts.insertBlock();
+		return p;
+	}
+
+	/**
+	 * Inserta en la tabla de símbolos ts un SymbolProcedure de nombre t con la 
+	 * lista de parámetros vacía. Además inserta en la tabla de símbolos el 
+	 * bloque de secuencias.
+	 */
+	public SymbolProcedure insertProcedureSymbolTabFirst(SymbolTable ts, Token t){
+		SymbolProcedure p = new SymbolProcedure(t.image,new ArrayList<Symbol>());
+		try{
+			ts.insertSymbol(p);
+		} catch(AlreadyDefinedSymbolException e){
+			errSem.deteccion(e, t);
+		}
 		return p;
 	}
 
@@ -422,9 +460,11 @@ public class SemanticFunctions {
 	 *  parámetro con la información necesaria para cada tipo de parámetro.
 	 */ 
 	public void saveInfoParameter(Attributes at, Attributes at1, Attributes at2){
-		at.par.add(new Parameter(at1.constante,at1.type,at1.token, at1.dimension));
+		at.par.add(at1);
+		at.code.addBlock(at1.code);
 		if(at2.par.size()>0){
-			for(Parameter e : at2.par) at.par.add(e);
+			at.code.addBlock(at2.code);
+			for(Attributes e : at2.par) at.par.add(e);
 		} 
 		if(at2.token != null){
 			at.token = new Token(at1.token.kind);
@@ -455,7 +495,7 @@ public class SemanticFunctions {
 				if(sf.parList.size() == at.par.size()){
 					int i = 0;
 					for(Symbol s1 : sf.parList) {
-						Parameter p = at.par.get(i);
+						Attributes p = at.par.get(i);
 						if(s1.type != p.type){
 							errSem.deteccion("Se esperaba un parámetro del tipo " + s1.type,p.token );
 						}
@@ -479,7 +519,7 @@ public class SemanticFunctions {
 				if(sf.parList.size() == at.par.size()){
 					int i = 0;
 					for(Symbol s1 : sf.parList) {
-						Parameter p = at.par.get(i);
+						Attributes p = at.par.get(i);
 						if(s1.type != p.type){
 							errSem.deteccion("Se esperaba un parámetro del tipo " + s1.type,p.token );
 						}

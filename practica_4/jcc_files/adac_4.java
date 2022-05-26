@@ -81,7 +81,7 @@ codeOut.addInst(PCodeInstruction.OpCode.ENP,"L0");
                         escribirCodigo(s);
                         codeOut.clearBlock();
     t = jj_consume_token(tID);
-principal = semFuncs.insertProcedureSymbolTab(ts, t);
+principal = semFuncs.insertProcedureSymbolTabFirst(ts, t);
     jj_consume_token(tIS);
     declaracion_variables();
     declaracion_procs_funcs();
@@ -121,6 +121,7 @@ codeOut.addInst(PCodeInstruction.OpCode.LVP);
         Attributes at = new Attributes();
     tipo_variable(at);
     lista_vars(at);
+escribirCodigo(at.code.toString());
 }
 
   static final public void tipo_variable(Attributes at) throws ParseException {
@@ -147,7 +148,9 @@ at.type = Symbol.Types.BOOL;
     }
 }
 
-  static final public void lista_vars(Attributes at) throws ParseException {
+  static final public void lista_vars(Attributes at) throws ParseException {//	at.nivel = stack.size();
+        System.out.println("nivel: " + at.nivel);
+        at.dir = 2;
     variable(at);
     label_2:
     while (true) {
@@ -163,9 +166,12 @@ at.type = Symbol.Types.BOOL;
       jj_consume_token(tCOMA);
       variable(at);
     }
+System.out.println("nivel: " + at.nivel);
 }
 
   static final public void variable(Attributes at) throws ParseException {Token t1, t2;
+        System.out.println("llega nivel: " + at.nivel);
+        at.dir ++;
     if (jj_2_1(2)) {
       t1 = jj_consume_token(tID);
       jj_consume_token(tCORCHETEOPEN);
@@ -610,16 +616,55 @@ Set<Integer> conjSinc = infoParseException(e);
 }
 
   static final public void inst_escribir() throws ParseException {Attributes at1 = new Attributes();
+        CodeBlock codeOut = new CodeBlock();
     try {
       jj_consume_token(tPUT);
       jj_consume_token(tPOPEN);
       lista_una_o_mas_exps(at1);
       jj_consume_token(tPCLOSE);
 try{
-                                at1.code.encloseXMLTags("print");
-                                String s = at1.code.toString();
-                                for (int i = 0; i < s.length(); i++)
-                        f.write(s.charAt(i));
+                                codeOut.clearBlock();
+                                System.out.println(at1.par.size());
+                                for(Attributes a : at1.par){
+
+                                        if(a.type == Symbol.Types.STRING){
+                                                a.code.encloseXMLTags("put");
+                                                codeOut.addComment(" Put STRING");
+                                                codeOut.addBlock(a.code);
+                                        } else if(a.type == Symbol.Types.INT){
+
+
+                                                if(!a.constante){
+                                                        a.code.addInst(PCodeInstruction.OpCode.DRF);
+                                                }
+                                                a.code.addComment(" Put INTEGER");
+                                                a.code.addInst(PCodeInstruction.OpCode.WRT,1);
+                                                a.code.encloseXMLTags("put");
+                                                codeOut.addBlock(a.code);
+                                        } else if(a.type == Symbol.Types.CHAR){
+
+                                                if(!a.constante){
+                                                        a.code.addInst(PCodeInstruction.OpCode.DRF);
+                                                }
+                                                a.code.addComment(" Put CHAR");
+                                                a.code.addInst(PCodeInstruction.OpCode.WRT,0);
+                                                a.code.encloseXMLTags("put");
+                                                codeOut.addBlock(a.code);
+                                        } else if(a.type == Symbol.Types.BOOL){
+
+
+                                                if(!a.constante){
+                                                        a.code.addInst(PCodeInstruction.OpCode.DRF);
+                                                }
+                                                a.code.addComment(" Put BOOL");
+                                                a.code.addInst(PCodeInstruction.OpCode.WRT,1);
+                                                a.code.encloseXMLTags("put");
+                                                codeOut.addBlock(a.code);
+                                        }
+                                }
+
+                                codeOut.encloseXMLTags("put");
+                                escribirCodigo(codeOut.toString());
                         } catch(Exception e){
                                 System.err.println("Excepci\u00f3n: " + e.getMessage());
                         }
@@ -657,20 +702,49 @@ Set<Integer> conjSinc = infoParseException(e);
       }
       jj_consume_token(tPCLOSE);
 try{
+                                codeOut.clearBlock();
+                                System.out.println(at1.par.size());
                                 for(Attributes a : at1.par){
+
                                         if(a.type == Symbol.Types.STRING){
-                                                System.out.println("A\u00f1ado el bloquecito");
+                                                a.code.encloseXMLTags("put");
+                                                codeOut.addComment(" Put STRING");
                                                 codeOut.addBlock(a.code);
                                         } else if(a.type == Symbol.Types.INT){
+
+                                                if(!a.constante){
+                                                        a.code.addInst(PCodeInstruction.OpCode.DRF);
+                                                }
+                                                a.code.addComment(" Put INTEGER");
+                                                a.code.addInst(PCodeInstruction.OpCode.WRT,1);
+                                                a.code.encloseXMLTags("put");
                                                 codeOut.addBlock(a.code);
-                                                codeOut.addInst(PCodeInstruction.OpCode.WRT,1);
+                                        } else if(a.type == Symbol.Types.CHAR){
+
+                                                if(!a.constante){
+                                                        a.code.addInst(PCodeInstruction.OpCode.DRF);
+                                                }
+                                                a.code.addComment(" Put CHAR");
+                                                a.code.addInst(PCodeInstruction.OpCode.WRT,0);
+                                                a.code.encloseXMLTags("put");
+                                                codeOut.addBlock(a.code);
+
+                                        } else if(a.type == Symbol.Types.BOOL){
+                                                if(!a.constante){
+                                                        a.code.addInst(PCodeInstruction.OpCode.DRF);
+                                                }
+                                                a.code.addComment(" Put BOOL");
+                                                a.code.addInst(PCodeInstruction.OpCode.WRT,1);
+                                                a.code.encloseXMLTags("put");
+                                                codeOut.addBlock(a.code);
                                         }
                                 }
+                                codeOut.addComment(" CR/LF");
                                 codeOut.addInst(PCodeInstruction.OpCode.STC,13);
                                 codeOut.addInst(PCodeInstruction.OpCode.WRT,0);
                                 codeOut.addInst(PCodeInstruction.OpCode.STC,10);
                                 codeOut.addInst(PCodeInstruction.OpCode.WRT,0);
-                                codeOut.encloseXMLTags("print_line");
+                                codeOut.encloseXMLTags("put_line");
                                 escribirCodigo(codeOut.toString());
                         } catch(Exception e){
                                 System.err.println("Excepci\u00f3n: " + e.getMessage());
@@ -821,7 +895,7 @@ Set<Integer> conjSinc = infoParseException(e);
       ;
     }
 semFuncs.saveInfoParameter(at,at1,at2);
-                        at.code.addBlock(at1.code);
+                //	at.code.addBlock(at1.code);
                         System.out.println("A\u00f1ado el boque " + at.code.toString());
 }
 
@@ -843,7 +917,7 @@ semFuncs.saveInfoParameter(at,at1,at2);
       ;
     }
 semFuncs.check2typesWithRelationalOperator(at1, at2, at3, at);
-                        at.code.addBlock(at1.code);
+                //	at.code.addBlock(at1.code);
                         System.out.println("A\u00f1ado el boque " + at.code.toString());
 }
 
@@ -852,31 +926,37 @@ semFuncs.check2typesWithRelationalOperator(at1, at2, at3, at);
     case tEQ:{
       t = jj_consume_token(tEQ);
 at.token = t;
+                        at.code.addInst(PCodeInstruction.OpCode.EQ);
       break;
       }
     case tMAYEQ:{
       t = jj_consume_token(tMAYEQ);
 at.token = t;
+                        at.code.addInst(PCodeInstruction.OpCode.GTE);
       break;
       }
     case tMENEQ:{
       t = jj_consume_token(tMENEQ);
 at.token = t;
+                        at.code.addInst(PCodeInstruction.OpCode.LTE);
       break;
       }
     case tMAY:{
       t = jj_consume_token(tMAY);
 at.token = t;
+                        at.code.addInst(PCodeInstruction.OpCode.GT);
       break;
       }
     case tMEN:{
       t = jj_consume_token(tMEN);
 at.token = t;
+                        at.code.addInst(PCodeInstruction.OpCode.LT);
       break;
       }
     case tDIST:{
       t = jj_consume_token(tDIST);
 at.token = t;
+                        at.code.addInst(PCodeInstruction.OpCode.NEQ);
       break;
       }
     default:
@@ -887,12 +967,13 @@ at.token = t;
 }
 
   static final public void expresion_simple(Attributes at) throws ParseException {Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
+        Token t = new Token();
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case tSUM:
     case tRES:{
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case tRES:{
-        jj_consume_token(tRES);
+        t = jj_consume_token(tRES);
         break;
         }
       case tSUM:{
@@ -927,8 +1008,11 @@ at.token = t;
       operador_aditivo(at3);
       termino(at2);
     }
-semFuncs.check2typesWithOperator(at1,at2,at3,at);
-                        at.code.addBlock(at1.code);
+if(t.image != null){
+                                at1.code.addInst(PCodeInstruction.OpCode.NGI);
+                        }
+                        semFuncs.check2typesWithOperator(at1,at2,at3,at);
+                //	at.code.addBlock(at1.code);
                         System.out.println("A\u00f1ado el boque " + at.code.toString());
 }
 
@@ -938,18 +1022,21 @@ semFuncs.check2typesWithOperator(at1,at2,at3,at);
       t = jj_consume_token(tSUM);
 at.type = Symbol.Types.INT;
                         at.token = t;
+                        at.code.addInst(PCodeInstruction.OpCode.PLUS);
       break;
       }
     case tRES:{
       t = jj_consume_token(tRES);
 at.type = Symbol.Types.INT;
                         at.token = t;
+                        at.code.addInst(PCodeInstruction.OpCode.SBT);
       break;
       }
     case tOR:{
       t = jj_consume_token(tOR);
 at.type = Symbol.Types.BOOL;
                         at.token = t;
+                        at.code.addInst(PCodeInstruction.OpCode.OR);
       break;
       }
     default:
@@ -982,7 +1069,7 @@ at.type = Symbol.Types.BOOL;
     }
 semFuncs.check2typesWithOperator(at1,at2,at3,at);
 
-                        at.code.addBlock(at1.code);
+                //	at.code.addBlock(at1.code);
                         System.out.println("A\u00f1ado el boque " + at.code.toString());
 }
 
@@ -992,24 +1079,28 @@ semFuncs.check2typesWithOperator(at1,at2,at3,at);
       t = jj_consume_token(tMUL);
 at.type = Symbol.Types.INT;
                         at.token = t;
+                        at.code.addInst(PCodeInstruction.OpCode.TMS);
       break;
       }
     case tMOD:{
       t = jj_consume_token(tMOD);
 at.type = Symbol.Types.INT;
                         at.token = t;
+                        at.code.addInst(PCodeInstruction.OpCode.MOD);
       break;
       }
     case tDIV:{
       t = jj_consume_token(tDIV);
 at.type = Symbol.Types.INT;
                         at.token = t;
+                        at.code.addInst(PCodeInstruction.OpCode.DIV);
       break;
       }
     case tAND:{
       t = jj_consume_token(tAND);
 at.type = Symbol.Types.BOOL;
                         at.token = t;
+                        at.code.addInst(PCodeInstruction.OpCode.AND);
       break;
       }
     default:
@@ -1028,6 +1119,7 @@ at.type = Symbol.Types.BOOL;
       factor(at);
 semFuncs.checkBool(at);
                         at.constante = true;
+                        at.code.addInst(PCodeInstruction.OpCode.NGB);
       break;
       }
     case tPOPEN:{
@@ -1054,17 +1146,10 @@ semFuncs.checkArray(ts,t,at);
 at.token = t;
                         semFuncs.checkVariable(ts,t,at);
                         at.constante = false;
-                        int n = 3, dsp = 0;
-                        // for(int i = ts.st.size()-1 ; i >= 0; i--){
-                        // 	for(String s : ts.st.get(i).keySet()){
-                        // 		if(s.equals(t.image)) break;
-                        // 		else n++;
-                        // 	}
-                        // 	n = 3;
-                        // 	dsp ++;
-                        // }
-                        // at.code.addInst(PCodeInstruction.OpCode.STR,dsp,n);
-
+                        s = ts.getSymbol(t.image);
+                        System.out.println("nivel de declaracion: " + s.nivel + " nivel de acceso: " + stack.size());
+                        at.code.addComment("Variable / parameter \"" + t.image + "\"");
+                        at.code.addInst(PCodeInstruction.OpCode.SRF,stack.size()-s.nivel,(int)s.dir);
           break;
           }
         case tNUM:{
@@ -1080,7 +1165,12 @@ at.type = Symbol.Types.INT;
 at.type = Symbol.Types.CHAR;
                         at.token = t;
                         at.constante = true;
-                        at.code.addInst(PCodeInstruction.OpCode.STC,Integer.parseInt(token.image));
+                        String str = at.token.image;
+                        //str = str.substring(1,str.length()-1);
+                //	for(int i = 1; i < str.length()-1; i++){
+                        at.code.addInst(PCodeInstruction.OpCode.STC,(int)str.charAt(1));
+                //	}
+
           break;
           }
         case tSTRING:{
@@ -1269,48 +1359,7 @@ Set<Integer> conjSinc = infoParseException(e);
     finally { jj_save(6, xla); }
   }
 
-  static private boolean jj_3R_factor_con_par_938_25_18()
- {
-    if (jj_scan_token(tCHAR2INT)) return true;
-    if (jj_scan_token(tPOPEN)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_factor_con_par_931_9_16()
- {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_factor_con_par_932_17_17()) {
-    jj_scanpos = xsp;
-    if (jj_3R_factor_con_par_938_25_18()) {
-    jj_scanpos = xsp;
-    if (jj_3_7()) return true;
-    }
-    }
-    return false;
-  }
-
-  static private boolean jj_3_6()
- {
-    if (jj_scan_token(tID)) return true;
-    if (jj_scan_token(tCORCHETEOPEN)) return true;
-    return false;
-  }
-
-  static private boolean jj_3R_inst_invoc_proc_658_5_15()
- {
-    if (jj_scan_token(tID)) return true;
-    if (jj_scan_token(tPOPEN)) return true;
-    return false;
-  }
-
-  static private boolean jj_3_5()
- {
-    if (jj_3R_factor_con_par_931_9_16()) return true;
-    return false;
-  }
-
-  static private boolean jj_3_4()
+  static private boolean jj_3_2()
  {
     if (jj_scan_token(tID)) return true;
     if (jj_scan_token(tCORCHETEOPEN)) return true;
@@ -1324,23 +1373,23 @@ Set<Integer> conjSinc = infoParseException(e);
     return false;
   }
 
-  static private boolean jj_3_2()
+  static private boolean jj_3_3()
  {
-    if (jj_scan_token(tID)) return true;
-    if (jj_scan_token(tCORCHETEOPEN)) return true;
+    if (jj_3R_inst_invoc_proc_738_5_15()) return true;
     return false;
   }
 
-  static private boolean jj_3R_factor_con_par_932_17_17()
+  static private boolean jj_3R_factor_con_par_1027_17_17()
  {
     if (jj_scan_token(tINT2CHAR)) return true;
     if (jj_scan_token(tPOPEN)) return true;
     return false;
   }
 
-  static private boolean jj_3_3()
+  static private boolean jj_3R_inst_invoc_proc_738_5_15()
  {
-    if (jj_3R_inst_invoc_proc_658_5_15()) return true;
+    if (jj_scan_token(tID)) return true;
+    if (jj_scan_token(tPOPEN)) return true;
     return false;
   }
 
@@ -1348,6 +1397,47 @@ Set<Integer> conjSinc = infoParseException(e);
  {
     if (jj_scan_token(tID)) return true;
     if (jj_scan_token(tPOPEN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_6()
+ {
+    if (jj_scan_token(tID)) return true;
+    if (jj_scan_token(tCORCHETEOPEN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_4()
+ {
+    if (jj_scan_token(tID)) return true;
+    if (jj_scan_token(tCORCHETEOPEN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_5()
+ {
+    if (jj_3R_factor_con_par_1026_9_16()) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_factor_con_par_1033_25_18()
+ {
+    if (jj_scan_token(tCHAR2INT)) return true;
+    if (jj_scan_token(tPOPEN)) return true;
+    return false;
+  }
+
+  static private boolean jj_3R_factor_con_par_1026_9_16()
+ {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_factor_con_par_1027_17_17()) {
+    jj_scanpos = xsp;
+    if (jj_3R_factor_con_par_1033_25_18()) {
+    jj_scanpos = xsp;
+    if (jj_3_7()) return true;
+    }
+    }
     return false;
   }
 

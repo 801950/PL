@@ -1,6 +1,10 @@
   ENP L0
+; -- Simple variable "i", type INT, level 0, address [3]
+; -- Simple variable "j", type INT, level 0, address [4]
 L0:
-<print_line>
+<put_line>
+; -- Put STRING
+<put>
   STC 104
   WRT  0
   STC 111
@@ -9,18 +13,67 @@ L0:
   WRT  0
   STC 97
   WRT  0
-  STC 104
-  WRT  0
-  STC 111
-  WRT  0
-  STC 108
-  WRT  0
-  STC 97
-  WRT  0
+</put>
+<put>
+  STC  1
+  STC  1
+  EQ
+; -- Put BOOL
   WRT  1
+</put>
+<put>
+  STC  1
+  STC  0
+  EQ
+; -- Put BOOL
+  WRT  1
+</put>
+<put>
+  STC 98
+  STC 97
+  NEQ
+; -- Put BOOL
+  WRT  1
+</put>
+<put>
+  STC  5
+  STC  4
+  GT
+; -- Put BOOL
+  WRT  1
+</put>
+<put>
+  STC  5
+  STC  5
+  GTE
+; -- Put BOOL
+  WRT  1
+</put>
+<put>
+  STC  1
+  STC  2
+  GT
+; -- Put BOOL
+  WRT  1
+</put>
+<put>
+  STC  1
+  STC  9
+  LTE
+; -- Put BOOL
+  WRT  1
+</put>
+<put>
+  STC 97
+  STC 98
+  LT
+; -- Put BOOL
+  WRT  1
+</put>
+; -- CR/LF
   STC 13
   WRT  0
   STC 10
   WRT  0
-</print_line>
+</put_line>
   LVP

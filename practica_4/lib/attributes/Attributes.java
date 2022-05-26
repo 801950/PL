@@ -25,22 +25,24 @@ public class Attributes implements Cloneable {
     public char valChar;
     public String valString;
     public boolean constante;
-    public ArrayList<Parameter> par;
+    public ArrayList<Attributes> par;
 
     public Token token;
 
     public int dimension;
+    public long dir;
+    public int nivel;
 
     public CodeBlock code = new CodeBlock();
 
     public Attributes(){
         type = null;
-        par = new ArrayList<Parameter>();
+        par = new ArrayList<Attributes>();
     }
 
     public Attributes(Symbol.Types tipo) {
         type = tipo;
-        par = new ArrayList<Parameter>();
+        par = new ArrayList<Attributes>();
     }
     
 
