@@ -1,95 +1,57 @@
   ENP L0
 <variable_declaration>
-; -- Simple variable "r", type INT, level 0, address [3]
-; -- Array variable "i", type INT, size 2, level 0, address [4:5]!
-; -- Simple variable "j", type INT, level 0, address [6]
-; -- Simple variable "g", type CHAR, level 0, address [7]
-; -- Simple variable "x", type BOOL, level 0, address [8]
+; -- Simple variable "x", type INT, level 0, address [3]
 </variable_declaration>
-L0:
-<Asignacion_a_variable_simple_i>
-  STC  0
-; -- Initial address of array "i"
-  SRF  0  4
-  PLUS
-  STC  1
-  ASG
-</Asignacion_a_variable_simple_i>
-<Asignacion_a_variable_simple_x>
-; -- Address of variable / parameter "x"
-  SRF  0  8
-  STC  1
-  ASG
-</Asignacion_a_variable_simple_x>
-<while>
+<procedure>
 L1:
-<condition>
-  STC  0
-; -- Initial address of array "i"
-  SRF  0  4
-  PLUS
-  DRF
-  STC  5
-  LT
-</condition>
-  JMF L2
-<while_instruction_block>
-<Asignacion_a_variable_simple_j>
-; -- Address of variable / parameter "j"
-  SRF  0  6
-  STC  5
-  ASG
-</Asignacion_a_variable_simple_j>
-<while>
+  JMP L2
+<variable_declaration>
+</variable_declaration>
+<procedure>
 L3:
-<condition>
-; --Variable / parameter "j"
-  SRF  0  6
-  DRF
-  STC  0
-  GT
-</condition>
-  JMF L4
-<while_instruction_block>
-<put>
-<put>
-; --Variable / parameter "j"
-  SRF  0  6
-  DRF
-; -- Put INTEGER
-  WRT  1
-</put>
-</put>
-<Asignacion_a_variable_simple_j>
-; -- Address of variable / parameter "j"
-  SRF  0  6
-; --Variable / parameter "j"
-  SRF  0  6
-  DRF
-  STC  1
-  SBT
-  ASG
-</Asignacion_a_variable_simple_j>
-</while_instruction_block>
-  JMP L3
+  JMP L4
+<variable_declaration>
+; -- Simple variable "b", type BOOL, level 2, address [3]
+</variable_declaration>
 L4:
-</while>
-<Asignacion_a_variable_simple_i>
-  STC  0
-; -- Initial address of array "i"
-  SRF  0  4
-  PLUS
-  STC  0
-; -- Initial address of array "i"
-  SRF  0  4
-  PLUS
-  DRF
-  STC  1
-  PLUS
-  ASG
-</Asignacion_a_variable_simple_i>
-</while_instruction_block>
-  JMP L1
+<instruction_block>
+<put_line>
+; -- Put STRING
+<put>
+  STC 111
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+  CSF
+</instruction_block>
+</procedure>
 L2:
-</while>
+<instruction_block>
+<put_line>
+; -- Put STRING
+<put>
+  STC 104
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<procedure_call_leer2>
+  OSF  3  0 L3
+</procedure_call_leer2>
+  CSF
+</instruction_block>
+</procedure>
+L0:
+<procedure_call_leer>
+  OSF  4  0 L1
+</procedure_call_leer>
   LVP

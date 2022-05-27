@@ -228,6 +228,7 @@ void prog () :
 			
 			principal = semFuncs.insertProcedureSymbolTabFirst(ts, t);
 			at.lastLabel = 0;
+			at.dir = 3;
 		}
   	<tIS>
  	declaracion_variables(at)
@@ -252,13 +253,14 @@ void declaracion_variables(Attributes at):
 {
 
 	Attributes at1 = new Attributes();
-	at1.dir = 3;
+	at1.dir = at.dir;
 }
 {
 	( declaracion(at1) <tPC> )*
 	{
 		at1.code.encloseXMLTags("variable_declaration");
 		at.code.addBlock(at1.code);
+		at.dir = at1.dir;
 	}
 }
 
@@ -266,8 +268,6 @@ void declaracion(Attributes at):
 {
 	Symbol s = null;
 	Token t1;
-	
-	Attributes at1 = new Attributes();
 
 }
 {
@@ -299,20 +299,18 @@ void tipo_variable(Attributes at):
 
 void lista_vars(Attributes at):
 {
-	System.out.println("nivel: " + at.nivel);
+
 	
 }
 {
 	variable(at) ( <tCOMA> variable(at) )*
-	{
-		System.out.println("nivel: " + at.nivel);
-	}
+
 }
 
 void variable(Attributes at):
 {
 	Token t1, t2;
-	System.out.println("llega nivel: " + at.nivel);
+	System.out.println("direccion: " +at.dir);
 	
 }
 {
@@ -352,16 +350,52 @@ void declaracion_proc_func(Attributes at):
 
 void declaracion_procedimientos(Attributes at):
 {
-
+	Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
+	at3.dir = 3;
+	//at1.lastLabel = at.lastLabel;
+	int n = at.lastLabel + 1, n2;
+	CodeBlock code1 = new CodeBlock();
+	CodeBlock code2 = new CodeBlock();
+	at.funcDirection = n;
 }
 {
-	cabecera_procedimiento(at) 
-	declaracion_variables(at)
-	(declaracion_proc_func(at))* 
-	bloque_sentencias(at)
+	cabecera_procedimiento(at)
 		{
+			code1.addLabel("L"+n);
+			at.lastLabel ++;
+			
+			n2 = at.lastLabel + 1;
+			at.lastLabel++;
+			at1.lastLabel = at.lastLabel;
+			code1.addInst(PCodeInstruction.OpCode.JMP, "L"+n2);
+		} 
+	declaracion_variables(at3)
+		{
+			code2.addBlock(at3.code);
+			code1.addBlock(code2);
+			code2.clearBlock();
+			at1.dir = at3.dir;
+		}
+	(declaracion_proc_func(at1))*
+		{
+			code1.addBlock(at1.code);
+			at.lastLabel = at1.lastLabel;
+			at2.lastLabel = at.lastLabel;
+			at2.dir = at3.dir;
+		}
+	bloque_sentencias(at2)
+		{
+			code1.addLabel("L"+n2);
+			code2.addBlock(at2.code);
+			code2.addInst(PCodeInstruction.OpCode.CSF);
+			code2.encloseXMLTags("instruction_block");
+			code1.addBlock(code2);
+			code1.encloseXMLTags("procedure");
+			at.code.addBlock(code1);
 			ts.removeBlock();
 			stack.pop();
+			at.lastLabel = at2.lastLabel;
+		//	at.dir = at2.dir;
 		}
 }
 
@@ -387,7 +421,7 @@ void cabecera_procedimiento(Attributes at):
 {
 	<tPROC> t = <tID> 
 		{
-			semFuncs.insertProcedureSymbolTab(ts,t);
+			semFuncs.insertProcedureSymbolTab(ts,t, at.funcDirection);
 			stack.push(ts.getSymbol(t.image));
 			at.token = t;
 			at.type = Symbol.Types.PROCEDURE;
@@ -782,6 +816,8 @@ void inst_invoc_proc(Attributes at):
 {
 	Attributes at1 = new Attributes();
 	Token t;
+	Symbol s;
+	CodeBlock code1 = new CodeBlock();
 }
 {
     try {
@@ -789,6 +825,10 @@ void inst_invoc_proc(Attributes at):
 			{
 				semFuncs.comprobarNoPrincipal(principal,t);
 				semFuncs.comprobacionParametros(at1,t,ts);
+				s = ts.getSymbol(t.image);
+				code1.addOSFInst((int)at.dir,stack.size()-s.nivel,"L"+s.dir);
+				code1.encloseXMLTags("procedure_call_"+t.image);
+				at.code.addBlock(code1);
 			}
 	} catch (ParseException e){
 		Set<Integer> conjSinc = infoParseException(e);

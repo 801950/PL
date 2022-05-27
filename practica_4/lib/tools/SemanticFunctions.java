@@ -225,15 +225,16 @@ public class SemanticFunctions {
 	 * lista de parámetros vacía. Además inserta en la tabla de símbolos el 
 	 * bloque de secuencias.
 	 */
-	public SymbolProcedure insertProcedureSymbolTab(SymbolTable ts, Token t){
-		SymbolProcedure p = new SymbolProcedure(t.image,new ArrayList<Symbol>());
+	public void insertProcedureSymbolTab(SymbolTable ts, Token t, int dir){
+		Symbol p = new SymbolProcedure(t.image,new ArrayList<Symbol>());
+		p.dir = dir;
 		try{
 			ts.insertSymbol(p);
 		} catch(AlreadyDefinedSymbolException e){
 			errSem.deteccion(e, t);
 		}
 		ts.insertBlock();
-		return p;
+		//return p;
 	}
 
 	/**

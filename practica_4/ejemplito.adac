@@ -1,18 +1,16 @@
 procedure cerea is
-integer r;
-integer i[2];
-integer j;
-character g;
-boolean x;
-begin
-    i[0] := 1;
-    x := true;
-    while i[0] < 5 do
-        j := 5;
-        while j > 0 do 
-            put(j);
-            j := j - 1;
-        end
-        i[0] := i[0] +1;
+integer x;
+procedure leer() is
+    procedure leer2() is
+        boolean b;
+    begin
+        put_line("o");
     end
+begin
+    put_line("h");
+    leer2();
+end
+
+begin
+    leer();
 end
