@@ -15,43 +15,81 @@ L0:
   STC  1
   ASG
 </Asignacion_a_variable_simple_i>
-<Asignacion_a_variable_simple_j>
-; -- Address of variable / parameter "j"
-  SRF  0  6
-  STC  5
-  ASG
-</Asignacion_a_variable_simple_j>
-<if-then>
-<condition>
-  STC  0
-; -- Initial address of array "i"
-  SRF  0  4
-  PLUS
-  DRF
-; --Variable / parameter "j"
-  SRF  0  6
-  DRF
-  GT
-</condition>
-  JMF L1
-<then>
 <Asignacion_a_variable_simple_x>
 ; -- Address of variable / parameter "x"
   SRF  0  8
   STC  1
   ASG
 </Asignacion_a_variable_simple_x>
-  JMP L2
-</then>
-<else>
+<while>
 L1:
-<Asignacion_a_variable_simple_x>
-; -- Address of variable / parameter "x"
-  SRF  0  8
+<condition>
   STC  0
+; -- Initial address of array "i"
+  SRF  0  4
+  PLUS
+  DRF
+  STC  5
+  LT
+</condition>
+  JMF L2
+<while_instruction_block>
+<Asignacion_a_variable_simple_j>
+; -- Address of variable / parameter "j"
+  SRF  0  6
+  STC  5
   ASG
-</Asignacion_a_variable_simple_x>
-</else>
+</Asignacion_a_variable_simple_j>
+<while>
+L3:
+<condition>
+; --Variable / parameter "j"
+  SRF  0  6
+  DRF
+  STC  0
+  GT
+</condition>
+  JMF L4
+<while_instruction_block>
+<put>
+<put>
+; --Variable / parameter "j"
+  SRF  0  6
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+</put>
+<Asignacion_a_variable_simple_j>
+; -- Address of variable / parameter "j"
+  SRF  0  6
+; --Variable / parameter "j"
+  SRF  0  6
+  DRF
+  STC  1
+  SBT
+  ASG
+</Asignacion_a_variable_simple_j>
+</while_instruction_block>
+  JMP L3
+L4:
+</while>
+<Asignacion_a_variable_simple_i>
+  STC  0
+; -- Initial address of array "i"
+  SRF  0  4
+  PLUS
+  STC  0
+; -- Initial address of array "i"
+  SRF  0  4
+  PLUS
+  DRF
+  STC  1
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_i>
+</while_instruction_block>
+  JMP L1
 L2:
-</if-then>
+</while>
   LVP

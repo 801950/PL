@@ -24,7 +24,14 @@ L0:
   STC  5
   ASG 
 </Assignment_to__simple_variable_j>
-<if-then>
+<Assignment_to__simple_variable_x>
+; --- Address of variable / parameter "x"
+  SRF  0  8
+  STC  1
+  ASG 
+</Assignment_to__simple_variable_x>
+<while>
+L1:
 <condition>
 <component_of_array_i>
   STC  0
@@ -36,29 +43,30 @@ L0:
 ; --- Variable / parameter "j"
   SRF  0  6
   DRF 
-  GT 
+  LT 
 </condition>
-  JMF L1
-<then>
-<Assignment_to__simple_variable_x>
-; --- Address of variable / parameter "x"
-  SRF  0  8
-  STC  1
-  ASG 
-</Assignment_to__simple_variable_x>
-  JMP L2
-</then>
-<else>
-L1:
-<Assignment_to__simple_variable_x>
-; --- Address of variable / parameter "x"
-  SRF  0  8
+  JMF L2
+<while_instruction_block>
+<Assignment_to_component_of_array_i>
   STC  0
+; --- Initial address of array "i"
+  SRF  0  4
+  PLUS 
+<component_of_array_i>
+  STC  0
+; --- Initial address of array "i"
+  SRF  0  4
+  PLUS 
+  DRF 
+</component_of_array_i>
+  STC  1
+  PLUS 
   ASG 
-</Assignment_to__simple_variable_x>
-</else>
+</Assignment_to_component_of_array_i>
+</while_instruction_block>
+  JMP L1
 L2:
-</if-then>
+</while>
 </cerea_instruction_block>
   LVP 
 </cerea>

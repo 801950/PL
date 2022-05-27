@@ -6,10 +6,13 @@ character g;
 boolean x;
 begin
     i[0] := 1;
-    j := 5;
-    if i[0] > j then
-        x :=  true;
-    else 
-        x := false;
+    x := true;
+    while i[0] < 5 do
+        j := 5;
+        while j > 0 do 
+            put(j);
+            j := j - 1;
+        end
+        i[0] := i[0] +1;
     end
 end

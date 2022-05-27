@@ -383,8 +383,6 @@ void declaracion_funciones(Attributes at):
 void cabecera_procedimiento(Attributes at):
 {
 	Token t;
-	//Attributes at = new Attributes();
-	
 }
 {
 	<tPROC> t = <tID> 
@@ -402,7 +400,6 @@ void cabecera_funcion(Attributes at):
 {
 	Token t;
 	Symbol.Types tipo;
-//	Attributes at = new Attributes();
 }
 {
 	<tFUNC> tipo_variable(at) t = <tID>
@@ -527,10 +524,10 @@ void inst_acaban_end(Attributes at):
 }
 {
 	try{
-		(inst_iteracion(at1)
-	|	inst_seleccion(at1) ) <tEND>
+		(inst_iteracion(at)
+	|	inst_seleccion(at) ) <tEND>
 			{
-				at.code.addBlock(at1.code);
+				//at.code.addBlock(at1.code);
 			}
 	} catch(ParseException e){
 		Set<Integer> conjSinc = infoParseException(e);
@@ -591,24 +588,41 @@ void asignable(Attributes at):
 
 void inst_iteracion(Attributes at):
 {
-	Attributes at1 = new Attributes();
+	Attributes at1 = new Attributes(), at2 = new Attributes();
+	CodeBlock codeOut = new CodeBlock();
+	int n = at.lastLabel + 1,n2;
+	CodeBlock code2 = new CodeBlock();
 }
 {
 	<tWHILE>
-	expresion(at)
+	expresion(at1)
 		{
-		// 	{
-		// 	semFuncs.checkBool(at1);
-		// 	codeOut.addBlock(at1.code);
-		// 	codeOut.encloseXMLTags("condition");
-		// 	codeOut.addInst(PCodeInstruction.OpCode.JMF, "L"+n);
-		// 	code2.addBlock(codeOut);
-		// 	at.lastLabel++;
-		// }
 			semFuncs.checkBool(at1);
+			codeOut.addLabel("L"+n);
+			at.lastLabel++;
+			code2.addBlock(at1.code);
+			code2.encloseXMLTags("condition");
+			codeOut.addBlock(code2);
+			code2.clearBlock();
+			n2 = at.lastLabel+1;
+			at.lastLabel++;
+			codeOut.addInst(PCodeInstruction.OpCode.JMF, "L"+n2);
+			at2.lastLabel = at.lastLabel;
+			at2.dir = at.dir;
+			System.out.println("Le paso label: " + at2.lastLabel);
 		}
 	<tDO>
-	(inst(at))*
+	(inst(at2))*
+		{
+			code2.addBlock(at2.code);
+			at.lastLabel = at2.lastLabel;
+			code2.encloseXMLTags("while_instruction_block");
+			code2.addInst(PCodeInstruction.OpCode.JMP,"L"+n);
+			code2.addLabel("L"+n2);
+			codeOut.addBlock(code2);
+			codeOut.encloseXMLTags("while");
+			at.code.addBlock(codeOut);
+		}
 }
 
 void inst_return(Attributes at):
@@ -789,28 +803,38 @@ void inst_seleccion(Attributes at):
 	int n = at.lastLabel +1,n2;
 	CodeBlock codeOut = new CodeBlock();
 	CodeBlock code2 = new CodeBlock();
+	System.out.println("Last label en selección: " + at.lastLabel);
 }
 {
-	/**FALTARIA DE PASAR INFO DE LAST LABEL Y ULTIMA DIRECCIÓN A at1, at2 y at3 */
+	/**
+	 * FALTARIA DE PASAR INFO DE LAST LABEL Y ULTIMA DIRECCIÓN A at1, at2 y at3 */
 	<tIF> 
 	expresion(at1) 
 		{
 			semFuncs.checkBool(at1);
+			at1.lastLabel = at.lastLabel;
+			at1.dir = at.dir;
 			codeOut.addBlock(at1.code);
 			codeOut.encloseXMLTags("condition");
 			codeOut.addInst(PCodeInstruction.OpCode.JMF, "L"+n);
 			code2.addBlock(codeOut);
 			at.lastLabel++;
+			at2.lastLabel = at.lastLabel;
+			at2.dir = at.dir;
+			System.out.println("Le paso label: " + at2.lastLabel);
 		}
-	<tTHEN> (inst(at2))* 
+	<tTHEN> (inst(at2))*
 	{
 		codeOut.clearBlock();
 		codeOut.addBlock(at2.code);
-		n2 = at.lastLabel + 1;
-		at.lastLabel ++;
+		n2 = at2.lastLabel + 1;
+		at.lastLabel = at2.lastLabel+1;
+		
 		codeOut.addInst(PCodeInstruction.OpCode.JMP, "L"+n2);
 		codeOut.encloseXMLTags("then");
 		code2.addBlock(codeOut);
+		at3.lastLabel = at.lastLabel;
+		at3.dir = at.dir;
 	}
 	(<tELSE> (inst(at3))* )? 
 	{
@@ -857,7 +881,7 @@ void lista_una_o_mas_exps(Attributes at):
 		{
 			semFuncs.saveInfoParameter(at,at1,at2);
 		//	at.code.addBlock(at1.code);
-			System.out.println("Añado el boque " + at.code.toString());
+		//	System.out.println("Añado el boque " + at.code.toString());
 		}
 }
 
@@ -870,7 +894,7 @@ void expresion(Attributes at):
 		{
 			semFuncs.check2typesWithRelationalOperator(at1, at2, at3, at);
 		//	at.code.addBlock(at1.code);
-			System.out.println("Añado el boque " + at.code.toString());
+		//	System.out.println("Añado el boque " + at.code.toString());
 			
 		}
 }
@@ -925,7 +949,7 @@ void expresion_simple(Attributes at):
 				at1.code.addInst(PCodeInstruction.OpCode.NGI);
 			}
 			semFuncs.check2typesWithOperator(at1,at2,at3,at);
-			System.out.println("Añado el boque " + at.code.toString());
+			//System.out.println("Añado el boque " + at.code.toString());
 		}
 }
 
@@ -964,7 +988,7 @@ void termino(Attributes at):
 	factor(at1) (operador_multiplicativo(at3) factor(at2))*
 		{
 			semFuncs.check2typesWithOperator(at1,at2,at3,at);
-			System.out.println("Añado el boque " + at.code.toString());
+		//	System.out.println("Añado el boque " + at.code.toString());
 		}
 }
 
@@ -1034,7 +1058,7 @@ void factor(Attributes at):
 			semFuncs.checkVariable(ts,t,at);
 			at.constante = false;
 			s = ts.getSymbol(t.image);
-			System.out.println("nivel de declaracion: " + s.nivel + " nivel de acceso: " + stack.size());
+			//System.out.println("nivel de declaracion: " + s.nivel + " nivel de acceso: " + stack.size());
 			at.code.addComment("Variable / parameter \"" + t.image + "\"");
 			at.code.addInst(PCodeInstruction.OpCode.SRF,stack.size()-s.nivel,(int)s.dir);
 			at.code.addInst(PCodeInstruction.OpCode.DRF);
