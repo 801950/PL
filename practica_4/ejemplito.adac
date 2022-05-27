@@ -1,19 +1,7 @@
 procedure cerea is
-integer x;
-function integer leer() is
-    function integer leer2() is
-        boolean z;
-    begin
-        put_line("o");
-        return 1;
+integer r;
+begin
+    while r > 2 do
     end
-begin
-    put_line("h");
-    put_line(leer2());
-    return 4;
-end
-
-begin
-    x := leer();
-    put_line(x);
+    skip_line();
 end

@@ -1,95 +1,32 @@
   ENP L0
 <variable_declaration>
-; -- Simple variable "x", type INT, level 0, address [3]
+; -- Simple variable "r", type INT, level 0, address [3]
 </variable_declaration>
-<procedure>
-L1:
-  JMP L2
-<variable_declaration>
-</variable_declaration>
-<procedure>
-L3:
-  JMP L4
-<variable_declaration>
-; -- Simple variable "z", type BOOL, level 2, address [3]
-</variable_declaration>
-L4:
-<instruction_block>
-<put_line>
-; -- Put STRING
-<put>
-  STC 111
-  WRT  0
-</put>
-; -- CR/LF
-  STC 13
-  WRT  0
-  STC 10
-  WRT  0
-</put_line>
-<return>
-  STC  1
-  CSF
-</return>
-  CSF
-</instruction_block>
-</procedure>
-L2:
-<instruction_block>
-<put_line>
-; -- Put STRING
-<put>
-  STC 104
-  WRT  0
-</put>
-; -- CR/LF
-  STC 13
-  WRT  0
-  STC 10
-  WRT  0
-</put_line>
-<put_line>
-<put>
-<function_call_leer2>
-  OSF  3  0 L3
-</function_call_leer2>
-; -- Put INTEGER
-  WRT  1
-</put>
-; -- CR/LF
-  STC 13
-  WRT  0
-  STC 10
-  WRT  0
-</put_line>
-<return>
-  STC  4
-  CSF
-</return>
-  CSF
-</instruction_block>
-</procedure>
 L0:
-<Asignacion_a_variable_simple_x>
-; -- Address of variable / parameter "x"
-  SRF  0  3
-<function_call_leer>
-  OSF  4  0 L1
-</function_call_leer>
-  ASG
-</Asignacion_a_variable_simple_x>
-<put_line>
-<put>
-; --Variable / parameter "x"
+<while>
+L1:
+<condition>
+; --Variable / parameter "r"
   SRF  0  3
   DRF
-; -- Put INTEGER
-  WRT  1
-</put>
-; -- CR/LF
-  STC 13
-  WRT  0
+  STC  2
+  GT
+</condition>
+  JMF L2
+<while_instruction_block>
+</while_instruction_block>
+  JMP L1
+L2:
+</while>
+<skip_line>
+L3:
+; -- Temporary hidden compiler variable used for reading until LF
+  SRF  0  4
+  RD  0
+  SRF  0  4
+  DRF
   STC 10
-  WRT  0
-</put_line>
+  EQ
+  JMF L3
+</skip_line>
   LVP

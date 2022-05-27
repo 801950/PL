@@ -309,9 +309,7 @@ void lista_vars(Attributes at):
 
 void variable(Attributes at):
 {
-	Token t1, t2;
-	System.out.println("direccion: " +at.dir);
-	
+	Token t1, t2;	
 }
 {
 	LOOKAHEAD(2)
@@ -435,7 +433,7 @@ void declaracion_funciones(Attributes at):
 		}
 	bloque_sentencias(at2)
 		{
-			System.out.println("dirección del bloque de sentencias: " + at2.dir);
+			
 			code1.addLabel("L"+n2);
 			code2.addBlock(at2.code);
 			code2.addInst(PCodeInstruction.OpCode.CSF);
@@ -680,7 +678,6 @@ void inst_iteracion(Attributes at):
 			codeOut.addInst(PCodeInstruction.OpCode.JMF, "L"+n2);
 			at2.lastLabel = at.lastLabel;
 			at2.dir = at.dir;
-			System.out.println("Le paso label: " + at2.lastLabel);
 		}
 	<tDO>
 	(inst(at2))*
@@ -765,7 +762,6 @@ void inst_escribir(Attributes at):
 		{
 			try{
 				codeOut.clearBlock();
-				System.out.println(at1.par.size());
 				for(Attributes a : at1.par){
 					
 					if(a.type == Symbol.Types.STRING){
@@ -814,7 +810,6 @@ void inst_escribir_linea(Attributes at):
     	<tPCLOSE>
 		{
 			try{
-				System.out.println(at1.par.size());
 				for(Attributes a : at1.par){
 					
 					if(a.type == Symbol.Types.STRING){
@@ -888,7 +883,6 @@ void inst_seleccion(Attributes at):
 	int n = at.lastLabel +1,n2;
 	CodeBlock codeOut = new CodeBlock();
 	CodeBlock code2 = new CodeBlock();
-	System.out.println("Last label en selección: " + at.lastLabel);
 }
 {
 	/**
@@ -906,7 +900,6 @@ void inst_seleccion(Attributes at):
 			at.lastLabel++;
 			at2.lastLabel = at.lastLabel;
 			at2.dir = at.dir;
-			System.out.println("Le paso label: " + at2.lastLabel);
 		}
 	<tTHEN> (inst(at2))*
 	{
@@ -936,11 +929,26 @@ void inst_seleccion(Attributes at):
 
 void inst_saltar_linea(Attributes at):
 {
-
+	CodeBlock code1 = new CodeBlock();
+	int n = at.lastLabel + 1;
+	at.lastLabel++;
 }
 {
 	try {
 		<tSkL> <tPOPEN> <tPCLOSE>
+			{
+				code1.addLabel("L"+n);
+				code1.addComment(" Temporary hidden compiler variable used for reading until LF");
+				code1.addInst(PCodeInstruction.OpCode.SRF,stack.size(),(int)at.dir);
+				code1.addInst(PCodeInstruction.OpCode.RD,0);
+				code1.addInst(PCodeInstruction.OpCode.SRF,stack.size(),(int)at.dir);
+				code1.addInst(PCodeInstruction.OpCode.DRF);
+				code1.addInst(PCodeInstruction.OpCode.STC,10);
+				code1.addInst(PCodeInstruction.OpCode.EQ);
+				code1.addInst(PCodeInstruction.OpCode.JMF,"L"+n);
+				code1.encloseXMLTags("skip_line");
+				at.code.addBlock(code1);
+			}
 	} catch (ParseException e){
 		Set<Integer> conjSinc = infoParseException(e);
 		conjSinc.add(tPCLOSE);
@@ -977,16 +985,11 @@ void expresion(Attributes at):
 	Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
 	at1.dir = at.dir;
 	at2.dir = at.dir;
-	System.out.println("nueva expresion");
-	System.out.println("direccion: " + at1.dir);
 }
 {
 	expresion_simple(at1) ( operador_relacional(at3) expresion_simple(at2) )?
 		{
 			semFuncs.check2typesWithRelationalOperator(at1, at2, at3, at);
-		//	at.code.addBlock(at1.code);
-		//	System.out.println("Añado el boque " + at.code.toString());
-			
 		}
 }
 
@@ -1033,7 +1036,6 @@ void expresion_simple(Attributes at):
 	at1.dir = at.dir;
 	at2.dir = at.dir;
 	Token t = new Token();
-	System.out.println("direccion: " + at1.dir);
 }
 {
 	(t = <tRES> | <tSUM>)?
@@ -1043,7 +1045,6 @@ void expresion_simple(Attributes at):
 				at1.code.addInst(PCodeInstruction.OpCode.NGI);
 			}
 			semFuncs.check2typesWithOperator(at1,at2,at3,at);
-			//System.out.println("Añado el boque " + at.code.toString());
 		}
 }
 
@@ -1085,7 +1086,6 @@ void termino(Attributes at):
 	factor(at1) (operador_multiplicativo(at3) factor(at2))*
 		{
 			semFuncs.check2typesWithOperator(at1,at2,at3,at);
-		//	System.out.println("Añado el boque " + at.code.toString());
 		}
 }
 
@@ -1126,8 +1126,6 @@ void factor(Attributes at):
 	Token t;
 	Symbol s;
 	Symbol.Types tipo;
-	System.out.println("direccion: " + at.dir);
-	
 }
 {
 	 
@@ -1156,7 +1154,6 @@ void factor(Attributes at):
 			semFuncs.checkVariable(ts,t,at);
 			at.constante = false;
 			s = ts.getSymbol(t.image);
-			//System.out.println("nivel de declaracion: " + s.nivel + " nivel de acceso: " + stack.size());
 			at.code.addComment("Variable / parameter \"" + t.image + "\"");
 			at.code.addInst(PCodeInstruction.OpCode.SRF,stack.size()-s.nivel,(int)s.dir);
 			at.code.addInst(PCodeInstruction.OpCode.DRF);
@@ -1230,7 +1227,6 @@ void factor_con_par(Attributes at):
 			}
 		|	LOOKAHEAD(2) t = <tID> <tPOPEN> (lista_una_o_mas_exps(at1))? <tPCLOSE>
 			{
-				System.out.println("direccion: " + at.dir);
 				at.token = t;
 				at.constante = true;
 				semFuncs.checkFunction(ts,t,at);
