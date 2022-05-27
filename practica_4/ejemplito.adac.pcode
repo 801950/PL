@@ -11,7 +11,7 @@ L1:
 L3:
   JMP L4
 <variable_declaration>
-; -- Simple variable "b", type BOOL, level 2, address [3]
+; -- Simple variable "z", type BOOL, level 2, address [3]
 </variable_declaration>
 L4:
 <instruction_block>
@@ -27,6 +27,10 @@ L4:
   STC 10
   WRT  0
 </put_line>
+<return>
+  STC  1
+  CSF
+</return>
   CSF
 </instruction_block>
 </procedure>
@@ -44,14 +48,48 @@ L2:
   STC 10
   WRT  0
 </put_line>
-<procedure_call_leer2>
+<put_line>
+<put>
+<function_call_leer2>
   OSF  3  0 L3
-</procedure_call_leer2>
+</function_call_leer2>
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<return>
+  STC  4
+  CSF
+</return>
   CSF
 </instruction_block>
 </procedure>
 L0:
-<procedure_call_leer>
+<Asignacion_a_variable_simple_x>
+; -- Address of variable / parameter "x"
+  SRF  0  3
+<function_call_leer>
   OSF  4  0 L1
-</procedure_call_leer>
+</function_call_leer>
+  ASG
+</Asignacion_a_variable_simple_x>
+<put_line>
+<put>
+; --Variable / parameter "x"
+  SRF  0  3
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
   LVP

@@ -1,16 +1,19 @@
 procedure cerea is
 integer x;
-procedure leer() is
-    procedure leer2() is
-        boolean b;
+function integer leer() is
+    function integer leer2() is
+        boolean z;
     begin
         put_line("o");
+        return 1;
     end
 begin
     put_line("h");
-    leer2();
+    put_line(leer2());
+    return 4;
 end
 
 begin
-    leer();
+    x := leer();
+    put_line(x);
 end

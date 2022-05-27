@@ -395,22 +395,57 @@ void declaracion_procedimientos(Attributes at):
 			ts.removeBlock();
 			stack.pop();
 			at.lastLabel = at2.lastLabel;
-		//	at.dir = at2.dir;
 		}
 }
 
 void declaracion_funciones(Attributes at):
 {
-
+	Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
+	at3.dir = 3;
+	//at1.lastLabel = at.lastLabel;
+	int n = at.lastLabel + 1, n2;
+	CodeBlock code1 = new CodeBlock();
+	CodeBlock code2 = new CodeBlock();
+	at.funcDirection = n;
 }
 {
 	cabecera_funcion(at) 
-	declaracion_variables(at)
-	(declaracion_proc_func(at))* 
-	bloque_sentencias(at)
 		{
+			code1.addLabel("L"+n);
+			at.lastLabel ++;
+			
+			n2 = at.lastLabel + 1;
+			at.lastLabel++;
+			at1.lastLabel = at.lastLabel;
+			code1.addInst(PCodeInstruction.OpCode.JMP, "L"+n2);
+		}
+	declaracion_variables(at3)
+		{
+			code2.addBlock(at3.code);
+			code1.addBlock(code2);
+			code2.clearBlock();
+		//	at1.dir = at3.dir;
+		}
+	(declaracion_proc_func(at1))* 
+		{
+			code1.addBlock(at1.code);
+			at.lastLabel = at1.lastLabel;
+			at2.lastLabel = at.lastLabel;
+			at2.dir = at3.dir;
+		}
+	bloque_sentencias(at2)
+		{
+			System.out.println("dirección del bloque de sentencias: " + at2.dir);
+			code1.addLabel("L"+n2);
+			code2.addBlock(at2.code);
+			code2.addInst(PCodeInstruction.OpCode.CSF);
+			code2.encloseXMLTags("instruction_block");
+			code1.addBlock(code2);
+			code1.encloseXMLTags("procedure");
+			at.code.addBlock(code1);
 			ts.removeBlock();
 			stack.pop();
+			at.lastLabel = at2.lastLabel;			
 		}
 }
 
@@ -438,7 +473,7 @@ void cabecera_funcion(Attributes at):
 {
 	<tFUNC> tipo_variable(at) t = <tID>
 		{
-			semFuncs.insertFunctionSymbolTab(ts,t,at);
+			semFuncs.insertFunctionSymbolTab(ts,t,at,at.funcDirection);
 			stack.push(ts.getSymbol(t.image));
 			at.token = t;
 			at.type = Symbol.Types.FUNCTION;
@@ -577,6 +612,8 @@ void inst_asignacion(Attributes at):
 	Attributes at1 = new Attributes(), at2 = new Attributes();
 	CodeBlock codeOut = new CodeBlock();
 	Symbol s;
+	at2.dir = at.dir;
+	at1.dir = at.dir;
 }
 {
 	asignable(at1)
@@ -661,15 +698,21 @@ void inst_iteracion(Attributes at):
 
 void inst_return(Attributes at):
 {
-//	Attributes at = new Attributes();
+	Attributes at1 = new Attributes();
+	at1.dir = at.dir;
 	Symbol s;
 	SymbolFunction sf = new SymbolFunction("",null,null);
 	Token t;
+	CodeBlock code1 = new CodeBlock();
 }
 {
-	t = <tRET>	expresion(at)
+	t = <tRET>	expresion(at1)
 		{
-			semFuncs.checkFunction(stack, at);
+			semFuncs.checkFunction(stack, at1);
+			code1.addBlock(at1.code);
+			code1.addInst(PCodeInstruction.OpCode.CSF);
+			code1.encloseXMLTags("return");
+			at.code.addBlock(code1);
 		}
 }
 
@@ -712,6 +755,7 @@ void lista_asignables(Attributes at):
 void inst_escribir(Attributes at):
 {
 	Attributes at1 = new Attributes();
+	at1.dir = at.dir;
 	CodeBlock codeOut = new CodeBlock();
 }
 {
@@ -762,6 +806,7 @@ void inst_escribir_linea(Attributes at):
 {
 	Attributes at1 = new Attributes();
 	CodeBlock codeOut = new CodeBlock();
+	at1.dir = at.dir;
 }
 {
     try {
@@ -915,6 +960,8 @@ void lista_cero_o_mas_exps():
 void lista_una_o_mas_exps(Attributes at):
 {
 	Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
+	at1.dir = at.dir;
+	at2.dir = at.dir;
 }
 {
 	expresion(at1) (at3.token = <tCOMA> lista_una_o_mas_exps(at2))?
@@ -928,6 +975,10 @@ void lista_una_o_mas_exps(Attributes at):
 void expresion(Attributes at):
 {
 	Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
+	at1.dir = at.dir;
+	at2.dir = at.dir;
+	System.out.println("nueva expresion");
+	System.out.println("direccion: " + at1.dir);
 }
 {
 	expresion_simple(at1) ( operador_relacional(at3) expresion_simple(at2) )?
@@ -979,7 +1030,10 @@ void operador_relacional(Attributes at):
 void expresion_simple(Attributes at):
 {
 	Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
+	at1.dir = at.dir;
+	at2.dir = at.dir;
 	Token t = new Token();
+	System.out.println("direccion: " + at1.dir);
 }
 {
 	(t = <tRES> | <tSUM>)?
@@ -1022,7 +1076,10 @@ void termino(Attributes at):
 {
 	Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
 	Token t;
+	at1.dir = at.dir;
+	at2.dir = at.dir;
 	Symbol.Types expected;
+	System.out.println("direccion: " + at1.dir);
 }
 {
 	factor(at1) (operador_multiplicativo(at3) factor(at2))*
@@ -1069,6 +1126,7 @@ void factor(Attributes at):
 	Token t;
 	Symbol s;
 	Symbol.Types tipo;
+	System.out.println("direccion: " + at.dir);
 	
 }
 {
@@ -1153,6 +1211,8 @@ void factor_con_par(Attributes at):
 {
 	Token t;
 	Attributes at1 = new Attributes();
+	CodeBlock code1 = new CodeBlock();
+	Symbol s;
 }
 {
 	try {
@@ -1170,10 +1230,16 @@ void factor_con_par(Attributes at):
 			}
 		|	LOOKAHEAD(2) t = <tID> <tPOPEN> (lista_una_o_mas_exps(at1))? <tPCLOSE>
 			{
+				System.out.println("direccion: " + at.dir);
 				at.token = t;
 				at.constante = true;
 				semFuncs.checkFunction(ts,t,at);
 				semFuncs.comprobacionParametros(at1,t,ts);
+				s = ts.getSymbol(t.image);
+				code1.addOSFInst((int)at.dir,stack.size()-s.nivel,"L"+s.dir);
+				code1.encloseXMLTags("function_call_"+t.image);
+				at.code.addBlock(code1);
+
 			}
 	} catch(ParseException e){
 		Set<Integer> conjSinc = infoParseException(e);

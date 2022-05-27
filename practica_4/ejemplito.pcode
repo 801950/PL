@@ -2,12 +2,41 @@
 <cerea>
   ENP L0
 <variable_declaration>
+; --- Simple variable "x", type 0, level 0,  address [3]!
 </variable_declaration>
-<procedure_leer>
+<function_leer>
 L1:
   JMP L2
 <variable_declaration>
 </variable_declaration>
+<function_leer2>
+L3:
+  JMP L4
+<variable_declaration>
+; --- Simple variable "z", type 1, level 2,  address [3]!
+</variable_declaration>
+L4:
+<leer2_instruction_block>
+<put>
+; --- Put STRING "o" (length 1)
+; --- Standard string writing
+  STC 111
+  WRT  0
+</put>
+<put_line>
+; --- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<return>
+  STC  1
+  CSF 
+</return>
+  CSF 
+</leer2_instruction_block>
+</function_leer2>
 L2:
 <leer_instruction_block>
 <put>
@@ -23,14 +52,51 @@ L2:
   STC 10
   WRT  0
 </put_line>
+<put>
+<function_call_leer2>
+  OSF  3  0 L3
+</function_call_leer2>
+; --- Put INTEGER
+  WRT  1
+</put>
+<put_line>
+; --- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<return>
+  STC  4
+  CSF 
+</return>
   CSF 
 </leer_instruction_block>
-</procedure_leer>
+</function_leer>
 L0:
 <cerea_instruction_block>
-<procedure_call_leer>
-  OSF  3  0 L1
-</procedure_call_leer>
+<Assignment_to__simple_variable_x>
+; --- Address of variable / parameter "x"
+  SRF  0  3
+<function_call_leer>
+  OSF  4  0 L1
+</function_call_leer>
+  ASG 
+</Assignment_to__simple_variable_x>
+<put>
+; --- Variable / parameter "x"
+  SRF  0  3
+  DRF 
+; --- Put INTEGER
+  WRT  1
+</put>
+<put_line>
+; --- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
 </cerea_instruction_block>
   LVP 
 </cerea>
