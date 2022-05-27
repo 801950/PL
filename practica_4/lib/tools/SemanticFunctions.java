@@ -318,12 +318,13 @@ public class SemanticFunctions {
 	 * Comprueba que el tipo pueda ser asignado por la instrucción get (tipos 
 	 * int y char)
 	 */
-	public void checkAsignableGet(Attributes at1, Attributes at2){
+	public void checkAsignableGet(Attributes at1){
 		if(at1.type == null || (at1.type != Symbol.Types.INT && at1.type != Symbol.Types.CHAR)){
 			errSem.deteccion("Tipo no asignable para la funcion get()", at1.token);
-		} else if (at2.type != null && (at2.type != Symbol.Types.INT && at2.type != Symbol.Types.CHAR)){
-			errSem.deteccion("Tipo no asignable para la funcion get()", at2.token);
 		}
+		// } else if (at2.type != null && (at2.type != Symbol.Types.INT && at2.type != Symbol.Types.CHAR)){
+		// 	errSem.deteccion("Tipo no asignable para la funcion get()", at2.token);
+		// } 
 	}
 
 	/**

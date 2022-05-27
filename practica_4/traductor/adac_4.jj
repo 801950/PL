@@ -212,6 +212,7 @@ void prog () :
 	Token t;
 	CodeBlock codeOut = new CodeBlock();
 	String s;
+	Attributes at = new Attributes();
 }
 {
   	<tPROC>
@@ -228,16 +229,18 @@ void prog () :
 			principal = semFuncs.insertProcedureSymbolTabFirst(ts, t);
 		}
   	<tIS>
- 	declaracion_variables()
-  	declaracion_procs_funcs()
+ 	declaracion_variables(at)
+  	declaracion_procs_funcs(at)
 		{
 			codeOut.addLabel("L0");
+			codeOut.addBlock(at.code);
 			s = codeOut.toString();
-			escribirCodigo(s);
+		//	escribirCodigo(s);
 			codeOut.clearBlock();
 		}
-	bloque_sentencias()
+	bloque_sentencias(at)
 		{
+			codeOut.addBlock(at.code);
 			codeOut.addInst(PCodeInstruction.OpCode.LVP);
 			s = codeOut.toString();
 			escribirCodigo(s);
@@ -246,16 +249,17 @@ void prog () :
 		}
 }
 
-void declaracion_variables():
+void declaracion_variables(Attributes at):
 {
-	Attributes at = new Attributes();
-	at.dir = 3;
+
+	Attributes at1 = new Attributes();
+	at1.dir = 3;
 }
 {
-	( declaracion(at) <tPC> )*
+	( declaracion(at1) <tPC> )*
 	{
-		at.code.encloseXMLTags("variable_declaration");
-		escribirCodigo(at.code.toString());
+		at1.code.encloseXMLTags("variable_declaration");
+		at.code.addBlock(at1.code);
 	}
 }
 
@@ -271,7 +275,7 @@ void declaracion(Attributes at):
 	tipo_variable(at) 
 	lista_vars(at)
 	{
-	//	at.code.addBlock(at1.code);
+		//at.code.addBlock(at1.code);
 		//escribirCodigo(at.code.toString());
 	}
 }
@@ -296,7 +300,6 @@ void tipo_variable(Attributes at):
 
 void lista_vars(Attributes at):
 {
-//	at.nivel = stack.size();
 	System.out.println("nivel: " + at.nivel);
 	
 }
@@ -327,61 +330,61 @@ void variable(Attributes at):
 		}
 }
 
-void declaracion_procs_funcs():
+void declaracion_procs_funcs(Attributes at):
 {
 
 }
 {
-	( declaracion_proc_func() )*
+	( declaracion_proc_func(at) )*
 }
 
 
 
-void declaracion_proc_func():
+void declaracion_proc_func(Attributes at):
 {
 
 }
 {
 
-	declaracion_procedimientos()
-|	declaracion_funciones()
+	declaracion_procedimientos(at)
+|	declaracion_funciones(at)
 	
 }
 
-void declaracion_procedimientos():
+void declaracion_procedimientos(Attributes at):
 {
 
 }
 {
-	cabecera_procedimiento() 
-	declaracion_variables()
-	(declaracion_proc_func())* 
-	bloque_sentencias()
+	cabecera_procedimiento(at) 
+	declaracion_variables(at)
+	(declaracion_proc_func(at))* 
+	bloque_sentencias(at)
 		{
 			ts.removeBlock();
 			stack.pop();
 		}
 }
 
-void declaracion_funciones():
+void declaracion_funciones(Attributes at):
 {
 
 }
 {
-	cabecera_funcion() 
-	declaracion_variables()
-	(declaracion_proc_func())* 
-	bloque_sentencias()
+	cabecera_funcion(at) 
+	declaracion_variables(at)
+	(declaracion_proc_func(at))* 
+	bloque_sentencias(at)
 		{
 			ts.removeBlock();
 			stack.pop();
 		}
 }
 
-void cabecera_procedimiento():
+void cabecera_procedimiento(Attributes at):
 {
 	Token t;
-	Attributes at = new Attributes();
+	//Attributes at = new Attributes();
 	
 }
 {
@@ -396,11 +399,11 @@ void cabecera_procedimiento():
 		
 }
 
-void cabecera_funcion():
+void cabecera_funcion(Attributes at):
 {
 	Token t;
 	Symbol.Types tipo;
-	Attributes at = new Attributes();
+//	Attributes at = new Attributes();
 }
 {
 	<tFUNC> tipo_variable(at) t = <tID>
@@ -449,7 +452,7 @@ void lista_parametros_formales(Attributes at,Attributes at1):
 	parametro_formal(at,at1) ( <tCOMA> parametro_formal(at,at1) )*
 }
 
-void parametro_formal(Attributes at,Attributes at1):
+void parametro_formal(Attributes at, Attributes at1):
 {
 	Token t1, t2;
 }
@@ -467,15 +470,18 @@ void parametro_formal(Attributes at,Attributes at1):
 		}
 }
 
-void bloque_sentencias():
+void bloque_sentencias(Attributes at):
 {
-	
+	Attributes at1 = new Attributes();
 }
 {
 	try {
 		<tBEGIN>
-		(inst())*
+		(inst(at))*
 		<tEND>
+		{
+		//	at.code.addBlock(at1.code);
+		}
 	} catch (ParseException e){
 		Set<Integer> conjSinc = infoParseException(e);
 		conjSinc.add(tEND);
@@ -483,30 +489,33 @@ void bloque_sentencias():
 	}
 }
 
-void inst():
+void inst(Attributes at):
 {
 
 }
 {
-	inst_acaban_pc() 
-|	inst_acaban_end()
+	inst_acaban_pc(at) 
+|	inst_acaban_end(at)
 }
 
-void inst_acaban_pc():
+void inst_acaban_pc(Attributes at):
 {
-
+	Attributes at1 = new Attributes();
 }
 {
 	try {
-		(inst_leer()
-		|	inst_saltar_linea()
-		|	inst_escribir()
-		|	inst_escribir_linea()
-		|	LOOKAHEAD(2) inst_invoc_proc()
-		|	inst_asignacion()
-		|	inst_return()
+		(inst_leer(at1)
+		|	inst_saltar_linea(at1)
+		|	inst_escribir(at1)
+		|	inst_escribir_linea(at1)
+		|	LOOKAHEAD(2) inst_invoc_proc(at1)
+		|	inst_asignacion(at1)
+		|	inst_return(at1)
 		)
 			<tPC>
+			{
+				at.code.addBlock(at1.code);
+			}
 	} catch(ParseException e){
 		Set<Integer> conjSinc = infoParseException(e);
 		conjSinc.add(tPC);
@@ -514,14 +523,17 @@ void inst_acaban_pc():
 	}
 }
 
-void inst_acaban_end():
+void inst_acaban_end(Attributes at):
 {
-
+	Attributes at1 = new Attributes();
 }
 {
 	try{
-		(inst_iteracion()
-	|	inst_seleccion() ) <tEND>
+		(inst_iteracion(at1)
+	|	inst_seleccion(at1) ) <tEND>
+			{
+				at.code.addBlock(at1.code);
+			}
 	} catch(ParseException e){
 		Set<Integer> conjSinc = infoParseException(e);
 		conjSinc.add(tEND);
@@ -531,7 +543,7 @@ void inst_acaban_end():
 
 
 
-void inst_asignacion():
+void inst_asignacion(Attributes at):
 {
 	Attributes at1 = new Attributes(), at2 = new Attributes();
 	CodeBlock codeOut = new CodeBlock();
@@ -546,10 +558,9 @@ void inst_asignacion():
 			codeOut.addBlock(at1.code);
 			codeOut.addBlock(at2.code);
 			codeOut.addInst(PCodeInstruction.OpCode.ASG);
-		//	if(type == Symbol.Types.ARRAY) codeOut.encloseXMLTags("Asignacion_a_componente_de_vector_"+at1.token.image);
-		//	else 
 			codeOut.encloseXMLTags("Asignacion_a_variable_simple_"+at1.token.image);
-			escribirCodigo(codeOut.toString());
+			at.code.addBlock(codeOut);
+			//escribirCodigo(codeOut.toString());
 		}
 }
 
@@ -580,23 +591,23 @@ void asignable(Attributes at):
 		
 }
 
-void inst_iteracion():
+void inst_iteracion(Attributes at):
 {
-	Attributes at = new Attributes();
+	Attributes at1 = new Attributes();
 }
 {
 	<tWHILE>
 	expresion(at)
 		{
-			semFuncs.checkBool(at);
+			semFuncs.checkBool(at1);
 		}
 	<tDO>
-	(inst())*
+	(inst(at))*
 }
 
-void inst_return():
+void inst_return(Attributes at):
 {
-	Attributes at = new Attributes();
+//	Attributes at = new Attributes();
 	Symbol s;
 	SymbolFunction sf = new SymbolFunction("",null,null);
 	Token t;
@@ -608,15 +619,21 @@ void inst_return():
 		}
 }
 
-void inst_leer():
+void inst_leer(Attributes at):
 {
 	Attributes at1 = new Attributes(), at2 = new Attributes();
+	CodeBlock codeOut = new CodeBlock();
 }
 {
 	try {
-		<tGET> <tPOPEN> asignable(at1) (<tCOMA> asignable(at2))* <tPCLOSE>
+		<tGET> <tPOPEN> lista_asignables(at1) <tPCLOSE>
 			{
-				semFuncs.checkAsignableGet(at1,at2);
+				for(Attributes a : at1.par){
+					codeOut.addBlock(a.code);
+					codeOut.addInst(PCodeInstruction.OpCode.RD,(a.type==Symbol.Types.CHAR)?0:1);
+				}
+				at.code.addBlock(codeOut);
+			//	escribirCodigo(codeOut.toString());
 			}
 	} catch(ParseException e){
 		Set<Integer> conjSinc = infoParseException(e);
@@ -625,7 +642,20 @@ void inst_leer():
 	}
 }
 
-void inst_escribir():
+void lista_asignables(Attributes at):
+{
+	Attributes at1 = new Attributes(), at2 = new Attributes();
+}
+{
+	asignable(at1) (<tCOMA> lista_asignables(at2))?
+		{
+			semFuncs.checkAsignableGet(at1);
+			at.par.add(at1);
+			at.par.addAll(at2.par);
+		}
+}
+
+void inst_escribir(Attributes at):
 {
 	Attributes at1 = new Attributes();
 	CodeBlock codeOut = new CodeBlock();
@@ -661,9 +691,8 @@ void inst_escribir():
 						codeOut.addBlock(a.code);
 					}
 				}
-
 				codeOut.encloseXMLTags("put");
-				escribirCodigo(codeOut.toString());
+				at.code.addBlock(codeOut);
 			} catch(Exception e){
 				System.err.println("Excepción: " + e.getMessage());
 			}
@@ -675,7 +704,7 @@ void inst_escribir():
 	}
 }
 
-void inst_escribir_linea():
+void inst_escribir_linea(Attributes at):
 {
 	Attributes at1 = new Attributes();
 	CodeBlock codeOut = new CodeBlock();
@@ -686,7 +715,6 @@ void inst_escribir_linea():
     	<tPCLOSE>
 		{
 			try{
-				codeOut.clearBlock();
 				System.out.println(at1.par.size());
 				for(Attributes a : at1.par){
 					
@@ -718,7 +746,7 @@ void inst_escribir_linea():
 				codeOut.addInst(PCodeInstruction.OpCode.STC,10);
 				codeOut.addInst(PCodeInstruction.OpCode.WRT,0);
 				codeOut.encloseXMLTags("put_line");
-				escribirCodigo(codeOut.toString());
+				at.code.addBlock(codeOut);
 			} catch(Exception e){
 				System.err.println("Excepción: " + e.getMessage());
 			}
@@ -730,7 +758,7 @@ void inst_escribir_linea():
 	}
 }
 
-void inst_invoc_proc():
+void inst_invoc_proc(Attributes at):
 {
 	Attributes at1 = new Attributes();
 	Token t;
@@ -749,9 +777,9 @@ void inst_invoc_proc():
 	}
 }
 
-void inst_seleccion():
+void inst_seleccion(Attributes at):
 {
-	Attributes at = new Attributes();
+	//Attributes at = new Attributes();
 }
 {
 	<tIF> 
@@ -759,10 +787,10 @@ void inst_seleccion():
 		{
 			semFuncs.checkBool(at);
 		}
-	<tTHEN> (inst())* (<tELSE> (inst())* )? 
+	<tTHEN> (inst(at))* (<tELSE> (inst(at))* )? 
 }
 
-void inst_saltar_linea():
+void inst_saltar_linea(Attributes at):
 {
 
 }
@@ -960,6 +988,7 @@ void factor(Attributes at):
 			at.constante = false;
 		//	at.code.addBlock(at.code);
 			s = ts.getSymbol(t.image);
+			at.code.addComment(" Initial address of array \"" + t.image + "\"");
 			at.code.addInst(PCodeInstruction.OpCode.SRF,stack.size()-s.nivel,(int)s.dir);
 			at.code.addInst(PCodeInstruction.OpCode.PLUS);
 			at.code.addInst(PCodeInstruction.OpCode.DRF);

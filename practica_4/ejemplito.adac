@@ -2,9 +2,12 @@ procedure cerea is
 integer r;
 integer i[2];
 integer j;
+character g;
 boolean x;
 begin
     i[0] := 1;
+    j := 5;
     x := false;
-    put_line("hola ", i[0]);
+    get(j,i[0],g);
+    put_line("hola ", i[0]+j);
 end
