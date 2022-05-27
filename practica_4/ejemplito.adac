@@ -7,7 +7,9 @@ boolean x;
 begin
     i[0] := 1;
     j := 5;
-    x := false;
-    get(j,i[0],g);
-    put_line("hola ", i[0]+j);
+    if i[0] > j then
+        x :=  true;
+    else 
+        x := false;
+    end
 end

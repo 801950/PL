@@ -10,17 +10,55 @@
 </variable_declaration>
 L0:
 <cerea_instruction_block>
-<skip_line>
-L1:
-; --- Temporary hidden compiler variable used for reading until LF
-  SRF  0  9
-  RD  0
-  SRF  0  9
+<Assignment_to_component_of_array_i>
+  STC  0
+; --- Initial address of array "i"
+  SRF  0  4
+  PLUS 
+  STC  1
+  ASG 
+</Assignment_to_component_of_array_i>
+<Assignment_to__simple_variable_j>
+; --- Address of variable / parameter "j"
+  SRF  0  6
+  STC  5
+  ASG 
+</Assignment_to__simple_variable_j>
+<if-then>
+<condition>
+<component_of_array_i>
+  STC  0
+; --- Initial address of array "i"
+  SRF  0  4
+  PLUS 
   DRF 
-  STC 10
-  EQ 
+</component_of_array_i>
+; --- Variable / parameter "j"
+  SRF  0  6
+  DRF 
+  GT 
+</condition>
   JMF L1
-</skip_line>
+<then>
+<Assignment_to__simple_variable_x>
+; --- Address of variable / parameter "x"
+  SRF  0  8
+  STC  1
+  ASG 
+</Assignment_to__simple_variable_x>
+  JMP L2
+</then>
+<else>
+L1:
+<Assignment_to__simple_variable_x>
+; --- Address of variable / parameter "x"
+  SRF  0  8
+  STC  0
+  ASG 
+</Assignment_to__simple_variable_x>
+</else>
+L2:
+</if-then>
 </cerea_instruction_block>
   LVP 
 </cerea>

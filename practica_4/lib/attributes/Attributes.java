@@ -32,6 +32,7 @@ public class Attributes implements Cloneable {
     public int dimension;
     public long dir;
     public int nivel;
+    public int lastLabel;
 
     public CodeBlock code = new CodeBlock();
 

@@ -227,16 +227,15 @@ void prog () :
 		{
 			
 			principal = semFuncs.insertProcedureSymbolTabFirst(ts, t);
+			at.lastLabel = 0;
 		}
   	<tIS>
  	declaracion_variables(at)
   	declaracion_procs_funcs(at)
 		{
-			codeOut.addLabel("L0");
-			codeOut.addBlock(at.code);
-			s = codeOut.toString();
-		//	escribirCodigo(s);
-			codeOut.clearBlock();
+		//	codeOut.addBlock(at.code);
+			at.code.addLabel("L0");
+			//codeOut.clearBlock();
 		}
 	bloque_sentencias(at)
 		{
@@ -472,7 +471,7 @@ void parametro_formal(Attributes at, Attributes at1):
 
 void bloque_sentencias(Attributes at):
 {
-	Attributes at1 = new Attributes();
+	//Attributes at1 = new Attributes();
 }
 {
 	try {
@@ -480,7 +479,6 @@ void bloque_sentencias(Attributes at):
 		(inst(at))*
 		<tEND>
 		{
-		//	at.code.addBlock(at1.code);
 		}
 	} catch (ParseException e){
 		Set<Integer> conjSinc = infoParseException(e);
@@ -500,21 +498,21 @@ void inst(Attributes at):
 
 void inst_acaban_pc(Attributes at):
 {
-	Attributes at1 = new Attributes();
+	//Attributes at1 = new Attributes();
 }
 {
 	try {
-		(inst_leer(at1)
-		|	inst_saltar_linea(at1)
-		|	inst_escribir(at1)
-		|	inst_escribir_linea(at1)
-		|	LOOKAHEAD(2) inst_invoc_proc(at1)
-		|	inst_asignacion(at1)
-		|	inst_return(at1)
+		(inst_leer(at)
+		|	inst_saltar_linea(at)
+		|	inst_escribir(at)
+		|	inst_escribir_linea(at)
+		|	LOOKAHEAD(2) inst_invoc_proc(at)
+		|	inst_asignacion(at)
+		|	inst_return(at)
 		)
 			<tPC>
 			{
-				at.code.addBlock(at1.code);
+				//at.code.addBlock(at1.code);
 			}
 	} catch(ParseException e){
 		Set<Integer> conjSinc = infoParseException(e);
@@ -599,6 +597,14 @@ void inst_iteracion(Attributes at):
 	<tWHILE>
 	expresion(at)
 		{
+		// 	{
+		// 	semFuncs.checkBool(at1);
+		// 	codeOut.addBlock(at1.code);
+		// 	codeOut.encloseXMLTags("condition");
+		// 	codeOut.addInst(PCodeInstruction.OpCode.JMF, "L"+n);
+		// 	code2.addBlock(codeOut);
+		// 	at.lastLabel++;
+		// }
 			semFuncs.checkBool(at1);
 		}
 	<tDO>
@@ -779,15 +785,44 @@ void inst_invoc_proc(Attributes at):
 
 void inst_seleccion(Attributes at):
 {
-	//Attributes at = new Attributes();
+	Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
+	int n = at.lastLabel +1,n2;
+	CodeBlock codeOut = new CodeBlock();
+	CodeBlock code2 = new CodeBlock();
 }
 {
+	/**FALTARIA DE PASAR INFO DE LAST LABEL Y ULTIMA DIRECCIÓN A at1, at2 y at3 */
 	<tIF> 
-	expresion(at) 
+	expresion(at1) 
 		{
-			semFuncs.checkBool(at);
+			semFuncs.checkBool(at1);
+			codeOut.addBlock(at1.code);
+			codeOut.encloseXMLTags("condition");
+			codeOut.addInst(PCodeInstruction.OpCode.JMF, "L"+n);
+			code2.addBlock(codeOut);
+			at.lastLabel++;
 		}
-	<tTHEN> (inst(at))* (<tELSE> (inst(at))* )? 
+	<tTHEN> (inst(at2))* 
+	{
+		codeOut.clearBlock();
+		codeOut.addBlock(at2.code);
+		n2 = at.lastLabel + 1;
+		at.lastLabel ++;
+		codeOut.addInst(PCodeInstruction.OpCode.JMP, "L"+n2);
+		codeOut.encloseXMLTags("then");
+		code2.addBlock(codeOut);
+	}
+	(<tELSE> (inst(at3))* )? 
+	{
+		codeOut.clearBlock();
+		codeOut.addLabel("L"+n);
+		codeOut.addBlock(at3.code);
+		codeOut.encloseXMLTags("else");
+		codeOut.addLabel("L"+n2);
+		code2.addBlock(codeOut);
+		code2.encloseXMLTags("if-then");
+		at.code.addBlock(code2);
+	}
 }
 
 void inst_saltar_linea(Attributes at):
