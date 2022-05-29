@@ -19,6 +19,7 @@ import lib.symbolTable.*;
 import lib.symbolTable.Symbol.Types;
 import lib.symbolTable.exceptions.*;
 import lib.errores.*;
+import lib.tools.codeGeneration.PCodeInstruction.OpCode;
 
 public class SemanticFunctions {
 	private ErrorSemantico errSem; //clase común de errores semánticos
@@ -67,6 +68,7 @@ public class SemanticFunctions {
 			at.token = at1.token;
 			at.dimension = at1.dimension;
 			at.constante = at1.constante;
+			at.parClass = at1.parClass;
 			at.code.addBlock(at1.code);
 		} else if(at1.type.equals(at2.type) && at1.type != Symbol.Types.ARRAY){
 			at.type = Symbol.Types.BOOL;
@@ -78,7 +80,11 @@ public class SemanticFunctions {
 			at.token.image = at1.token.image + " " + at3.token.image + " " + at2.token.image;
 			at.constante = true;
 			at.code.addBlock(at1.code);
+			if(!at1.constante) at.code.addInst(OpCode.DRF);
+			if(at1.parClass != null && at1.parClass == Symbol.ParameterClass.REF) at.code.addInst(OpCode.DRF);
 			at.code.addBlock(at2.code);
+			if(!at2.constante) at.code.addInst(OpCode.DRF);
+			if(at2.parClass != null && at2.parClass == Symbol.ParameterClass.REF) at.code.addInst(OpCode.DRF);
 			at.code.addBlock(at3.code);
 		} else {
 			at.type = Symbol.Types.UNDEFINED;
@@ -118,13 +124,18 @@ public class SemanticFunctions {
 			at.token.image = at1.token.image + " " + at3.token.image + " " + at2.token.image;
 			at.constante = true;
 			at.code.addBlock(at1.code);
+			if(!at1.constante) at.code.addInst(OpCode.DRF);
+			if(at1.parClass != null && at1.parClass == Symbol.ParameterClass.REF) at.code.addInst(OpCode.DRF);
 			at.code.addBlock(at2.code);
+			if(!at2.constante) at.code.addInst(OpCode.DRF);
+			if(at2.parClass != null && at2.parClass == Symbol.ParameterClass.REF) at.code.addInst(OpCode.DRF);
 			at.code.addBlock(at3.code);
 		} else { 
 			at.type = at1.type;
 			at.token = at1.token;
 			at.constante = at1.constante;
 			at.dimension = at1.dimension;
+			at.parClass = at1.parClass;
 			at.code.addBlock(at1.code);
 		}
 	}

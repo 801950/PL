@@ -1,3 +1,4 @@
+<cerea>
   ENP L0
 <variable_declaration>
 ; -- Simple variable "r", type INT, level 0, address [3]
@@ -5,42 +6,66 @@
 </variable_declaration>
 <procedure>
 L1:
-; -- Simple parameter "i", type FUNCTION, level 1, address [3]
-; -- Simple parameter "j", type FUNCTION, level 1, address [4]
-<recover_argument2>
-; -- Recover simple val / ref variable parameter "j" (number 2)
-  SRF  0  4
-  ASGI
-</recover_argument2>
+; -- Simple parameter "t", type FUNCTION, level 1, address [3]
 <recover_argument1>
-; -- Recover simple val / ref variable parameter "i" (number 1)
+; -- Recover simple val / ref variable parameter "t" (number 1)
   SRF  0  3
   ASGI
 </recover_argument1>
   JMP L2
 <variable_declaration>
-; -- Simple variable "x", type INT, level 1, address [5]
 </variable_declaration>
 <procedure>
 L3:
-; -- Simple parameter "j", type PROCEDURE, level 2, address [3]
+; -- Simple parameter "r", type PROCEDURE, level 2, address [3]
 <recover_argument1>
-; -- Recover simple val / ref variable parameter "j" (number 1)
+; -- Recover simple val / ref variable parameter "r" (number 1)
   SRF  0  3
   ASGI
 </recover_argument1>
   JMP L4
 <variable_declaration>
-; -- Simple variable "t", type INT, level 2, address [4]
 </variable_declaration>
 L4:
 <instruction_block>
 <put_line>
 ; -- Put STRING
 <put>
-  STC 102
+  STC 69
   WRT  0
-  STC 49
+  STC 115
+  WRT  0
+  STC 116
+  WRT  0
+  STC 111
+  WRT  0
+  STC 32
+  WRT  0
+  STC 101
+  WRT  0
+  STC 115
+  WRT  0
+  STC 32
+  WRT  0
+  STC 117
+  WRT  0
+  STC 110
+  WRT  0
+  STC 97
+  WRT  0
+  STC 32
+  WRT  0
+  STC 112
+  WRT  0
+  STC 114
+  WRT  0
+  STC 117
+  WRT  0
+  STC 101
+  WRT  0
+  STC 98
+  WRT  0
+  STC 97
   WRT  0
   STC 58
   WRT  0
@@ -48,7 +73,7 @@ L4:
   WRT  0
 </put>
 <put>
-; --Variable / parameter "j"
+; --Variable / parameter "r"
   SRF  0  3
   DRF
 ; -- Put INTEGER
@@ -65,50 +90,22 @@ L4:
 </procedure>
 L2:
 <instruction_block>
-<procedure_call_f1>
+<procedure_call_f2>
 <argument_1>
-  STC  3
-</argument_1>
-  OSF  6  0 L3
-</procedure_call_f1>
-<put_line>
-; -- Put STRING
-<put>
-  STC 102
-  WRT  0
-  STC 117
-  WRT  0
-  STC 110
-  WRT  0
-  STC 99
-  WRT  0
-  STC 58
-  WRT  0
-  STC 32
-  WRT  0
-</put>
-<put>
-; --Variable / parameter "i"
+; --Variable / parameter "t"
   SRF  0  3
   DRF
-; -- Put INTEGER
-  WRT  1
-</put>
-<put>
-; --Variable / parameter "j"
-  SRF  0  4
-  DRF
-; -- Put INTEGER
-  WRT  1
-</put>
-; -- CR/LF
-  STC 13
-  WRT  0
-  STC 10
-  WRT  0
-</put_line>
+  STC  5
+  TMS
+</argument_1>
+  OSF  4  0 L3
+</procedure_call_f2>
 <return>
-  STC  9
+; --Variable / parameter "t"
+  SRF  0  3
+  DRF
+  STC  2
+  TMS
   CSF
 </return>
   CSF
@@ -129,17 +126,21 @@ L0:
 </Asignacion_a_variable_simple_a>
 <put_line>
 <put>
-<function_call_func>
+; --Variable / parameter "a"
+  SRF  0  4
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+<put>
+<function_call_f1>
 <argument_1>
-; --Variable / parameter "i"
-  SRF  0  0
+; --Variable / parameter "r"
+  SRF  0  3
+  DRF
 </argument_1>
-<argument_2>
-; --Variable / parameter "j"
-  SRF  0  0
-</argument_2>
   OSF  5  0 L1
-</function_call_func>
+</function_call_f1>
 ; -- Put INTEGER
   WRT  1
 </put>
@@ -150,3 +151,4 @@ L0:
   WRT  0
 </put_line>
   LVP
+</cerea>

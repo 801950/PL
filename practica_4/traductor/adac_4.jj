@@ -218,9 +218,9 @@ void prog () :
   	<tPROC>
 		{
 			codeOut.addInst(PCodeInstruction.OpCode.ENP,"L0");
-			s = codeOut.toString();
-			escribirCodigo(s);
-			codeOut.clearBlock();
+		//	s = codeOut.toString();
+		//	escribirCodigo(s);
+		//	codeOut.clearBlock();
 			
 		}
   	t = <tID>
@@ -242,6 +242,7 @@ void prog () :
 		{
 			codeOut.addBlock(at.code);
 			codeOut.addInst(PCodeInstruction.OpCode.LVP);
+			codeOut.encloseXMLTags(t.image);
 			s = codeOut.toString();
 			escribirCodigo(s);
 			codeOut.clearBlock();
@@ -682,6 +683,7 @@ void inst_asignacion(Attributes at):
 			semFuncs.checkAsignacion(at1,at2);
 			codeOut.addBlock(at1.code);
 			codeOut.addBlock(at2.code);
+			if(!at2.constante) codeOut.addInst(PCodeInstruction.OpCode.DRF);
 			codeOut.addInst(PCodeInstruction.OpCode.ASG);
 			codeOut.encloseXMLTags("Asignacion_a_variable_simple_"+at1.token.image);
 			at.code.addBlock(codeOut);
@@ -768,6 +770,7 @@ void inst_return(Attributes at):
 		{
 			semFuncs.checkFunction(stack, at1);
 			code1.addBlock(at1.code);
+			if(!at1.constante) code1.addInst(PCodeInstruction.OpCode.DRF);
 			code1.addInst(PCodeInstruction.OpCode.CSF);
 			code1.encloseXMLTags("return");
 			at.code.addBlock(code1);
@@ -826,20 +829,24 @@ void inst_escribir(Attributes at):
 				for(Attributes a : at1.par){
 					
 					if(a.type == Symbol.Types.STRING){
+						if(!a.constante) a.code.addInst(PCodeInstruction.OpCode.DRF);
 						a.code.encloseXMLTags("put");
 						codeOut.addComment(" Put STRING");
 						codeOut.addBlock(a.code);
 					} else if(a.type == Symbol.Types.INT){
+						if(!a.constante) a.code.addInst(PCodeInstruction.OpCode.DRF);
 						a.code.addComment(" Put INTEGER");
 						a.code.addInst(PCodeInstruction.OpCode.WRT,1);
 						a.code.encloseXMLTags("put");
 						codeOut.addBlock(a.code);
 					} else if(a.type == Symbol.Types.CHAR){
+						if(!a.constante) a.code.addInst(PCodeInstruction.OpCode.DRF);
 						a.code.addComment(" Put CHAR");
 						a.code.addInst(PCodeInstruction.OpCode.WRT,0);
 						a.code.encloseXMLTags("put");
 						codeOut.addBlock(a.code);
 					} else if(a.type == Symbol.Types.BOOL){
+						if(!a.constante) a.code.addInst(PCodeInstruction.OpCode.DRF);
 						a.code.addComment(" Put BOOL");
 						a.code.addInst(PCodeInstruction.OpCode.WRT,1);
 						a.code.encloseXMLTags("put");
@@ -873,26 +880,34 @@ void inst_escribir_linea(Attributes at):
 			try{
 				for(Attributes a : at1.par){
 					
+					
 					if(a.type == Symbol.Types.STRING){
+						if(!a.constante) a.code.addInst(PCodeInstruction.OpCode.DRF);
 						a.code.encloseXMLTags("put");
 						codeOut.addComment(" Put STRING");
 						codeOut.addBlock(a.code);
+						
 					} else if(a.type == Symbol.Types.INT){
+						if(!a.constante) a.code.addInst(PCodeInstruction.OpCode.DRF);
 						a.code.addComment(" Put INTEGER");
 						a.code.addInst(PCodeInstruction.OpCode.WRT,1);
 						a.code.encloseXMLTags("put");
 						codeOut.addBlock(a.code);
+						
 					} else if(a.type == Symbol.Types.CHAR){
+						if(!a.constante) a.code.addInst(PCodeInstruction.OpCode.DRF);
 						a.code.addComment(" Put CHAR");
 						a.code.addInst(PCodeInstruction.OpCode.WRT,0);
 						a.code.encloseXMLTags("put");
 						codeOut.addBlock(a.code);
-
-					} else if(a.type == Symbol.Types.BOOL){			
+						
+					} else if(a.type == Symbol.Types.BOOL){	
+						if(!a.constante) a.code.addInst(PCodeInstruction.OpCode.DRF);		
 						a.code.addComment(" Put BOOL");
 						a.code.addInst(PCodeInstruction.OpCode.WRT,1);
 						a.code.encloseXMLTags("put");
 						codeOut.addBlock(a.code);
+						
 					}
 				}
 				codeOut.addComment(" CR/LF");
@@ -938,6 +953,7 @@ void inst_invoc_proc(Attributes at):
 					if(s1.parClass == Symbol.ParameterClass.VAL){
 						at2 = at1.par.get(i);
 						code2.addBlock(at2.code);
+						if(!at2.constante) code2.addInst(PCodeInstruction.OpCode.DRF);
 						n = i+1;
 						code2.encloseXMLTags("argument_"+n);
 						code1.addBlock(code2);
@@ -945,7 +961,8 @@ void inst_invoc_proc(Attributes at):
 					} else if(s1.parClass == Symbol.ParameterClass.REF){
 						
 						code2.addComment("Variable / parameter \"" + s1.name + "\"");
-						code2.addInst(PCodeInstruction.OpCode.SRF,stack.size()-s1.nivel,(int)s1.dir);
+						at2 = at1.par.get(i);
+						code2.addBlock(at2.code);
 						n = i+1;
 						code2.encloseXMLTags("argument_"+n);
 						code1.addBlock(code2);
@@ -1168,12 +1185,12 @@ void termino(Attributes at):
 	at1.dir = at.dir;
 	at2.dir = at.dir;
 	Symbol.Types expected;
-	System.out.println("direccion: " + at1.dir);
+	//System.out.println("direccion: " + at1.dir);
 }
 {
 	factor(at1) (operador_multiplicativo(at3) factor(at2))*
 		{
-			semFuncs.check2typesWithOperator(at1,at2,at3,at);
+			semFuncs.check2typesWithOperator(at1,at2,at3,at); 
 		}
 }
 
@@ -1231,11 +1248,12 @@ void factor(Attributes at):
 			at.constante = false;
 		//	at.code.addBlock(at.code);
 			s = ts.getSymbol(t.image);
+			at.parClass = s.parClass;
 			at.nivel = s.nivel;
 			at.code.addComment(" Initial address of array \"" + t.image + "\"");
 			at.code.addInst(PCodeInstruction.OpCode.SRF,stack.size()-s.nivel,(int)s.dir);
 			at.code.addInst(PCodeInstruction.OpCode.PLUS);
-			at.code.addInst(PCodeInstruction.OpCode.DRF);
+		//	at.code.addInst(PCodeInstruction.OpCode.DRF);
 		}
 |	t = <tID>
 		{
@@ -1243,10 +1261,11 @@ void factor(Attributes at):
 			semFuncs.checkVariable(ts,t,at);
 			at.constante = false;
 			s = ts.getSymbol(t.image);
+			at.parClass = s.parClass;
 			at.nivel = s.nivel;
 			at.code.addComment("Variable / parameter \"" + t.image + "\"");
 			at.code.addInst(PCodeInstruction.OpCode.SRF,stack.size()-s.nivel,(int)s.dir);
-			at.code.addInst(PCodeInstruction.OpCode.DRF);
+	//		at.code.addInst(PCodeInstruction.OpCode.DRF);
 		}
 | 	t = <tNUM>
 		{
@@ -1331,6 +1350,7 @@ void factor_con_par(Attributes at):
 					if(s1.parClass == Symbol.ParameterClass.VAL){
 						at2 = at1.par.get(i);
 						code2.addBlock(at2.code);
+						if(!at2.constante) code2.addInst(PCodeInstruction.OpCode.DRF);
 						n = i+1;
 						code2.encloseXMLTags("argument_"+n);
 						code1.addBlock(code2);
@@ -1338,7 +1358,8 @@ void factor_con_par(Attributes at):
 					} else if(s1.parClass == Symbol.ParameterClass.REF){
 						at2 = at1.par.get(i);
 						code2.addComment("Variable / parameter \"" + s1.name + "\"");
-						code2.addInst(PCodeInstruction.OpCode.SRF,stack.size()-at2.nivel,(int)at2.dir);
+						code2.addBlock(at2.code);
+						if(!at2.constante) code2.addInst(PCodeInstruction.OpCode.DRF);
 						n = i+1;
 						code2.encloseXMLTags("argument_"+n);
 						code1.addBlock(code2);
