@@ -404,21 +404,44 @@ public class SemanticFunctions {
 	 * correspondiente.
 	 */
 	public void insertParametro(SymbolTable ts, Attributes at, Attributes at1, Token t){
-		Symbol s;
+		Symbol s, s2;
+		int nivel;
 		if(at1.type != null && at1.parClass != null && at.token != null){
 			s = ts.getSymbol(at.token.image);
+			nivel = s.nivel + 1;
 			if(s instanceof SymbolProcedure){
 				SymbolProcedure sf = (SymbolProcedure)s;
 				if(t.image != null){
 					if(at1.type == Symbol.Types.INT){
-						sf.parList.add(new SymbolInt(t.image,at1.parClass));
+						s2 = new SymbolInt(t.image,at1.parClass);
+						s2.dir = at.dir;
+						s2.nivel = nivel;
+						sf.parList.add(s2);
+						at1.dir = at.dir;
+						at.code.addComment(" Simple parameter \"" + t.image + "\", type " + at.type + ", level " + nivel + ", address [" + at.dir + "]");
+						at.dir ++;
 						insertVariableSymbolTab(ts, t, at1);
+						
 					} else if(at1.type == Symbol.Types.CHAR){
-						sf.parList.add(new SymbolChar(t.image,at1.parClass));
+						s2 = new SymbolChar(t.image,at1.parClass);
+						s2.dir = at.dir;
+						s2.nivel = nivel;
+						sf.parList.add(s2);
+						at1.dir = at.dir;
+						at.code.addComment(" Simple parameter \"" + t.image + "\", type " + at.type + ", level " + nivel + ", address [" + at.dir + "]");
+						at.dir ++;
 						insertVariableSymbolTab(ts, t, at1);
+						
 					} else if(at1.type == Symbol.Types.BOOL){
-						sf.parList.add(new SymbolBool(t.image,at1.parClass));
+						s2 = new SymbolBool(t.image,at1.parClass);
+						s2.dir = at.dir;
+						s2.nivel = nivel;
+						sf.parList.add(s2);
+						at1.dir = at.dir;
+						at.code.addComment(" Simple parameter \"" + t.image + "\", type " + at.type + ", level " + nivel + ", address [" + at.dir + "]");
+						at.dir ++;
 						insertVariableSymbolTab(ts, t, at1);
+						
 					} else {
 						errSem.deteccion("Tipo no permitido", t);
 					}
@@ -427,14 +450,35 @@ public class SemanticFunctions {
 				SymbolFunction sf = (SymbolFunction)s;
 				if(t.image != null){
 					if(at1.type == Symbol.Types.INT){
-						sf.parList.add(new SymbolInt(t.image,at1.parClass));
+						s2 = new SymbolInt(t.image,at1.parClass);
+						s2.dir = at.dir;
+						s2.nivel = nivel;
+						sf.parList.add(s2);
+						at1.dir = at.dir;
+						at.code.addComment(" Simple parameter \"" + t.image + "\", type " + at.type + ", level " + nivel + ", address [" + at.dir + "]");
+						at.dir ++;
 						insertVariableSymbolTab(ts, t, at1);
+						
 					} else if(at1.type == Symbol.Types.CHAR){
-						sf.parList.add(new SymbolChar(t.image,at1.parClass));
+						s2 = new SymbolChar(t.image,at1.parClass);
+						s2.dir = at.dir;
+						s2.nivel = nivel;
+						sf.parList.add(s2);
+						at1.dir = at.dir;
+						at.code.addComment(" Simple parameter \"" + t.image + "\", type " + at.type + ", level " + nivel + ", address [" + at.dir + "]");
+						at.dir ++;
 						insertVariableSymbolTab(ts, t, at1);
+						
 					} else if(at1.type == Symbol.Types.BOOL){
-						sf.parList.add(new SymbolBool(t.image,at1.parClass));
+						s2 = new SymbolBool(t.image,at1.parClass);
+						s2.dir = at.dir;
+						s2.nivel = nivel;
+						sf.parList.add(s2);
+						at1.dir = at.dir;
 						insertVariableSymbolTab(ts, t, at1);
+						at.code.addComment(" Simple parameter \"" + t.image + "\", type " + at.type + ", level " + nivel + ", address [" + at.dir + "]");
+						at.dir ++;
+						
 					} else {
 						errSem.deteccion("Tipo no permitido", t);
 					}

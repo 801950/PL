@@ -1,7 +1,21 @@
 procedure cerea is
 integer r;
-begin
-    while r > 2 do
+integer a;
+function integer func(ref integer i,j) is
+integer x;
+    procedure f1(val integer j) is
+        integer t;
+    begin
+        put_line("f1: ", j);
     end
-    skip_line();
+begin
+    f1(3);
+    put_line("func: ", i,j);
+    return 9;
+end
+
+begin
+    r := 1;
+    a := 2;
+    put_line(func(r,a));
 end

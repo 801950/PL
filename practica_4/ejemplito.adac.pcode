@@ -1,32 +1,152 @@
   ENP L0
 <variable_declaration>
 ; -- Simple variable "r", type INT, level 0, address [3]
+; -- Simple variable "a", type INT, level 0, address [4]
 </variable_declaration>
-L0:
-<while>
+<procedure>
 L1:
-<condition>
-; --Variable / parameter "r"
+; -- Simple parameter "i", type FUNCTION, level 1, address [3]
+; -- Simple parameter "j", type FUNCTION, level 1, address [4]
+<recover_argument2>
+; -- Recover simple val / ref variable parameter "j" (number 2)
+  SRF  0  4
+  ASGI
+</recover_argument2>
+<recover_argument1>
+; -- Recover simple val / ref variable parameter "i" (number 1)
+  SRF  0  3
+  ASGI
+</recover_argument1>
+  JMP L2
+<variable_declaration>
+; -- Simple variable "x", type INT, level 1, address [5]
+</variable_declaration>
+<procedure>
+L3:
+; -- Simple parameter "j", type PROCEDURE, level 2, address [3]
+<recover_argument1>
+; -- Recover simple val / ref variable parameter "j" (number 1)
+  SRF  0  3
+  ASGI
+</recover_argument1>
+  JMP L4
+<variable_declaration>
+; -- Simple variable "t", type INT, level 2, address [4]
+</variable_declaration>
+L4:
+<instruction_block>
+<put_line>
+; -- Put STRING
+<put>
+  STC 102
+  WRT  0
+  STC 49
+  WRT  0
+  STC 58
+  WRT  0
+  STC 32
+  WRT  0
+</put>
+<put>
+; --Variable / parameter "j"
   SRF  0  3
   DRF
-  STC  2
-  GT
-</condition>
-  JMF L2
-<while_instruction_block>
-</while_instruction_block>
-  JMP L1
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+  CSF
+</instruction_block>
+</procedure>
 L2:
-</while>
-<skip_line>
-L3:
-; -- Temporary hidden compiler variable used for reading until LF
-  SRF  0  4
-  RD  0
+<instruction_block>
+<procedure_call_f1>
+<argument_1>
+  STC  3
+</argument_1>
+  OSF  6  0 L3
+</procedure_call_f1>
+<put_line>
+; -- Put STRING
+<put>
+  STC 102
+  WRT  0
+  STC 117
+  WRT  0
+  STC 110
+  WRT  0
+  STC 99
+  WRT  0
+  STC 58
+  WRT  0
+  STC 32
+  WRT  0
+</put>
+<put>
+; --Variable / parameter "i"
+  SRF  0  3
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+<put>
+; --Variable / parameter "j"
   SRF  0  4
   DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
   STC 10
-  EQ
-  JMF L3
-</skip_line>
+  WRT  0
+</put_line>
+<return>
+  STC  9
+  CSF
+</return>
+  CSF
+</instruction_block>
+</procedure>
+L0:
+<Asignacion_a_variable_simple_r>
+; -- Address of variable / parameter "r"
+  SRF  0  3
+  STC  1
+  ASG
+</Asignacion_a_variable_simple_r>
+<Asignacion_a_variable_simple_a>
+; -- Address of variable / parameter "a"
+  SRF  0  4
+  STC  2
+  ASG
+</Asignacion_a_variable_simple_a>
+<put_line>
+<put>
+<function_call_func>
+<argument_1>
+; --Variable / parameter "i"
+  SRF  0  0
+</argument_1>
+<argument_2>
+; --Variable / parameter "j"
+  SRF  0  0
+</argument_2>
+  OSF  5  0 L1
+</function_call_func>
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
   LVP

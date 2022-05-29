@@ -2,20 +2,89 @@
 <cerea>
   ENP L0
 <variable_declaration>
+; --- Simple variable "r", type 0, level 0,  address [3]!
+; --- Simple variable "a", type 0, level 0,  address [4]!
 </variable_declaration>
+<procedure_func>
+L1:
+; --- Simple parameter "i", type 0, class 0, level 1,  address [3]!
+; --- Simple parameter "j", type 0, class 0, level 1,  address [4]!
+<recover_argument_2>
+; --- Recover simple val / ref variable parameter "j" (number 2).
+  SRF  0  4
+  ASGI 
+</recover_argument_2>
+<recover_argument_1>
+; --- Recover simple val / ref variable parameter "i" (number 1).
+  SRF  0  3
+  ASGI 
+</recover_argument_1>
+  JMP L2
+<variable_declaration>
+; --- Simple variable "x", type 0, level 1,  address [5]!
+</variable_declaration>
+<procedure_f1>
+L3:
+; --- Simple parameter "j", type 0, class 0, level 2,  address [3]!
+<recover_argument_1>
+; --- Recover simple val / ref variable parameter "j" (number 1).
+  SRF  0  3
+  ASGI 
+</recover_argument_1>
+  JMP L4
+<variable_declaration>
+; --- Simple variable "t", type 0, level 2,  address [4]!
+</variable_declaration>
+L4:
+<f1_instruction_block>
+  CSF 
+</f1_instruction_block>
+</procedure_f1>
+L2:
+<func_instruction_block>
+  CSF 
+</func_instruction_block>
+</procedure_func>
+<procedure_func2>
+L5:
+; --- Simple parameter "i2", type 0, class 0, level 1,  address [3]!
+; --- Simple parameter "j2", type 0, class 0, level 1,  address [4]!
+<recover_argument_2>
+; --- Recover simple val / ref variable parameter "j2" (number 2).
+  SRF  0  4
+  ASGI 
+</recover_argument_2>
+<recover_argument_1>
+; --- Recover simple val / ref variable parameter "i2" (number 1).
+  SRF  0  3
+  ASGI 
+</recover_argument_1>
+  JMP L6
+<variable_declaration>
+; --- Simple variable "x2", type 0, level 1,  address [5]!
+</variable_declaration>
+L6:
+<func2_instruction_block>
+  CSF 
+</func2_instruction_block>
+</procedure_func2>
 L0:
 <cerea_instruction_block>
-<skip_line>
-L1:
-; --- Temporary hidden compiler variable used for reading until LF
-  SRF  0  3
-  RD  0
+<procedure_call_func>
+<argument_1>
+; --- Variable / parameter "r"
   SRF  0  3
   DRF 
-  STC 10
-  EQ 
-  JMF L1
-</skip_line>
+</argument_1>
+<argument_2>
+; --- Variable / parameter "r"
+  SRF  0  3
+  DRF 
+  STC  1
+  PLUS 
+</argument_2>
+  OSF  5  0 L1
+</procedure_call_func>
 </cerea_instruction_block>
   LVP 
 </cerea>
