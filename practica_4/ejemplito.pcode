@@ -2,148 +2,34 @@
 <cerea>
   ENP L0
 <variable_declaration>
-; --- Simple variable "r", type 0, level 0,  address [3]!
-; --- Simple variable "a", type 0, level 0,  address [4]!
+; --- Simple variable "a", type 0, level 0,  address [3]!
+; --- Simple variable "b", type 2, level 0,  address [4]!
 </variable_declaration>
-<function_f1>
-L1:
-; --- Simple parameter "t", type 0, class 1, level 1,  address [3]!
-<recover_argument_1>
-; --- Recover simple val / ref variable parameter "t" (number 1).
-  SRF  0  3
-  ASGI 
-</recover_argument_1>
-  JMP L2
-<variable_declaration>
-</variable_declaration>
-<procedure_f2>
-L3:
-; --- Simple parameter "r", type 0, class 0, level 2,  address [3]!
-<recover_argument_1>
-; --- Recover simple val / ref variable parameter "r" (number 1).
-  SRF  0  3
-  ASGI 
-</recover_argument_1>
-  JMP L4
-<variable_declaration>
-</variable_declaration>
-L4:
-<f2_instruction_block>
-<put>
-; --- Put STRING "Esto es una prueba: " (length 20)
-; --- Standard string writing
-  STC 69
-  WRT  0
-  STC 115
-  WRT  0
-  STC 116
-  WRT  0
-  STC 111
-  WRT  0
-  STC 32
-  WRT  0
-  STC 101
-  WRT  0
-  STC 115
-  WRT  0
-  STC 32
-  WRT  0
-  STC 117
-  WRT  0
-  STC 110
-  WRT  0
-  STC 97
-  WRT  0
-  STC 32
-  WRT  0
-  STC 112
-  WRT  0
-  STC 114
-  WRT  0
-  STC 117
-  WRT  0
-  STC 101
-  WRT  0
-  STC 98
-  WRT  0
-  STC 97
-  WRT  0
-  STC 58
-  WRT  0
-  STC 32
-  WRT  0
-</put>
-<put>
-; --- Variable / parameter "r"
-  SRF  0  3
-  DRF 
-; --- Put INTEGER
-  WRT  1
-</put>
-<put_line>
-; --- CR/LF
-  STC 13
-  WRT  0
-  STC 10
-  WRT  0
-</put_line>
-  CSF 
-</f2_instruction_block>
-</procedure_f2>
-L2:
-<f1_instruction_block>
-<procedure_call_f2>
-<argument_1>
-; --- Variable / parameter "t"
-  SRF  0  3
-  DRF 
-  DRF 
-  STC  5
-  TMS 
-</argument_1>
-  OSF  4  0 L3
-</procedure_call_f2>
-<return>
-; --- Variable / parameter "t"
-  SRF  0  3
-  DRF 
-  DRF 
-  STC  2
-  TMS 
-  CSF 
-</return>
-  CSF 
-</f1_instruction_block>
-</function_f1>
 L0:
 <cerea_instruction_block>
-<Assignment_to__simple_variable_r>
-; --- Address of variable / parameter "r"
-  SRF  0  3
-  STC  1
-  ASG 
-</Assignment_to__simple_variable_r>
 <Assignment_to__simple_variable_a>
 ; --- Address of variable / parameter "a"
+  SRF  0  3
+  STC 98
+  ASG 
+</Assignment_to__simple_variable_a>
+<Assignment_to__simple_variable_b>
+; --- Address of variable / parameter "b"
   SRF  0  4
   STC  2
   ASG 
-</Assignment_to__simple_variable_a>
+</Assignment_to__simple_variable_b>
 <put>
 ; --- Variable / parameter "a"
-  SRF  0  4
+  SRF  0  3
   DRF 
-; --- Put INTEGER
-  WRT  1
+; --- Put CHARACTER
+  WRT  0
 </put>
 <put>
-<function_call_f1>
-<argument_1>
-; --- Variable / parameter "r"
-  SRF  0  3
-</argument_1>
-  OSF  5  0 L1
-</function_call_f1>
+; --- Variable / parameter "b"
+  SRF  0  4
+  DRF 
 ; --- Put INTEGER
   WRT  1
 </put>

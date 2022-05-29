@@ -705,6 +705,8 @@ void asignable(Attributes at):
 			semFuncs.checkAsignable(ts,t,at1,at);
 			s = ts.getSymbol(t.image);
 			at.code.addBlock(at1.code);
+		//	if(!at1.constante) at.code.addInst(PCodeInstruction.OpCode.DRF);
+			if(at1.parClass != null && at1.parClass == Symbol.ParameterClass.REF) at.code.addInst(PCodeInstruction.OpCode.DRF);
 			at.code.addComment(" Initial address of array \"" + t.image +"\"");
 			at.code.addInst(PCodeInstruction.OpCode.SRF,stack.size()-s.nivel,(int)s.dir);
 			at.code.addInst(PCodeInstruction.OpCode.PLUS);		
@@ -715,6 +717,7 @@ void asignable(Attributes at):
 			s = ts.getSymbol(t.image);
 			at.code.addComment(" Address of variable / parameter \"" + t.image +"\"");
 			at.code.addInst(PCodeInstruction.OpCode.SRF,stack.size()-s.nivel,(int)s.dir);
+			if(s.parClass == Symbol.ParameterClass.REF) at.code.addInst(PCodeInstruction.OpCode.DRF);
 		}
 		
 }
@@ -964,15 +967,17 @@ void inst_invoc_proc(Attributes at):
 						at2 = at1.par.get(i);
 						code2.addBlock(at2.code);
 						if(!at2.constante) code2.addInst(PCodeInstruction.OpCode.DRF);
+						if(at2.parClass != null && at2.parClass == Symbol.ParameterClass.REF) code2.addInst(PCodeInstruction.OpCode.DRF);
 						n = i+1;
 						code2.encloseXMLTags("argument_"+n);
 						code1.addBlock(code2);
 						code2.clearBlock();
 					} else if(s1.parClass == Symbol.ParameterClass.REF){
 						
-						code2.addComment("Variable / parameter \"" + s1.name + "\"");
+					//	code2.addComment("Variable / parameter \"" + s1.name + "\"");
 						at2 = at1.par.get(i);
 						code2.addBlock(at2.code);
+						if(at2.parClass != null && at2.parClass == Symbol.ParameterClass.REF) code2.addInst(PCodeInstruction.OpCode.DRF);
 						n = i+1;
 						code2.encloseXMLTags("argument_"+n);
 						code1.addBlock(code2);
@@ -1339,12 +1344,16 @@ void factor_con_par(Attributes at):
 		<tINT2CHAR> <tPOPEN> expresion(at) <tPCLOSE> 
 			{
 				semFuncs.checkInt(at);
+				if(!at.constante) at.code.addInst(PCodeInstruction.OpCode.DRF);
+				if(at.parClass != null && at.parClass == Symbol.ParameterClass.REF) at.code.addInst(PCodeInstruction.OpCode.DRF);
 				at.type = Symbol.Types.CHAR;
 				at.constante = true;
 			}
 		|	<tCHAR2INT> <tPOPEN> expresion(at) <tPCLOSE>
 			{
 				semFuncs.checkChar(at);
+				if(!at.constante) at.code.addInst(PCodeInstruction.OpCode.DRF);
+				if(at.parClass != null && at.parClass == Symbol.ParameterClass.REF) at.code.addInst(PCodeInstruction.OpCode.DRF);
 				at.type = Symbol.Types.INT;
 				at.constante = true;
 			}
@@ -1362,6 +1371,7 @@ void factor_con_par(Attributes at):
 						at2 = at1.par.get(i);
 						code2.addBlock(at2.code);
 						if(!at2.constante) code2.addInst(PCodeInstruction.OpCode.DRF);
+						if(at2.parClass != null && at2.parClass == Symbol.ParameterClass.REF) code2.addInst(PCodeInstruction.OpCode.DRF);
 						n = i+1;
 						code2.encloseXMLTags("argument_"+n);
 						code1.addBlock(code2);
@@ -1370,6 +1380,7 @@ void factor_con_par(Attributes at):
 						at2 = at1.par.get(i);
 				//		code2.addComment("Variable / parameter \"" + at2.token.image + "\"");
 						code2.addBlock(at2.code);
+						if(at2.parClass != null && at2.parClass == Symbol.ParameterClass.REF) code2.addInst(PCodeInstruction.OpCode.DRF);
 						n = i+1;
 						code2.encloseXMLTags("argument_"+n);
 						code1.addBlock(code2);

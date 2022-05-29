@@ -1,18 +1,9 @@
 procedure cerea is
-integer r;
 integer a;
+character b;
 
-function integer f1(ref integer t) is
-    procedure f2(val integer r) is
-    begin
-        put_line("Esto es una prueba: ", r);
-    end
 begin
-    f2(t*5);
-    return t;
-end
-begin
-    r := 1;
-    a := 2;
-    put_line(a, f1(r));
+    a := char2int('b');
+    b := int2char(2);
+    put_line(int2char(a),char2int(b));
 end
