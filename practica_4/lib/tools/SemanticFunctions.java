@@ -16,6 +16,7 @@ import org.w3c.dom.Attr;
 import traductor.Token;
 import lib.attributes.*;
 import lib.symbolTable.*;
+import lib.symbolTable.Symbol.ParameterClass;
 import lib.symbolTable.Symbol.Types;
 import lib.symbolTable.exceptions.*;
 import lib.errores.*;
@@ -124,6 +125,7 @@ public class SemanticFunctions {
 			at.token.image = at1.token.image + " " + at3.token.image + " " + at2.token.image;
 			at.constante = true;
 			at.code.addBlock(at1.code);
+			System.out.println("par1: " + at1.parClass + " par2: " + at2.parClass);
 			if(!at1.constante) at.code.addInst(OpCode.DRF);
 			if(at1.parClass != null && at1.parClass == Symbol.ParameterClass.REF) at.code.addInst(OpCode.DRF);
 			at.code.addBlock(at2.code);
@@ -192,7 +194,8 @@ public class SemanticFunctions {
 	public void insertArraySymbolTab(SymbolTable ts, Token t1, Attributes at, Token t2){
 		try{
 			int n = Integer.parseInt(t2.image);
-			Symbol s = new SymbolArray(t1.image,0,n-1,at.type);
+			if(at.parClass == null) at.parClass = ParameterClass.NONE;
+			Symbol s = new SymbolArray(t1.image,0,n-1,at.type, at.parClass);
 			s.dir = at.dir;
 			int fin_dir = (int)at.dir + n-1;
 			at.code.addComment(" Array variable \""+ t1.image+ "\", type "+at.type+", size " + n + ", level " +s.nivel+ ", address ["+ at.dir + ":" + fin_dir + "]!");
@@ -209,18 +212,19 @@ public class SemanticFunctions {
 	 */
 	public void insertVariableSymbolTab(SymbolTable ts, Token t1, Attributes at){
 		try{
+			if(at.parClass == null) at.parClass = ParameterClass.NONE;
 			if(at.type == Symbol.Types.INT){
-				Symbol s = new SymbolInt(t1.image);
+				Symbol s = new SymbolInt(t1.image,at.parClass);
 				s.dir = at.dir;
 				ts.insertSymbol(s);
 				at.code.addComment(" Simple variable \"" + t1.image + "\", type " + at.type + ", level " + s.nivel + ", address [" + at.dir + "]");
 			} else if (at.type == Symbol.Types.CHAR){
-				Symbol s = new SymbolChar(t1.image);
+				Symbol s = new SymbolChar(t1.image,at.parClass);
 				s.dir = at.dir;
 				ts.insertSymbol(s);
 				at.code.addComment(" Simple variable \"" + t1.image + "\", type " + at.type + ", level " + s.nivel + ", address [" + at.dir + "]");
 			} else if (at.type == Symbol.Types.BOOL){
-				Symbol s = new SymbolBool(t1.image);
+				Symbol s = new SymbolBool(t1.image, at.parClass);
 				s.dir = at.dir;
 				ts.insertSymbol(s);
 				at.code.addComment(" Simple variable \"" + t1.image + "\", type " + at.type + ", level " + s.nivel + ", address [" + at.dir + "]");

@@ -684,6 +684,7 @@ void inst_asignacion(Attributes at):
 			codeOut.addBlock(at1.code);
 			codeOut.addBlock(at2.code);
 			if(!at2.constante) codeOut.addInst(PCodeInstruction.OpCode.DRF);
+			if(at2.parClass != null && at2.parClass == Symbol.ParameterClass.REF) codeOut.addInst(PCodeInstruction.OpCode.DRF);
 			codeOut.addInst(PCodeInstruction.OpCode.ASG);
 			codeOut.encloseXMLTags("Asignacion_a_variable_simple_"+at1.token.image);
 			at.code.addBlock(codeOut);
@@ -771,6 +772,7 @@ void inst_return(Attributes at):
 			semFuncs.checkFunction(stack, at1);
 			code1.addBlock(at1.code);
 			if(!at1.constante) code1.addInst(PCodeInstruction.OpCode.DRF);
+			if(at1.parClass != null && at1.parClass == Symbol.ParameterClass.REF) code1.addInst(PCodeInstruction.OpCode.DRF);
 			code1.addInst(PCodeInstruction.OpCode.CSF);
 			code1.encloseXMLTags("return");
 			at.code.addBlock(code1);
@@ -830,23 +832,27 @@ void inst_escribir(Attributes at):
 					
 					if(a.type == Symbol.Types.STRING){
 						if(!a.constante) a.code.addInst(PCodeInstruction.OpCode.DRF);
+						if(a.parClass != null && a.parClass == Symbol.ParameterClass.REF) a.code.addInst(PCodeInstruction.OpCode.DRF);
 						a.code.encloseXMLTags("put");
 						codeOut.addComment(" Put STRING");
 						codeOut.addBlock(a.code);
 					} else if(a.type == Symbol.Types.INT){
 						if(!a.constante) a.code.addInst(PCodeInstruction.OpCode.DRF);
+						if(a.parClass != null && a.parClass == Symbol.ParameterClass.REF) a.code.addInst(PCodeInstruction.OpCode.DRF);
 						a.code.addComment(" Put INTEGER");
 						a.code.addInst(PCodeInstruction.OpCode.WRT,1);
 						a.code.encloseXMLTags("put");
 						codeOut.addBlock(a.code);
 					} else if(a.type == Symbol.Types.CHAR){
 						if(!a.constante) a.code.addInst(PCodeInstruction.OpCode.DRF);
+						if(a.parClass != null && a.parClass == Symbol.ParameterClass.REF) a.code.addInst(PCodeInstruction.OpCode.DRF);
 						a.code.addComment(" Put CHAR");
 						a.code.addInst(PCodeInstruction.OpCode.WRT,0);
 						a.code.encloseXMLTags("put");
 						codeOut.addBlock(a.code);
 					} else if(a.type == Symbol.Types.BOOL){
 						if(!a.constante) a.code.addInst(PCodeInstruction.OpCode.DRF);
+						if(a.parClass != null && a.parClass == Symbol.ParameterClass.REF) a.code.addInst(PCodeInstruction.OpCode.DRF);
 						a.code.addComment(" Put BOOL");
 						a.code.addInst(PCodeInstruction.OpCode.WRT,1);
 						a.code.encloseXMLTags("put");
@@ -883,12 +889,14 @@ void inst_escribir_linea(Attributes at):
 					
 					if(a.type == Symbol.Types.STRING){
 						if(!a.constante) a.code.addInst(PCodeInstruction.OpCode.DRF);
+						if(a.parClass != null && a.parClass == Symbol.ParameterClass.REF) a.code.addInst(PCodeInstruction.OpCode.DRF);
 						a.code.encloseXMLTags("put");
 						codeOut.addComment(" Put STRING");
 						codeOut.addBlock(a.code);
 						
 					} else if(a.type == Symbol.Types.INT){
 						if(!a.constante) a.code.addInst(PCodeInstruction.OpCode.DRF);
+						if(a.parClass != null && a.parClass == Symbol.ParameterClass.REF) a.code.addInst(PCodeInstruction.OpCode.DRF);
 						a.code.addComment(" Put INTEGER");
 						a.code.addInst(PCodeInstruction.OpCode.WRT,1);
 						a.code.encloseXMLTags("put");
@@ -896,13 +904,15 @@ void inst_escribir_linea(Attributes at):
 						
 					} else if(a.type == Symbol.Types.CHAR){
 						if(!a.constante) a.code.addInst(PCodeInstruction.OpCode.DRF);
+						if(a.parClass != null && a.parClass == Symbol.ParameterClass.REF) a.code.addInst(PCodeInstruction.OpCode.DRF);
 						a.code.addComment(" Put CHAR");
 						a.code.addInst(PCodeInstruction.OpCode.WRT,0);
 						a.code.encloseXMLTags("put");
 						codeOut.addBlock(a.code);
 						
 					} else if(a.type == Symbol.Types.BOOL){	
-						if(!a.constante) a.code.addInst(PCodeInstruction.OpCode.DRF);		
+						if(!a.constante) a.code.addInst(PCodeInstruction.OpCode.DRF);
+						if(a.parClass != null && a.parClass == Symbol.ParameterClass.REF) a.code.addInst(PCodeInstruction.OpCode.DRF);		
 						a.code.addComment(" Put BOOL");
 						a.code.addInst(PCodeInstruction.OpCode.WRT,1);
 						a.code.encloseXMLTags("put");
@@ -1261,6 +1271,7 @@ void factor(Attributes at):
 			semFuncs.checkVariable(ts,t,at);
 			at.constante = false;
 			s = ts.getSymbol(t.image);
+			System.out.println(t.image + " " + s.parClass);
 			at.parClass = s.parClass;
 			at.nivel = s.nivel;
 			at.code.addComment("Variable / parameter \"" + t.image + "\"");
@@ -1357,9 +1368,8 @@ void factor_con_par(Attributes at):
 						code2.clearBlock();
 					} else if(s1.parClass == Symbol.ParameterClass.REF){
 						at2 = at1.par.get(i);
-						code2.addComment("Variable / parameter \"" + s1.name + "\"");
+				//		code2.addComment("Variable / parameter \"" + at2.token.image + "\"");
 						code2.addBlock(at2.code);
-						if(!at2.constante) code2.addInst(PCodeInstruction.OpCode.DRF);
 						n = i+1;
 						code2.encloseXMLTags("argument_"+n);
 						code1.addBlock(code2);

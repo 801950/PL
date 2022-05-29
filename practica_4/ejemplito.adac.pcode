@@ -95,6 +95,7 @@ L2:
 ; --Variable / parameter "t"
   SRF  0  3
   DRF
+  DRF
   STC  5
   TMS
 </argument_1>
@@ -104,8 +105,7 @@ L2:
 ; --Variable / parameter "t"
   SRF  0  3
   DRF
-  STC  2
-  TMS
+  DRF
   CSF
 </return>
   CSF
@@ -137,7 +137,6 @@ L0:
 <argument_1>
 ; --Variable / parameter "r"
   SRF  0  3
-  DRF
 </argument_1>
   OSF  5  0 L1
 </function_call_f1>

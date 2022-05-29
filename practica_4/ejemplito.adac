@@ -2,14 +2,14 @@ procedure cerea is
 integer r;
 integer a;
 
-function integer f1(val integer t) is
+function integer f1(ref integer t) is
     procedure f2(val integer r) is
     begin
         put_line("Esto es una prueba: ", r);
     end
 begin
     f2(t*5);
-    return t*2;
+    return t;
 end
 begin
     r := 1;
