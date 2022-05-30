@@ -1,34 +1,142 @@
 <cerea>
   ENP L0
 <variable_declaration>
-; -- Simple variable "a", type INT, level 0, address [3]
-; -- Simple variable "b", type CHAR, level 0, address [4]
+; -- Array variable "a", type INT, size 2, level 0, address [3:4]!
+; -- Simple variable "b", type CHAR, level 0, address [5]
 </variable_declaration>
-L0:
-<Asignacion_a_variable_simple_a>
-; -- Address of variable / parameter "a"
-  SRF  0  3
-  STC 98
-  ASG
-</Asignacion_a_variable_simple_a>
-<Asignacion_a_variable_simple_b>
-; -- Address of variable / parameter "b"
+<procedure>
+L1:
+; -- Val array parameter "v", type INT, class VAL, size2, level 1, address [3:4]
+; -- Simple parameter "x", type PROCEDURE, level 1, address [5]
+<recover_argument_2>
+; -- Recover simple val / ref variable parameter "x" (number 2)
+  SRF  0  5
+  ASGI
+</recover_argument_2>
+<recover_argument_1>
+; --  Recover array val variable parameter "v" (number 1)
   SRF  0  4
-  STC  2
-  ASG
-</Asignacion_a_variable_simple_b>
+  ASGI
+  SRF  0  3
+  ASGI
+</recover_argument_1>
+  JMP L2
+<variable_declaration>
+</variable_declaration>
+L2:
+<instruction_block>
 <put_line>
 <put>
+  STC  0
+; -- Initial address of array "v"
+  SRF  0  3
+  PLUS
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+  CSF
+</instruction_block>
+</procedure>
+<procedure>
+L3:
+; -- Val array parameter "v", type INT, class VAL, size2, level 1, address [3:4]
+<recover_argument_1>
+; --  Recover array val variable parameter "v" (number 1)
+  SRF  0  4
+  ASGI
+  SRF  0  3
+  ASGI
+</recover_argument_1>
+  JMP L4
+<variable_declaration>
+</variable_declaration>
+L4:
+<instruction_block>
+<put_line>
+<put>
+  STC  1
+; -- Initial address of array "v"
+  SRF  0  3
+  PLUS
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<return>
+  STC  1
+; -- Initial address of array "v"
+  SRF  0  3
+  PLUS
+  DRF
+  CSF
+</return>
+  CSF
+</instruction_block>
+</procedure>
+L0:
+<Asignacion_a_variable_simple_a>
+  STC  0
+; -- Initial address of array "a"
+  SRF  0  3
+  PLUS
+  STC  1
+  ASG
+</Asignacion_a_variable_simple_a>
+<Asignacion_a_variable_simple_a>
+  STC  1
+; -- Initial address of array "a"
+  SRF  0  3
+  PLUS
+  STC  2
+  ASG
+</Asignacion_a_variable_simple_a>
+<procedure_call_p>
+<argument_1>
 ; --Variable / parameter "a"
   SRF  0  3
   DRF
-; -- Put CHAR
+</argument_1>
+<argument_2>
+  STC  0
+; -- Initial address of array "a"
+  SRF  0  3
+  PLUS
+  DRF
+</argument_2>
+  OSF  6  0 L1
+</procedure_call_p>
+<put_line>
+; -- Put STRING
+<put>
+  STC 110
+  WRT  0
+  STC 58
+  WRT  0
+  STC 32
   WRT  0
 </put>
 <put>
-; --Variable / parameter "b"
-  SRF  0  4
+<function_call_f>
+<argument_1>
+; --Variable / parameter "a"
+  SRF  0  3
   DRF
+</argument_1>
+  OSF  6  0 L3
+</function_call_f>
 ; -- Put INTEGER
   WRT  1
 </put>

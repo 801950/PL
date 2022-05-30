@@ -462,6 +462,7 @@ void cabecera_procedimiento(Attributes at):
 	SymbolProcedure sp;
 	CodeBlock code1 = new CodeBlock();
 	int n;
+	SymbolArray sa;
 }
 {
 	<tPROC> t = <tID> 
@@ -482,13 +483,27 @@ void cabecera_procedimiento(Attributes at):
 					if(s.parClass == Symbol.ParameterClass.VAL){
 						code1.addInst(PCodeInstruction.OpCode.SRF, stack.size()-s.nivel, (int)s.dir);
 						code1.addInst(PCodeInstruction.OpCode.ASGI);
-						code1.encloseXMLTags("recover_argument"+n);
+						code1.encloseXMLTags("recover_argument_"+n);
 						at.code.addBlock(code1);
 						code1.clearBlock();
 					} else if(s.parClass == Symbol.ParameterClass.REF){
 						code1.addInst(PCodeInstruction.OpCode.SRF, stack.size()-s.nivel, (int)s.dir);
 						code1.addInst(PCodeInstruction.OpCode.ASGI);
-						code1.encloseXMLTags("recover_argument"+n);
+						code1.encloseXMLTags("recover_argument_"+n);
+						at.code.addBlock(code1);
+						code1.clearBlock();
+					}
+				}  else {
+					n = i+1;
+					if(s.parClass == Symbol.ParameterClass.VAL){
+						code1.addComment("  Recover array val variable parameter \""+ s.name + "\" (number "+ n +")");
+						sa = (SymbolArray)s;
+						for(int j = sa.maxInd; j >= 0; j--){
+							code1.addInst(PCodeInstruction.OpCode.SRF, stack.size()-s.nivel, (int)s.dir+j);
+							code1.addInst(PCodeInstruction.OpCode.ASGI);
+							
+						}
+						code1.encloseXMLTags("recover_argument_"+n);
 						at.code.addBlock(code1);
 						code1.clearBlock();
 					}
@@ -505,6 +520,7 @@ void cabecera_funcion(Attributes at):
 	SymbolFunction sp;
 	int n;
 	CodeBlock code1 = new CodeBlock();
+	SymbolArray sa;
 }
 {
 	<tFUNC> tipo_variable(at) t = <tID>
@@ -525,13 +541,27 @@ void cabecera_funcion(Attributes at):
 					if(s.parClass == Symbol.ParameterClass.VAL){
 						code1.addInst(PCodeInstruction.OpCode.SRF, stack.size()-s.nivel, (int)s.dir);
 						code1.addInst(PCodeInstruction.OpCode.ASGI);
-						code1.encloseXMLTags("recover_argument"+n);
+						code1.encloseXMLTags("recover_argument_"+n);
 						at.code.addBlock(code1);
 						code1.clearBlock();
 					} else if(s.parClass == Symbol.ParameterClass.REF) {
 						code1.addInst(PCodeInstruction.OpCode.SRF, stack.size()-s.nivel, (int)s.dir);
 						code1.addInst(PCodeInstruction.OpCode.ASGI);
-						code1.encloseXMLTags("recover_argument"+n);
+						code1.encloseXMLTags("recover_argument_"+n);
+						at.code.addBlock(code1);
+						code1.clearBlock();
+					}
+				} else {
+					n = i+1;
+					if(s.parClass == Symbol.ParameterClass.VAL){
+						code1.addComment("  Recover array val variable parameter \""+ s.name + "\" (number "+ n +")");
+						sa = (SymbolArray)s;
+						System.out.println("Direccion recuperada del vector: " + s.dir);
+						for(int j = sa.maxInd; j >= 0; j--){
+							code1.addInst(PCodeInstruction.OpCode.SRF, stack.size()-s.nivel, (int)s.dir+j);
+							code1.addInst(PCodeInstruction.OpCode.ASGI);
+						}
+						code1.encloseXMLTags("recover_argument_"+n);
 						at.code.addBlock(code1);
 						code1.clearBlock();
 					}
@@ -709,6 +739,7 @@ void asignable(Attributes at):
 			if(at1.parClass != null && at1.parClass == Symbol.ParameterClass.REF) at.code.addInst(PCodeInstruction.OpCode.DRF);
 			at.code.addComment(" Initial address of array \"" + t.image +"\"");
 			at.code.addInst(PCodeInstruction.OpCode.SRF,stack.size()-s.nivel,(int)s.dir);
+			
 			at.code.addInst(PCodeInstruction.OpCode.PLUS);		
 		}
 | 	t = <tID>
@@ -974,7 +1005,6 @@ void inst_invoc_proc(Attributes at):
 						code2.clearBlock();
 					} else if(s1.parClass == Symbol.ParameterClass.REF){
 						
-					//	code2.addComment("Variable / parameter \"" + s1.name + "\"");
 						at2 = at1.par.get(i);
 						code2.addBlock(at2.code);
 						if(at2.parClass != null && at2.parClass == Symbol.ParameterClass.REF) code2.addInst(PCodeInstruction.OpCode.DRF);
@@ -1267,6 +1297,7 @@ void factor(Attributes at):
 			at.nivel = s.nivel;
 			at.code.addComment(" Initial address of array \"" + t.image + "\"");
 			at.code.addInst(PCodeInstruction.OpCode.SRF,stack.size()-s.nivel,(int)s.dir);
+			if(at.parClass != null && at.parClass == Symbol.ParameterClass.REF) at.code.addInst(PCodeInstruction.OpCode.DRF);
 			at.code.addInst(PCodeInstruction.OpCode.PLUS);
 		//	at.code.addInst(PCodeInstruction.OpCode.DRF);
 		}

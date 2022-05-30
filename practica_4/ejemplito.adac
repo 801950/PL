@@ -1,9 +1,21 @@
 procedure cerea is
-integer a;
+integer a[2];
 character b;
 
+procedure p(val integer v[2]; val integer x) is
 begin
-    a := char2int('b');
-    b := int2char(2);
-    put_line(int2char(a),char2int(b));
+    put_line(v[0]);
+end
+
+function integer f(val integer v[2]) is
+begin
+    put_line(v[1]);
+    return v[1];
+end
+
+begin
+    a[0] := 1;
+    a[1] := 2;
+    p(a,a[0]);
+    put_line("n: ",f(a));
 end
