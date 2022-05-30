@@ -80,6 +80,22 @@ L4:
   STC 10
   WRT  0
 </put_line>
+<Assignment_to_component_of_array_v>
+  STC  1
+; --- Initial address of array "v"
+  SRF  0  3
+  PLUS 
+<component_of_array_v>
+  STC  0
+; --- Initial address of array "v"
+  SRF  0  3
+  PLUS 
+  DRF 
+</component_of_array_v>
+  STC  5
+  PLUS 
+  ASG 
+</Assignment_to_component_of_array_v>
 <return>
 <component_of_array_v>
   STC  1

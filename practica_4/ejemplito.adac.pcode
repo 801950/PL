@@ -75,6 +75,20 @@ L4:
   STC 10
   WRT  0
 </put_line>
+<Asignacion_a_variable_simple_v>
+  STC  1
+; -- Initial address of array "v"
+  SRF  0  3
+  PLUS
+  STC  0
+; -- Initial address of array "v"
+  SRF  0  3
+  PLUS
+  DRF
+  STC  5
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_v>
 <return>
   STC  1
 ; -- Initial address of array "v"
@@ -105,8 +119,10 @@ L0:
 </Asignacion_a_variable_simple_a>
 <procedure_call_p>
 <argument_1>
-; --Variable / parameter "a"
+; -- Variable / parameter "a"
   SRF  0  3
+  DRF
+  SRF  0  4
   DRF
 </argument_1>
 <argument_2>
@@ -131,8 +147,10 @@ L0:
 <put>
 <function_call_f>
 <argument_1>
-; --Variable / parameter "a"
+; -- Variable / parameter "a"
   SRF  0  3
+  DRF
+  SRF  0  4
   DRF
 </argument_1>
   OSF  6  0 L3

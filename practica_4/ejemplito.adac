@@ -10,6 +10,7 @@ end
 function integer f(val integer v[2]) is
 begin
     put_line(v[1]);
+    v[1] := v[0] +5;
     return v[1];
 end
 
