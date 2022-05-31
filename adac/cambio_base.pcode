@@ -1,0 +1,588 @@
+<cambio_base>
+  ENP L0
+<variable_declaration>
+; -- Simple variable "num", type INT, level 0, address [3]
+; -- Simple variable "base", type INT, level 0, address [4]
+; -- Simple variable "enB", type INT, level 0, address [5]
+</variable_declaration>
+<procedure>
+L1:
+; -- Simple parameter "n", type FUNCTION, level 1, address [3]
+; -- Simple parameter "b", type FUNCTION, level 1, address [4]
+<recover_argument_2>
+; -- Recover simple val / ref variable parameter "b" (number 2)
+  SRF  0  4
+  ASGI
+</recover_argument_2>
+<recover_argument_1>
+; -- Recover simple val / ref variable parameter "n" (number 1)
+  SRF  0  3
+  ASGI
+</recover_argument_1>
+  JMP L2
+<variable_declaration>
+; -- Simple variable "uc", type INT, level 1, address [5]
+; -- Simple variable "valRec", type INT, level 1, address [6]
+</variable_declaration>
+L2:
+<instruction_block>
+<if-then>
+<condition>
+; --Variable / parameter "n"
+  SRF  0  3
+  DRF
+  STC  0
+  EQ
+</condition>
+  JMF L3
+<then>
+<return>
+  STC  0
+  CSF
+</return>
+  JMP L4
+</then>
+<else>
+L3:
+<Asignacion_a_variable_simple_uc>
+; -- Address of variable / parameter "uc"
+  SRF  0  5
+; --Variable / parameter "n"
+  SRF  0  3
+  DRF
+  STC 10
+  MOD
+  ASG
+</Asignacion_a_variable_simple_uc>
+<Asignacion_a_variable_simple_valRec>
+; -- Address of variable / parameter "valRec"
+  SRF  0  6
+<function_call_b_dec>
+<argument_1>
+; --Variable / parameter "n"
+  SRF  0  3
+  DRF
+  STC 10
+  DIV
+</argument_1>
+<argument_2>
+; --Variable / parameter "b"
+  SRF  0  4
+  DRF
+</argument_2>
+  OSF  7  1 L1
+</function_call_b_dec>
+  ASG
+</Asignacion_a_variable_simple_valRec>
+<return>
+; --Variable / parameter "valRec"
+  SRF  0  6
+  DRF
+; --Variable / parameter "b"
+  SRF  0  4
+  DRF
+  TMS
+; --Variable / parameter "uc"
+  SRF  0  5
+  DRF
+  PLUS
+  CSF
+</return>
+</else>
+L4:
+</if-then>
+  CSF
+</instruction_block>
+</procedure>
+<procedure>
+L5:
+; -- Simple parameter "n", type FUNCTION, level 1, address [3]
+; -- Simple parameter "b", type FUNCTION, level 1, address [4]
+<recover_argument_2>
+; -- Recover simple val / ref variable parameter "b" (number 2)
+  SRF  0  4
+  ASGI
+</recover_argument_2>
+<recover_argument_1>
+; -- Recover simple val / ref variable parameter "n" (number 1)
+  SRF  0  3
+  ASGI
+</recover_argument_1>
+  JMP L6
+<variable_declaration>
+; -- Simple variable "resto", type INT, level 1, address [5]
+; -- Simple variable "valRec", type INT, level 1, address [6]
+</variable_declaration>
+L6:
+<instruction_block>
+<if-then>
+<condition>
+; --Variable / parameter "n"
+  SRF  0  3
+  DRF
+; --Variable / parameter "b"
+  SRF  0  4
+  DRF
+  LT
+</condition>
+  JMF L7
+<then>
+<return>
+; --Variable / parameter "n"
+  SRF  0  3
+  DRF
+  CSF
+</return>
+  JMP L8
+</then>
+<else>
+L7:
+<Asignacion_a_variable_simple_resto>
+; -- Address of variable / parameter "resto"
+  SRF  0  5
+; --Variable / parameter "n"
+  SRF  0  3
+  DRF
+; --Variable / parameter "b"
+  SRF  0  4
+  DRF
+  MOD
+  ASG
+</Asignacion_a_variable_simple_resto>
+<Asignacion_a_variable_simple_valRec>
+; -- Address of variable / parameter "valRec"
+  SRF  0  6
+<function_call_dec_b>
+<argument_1>
+; --Variable / parameter "n"
+  SRF  0  3
+  DRF
+; --Variable / parameter "b"
+  SRF  0  4
+  DRF
+  DIV
+</argument_1>
+<argument_2>
+; --Variable / parameter "b"
+  SRF  0  4
+  DRF
+</argument_2>
+  OSF  7  1 L5
+</function_call_dec_b>
+  ASG
+</Asignacion_a_variable_simple_valRec>
+<return>
+; --Variable / parameter "valRec"
+  SRF  0  6
+  DRF
+  STC 10
+  TMS
+; --Variable / parameter "resto"
+  SRF  0  5
+  DRF
+  PLUS
+  CSF
+</return>
+</else>
+L8:
+</if-then>
+  CSF
+</instruction_block>
+</procedure>
+L0:
+<Asignacion_a_variable_simple_num>
+; -- Address of variable / parameter "num"
+  SRF  0  3
+  STC  4
+  ASG
+</Asignacion_a_variable_simple_num>
+<Asignacion_a_variable_simple_base>
+; -- Address of variable / parameter "base"
+  SRF  0  4
+  STC  2
+  ASG
+</Asignacion_a_variable_simple_base>
+<put_line>
+; -- Put STRING
+<put>
+  STC 69
+  WRT  0
+  STC 115
+  WRT  0
+  STC 116
+  WRT  0
+  STC 101
+  WRT  0
+  STC 32
+  WRT  0
+  STC 112
+  WRT  0
+  STC 114
+  WRT  0
+  STC 111
+  WRT  0
+  STC 103
+  WRT  0
+  STC 114
+  WRT  0
+  STC 97
+  WRT  0
+  STC 109
+  WRT  0
+  STC 97
+  WRT  0
+  STC 32
+  WRT  0
+  STC 99
+  WRT  0
+  STC 111
+  WRT  0
+  STC 110
+  WRT  0
+  STC 118
+  WRT  0
+  STC 105
+  WRT  0
+  STC 101
+  WRT  0
+  STC 114
+  WRT  0
+  STC 116
+  WRT  0
+  STC 101
+  WRT  0
+  STC 32
+  WRT  0
+  STC 110
+  WRT  0
+  STC 61
+  WRT  0
+</put>
+<put>
+; --Variable / parameter "num"
+  SRF  0  3
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- Put STRING
+<put>
+  STC 32
+  WRT  0
+  STC 97
+  WRT  0
+  STC 32
+  WRT  0
+  STC 98
+  WRT  0
+  STC 97
+  WRT  0
+  STC 115
+  WRT  0
+  STC 101
+  WRT  0
+  STC 32
+  WRT  0
+  STC 98
+  WRT  0
+  STC 61
+  WRT  0
+</put>
+<put>
+; --Variable / parameter "base"
+  SRF  0  4
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- Put STRING
+<put>
+  STC 44
+  WRT  0
+  STC 32
+  WRT  0
+  STC 121
+  WRT  0
+  STC 32
+  WRT  0
+  STC 108
+  WRT  0
+  STC 117
+  WRT  0
+  STC 101
+  WRT  0
+  STC 103
+  WRT  0
+  STC 111
+  WRT  0
+  STC 32
+  WRT  0
+  STC 101
+  WRT  0
+  STC 102
+  WRT  0
+  STC 101
+  WRT  0
+  STC 99
+  WRT  0
+  STC 250
+  WRT  0
+  STC 97
+  WRT  0
+  STC 32
+  WRT  0
+  STC 108
+  WRT  0
+  STC 97
+  WRT  0
+  STC 32
+  WRT  0
+  STC 99
+  WRT  0
+  STC 111
+  WRT  0
+  STC 110
+  WRT  0
+  STC 118
+  WRT  0
+  STC 101
+  WRT  0
+  STC 114
+  WRT  0
+  STC 115
+  WRT  0
+  STC 105
+  WRT  0
+  STC 243
+  WRT  0
+  STC 110
+  WRT  0
+  STC 32
+  WRT  0
+  STC 105
+  WRT  0
+  STC 110
+  WRT  0
+  STC 118
+  WRT  0
+  STC 101
+  WRT  0
+  STC 114
+  WRT  0
+  STC 115
+  WRT  0
+  STC 97
+  WRT  0
+  STC 46
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- Put STRING
+<put>
+  STC 110
+  WRT  0
+  STC 58
+  WRT  0
+  STC 32
+  WRT  0
+</put>
+<put>
+; --Variable / parameter "num"
+  SRF  0  3
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- Put STRING
+<put>
+  STC 98
+  WRT  0
+  STC 58
+  WRT  0
+  STC 32
+  WRT  0
+</put>
+<put>
+; --Variable / parameter "base"
+  SRF  0  4
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<Asignacion_a_variable_simple_enB>
+; -- Address of variable / parameter "enB"
+  SRF  0  5
+<function_call_dec_b>
+<argument_1>
+; --Variable / parameter "num"
+  SRF  0  3
+  DRF
+</argument_1>
+<argument_2>
+; --Variable / parameter "base"
+  SRF  0  4
+  DRF
+</argument_2>
+  OSF  6  0 L5
+</function_call_dec_b>
+  ASG
+</Asignacion_a_variable_simple_enB>
+<put_line>
+; -- Put STRING
+<put>
+  STC 100
+  WRT  0
+  STC 101
+  WRT  0
+  STC 99
+  WRT  0
+  STC 95
+  WRT  0
+  STC 98
+  WRT  0
+  STC 40
+  WRT  0
+</put>
+<put>
+; --Variable / parameter "num"
+  SRF  0  3
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- Put STRING
+<put>
+  STC 44
+  WRT  0
+</put>
+<put>
+; --Variable / parameter "base"
+  SRF  0  4
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- Put STRING
+<put>
+  STC 41
+  WRT  0
+  STC 58
+  WRT  0
+  STC 32
+  WRT  0
+</put>
+<put>
+; --Variable / parameter "enB"
+  SRF  0  5
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- Put STRING
+<put>
+  STC 98
+  WRT  0
+  STC 95
+  WRT  0
+  STC 100
+  WRT  0
+  STC 101
+  WRT  0
+  STC 99
+  WRT  0
+  STC 40
+  WRT  0
+</put>
+<put>
+; --Variable / parameter "enB"
+  SRF  0  5
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- Put STRING
+<put>
+  STC 44
+  WRT  0
+</put>
+<put>
+; --Variable / parameter "base"
+  SRF  0  4
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- Put STRING
+<put>
+  STC 41
+  WRT  0
+  STC 58
+  WRT  0
+  STC 32
+  WRT  0
+</put>
+<put>
+<function_call_b_dec>
+<argument_1>
+; --Variable / parameter "enB"
+  SRF  0  5
+  DRF
+</argument_1>
+<argument_2>
+; --Variable / parameter "base"
+  SRF  0  4
+  DRF
+</argument_2>
+  OSF  6  0 L1
+</function_call_b_dec>
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+  LVP
+</cambio_base>

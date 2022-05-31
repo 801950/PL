@@ -46,7 +46,8 @@ public class adac_4 {
     	adac_4 parser;
 		
 		try{
-			f = new FileWriter(args[0]+".pcode");
+			System.out.println(args[0]);
+			f = new FileWriter(args[0].substring(0,args[0].lastIndexOf('.'))+".pcode");
 		} catch(IOException e) {
 			System.out.println(e);
 		}
@@ -422,16 +423,13 @@ void declaracion_funciones(Attributes at):
 			at1.lastLabel = at.lastLabel;
 			code1.addBlock(at3.code);
 			at3.code.clearBlock();
-			code1.addInst(PCodeInstruction.OpCode.JMP, "L"+n2);
-			//System.out.println(at3.code.toString());
-			
+			code1.addInst(PCodeInstruction.OpCode.JMP, "L"+n2);		
 		}
 	declaracion_variables(at3)
 		{
 			code2.addBlock(at3.code);
 			code1.addBlock(code2);
 			code2.clearBlock();
-		//	at1.dir = at3.dir;
 		}
 	(declaracion_proc_func(at1))* 
 		{
@@ -493,7 +491,7 @@ void cabecera_procedimiento(Attributes at):
 						at.code.addBlock(code1);
 						code1.clearBlock();
 					}
-				}  else {
+				} else {
 					n = i+1;
 					if(s.parClass == Symbol.ParameterClass.VAL){
 						code1.addComment("  Recover array val variable parameter \""+ s.name + "\" (number "+ n +")");
@@ -503,6 +501,12 @@ void cabecera_procedimiento(Attributes at):
 							code1.addInst(PCodeInstruction.OpCode.ASGI);
 							
 						}
+						code1.encloseXMLTags("recover_argument_"+n);
+						at.code.addBlock(code1);
+						code1.clearBlock();
+					} else {
+						code1.addInst(PCodeInstruction.OpCode.SRF, stack.size()-s.nivel, (int)s.dir);
+						code1.addInst(PCodeInstruction.OpCode.ASGI);
 						code1.encloseXMLTags("recover_argument_"+n);
 						at.code.addBlock(code1);
 						code1.clearBlock();
@@ -556,11 +560,17 @@ void cabecera_funcion(Attributes at):
 					if(s.parClass == Symbol.ParameterClass.VAL){
 						code1.addComment("  Recover array val variable parameter \""+ s.name + "\" (number "+ n +")");
 						sa = (SymbolArray)s;
-						System.out.println("Direccion recuperada del vector: " + s.dir);
 						for(int j = sa.maxInd; j >= 0; j--){
 							code1.addInst(PCodeInstruction.OpCode.SRF, stack.size()-s.nivel, (int)s.dir+j);
 							code1.addInst(PCodeInstruction.OpCode.ASGI);
 						}
+						code1.encloseXMLTags("recover_argument_"+n);
+						at.code.addBlock(code1);
+						code1.clearBlock();
+					} else {
+						code1.addComment("  Recover array ref variable parameter \""+ s.name + "\" (number "+ n +")");
+						code1.addInst(PCodeInstruction.OpCode.SRF, stack.size()-s.nivel, (int)s.dir);
+						code1.addInst(PCodeInstruction.OpCode.ASGI);
 						code1.encloseXMLTags("recover_argument_"+n);
 						at.code.addBlock(code1);
 						code1.clearBlock();
@@ -736,9 +746,11 @@ void asignable(Attributes at):
 			s = ts.getSymbol(t.image);
 			at.code.addBlock(at1.code);
 		//	if(!at1.constante) at.code.addInst(PCodeInstruction.OpCode.DRF);
+			if(!at1.constante) at.code.addInst(PCodeInstruction.OpCode.DRF);
 			if(at1.parClass != null && at1.parClass == Symbol.ParameterClass.REF) at.code.addInst(PCodeInstruction.OpCode.DRF);
 			at.code.addComment(" Initial address of array \"" + t.image +"\"");
 			at.code.addInst(PCodeInstruction.OpCode.SRF,stack.size()-s.nivel,(int)s.dir);
+			if(s.parClass == Symbol.ParameterClass.REF) at.code.addInst(PCodeInstruction.OpCode.DRF);
 			
 			at.code.addInst(PCodeInstruction.OpCode.PLUS);		
 		}
@@ -758,6 +770,7 @@ void inst_iteracion(Attributes at):
 	Attributes at1 = new Attributes(), at2 = new Attributes();
 	CodeBlock codeOut = new CodeBlock();
 	int n = at.lastLabel + 1,n2;
+	at1.dir = at.dir;
 	CodeBlock code2 = new CodeBlock();
 }
 {
@@ -923,14 +936,14 @@ void inst_escribir_linea(Attributes at):
 					
 					if(a.type == Symbol.Types.STRING){
 						if(!a.constante) a.code.addInst(PCodeInstruction.OpCode.DRF);
-						if(a.parClass != null && a.parClass == Symbol.ParameterClass.REF) a.code.addInst(PCodeInstruction.OpCode.DRF);
+						if(a.parClass != null && a.parClass == Symbol.ParameterClass.REF && a.type != Symbol.Types.ARRAY) a.code.addInst(PCodeInstruction.OpCode.DRF);
 						a.code.encloseXMLTags("put");
 						codeOut.addComment(" Put STRING");
 						codeOut.addBlock(a.code);
 						
 					} else if(a.type == Symbol.Types.INT){
 						if(!a.constante) a.code.addInst(PCodeInstruction.OpCode.DRF);
-						if(a.parClass != null && a.parClass == Symbol.ParameterClass.REF) a.code.addInst(PCodeInstruction.OpCode.DRF);
+						if(a.parClass != null && a.parClass == Symbol.ParameterClass.REF && a.type != Symbol.Types.ARRAY) a.code.addInst(PCodeInstruction.OpCode.DRF);
 						a.code.addComment(" Put INTEGER");
 						a.code.addInst(PCodeInstruction.OpCode.WRT,1);
 						a.code.encloseXMLTags("put");
@@ -938,7 +951,7 @@ void inst_escribir_linea(Attributes at):
 						
 					} else if(a.type == Symbol.Types.CHAR){
 						if(!a.constante) a.code.addInst(PCodeInstruction.OpCode.DRF);
-						if(a.parClass != null && a.parClass == Symbol.ParameterClass.REF) a.code.addInst(PCodeInstruction.OpCode.DRF);
+						if(a.parClass != null && a.parClass == Symbol.ParameterClass.REF && a.type != Symbol.Types.ARRAY) a.code.addInst(PCodeInstruction.OpCode.DRF);
 						a.code.addComment(" Put CHAR");
 						a.code.addInst(PCodeInstruction.OpCode.WRT,0);
 						a.code.encloseXMLTags("put");
@@ -946,7 +959,7 @@ void inst_escribir_linea(Attributes at):
 						
 					} else if(a.type == Symbol.Types.BOOL){	
 						if(!a.constante) a.code.addInst(PCodeInstruction.OpCode.DRF);
-						if(a.parClass != null && a.parClass == Symbol.ParameterClass.REF) a.code.addInst(PCodeInstruction.OpCode.DRF);		
+						if(a.parClass != null && a.parClass == Symbol.ParameterClass.REF && a.type != Symbol.Types.ARRAY) a.code.addInst(PCodeInstruction.OpCode.DRF);		
 						a.code.addComment(" Put BOOL");
 						a.code.addInst(PCodeInstruction.OpCode.WRT,1);
 						a.code.encloseXMLTags("put");
@@ -1048,6 +1061,7 @@ void inst_seleccion(Attributes at):
 	Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
 	int n = at.lastLabel +1,n2;
 	CodeBlock codeOut = new CodeBlock();
+	at1.dir = at.dir;
 	CodeBlock code2 = new CodeBlock();
 }
 {
@@ -1141,8 +1155,6 @@ void lista_una_o_mas_exps(Attributes at):
 	expresion(at1) (at3.token = <tCOMA> lista_una_o_mas_exps(at2))?
 		{
 			semFuncs.saveInfoParameter(at,at1,at2);
-		//	at.code.addBlock(at1.code);
-		//	System.out.println("Añado el boque " + at.code.toString());
 		}
 }
 
@@ -1246,7 +1258,6 @@ void termino(Attributes at):
 	at1.dir = at.dir;
 	at2.dir = at.dir;
 	Symbol.Types expected;
-	//System.out.println("direccion: " + at1.dir);
 }
 {
 	factor(at1) (operador_multiplicativo(at3) factor(at2))*
@@ -1306,15 +1317,19 @@ void factor(Attributes at):
 |	LOOKAHEAD(2) t = <tID> <tCORCHETEOPEN> expresion(at) <tCORCHETECLOSE>
 		{
 			semFuncs.checkArray(ts,t,at);
+			if(!at.constante) at.code.addInst(PCodeInstruction.OpCode.DRF);
+			if(at.parClass != null && at.parClass == Symbol.ParameterClass.REF) at.code.addInst(PCodeInstruction.OpCode.DRF);
 			at.constante = false;
 		//	at.code.addBlock(at.code);
 			s = ts.getSymbol(t.image);
 			at.parClass = s.parClass;
 			at.nivel = s.nivel;
+			
 			at.code.addComment(" Initial address of array \"" + t.image + "\"");
 			at.code.addInst(PCodeInstruction.OpCode.SRF,stack.size()-s.nivel,(int)s.dir);
 			if(at.parClass != null && at.parClass == Symbol.ParameterClass.REF) at.code.addInst(PCodeInstruction.OpCode.DRF);
 			at.code.addInst(PCodeInstruction.OpCode.PLUS);
+			if(at.parClass != null && at.parClass == Symbol.ParameterClass.REF) at.constante = true;
 		//	at.code.addInst(PCodeInstruction.OpCode.DRF);
 		}
 |	t = <tID>
@@ -1323,12 +1338,10 @@ void factor(Attributes at):
 			semFuncs.checkVariable(ts,t,at);
 			at.constante = false;
 			s = ts.getSymbol(t.image);
-			System.out.println(t.image + " " + s.parClass);
 			at.parClass = s.parClass;
 			at.nivel = s.nivel;
 			at.code.addComment("Variable / parameter \"" + t.image + "\"");
 			at.code.addInst(PCodeInstruction.OpCode.SRF,stack.size()-s.nivel,(int)s.dir);
-	//		at.code.addInst(PCodeInstruction.OpCode.DRF);
 		}
 | 	t = <tNUM>
 		{

@@ -125,7 +125,6 @@ public class SemanticFunctions {
 			at.token.image = at1.token.image + " " + at3.token.image + " " + at2.token.image;
 			at.constante = true;
 			at.code.addBlock(at1.code);
-			System.out.println("par1: " + at1.parClass + " par2: " + at2.parClass);
 			if(!at1.constante) at.code.addInst(OpCode.DRF);
 			if(at1.parClass != null && at1.parClass == Symbol.ParameterClass.REF) at.code.addInst(OpCode.DRF);
 			at.code.addBlock(at2.code);
@@ -193,11 +192,9 @@ public class SemanticFunctions {
 	 */
 	public void insertArraySymbolTab(SymbolTable ts, Token t1, Attributes at, Token t2){
 		try{
-		//	System.out.println("Inserto vector: " + at.parClass);
 			int n = Integer.parseInt(t2.image);
 			if(at.parClass == null) at.parClass = ParameterClass.NONE;
 			Symbol s = new SymbolArray(t1.image,0,n-1,at.type, at.parClass);
-			System.out.println("Direccion de inserccion del vector: " + at.dir);
 			s.dir = at.dir;
 			int fin_dir = (int)at.dir + n-1;
 			at.code.addComment(" Array variable \""+ t1.image+ "\", type "+at.type+", size " + n + ", level " +s.nivel+ ", address ["+ at.dir + ":" + fin_dir + "]!");
@@ -644,7 +641,6 @@ public class SemanticFunctions {
 				SymbolProcedure sf = (SymbolProcedure)s;
 				if(t1.image != null && t2.image != null){
 					if(at1.type == Symbol.Types.INT || at1.type == Types.CHAR || at1.type == Symbol.Types.BOOL){
-						System.out.println("Agrego un vector: " + at.dir);
 						maxInd = Integer.valueOf(t2.image)-1;
 						s1 = new SymbolArray(t1.image,0,maxInd,at1.type,at1.parClass);
 						s1.dir = at.dir;
@@ -654,9 +650,13 @@ public class SemanticFunctions {
 						at.parClass = at1.parClass;
 						at1.dir = at.dir;
 						maxDir = (int)at.dir + (at1.dimension - 1);
-						if(at1.parClass == ParameterClass.VAL)
-						at.code.addComment(" Val array parameter \"" + t1.image + "\", type " + at1.type + ", class "+ at1.parClass + ", size" + at1.dimension + ", level " + nivel + ", address [" + at.dir + ":" + maxDir +"]");
-						at.dir = at.dir + at1.dimension;
+						if(at1.parClass == ParameterClass.VAL){
+							at.code.addComment(" Val array parameter \"" + t1.image + "\", type " + at1.type + ", class "+ at1.parClass + ", size" + at1.dimension + ", level " + nivel + ", address [" + at.dir + ":" + maxDir +"]");
+							at.dir = at.dir + at1.dimension;
+						} else {
+							at.code.addComment(" Ref array parameter \"" + t1.image +  "\", type " + at1.type + ", class "+ at1.parClass + ", size " + at1.dimension + ", level " + nivel + ", address [" + at.dir +"]");
+							at.dir ++;
+						}
 						
 						insertArraySymbolTab(ts, t1, at1, t2);
 					} 
@@ -668,7 +668,6 @@ public class SemanticFunctions {
 				if(t1.image != null && t2.image != null){
 					
 					if(at1.type == Symbol.Types.INT || at1.type == Types.CHAR || at1.type == Symbol.Types.BOOL){
-						System.out.println("Agrego un vector: " + at.dir);
 						s1 = new SymbolArray(t1.image,0,Integer.valueOf(t2.image)-1,at1.type, at1.parClass);
 						s1.dir = at.dir;
 						s1.nivel = nivel;
@@ -677,11 +676,16 @@ public class SemanticFunctions {
 						at.parClass = at1.parClass;
 						at1.dir = at.dir;
 						maxDir = (int)at.dir + (at1.dimension - 1);
-						if(at1.parClass == ParameterClass.VAL) 
-						at.code.addComment(" Val array parameter \"" + t1.image + "\", type " + at1.type + ", class "+ at1.parClass + ", size" + at1.dimension + ", level " + nivel + ", address [" + at.dir + ":" + maxDir +"]");
-						at.dir = at.dir + at1.dimension;
+						if(at1.parClass == ParameterClass.VAL) {
+							at.code.addComment(" Val array parameter \"" + t1.image + "\", type " + at1.type + ", class "+ at1.parClass + ", size " + at1.dimension + ", level " + nivel + ", address [" + at.dir + ":" + maxDir +"]");
+							at.dir = at.dir + at1.dimension;
+							
+						} else {
+							at.code.addComment(" Ref array parameter \"" + t1.image +  "\", type " + at1.type + ", class "+ at1.parClass + ", size " + at1.dimension + ", level " + nivel + ", address [" + at.dir +"]");
+							at.dir ++;
+						}
 						insertArraySymbolTab(ts, t1, at1, t2);
-					} 
+					}
 				} else {
 						errSem.deteccion("No se puede deter identificador o dimensión nulos", t1);
 				}

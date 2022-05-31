@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_stats>
+  ENP L0
+<variable_declaration>
+; --- Simple variable "c", type 2, level 0,  address [3]!
+; --- Simple variable "chars", type 0, level 0,  address [4]!
+; --- Simple variable "words", type 0, level 0,  address [5]!
+; --- Simple variable "lines", type 0, level 0,  address [6]!
+; --- Simple variable "in_word", type 1, level 0,  address [7]!
+</variable_declaration>
+<function_separator>
+L1:
+; --- Simple parameter "c", type 2, class 0, level 1,  address [3]!
+<recover_argument_1>
+; --- Recover simple val / ref variable parameter "c" (number 1).
+  SRF  0  3
+  ASGI 
+</recover_argument_1>
+  JMP L2
+<variable_declaration>
+</variable_declaration>
+L2:
+<separator_instruction_block>
+<if-then>
+<condition>
+; --- Variable / parameter "c"
+  SRF  0  3
+  DRF 
+  STC 48
+  GTE 
+; --- Variable / parameter "c"
+  SRF  0  3
+  DRF 
+  STC 57
+  LTE 
+  AND 
+</condition>
+  JMF L3
+<then>
+<return>
+  STC  0
+  CSF 
+</return>
+  JMP L4
+</then>
+<else>
+L3:
+<if-then>
+<condition>
+; --- Variable / parameter "c"
+  SRF  0  3
+  DRF 
+  STC 65
+  GTE 
+; --- Variable / parameter "c"
+  SRF  0  3
+  DRF 
+  STC 90
+  LTE 
+  AND 
+</condition>
+  JMF L5
+<then>
+<return>
+  STC  0
+  CSF 
+</return>
+  JMP L6
+</then>
+<else>
+L5:
+<if-then>
+<condition>
+; --- Variable / parameter "c"
+  SRF  0  3
+  DRF 
+  STC 97
+  GTE 
+; --- Variable / parameter "c"
+  SRF  0  3
+  DRF 
+  STC 122
+  LTE 
+  AND 
+</condition>
+  JMF L7
+<then>
+<return>
+  STC  0
+  CSF 
+</return>
+  JMP L8
+</then>
+<else>
+L7:
+<return>
+  STC  1
+  CSF 
+</return>
+</else>
+L8:
+</if-then>
+</else>
+L6:
+</if-then>
+</else>
+L4:
+</if-then>
+  CSF 
+</separator_instruction_block>
+</function_separator>
+<function_upcase>
+L9:
+; --- Simple parameter "c", type 2, class 0, level 1,  address [3]!
+<recover_argument_1>
+; --- Recover simple val / ref variable parameter "c" (number 1).
+  SRF  0  3
+  ASGI 
+</recover_argument_1>
+  JMP L10
+<variable_declaration>
+</variable_declaration>
+L10:
+<upcase_instruction_block>
+<if-then>
+<condition>
+; --- Variable / parameter "c"
+  SRF  0  3
+  DRF 
+  STC 97
+  GTE 
+; --- Variable / parameter "c"
+  SRF  0  3
+  DRF 
+  STC 122
+  LTE 
+  AND 
+</condition>
+  JMF L11
+<then>
+<return>
+; --- Variable / parameter "c"
+  SRF  0  3
+  DRF 
+  STC 32
+  SBT 
+  CSF 
+</return>
+  JMP L12
+</then>
+<else>
+L11:
+<return>
+; --- Variable / parameter "c"
+  SRF  0  3
+  DRF 
+  CSF 
+</return>
+</else>
+L12:
+</if-then>
+  CSF 
+</upcase_instruction_block>
+</function_upcase>
+L0:
+<test_stats_instruction_block>
+<Assignment_to__simple_variable_chars>
+; --- Address of variable / parameter "chars"
+  SRF  0  4
+  STC  0
+  ASG 
+</Assignment_to__simple_variable_chars>
+<Assignment_to__simple_variable_words>
+; --- Address of variable / parameter "words"
+  SRF  0  5
+  STC  0
+  ASG 
+</Assignment_to__simple_variable_words>
+<Assignment_to__simple_variable_lines>
+; --- Address of variable / parameter "lines"
+  SRF  0  6
+  STC  0
+  ASG 
+</Assignment_to__simple_variable_lines>
+<Assignment_to__simple_variable_in_word>
+; --- Address of variable / parameter "in_word"
+  SRF  0  7
+  STC  0
+  ASG 
+</Assignment_to__simple_variable_in_word>
+<get>
+; --- Get simple variable/parameter "c".
+  SRF  0  3
+  RD  0
+</get>
+<while>
+L13:
+<condition>
+; --- Variable / parameter "c"
+  SRF  0  3
+  DRF 
+  STC  0
+  GTE 
+</condition>
+  JMF L14
+<while_instruction_block>
+<Assignment_to__simple_variable_chars>
+; --- Address of variable / parameter "chars"
+  SRF  0  4
+; --- Variable / parameter "chars"
+  SRF  0  4
+  DRF 
+  STC  1
+  PLUS 
+  ASG 
+</Assignment_to__simple_variable_chars>
+<if-then>
+<condition>
+; --- Variable / parameter "c"
+  SRF  0  3
+  DRF 
+  STC 10
+  EQ 
+</condition>
+  JMF L15
+<then>
+<Assignment_to__simple_variable_lines>
+; --- Address of variable / parameter "lines"
+  SRF  0  6
+; --- Variable / parameter "lines"
+  SRF  0  6
+  DRF 
+  STC  1
+  PLUS 
+  ASG 
+</Assignment_to__simple_variable_lines>
+  JMP L16
+</then>
+<else>
+L15:
+<if-then>
+<condition>
+<function_call_separator>
+<argument_1>
+; --- Variable / parameter "c"
+  SRF  0  3
+  DRF 
+</argument_1>
+  OSF  8  0 L1
+</function_call_separator>
+</condition>
+  JMF L17
+<then>
+<Assignment_to__simple_variable_in_word>
+; --- Address of variable / parameter "in_word"
+  SRF  0  7
+  STC  0
+  ASG 
+</Assignment_to__simple_variable_in_word>
+  JMP L18
+</then>
+<else>
+L17:
+<if-then>
+<condition>
+; --- Variable / parameter "in_word"
+  SRF  0  7
+  DRF 
+  NGB 
+</condition>
+  JMF L19
+<then>
+<Assignment_to__simple_variable_in_word>
+; --- Address of variable / parameter "in_word"
+  SRF  0  7
+  STC  1
+  ASG 
+</Assignment_to__simple_variable_in_word>
+<Assignment_to__simple_variable_words>
+; --- Address of variable / parameter "words"
+  SRF  0  5
+; --- Variable / parameter "words"
+  SRF  0  5
+  DRF 
+  STC  1
+  PLUS 
+  ASG 
+</Assignment_to__simple_variable_words>
+</then>
+L19:
+</if-then>
+</else>
+L18:
+</if-then>
+</else>
+L16:
+</if-then>
+<get>
+; --- Get simple variable/parameter "c".
+  SRF  0  3
+  RD  0
+</get>
+</while_instruction_block>
+  JMP L13
+L14:
+</while>
+<put>
+; --- Put STRING "uso: maquinap text_stats < fichero_de_texto" (length 43)
+; --- Standard string writing
+  STC 117
+  WRT  0
+  STC 115
+  WRT  0
+  STC 111
+  WRT  0
+  STC 58
+  WRT  0
+  STC 32
+  WRT  0
+  STC 109
+  WRT  0
+  STC 97
+  WRT  0
+  STC 113
+  WRT  0
+  STC 117
+  WRT  0
+  STC 105
+  WRT  0
+  STC 110
+  WRT  0
+  STC 97
+  WRT  0
+  STC 112
+  WRT  0
+  STC 32
+  WRT  0
+  STC 116
+  WRT  0
+  STC 101
+  WRT  0
+  STC 120
+  WRT  0
+  STC 116
+  WRT  0
+  STC 95
+  WRT  0
+  STC 115
+  WRT  0
+  STC 116
+  WRT  0
+  STC 97
+  WRT  0
+  STC 116
+  WRT  0
+  STC 115
+  WRT  0
+  STC 32
+  WRT  0
+  STC 60
+  WRT  0
+  STC 32
+  WRT  0
+  STC 102
+  WRT  0
+  STC 105
+  WRT  0
+  STC 99
+  WRT  0
+  STC 104
+  WRT  0
+  STC 101
+  WRT  0
+  STC 114
+  WRT  0
+  STC 111
+  WRT  0
+  STC 95
+  WRT  0
+  STC 100
+  WRT  0
+  STC 101
+  WRT  0
+  STC 95
+  WRT  0
+  STC 116
+  WRT  0
+  STC 101
+  WRT  0
+  STC 120
+  WRT  0
+  STC 116
+  WRT  0
+  STC 111
+  WRT  0
+</put>
+<put_line>
+; --- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put>
+</put>
+<put_line>
+; --- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put>
+; --- Put STRING "Statistics of the input file:" (length 29)
+; --- Standard string writing
+  STC 83
+  WRT  0
+  STC 116
+  WRT  0
+  STC 97
+  WRT  0
+  STC 116
+  WRT  0
+  STC 105
+  WRT  0
+  STC 115
+  WRT  0
+  STC 116
+  WRT  0
+  STC 105
+  WRT  0
+  STC 99
+  WRT  0
+  STC 115
+  WRT  0
+  STC 32
+  WRT  0
+  STC 111
+  WRT  0
+  STC 102
+  WRT  0
+  STC 32
+  WRT  0
+  STC 116
+  WRT  0
+  STC 104
+  WRT  0
+  STC 101
+  WRT  0
+  STC 32
+  WRT  0
+  STC 105
+  WRT  0
+  STC 110
+  WRT  0
+  STC 112
+  WRT  0
+  STC 117
+  WRT  0
+  STC 116
+  WRT  0
+  STC 32
+  WRT  0
+  STC 102
+  WRT  0
+  STC 105
+  WRT  0
+  STC 108
+  WRT  0
+  STC 101
+  WRT  0
+  STC 58
+  WRT  0
+</put>
+<put_line>
+; --- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put>
+; --- Put STRING "Chars: " (length 7)
+; --- Standard string writing
+  STC 67
+  WRT  0
+  STC 104
+  WRT  0
+  STC 97
+  WRT  0
+  STC 114
+  WRT  0
+  STC 115
+  WRT  0
+  STC 58
+  WRT  0
+  STC 32
+  WRT  0
+</put>
+<put>
+; --- Variable / parameter "chars"
+  SRF  0  4
+  DRF 
+; --- Put INTEGER
+  WRT  1
+</put>
+<put_line>
+; --- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put>
+; --- Put STRING "Words: " (length 7)
+; --- Standard string writing
+  STC 87
+  WRT  0
+  STC 111
+  WRT  0
+  STC 114
+  WRT  0
+  STC 100
+  WRT  0
+  STC 115
+  WRT  0
+  STC 58
+  WRT  0
+  STC 32
+  WRT  0
+</put>
+<put>
+; --- Variable / parameter "words"
+  SRF  0  5
+  DRF 
+; --- Put INTEGER
+  WRT  1
+</put>
+<put_line>
+; --- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put>
+; --- Put STRING "Lines: " (length 7)
+; --- Standard string writing
+  STC 76
+  WRT  0
+  STC 105
+  WRT  0
+  STC 110
+  WRT  0
+  STC 101
+  WRT  0
+  STC 115
+  WRT  0
+  STC 58
+  WRT  0
+  STC 32
+  WRT  0
+</put>
+<put>
+; --- Variable / parameter "lines"
+  SRF  0  6
+  DRF 
+; --- Put INTEGER
+  WRT  1
+</put>
+<put_line>
+; --- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+</test_stats_instruction_block>
+  LVP 
+</test_stats>

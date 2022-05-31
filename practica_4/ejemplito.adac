@@ -1,22 +1,23 @@
 procedure cerea is
 integer a[2];
-character b;
+integer b;
 
-procedure p(val integer v[2]; val integer x) is
+function integer f(ref integer v[2]; ref integer x) is
+    procedure f1(ref integer v[2]; ref integer r) is
+    begin
+        put_line(v[r]);
+        v[r] := v[r] -5;
+    end
 begin
-    put_line(v[0]);
-end
-
-function integer f(val integer v[2]) is
-begin
-    put_line(v[1]);
-    v[1] := v[0] +5;
+    put_line(v[x]);
+    v[x] := v[x] + 5;
+    f1(v,x);
     return v[1];
 end
 
 begin
     a[0] := 1;
     a[1] := 2;
-    p(a,a[0]);
-    put_line("n: ",f(a));
+    b := 0;
+    put_line("n: ",f(a,b), a[0]);
 end
