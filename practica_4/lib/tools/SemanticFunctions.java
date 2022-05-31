@@ -569,7 +569,8 @@ public class SemanticFunctions {
 								errSem.deteccion("Los vectores deben ser de la misma dimensión", t);
 							}
 						}
-						if(s1.parClass == Symbol.ParameterClass.REF && p.constante){
+						
+						if(s1.parClass == Symbol.ParameterClass.REF && !(((!p.constante && p.parClass != Symbol.ParameterClass.REF) || p.parClass == Symbol.ParameterClass.REF))){
 							errSem.deteccion("Se esperaba un paso por referencia", p.token);
 						}
 						i++;	
@@ -593,7 +594,7 @@ public class SemanticFunctions {
 								errSem.deteccion("Los vectores deben ser de la misma dimensión", t);
 							}
 						}
-						if(s1.parClass == Symbol.ParameterClass.REF && p.constante){
+						if(s1.parClass == Symbol.ParameterClass.REF && !(((!p.constante && p.parClass != Symbol.ParameterClass.REF) || p.parClass == Symbol.ParameterClass.REF))){
 							errSem.deteccion("Se esperaba un paso por referencia", p.token);
 						}
 						i++;

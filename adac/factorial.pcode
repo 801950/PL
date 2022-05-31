@@ -2,78 +2,76 @@
 <factorial>
   ENP L0
 <variable_declaration>
-; --- Simple variable "n", type 0, level 0,  address [3]!
+; -- Simple variable "n", type INT, level 0, address [3]
 </variable_declaration>
-<function_fact>
+<procedure>
 L1:
-; --- Simple parameter "m", type 0, class 0, level 1,  address [3]!
+; -- Simple parameter "m", type FUNCTION, level 1, address [3]
 <recover_argument_1>
-; --- Recover simple val / ref variable parameter "m" (number 1).
+; -- Recover simple val / ref variable parameter "m" (number 1)
   SRF  0  3
-  ASGI 
+  ASGI
 </recover_argument_1>
   JMP L2
 <variable_declaration>
 </variable_declaration>
 L2:
-<fact_instruction_block>
+<instruction_block>
 <if-then>
 <condition>
-; --- Variable / parameter "m"
+; --Variable / parameter "m"
   SRF  0  3
-  DRF 
+  DRF
   STC  1
-  EQ 
+  EQ
 </condition>
   JMF L3
 <then>
 <return>
   STC  1
-  CSF 
+  CSF
 </return>
   JMP L4
 </then>
 <else>
 L3:
 <return>
-; --- Variable / parameter "m"
+; --Variable / parameter "m"
   SRF  0  3
-  DRF 
+  DRF
 <function_call_fact>
 <argument_1>
-; --- Variable / parameter "m"
+; --Variable / parameter "m"
   SRF  0  3
-  DRF 
+  DRF
   STC  1
-  SBT 
+  SBT
 </argument_1>
   OSF  4  1 L1
 </function_call_fact>
-  TMS 
-  CSF 
+  TMS
+  CSF
 </return>
 </else>
 L4:
 </if-then>
-  CSF 
-</fact_instruction_block>
-</function_fact>
+  CSF
+</instruction_block>
+</procedure>
 L0:
-<factorial_instruction_block>
-<put>
-; --- Put STRING "" (length 0)
-; --- Standard string writing
-</put>
 <put_line>
-; --- CR/LF
+; -- Put STRING
+<put>
+</put>
+; -- CR/LF
   STC 13
   WRT  0
   STC 10
   WRT  0
 </put_line>
+<put_line>
+; -- Put STRING
 <put>
-; --- Put STRING "Calcula k! para k=1..20." (length 24)
-; --- Standard string writing
   STC 67
   WRT  0
   STC 97
@@ -123,27 +121,25 @@ L0:
   STC 46
   WRT  0
 </put>
-<put_line>
-; --- CR/LF
+; -- CR/LF
   STC 13
   WRT  0
   STC 10
   WRT  0
 </put_line>
+<put_line>
+; -- Put STRING
 <put>
-; --- Put STRING "" (length 0)
-; --- Standard string writing
 </put>
-<put_line>
-; --- CR/LF
+; -- CR/LF
   STC 13
   WRT  0
   STC 10
   WRT  0
 </put_line>
+<put_line>
+; -- Put STRING
 <put>
-; --- Put STRING "Habrá MATH overflow en 13! porque los enteros en la máquina p son de 4 bytes." (length 79)
-; --- Standard string writing
   STC 72
   WRT  0
   STC 97
@@ -152,9 +148,7 @@ L0:
   WRT  0
   STC 114
   WRT  0
-  STC -61
-  WRT  0
-  STC -95
+  STC 225
   WRT  0
   STC 32
   WRT  0
@@ -252,9 +246,7 @@ L0:
   WRT  0
   STC 109
   WRT  0
-  STC -61
-  WRT  0
-  STC -95
+  STC 225
   WRT  0
   STC 113
   WRT  0
@@ -303,51 +295,49 @@ L0:
   STC 46
   WRT  0
 </put>
-<put_line>
-; --- CR/LF
+; -- CR/LF
   STC 13
   WRT  0
   STC 10
   WRT  0
 </put_line>
+<put_line>
+; -- Put STRING
 <put>
-; --- Put STRING "" (length 0)
-; --- Standard string writing
 </put>
-<put_line>
-; --- CR/LF
+; -- CR/LF
   STC 13
   WRT  0
   STC 10
   WRT  0
 </put_line>
-<Assignment_to__simple_variable_n>
-; --- Address of variable / parameter "n"
+<Asignacion_a_variable_simple_n>
+; -- Address of variable / parameter "n"
   SRF  0  3
   STC  1
-  ASG 
-</Assignment_to__simple_variable_n>
+  ASG
+</Asignacion_a_variable_simple_n>
 <while>
 L5:
 <condition>
-; --- Variable / parameter "n"
+; --Variable / parameter "n"
   SRF  0  3
-  DRF 
+  DRF
   STC 20
-  LTE 
+  LTE
 </condition>
   JMF L6
 <while_instruction_block>
+<put_line>
 <put>
-; --- Variable / parameter "n"
+; --Variable / parameter "n"
   SRF  0  3
-  DRF 
-; --- Put INTEGER
+  DRF
+; -- Put INTEGER
   WRT  1
 </put>
+; -- Put STRING
 <put>
-; --- Put STRING "! = " (length 4)
-; --- Standard string writing
   STC 33
   WRT  0
   STC 32
@@ -360,36 +350,34 @@ L5:
 <put>
 <function_call_fact>
 <argument_1>
-; --- Variable / parameter "n"
+; --Variable / parameter "n"
   SRF  0  3
-  DRF 
+  DRF
 </argument_1>
   OSF  4  0 L1
 </function_call_fact>
-; --- Put INTEGER
+; -- Put INTEGER
   WRT  1
 </put>
-<put_line>
-; --- CR/LF
+; -- CR/LF
   STC 13
   WRT  0
   STC 10
   WRT  0
 </put_line>
-<Assignment_to__simple_variable_n>
-; --- Address of variable / parameter "n"
+<Asignacion_a_variable_simple_n>
+; -- Address of variable / parameter "n"
   SRF  0  3
-; --- Variable / parameter "n"
+; --Variable / parameter "n"
   SRF  0  3
-  DRF 
+  DRF
   STC  1
-  PLUS 
-  ASG 
-</Assignment_to__simple_variable_n>
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_n>
 </while_instruction_block>
   JMP L5
 L6:
 </while>
-</factorial_instruction_block>
-  LVP 
+  LVP
 </factorial>

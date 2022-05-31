@@ -1,220 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <cerea>
   ENP L0
 <variable_declaration>
-; -- Array variable "a", type INT, size 2, level 0, address [3:4]!
-; -- Simple variable "b", type INT, level 0, address [5]
+; -- Array variable "i", type INT, size 3, level 0, address [3:5]!
 </variable_declaration>
 <procedure>
 L1:
-; -- Ref array parameter "v", type INT, class REF, size 2, level 1, address [3]
-; -- Simple parameter "x", type FUNCTION, level 1, address [4]
-<recover_argument_2>
-; -- Recover simple val / ref variable parameter "x" (number 2)
+; -- Val array parameter "i", type INT, class VAL, size3, level 1, address [3:5]
+<recover_argument_1>
+; --  Recover array val variable parameter "i" (number 1)
+  SRF  0  5
+  ASGI
   SRF  0  4
   ASGI
-</recover_argument_2>
-<recover_argument_1>
-; --  Recover array ref variable parameter "v" (number 1)
   SRF  0  3
   ASGI
 </recover_argument_1>
   JMP L2
 <variable_declaration>
 </variable_declaration>
-<procedure>
-L3:
-; -- Ref array parameter "v", type INT, class REF, size 2, level 2, address [3]
-; -- Simple parameter "r", type PROCEDURE, level 2, address [4]
-<recover_argument_2>
-; -- Recover simple val / ref variable parameter "r" (number 2)
-  SRF  0  4
-  ASGI
-</recover_argument_2>
-<recover_argument_1>
-  SRF  0  3
-  ASGI
-</recover_argument_1>
-  JMP L4
-<variable_declaration>
-</variable_declaration>
-L4:
-<instruction_block>
-<put_line>
-<put>
-; --Variable / parameter "r"
-  SRF  0  4
-  DRF
-  DRF
-; -- Initial address of array "v"
-  SRF  0  3
-  DRF
-  PLUS
-  DRF
-; -- Put INTEGER
-  WRT  1
-</put>
-; -- CR/LF
-  STC 13
-  WRT  0
-  STC 10
-  WRT  0
-</put_line>
-<Asignacion_a_variable_simple_v>
-; --Variable / parameter "r"
-  SRF  0  4
-  DRF
-  DRF
-; -- Initial address of array "v"
-  SRF  0  3
-  DRF
-  PLUS
-; --Variable / parameter "r"
-  SRF  0  4
-  DRF
-  DRF
-; -- Initial address of array "v"
-  SRF  0  3
-  DRF
-  PLUS
-  DRF
-  STC  5
-  SBT
-  ASG
-</Asignacion_a_variable_simple_v>
-  CSF
-</instruction_block>
-</procedure>
 L2:
 <instruction_block>
-<put_line>
-<put>
-; --Variable / parameter "x"
-  SRF  0  4
-  DRF
-  DRF
-; -- Initial address of array "v"
-  SRF  0  3
-  DRF
-  PLUS
-  DRF
-; -- Put INTEGER
-  WRT  1
-</put>
-; -- CR/LF
-  STC 13
-  WRT  0
-  STC 10
-  WRT  0
-</put_line>
-<Asignacion_a_variable_simple_v>
-; --Variable / parameter "x"
-  SRF  0  4
-  DRF
-  DRF
-; -- Initial address of array "v"
-  SRF  0  3
-  DRF
-  PLUS
-; --Variable / parameter "x"
-  SRF  0  4
-  DRF
-  DRF
-; -- Initial address of array "v"
-  SRF  0  3
-  DRF
-  PLUS
-  DRF
-  STC  5
-  PLUS
-  ASG
-</Asignacion_a_variable_simple_v>
-<procedure_call_f1>
-<argument_1>
-; --Variable / parameter "v"
-  SRF  0  3
-  DRF
-</argument_1>
-<argument_2>
-; --Variable / parameter "x"
-  SRF  0  4
-  DRF
-</argument_2>
-  OSF  5  0 L3
-</procedure_call_f1>
-<return>
-  STC  1
-; -- Initial address of array "v"
-  SRF  0  3
-  DRF
-  PLUS
-  DRF
-  CSF
-</return>
   CSF
 </instruction_block>
 </procedure>
 L0:
-<Asignacion_a_variable_simple_a>
-  STC  0
-; -- Initial address of array "a"
-  SRF  0  3
-  PLUS
-  STC  1
-  ASG
-</Asignacion_a_variable_simple_a>
-<Asignacion_a_variable_simple_a>
-  STC  1
-; -- Initial address of array "a"
-  SRF  0  3
-  PLUS
-  STC  2
-  ASG
-</Asignacion_a_variable_simple_a>
-<Asignacion_a_variable_simple_b>
-; -- Address of variable / parameter "b"
-  SRF  0  5
-  STC  0
-  ASG
-</Asignacion_a_variable_simple_b>
-<put_line>
-; -- Put STRING
-<put>
-  STC 110
-  WRT  0
-  STC 58
-  WRT  0
-  STC 32
-  WRT  0
-</put>
-<put>
-<function_call_f>
+<procedure_call_f>
 <argument_1>
-; --Variable / parameter "a"
+; -- Variable / parameter "i"
   SRF  0  3
-</argument_1>
-<argument_2>
-; --Variable / parameter "b"
-  SRF  0  5
-</argument_2>
-  OSF  6  0 L1
-</function_call_f>
-; -- Put INTEGER
-  WRT  1
-</put>
-<put>
-  STC  0
-; -- Initial address of array "a"
-  SRF  0  3
-  PLUS
   DRF
-; -- Put INTEGER
-  WRT  1
-</put>
-; -- CR/LF
-  STC 13
-  WRT  0
-  STC 10
-  WRT  0
-</put_line>
+  SRF  0  4
+  DRF
+  SRF  0  5
+  DRF
+</argument_1>
+  OSF  6  0 L1
+</procedure_call_f>
   LVP
 </cerea>

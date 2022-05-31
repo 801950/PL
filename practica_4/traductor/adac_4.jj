@@ -46,8 +46,8 @@ public class adac_4 {
     	adac_4 parser;
 		
 		try{
-			System.out.println(args[0]);
 			f = new FileWriter(args[0].substring(0,args[0].lastIndexOf('.'))+".pcode");
+			f.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		} catch(IOException e) {
 			System.out.println(e);
 		}
@@ -384,7 +384,7 @@ void declaracion_procedimientos(Attributes at):
 		{
 			code1.addBlock(at1.code);
 			at.lastLabel = at1.lastLabel;
-			at2.lastLabel = at.lastLabel;
+			at2.lastLabel = at1.lastLabel;
 			at2.dir = at3.dir;
 		}
 	bloque_sentencias(at2)
@@ -466,13 +466,14 @@ void cabecera_procedimiento(Attributes at):
 	<tPROC> t = <tID> 
 		{
 			semFuncs.insertProcedureSymbolTab(ts,t, at.funcDirection);
+			sp = (SymbolProcedure)ts.getSymbol(t.image);
 			stack.push(ts.getSymbol(t.image));
 			at.token = t;
 			at.type = Symbol.Types.PROCEDURE;
 		}
 	<tPOPEN> lista_parametros(at) <tPCLOSE> <tIS>
 		{
-			sp = (SymbolProcedure)ts.getSymbol(t.image);
+			
 			for(int i = sp.parList.size()-1; i >= 0; i--){
 				Symbol s = sp.parList.get(i);
 				if(s.type != Symbol.Types.ARRAY){
@@ -529,14 +530,16 @@ void cabecera_funcion(Attributes at):
 {
 	<tFUNC> tipo_variable(at) t = <tID>
 		{
+			
 			semFuncs.insertFunctionSymbolTab(ts,t,at,at.funcDirection);
+			sp = (SymbolFunction)ts.getSymbol(t.image);
 			stack.push(ts.getSymbol(t.image));
 			at.token = t;
 			at.type = Symbol.Types.FUNCTION;
 		}
 	<tPOPEN> lista_parametros(at) <tPCLOSE> <tIS>
 		{
-			sp = (SymbolFunction)ts.getSymbol(t.image);
+			
 			for(int i = sp.parList.size()-1; i >= 0; i--){
 				Symbol s = sp.parList.get(i);
 				if(s.type != Symbol.Types.ARRAY){
@@ -745,14 +748,13 @@ void asignable(Attributes at):
 			semFuncs.checkAsignable(ts,t,at1,at);
 			s = ts.getSymbol(t.image);
 			at.code.addBlock(at1.code);
-		//	if(!at1.constante) at.code.addInst(PCodeInstruction.OpCode.DRF);
 			if(!at1.constante) at.code.addInst(PCodeInstruction.OpCode.DRF);
 			if(at1.parClass != null && at1.parClass == Symbol.ParameterClass.REF) at.code.addInst(PCodeInstruction.OpCode.DRF);
 			at.code.addComment(" Initial address of array \"" + t.image +"\"");
 			at.code.addInst(PCodeInstruction.OpCode.SRF,stack.size()-s.nivel,(int)s.dir);
 			if(s.parClass == Symbol.ParameterClass.REF) at.code.addInst(PCodeInstruction.OpCode.DRF);
 			
-			at.code.addInst(PCodeInstruction.OpCode.PLUS);		
+			at.code.addInst(PCodeInstruction.OpCode.PLUS);
 		}
 | 	t = <tID>
 		{
@@ -781,7 +783,9 @@ void inst_iteracion(Attributes at):
 			codeOut.addLabel("L"+n);
 			at.lastLabel++;
 			code2.addBlock(at1.code);
+			if(!at1.constante) code2.addInst(PCodeInstruction.OpCode.DRF);
 			code2.encloseXMLTags("condition");
+			if(at1.parClass != null && at1.parClass == Symbol.ParameterClass.REF) code2.addInst(PCodeInstruction.OpCode.DRF);
 			codeOut.addBlock(code2);
 			code2.clearBlock();
 			n2 = at.lastLabel+1;
@@ -1014,14 +1018,28 @@ void inst_invoc_proc(Attributes at):
 						if(at2.type == Symbol.Types.ARRAY){
 							sa = (SymbolArray) ts.getSymbol(at2.token.image);
 							code2.addComment(" Variable / parameter \"" + at2.token.image + "\"");
-							for(int j = sa.minInd; j <= sa.maxInd; j ++){
-								code2.addInst(PCodeInstruction.OpCode.SRF, stack.size()-sa.nivel, (int)sa.dir+j);
-								code2.addInst(PCodeInstruction.OpCode.DRF);
+							if(sa.parClass == Symbol.ParameterClass.REF){
+								for(int j = sa.minInd; j <= sa.maxInd; j ++){
+									code2.addInst(PCodeInstruction.OpCode.SRF, stack.size()-sa.nivel, (int)sa.dir);
+									code2.addInst(PCodeInstruction.OpCode.DRF);
+									code2.addInst(PCodeInstruction.OpCode.STC,j);
+									code2.addInst(PCodeInstruction.OpCode.PLUS);
+									code2.addInst(PCodeInstruction.OpCode.DRF);
+								}
+								n = i+1;
+								code2.encloseXMLTags("argument_"+n);
+								code1.addBlock(code2);
+								code2.clearBlock();
+							} else{
+								for(int j = sa.minInd; j <= sa.maxInd; j ++){
+									code2.addInst(PCodeInstruction.OpCode.SRF, stack.size()-sa.nivel, (int)sa.dir+j);
+									code2.addInst(PCodeInstruction.OpCode.DRF);
+								}
+								n = i+1;
+								code2.encloseXMLTags("argument_"+n);
+								code1.addBlock(code2);
+								code2.clearBlock();
 							}
-							n = i+1;
-							code2.encloseXMLTags("argument_"+n);
-							code1.addBlock(code2);
-							code2.clearBlock();
 						} else {
 							code2.addBlock(at2.code);
 							if(!at2.constante) code2.addInst(PCodeInstruction.OpCode.DRF);
@@ -1034,8 +1052,9 @@ void inst_invoc_proc(Attributes at):
 					} else if(s1.parClass == Symbol.ParameterClass.REF){
 						
 						at2 = at1.par.get(i);
+						System.out.println(t.image + " " + s1.type + " " + s1.parClass + " " + at2.parClass);
 						code2.addBlock(at2.code);
-						if(at2.parClass != null && at2.parClass == Symbol.ParameterClass.REF) code2.addInst(PCodeInstruction.OpCode.DRF);
+						if(at2.parClass != null && at2.parClass == Symbol.ParameterClass.REF && at2.type == Symbol.Types.ARRAY) code2.addInst(PCodeInstruction.OpCode.DRF);
 						n = i+1;
 						code2.encloseXMLTags("argument_"+n);
 						code1.addBlock(code2);
@@ -1062,6 +1081,7 @@ void inst_seleccion(Attributes at):
 	int n = at.lastLabel +1,n2;
 	CodeBlock codeOut = new CodeBlock();
 	at1.dir = at.dir;
+	at1.lastLabel = at.lastLabel;
 	CodeBlock code2 = new CodeBlock();
 }
 {
@@ -1071,10 +1091,14 @@ void inst_seleccion(Attributes at):
 	expresion(at1) 
 		{
 			semFuncs.checkBool(at1);
+			
 			at1.lastLabel = at.lastLabel;
 			at1.dir = at.dir;
 			codeOut.addBlock(at1.code);
+			if(!at1.constante) codeOut.addInst(PCodeInstruction.OpCode.DRF);
 			codeOut.encloseXMLTags("condition");
+			if(at1.parClass != null && at1.parClass == Symbol.ParameterClass.REF) codeOut.addInst(PCodeInstruction.OpCode.DRF);
+			n = at.lastLabel +1;
 			codeOut.addInst(PCodeInstruction.OpCode.JMF, "L"+n);
 			code2.addBlock(codeOut);
 			at.lastLabel++;
@@ -1087,6 +1111,8 @@ void inst_seleccion(Attributes at):
 		codeOut.addBlock(at2.code);
 		n2 = at2.lastLabel + 1;
 		at.lastLabel = at2.lastLabel+1;
+		// PRUEBA
+		//at.lastLabel ++;
 		
 		codeOut.addInst(PCodeInstruction.OpCode.JMP, "L"+n2);
 		codeOut.encloseXMLTags("then");
@@ -1104,6 +1130,7 @@ void inst_seleccion(Attributes at):
 		code2.addBlock(codeOut);
 		code2.encloseXMLTags("if-then");
 		at.code.addBlock(code2);
+		at.lastLabel = at3.lastLabel;
 	}
 }
 
@@ -1309,8 +1336,11 @@ void factor(Attributes at):
 	<tNOT> factor(at)
 		{
 			semFuncs.checkBool(at);
+			if(!at.constante) at.code.addInst(PCodeInstruction.OpCode.DRF);
+			if(at.parClass != null && at.parClass == Symbol.ParameterClass.REF) at.code.addInst(PCodeInstruction.OpCode.DRF);
 			at.constante = true;
 			at.code.addInst(PCodeInstruction.OpCode.NGB);
+			at.parClass = Symbol.ParameterClass.NONE;
 		}
 |	<tPOPEN> expresion(at) <tPCLOSE>
 | 	LOOKAHEAD(2) factor_con_par(at)

@@ -2,910 +2,885 @@
 <qsort>
   ENP L0
 <variable_declaration>
-; --- Simple variable "n", type 0, level 0,  address [3]!
-; --- Array variable "t", type 0, size 20, level 0, address [4:23]!
-; --- Simple variable "iteraciones", type 0, level 0,  address [24]!
+; -- Simple variable "n", type INT, level 0, address [3]
+; -- Array variable "t", type INT, size 20, level 0, address [4:23]!
+; -- Simple variable "iteraciones", type INT, level 0, address [24]
 </variable_declaration>
-<procedure_inicializar>
+<procedure>
 L1:
-; --- Ref array parameter "t", type 0, class 1, size 20, level 1, address [3]!
+; -- Ref array parameter "t", type INT, class REF, size 20, level 1, address [3]
 <recover_argument_1>
-; --- Recover array ref variable parameter "t" (number 1).
   SRF  0  3
-  ASGI 
+  ASGI
 </recover_argument_1>
   JMP L2
 <variable_declaration>
-; --- Simple variable "i", type 0, level 1,  address [4]!
+; -- Simple variable "i", type INT, level 1, address [4]
 </variable_declaration>
 L2:
-<inicializar_instruction_block>
-<Assignment_to__simple_variable_i>
-; --- Address of variable / parameter "i"
+<instruction_block>
+<Asignacion_a_variable_simple_i>
+; -- Address of variable / parameter "i"
   SRF  0  4
   STC  0
-  ASG 
-</Assignment_to__simple_variable_i>
+  ASG
+</Asignacion_a_variable_simple_i>
 <while>
 L3:
 <condition>
-; --- Variable / parameter "i"
+; --Variable / parameter "i"
   SRF  0  4
-  DRF 
-; --- Variable / parameter "n"
+  DRF
+; --Variable / parameter "n"
   SRF  1  3
-  DRF 
-  LT 
+  DRF
+  LT
 </condition>
   JMF L4
 <while_instruction_block>
-<Assignment_to_component_of_array_t>
-; --- Variable / parameter "i"
+<Asignacion_a_variable_simple_t>
+; --Variable / parameter "i"
   SRF  0  4
-  DRF 
-; --- Initial address of array "t"
+  DRF
+; -- Initial address of array "t"
   SRF  0  3
-  DRF 
-  PLUS 
-; --- Variable / parameter "n"
+  DRF
+  PLUS
+; --Variable / parameter "n"
   SRF  1  3
-  DRF 
-; --- Variable / parameter "i"
+  DRF
+; --Variable / parameter "i"
   SRF  0  4
-  DRF 
-  SBT 
-  ASG 
-</Assignment_to_component_of_array_t>
-<Assignment_to__simple_variable_i>
-; --- Address of variable / parameter "i"
+  DRF
+  SBT
+  ASG
+</Asignacion_a_variable_simple_t>
+<Asignacion_a_variable_simple_i>
+; -- Address of variable / parameter "i"
   SRF  0  4
-; --- Variable / parameter "i"
+; --Variable / parameter "i"
   SRF  0  4
-  DRF 
+  DRF
   STC  1
-  PLUS 
-  ASG 
-</Assignment_to__simple_variable_i>
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_i>
 </while_instruction_block>
   JMP L3
 L4:
 </while>
-  CSF 
-</inicializar_instruction_block>
-</procedure_inicializar>
-<procedure_mostrar>
+  CSF
+</instruction_block>
+</procedure>
+<procedure>
 L5:
-; --- Val array parameter "t", type 0, class 0, size 20, level 1, address [3:22]!
+; -- Val array parameter "t", type INT, class VAL, size20, level 1, address [3:22]
 <recover_argument_1>
-; --- Recover array val variable parameter "t" (number 1).
+; --  Recover array val variable parameter "t" (number 1)
   SRF  0 22
-  ASGI 
+  ASGI
   SRF  0 21
-  ASGI 
+  ASGI
   SRF  0 20
-  ASGI 
+  ASGI
   SRF  0 19
-  ASGI 
+  ASGI
   SRF  0 18
-  ASGI 
+  ASGI
   SRF  0 17
-  ASGI 
+  ASGI
   SRF  0 16
-  ASGI 
+  ASGI
   SRF  0 15
-  ASGI 
+  ASGI
   SRF  0 14
-  ASGI 
+  ASGI
   SRF  0 13
-  ASGI 
+  ASGI
   SRF  0 12
-  ASGI 
+  ASGI
   SRF  0 11
-  ASGI 
+  ASGI
   SRF  0 10
-  ASGI 
+  ASGI
   SRF  0  9
-  ASGI 
+  ASGI
   SRF  0  8
-  ASGI 
+  ASGI
   SRF  0  7
-  ASGI 
+  ASGI
   SRF  0  6
-  ASGI 
+  ASGI
   SRF  0  5
-  ASGI 
+  ASGI
   SRF  0  4
-  ASGI 
+  ASGI
   SRF  0  3
-  ASGI 
+  ASGI
 </recover_argument_1>
   JMP L6
 <variable_declaration>
-; --- Simple variable "i", type 0, level 1,  address [23]!
+; -- Simple variable "i", type INT, level 1, address [23]
 </variable_declaration>
 L6:
-<mostrar_instruction_block>
-<Assignment_to__simple_variable_i>
-; --- Address of variable / parameter "i"
+<instruction_block>
+<Asignacion_a_variable_simple_i>
+; -- Address of variable / parameter "i"
   SRF  0 23
   STC  0
-  ASG 
-</Assignment_to__simple_variable_i>
+  ASG
+</Asignacion_a_variable_simple_i>
 <while>
 L7:
 <condition>
-; --- Variable / parameter "i"
+; --Variable / parameter "i"
   SRF  0 23
-  DRF 
-; --- Variable / parameter "n"
+  DRF
+; --Variable / parameter "n"
   SRF  1  3
-  DRF 
-  LT 
+  DRF
+  LT
 </condition>
   JMF L8
 <while_instruction_block>
 <put>
-<component_of_array_t>
-; --- Variable / parameter "i"
+<put>
+; --Variable / parameter "i"
   SRF  0 23
-  DRF 
-; --- Initial address of array "t"
+  DRF
+; -- Initial address of array "t"
   SRF  0  3
-  PLUS 
-  DRF 
-</component_of_array_t>
-; --- Put INTEGER
+  PLUS
+  DRF
+; -- Put INTEGER
   WRT  1
 </put>
+; -- Put STRING
 <put>
-; --- Put STRING " " (length 1)
-; --- Standard string writing
   STC 32
   WRT  0
 </put>
-<Assignment_to__simple_variable_i>
-; --- Address of variable / parameter "i"
+</put>
+<Asignacion_a_variable_simple_i>
+; -- Address of variable / parameter "i"
   SRF  0 23
-; --- Variable / parameter "i"
+; --Variable / parameter "i"
   SRF  0 23
-  DRF 
+  DRF
   STC  1
-  PLUS 
-  ASG 
-</Assignment_to__simple_variable_i>
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_i>
 </while_instruction_block>
   JMP L7
 L8:
 </while>
 <put>
+<put>
   STC 13
-; --- Put CHARACTER
+; -- Put CHAR
   WRT  0
 </put>
 <put>
   STC 10
-; --- Put CHARACTER
+; -- Put CHAR
   WRT  0
 </put>
-  CSF 
-</mostrar_instruction_block>
-</procedure_mostrar>
-<procedure_intercambiar>
+</put>
+  CSF
+</instruction_block>
+</procedure>
+<procedure>
 L9:
-; --- Simple parameter "i", type 0, class 1, level 1,  address [3]!
-; --- Simple parameter "j", type 0, class 1, level 1,  address [4]!
+; -- Simple parameter "i", type PROCEDURE, level 1, address [3]
+; -- Simple parameter "j", type PROCEDURE, level 1, address [4]
 <recover_argument_2>
-; --- Recover simple val / ref variable parameter "j" (number 2).
+; -- Recover simple val / ref variable parameter "j" (number 2)
   SRF  0  4
-  ASGI 
+  ASGI
 </recover_argument_2>
 <recover_argument_1>
-; --- Recover simple val / ref variable parameter "i" (number 1).
+; -- Recover simple val / ref variable parameter "i" (number 1)
   SRF  0  3
-  ASGI 
+  ASGI
 </recover_argument_1>
   JMP L10
 <variable_declaration>
-; --- Simple variable "k", type 0, level 1,  address [5]!
+; -- Simple variable "k", type INT, level 1, address [5]
 </variable_declaration>
 L10:
-<intercambiar_instruction_block>
-<Assignment_to__simple_variable_k>
-; --- Address of variable / parameter "k"
+<instruction_block>
+<Asignacion_a_variable_simple_k>
+; -- Address of variable / parameter "k"
   SRF  0  5
-; --- Variable / parameter "i"
+; --Variable / parameter "i"
   SRF  0  3
-  DRF 
-  DRF 
-  ASG 
-</Assignment_to__simple_variable_k>
-<Assignment_to__simple_variable_i>
-; --- Address of variable / parameter "i"
+  DRF
+  DRF
+  ASG
+</Asignacion_a_variable_simple_k>
+<Asignacion_a_variable_simple_i>
+; -- Address of variable / parameter "i"
   SRF  0  3
-  DRF 
-; --- Variable / parameter "j"
+  DRF
+; --Variable / parameter "j"
   SRF  0  4
-  DRF 
-  DRF 
-  ASG 
-</Assignment_to__simple_variable_i>
-<Assignment_to__simple_variable_j>
-; --- Address of variable / parameter "j"
+  DRF
+  DRF
+  ASG
+</Asignacion_a_variable_simple_i>
+<Asignacion_a_variable_simple_j>
+; -- Address of variable / parameter "j"
   SRF  0  4
-  DRF 
-; --- Variable / parameter "k"
+  DRF
+; --Variable / parameter "k"
   SRF  0  5
-  DRF 
-  ASG 
-</Assignment_to__simple_variable_j>
-  CSF 
-</intercambiar_instruction_block>
-</procedure_intercambiar>
-<procedure_ordenar>
+  DRF
+  ASG
+</Asignacion_a_variable_simple_j>
+  CSF
+</instruction_block>
+</procedure>
+<procedure>
 L11:
-; --- Simple parameter "i", type 0, class 1, level 1,  address [3]!
-; --- Simple parameter "j", type 0, class 1, level 1,  address [4]!
+; -- Simple parameter "i", type PROCEDURE, level 1, address [3]
+; -- Simple parameter "j", type PROCEDURE, level 1, address [4]
 <recover_argument_2>
-; --- Recover simple val / ref variable parameter "j" (number 2).
+; -- Recover simple val / ref variable parameter "j" (number 2)
   SRF  0  4
-  ASGI 
+  ASGI
 </recover_argument_2>
 <recover_argument_1>
-; --- Recover simple val / ref variable parameter "i" (number 1).
+; -- Recover simple val / ref variable parameter "i" (number 1)
   SRF  0  3
-  ASGI 
+  ASGI
 </recover_argument_1>
   JMP L12
 <variable_declaration>
 </variable_declaration>
 L12:
-<ordenar_instruction_block>
+<instruction_block>
 <if-then>
 <condition>
-; --- Variable / parameter "i"
+; --Variable / parameter "i"
   SRF  0  3
-  DRF 
-  DRF 
-; --- Variable / parameter "j"
+  DRF
+  DRF
+; --Variable / parameter "j"
   SRF  0  4
-  DRF 
-  DRF 
-  GT 
+  DRF
+  DRF
+  GT
 </condition>
   JMF L13
 <then>
 <procedure_call_intercambiar>
 <argument_1>
-; --- Variable / parameter "i"
+; --Variable / parameter "i"
   SRF  0  3
-  DRF 
 </argument_1>
 <argument_2>
-; --- Variable / parameter "j"
+; --Variable / parameter "j"
   SRF  0  4
-  DRF 
 </argument_2>
   OSF  5  1 L9
 </procedure_call_intercambiar>
+  JMP L14
 </then>
+<else>
 L13:
-</if-then>
-  CSF 
-</ordenar_instruction_block>
-</procedure_ordenar>
-<procedure_divide>
+</else>
 L14:
-; --- Ref array parameter "t", type 0, class 1, size 20, level 1, address [3]!
-; --- Simple parameter "izq", type 0, class 0, level 1,  address [4]!
-; --- Simple parameter "der", type 0, class 0, level 1,  address [5]!
-; --- Simple parameter "me", type 0, class 1, level 1,  address [6]!
+</if-then>
+  CSF
+</instruction_block>
+</procedure>
+<procedure>
+L15:
+; -- Ref array parameter "t", type INT, class REF, size 20, level 1, address [3]
+; -- Simple parameter "izq", type PROCEDURE, level 1, address [4]
+; -- Simple parameter "der", type PROCEDURE, level 1, address [5]
+; -- Simple parameter "me", type PROCEDURE, level 1, address [6]
 <recover_argument_4>
-; --- Recover simple val / ref variable parameter "me" (number 4).
+; -- Recover simple val / ref variable parameter "me" (number 4)
   SRF  0  6
-  ASGI 
+  ASGI
 </recover_argument_4>
 <recover_argument_3>
-; --- Recover simple val / ref variable parameter "der" (number 3).
+; -- Recover simple val / ref variable parameter "der" (number 3)
   SRF  0  5
-  ASGI 
+  ASGI
 </recover_argument_3>
 <recover_argument_2>
-; --- Recover simple val / ref variable parameter "izq" (number 2).
+; -- Recover simple val / ref variable parameter "izq" (number 2)
   SRF  0  4
-  ASGI 
+  ASGI
 </recover_argument_2>
 <recover_argument_1>
-; --- Recover array ref variable parameter "t" (number 1).
   SRF  0  3
-  ASGI 
+  ASGI
 </recover_argument_1>
-  JMP L15
-<variable_declaration>
-; --- Simple variable "p", type 0, level 1,  address [7]!
-; --- Simple variable "k", type 0, level 1,  address [8]!
-</variable_declaration>
-L15:
-<divide_instruction_block>
-<Assignment_to__simple_variable_p>
-; --- Address of variable / parameter "p"
-  SRF  0  7
-<component_of_array_t>
-; --- Variable / parameter "izq"
-  SRF  0  4
-  DRF 
-; --- Initial ref address of array "t"
-  SRF  0  3
-  DRF 
-  PLUS 
-  DRF 
-</component_of_array_t>
-  ASG 
-</Assignment_to__simple_variable_p>
-<Assignment_to__simple_variable_k>
-; --- Address of variable / parameter "k"
-  SRF  0  8
-; --- Variable / parameter "izq"
-  SRF  0  4
-  DRF 
-  ASG 
-</Assignment_to__simple_variable_k>
-<Assignment_to__simple_variable_me>
-; --- Address of variable / parameter "me"
-  SRF  0  6
-  DRF 
-; --- Variable / parameter "der"
-  SRF  0  5
-  DRF 
-  STC  1
-  PLUS 
-  ASG 
-</Assignment_to__simple_variable_me>
-<Assignment_to__simple_variable_k>
-; --- Address of variable / parameter "k"
-  SRF  0  8
-; --- Variable / parameter "k"
-  SRF  0  8
-  DRF 
-  STC  1
-  PLUS 
-  ASG 
-</Assignment_to__simple_variable_k>
-<while>
-L16:
-<condition>
-<component_of_array_t>
-; --- Variable / parameter "k"
-  SRF  0  8
-  DRF 
-; --- Initial ref address of array "t"
-  SRF  0  3
-  DRF 
-  PLUS 
-  DRF 
-</component_of_array_t>
-; --- Variable / parameter "p"
-  SRF  0  7
-  DRF 
-  LTE 
-; --- Variable / parameter "k"
-  SRF  0  8
-  DRF 
-; --- Variable / parameter "der"
-  SRF  0  5
-  DRF 
-  LT 
-  AND 
-</condition>
-  JMF L17
-<while_instruction_block>
-<Assignment_to__simple_variable_k>
-; --- Address of variable / parameter "k"
-  SRF  0  8
-; --- Variable / parameter "k"
-  SRF  0  8
-  DRF 
-  STC  1
-  PLUS 
-  ASG 
-</Assignment_to__simple_variable_k>
-</while_instruction_block>
   JMP L16
-L17:
-</while>
-<Assignment_to__simple_variable_me>
-; --- Address of variable / parameter "me"
-  SRF  0  6
-  DRF 
-; --- Variable / parameter "me"
-  SRF  0  6
-  DRF 
-  DRF 
-  STC  1
-  SBT 
-  ASG 
-</Assignment_to__simple_variable_me>
-<while>
-L18:
-<condition>
-<component_of_array_t>
-; --- Variable / parameter "me"
-  SRF  0  6
-  DRF 
-  DRF 
-; --- Initial ref address of array "t"
-  SRF  0  3
-  DRF 
-  PLUS 
-  DRF 
-</component_of_array_t>
-; --- Variable / parameter "p"
+<variable_declaration>
+; -- Simple variable "p", type INT, level 1, address [7]
+; -- Simple variable "k", type INT, level 1, address [8]
+</variable_declaration>
+L16:
+<instruction_block>
+<Asignacion_a_variable_simple_p>
+; -- Address of variable / parameter "p"
   SRF  0  7
-  DRF 
-  GT 
-</condition>
-  JMF L19
-<while_instruction_block>
-<Assignment_to__simple_variable_me>
-; --- Address of variable / parameter "me"
-  SRF  0  6
-  DRF 
-; --- Variable / parameter "me"
-  SRF  0  6
-  DRF 
-  DRF 
-  STC  1
-  SBT 
-  ASG 
-</Assignment_to__simple_variable_me>
-</while_instruction_block>
-  JMP L18
-L19:
-</while>
-<while>
-L20:
-<condition>
-; --- Variable / parameter "k"
-  SRF  0  8
-  DRF 
-; --- Variable / parameter "me"
-  SRF  0  6
-  DRF 
-  DRF 
-  LT 
-</condition>
-  JMF L21
-<while_instruction_block>
-<procedure_call_intercambiar>
-<argument_1>
-<component_of_array_t>
-; --- Array component "t", passed as argument to ref parameter "i".
-; --- Variable / parameter "k"
-  SRF  0  8
-  DRF 
-; --- Initial ref address of array "t"
-  SRF  0  3
-  DRF 
-  PLUS 
-</component_of_array_t>
-</argument_1>
-<argument_2>
-<component_of_array_t>
-; --- Array component "t", passed as argument to ref parameter "j".
-; --- Variable / parameter "me"
-  SRF  0  6
-  DRF 
-  DRF 
-; --- Initial ref address of array "t"
-  SRF  0  3
-  DRF 
-  PLUS 
-</component_of_array_t>
-</argument_2>
-  OSF  9  1 L9
-</procedure_call_intercambiar>
-<Assignment_to__simple_variable_k>
-; --- Address of variable / parameter "k"
-  SRF  0  8
-; --- Variable / parameter "k"
-  SRF  0  8
-  DRF 
-  STC  1
-  PLUS 
-  ASG 
-</Assignment_to__simple_variable_k>
-<while>
-L22:
-<condition>
-<component_of_array_t>
-; --- Variable / parameter "k"
-  SRF  0  8
-  DRF 
-; --- Initial ref address of array "t"
-  SRF  0  3
-  DRF 
-  PLUS 
-  DRF 
-</component_of_array_t>
-; --- Variable / parameter "p"
-  SRF  0  7
-  DRF 
-  LTE 
-</condition>
-  JMF L23
-<while_instruction_block>
-<Assignment_to__simple_variable_k>
-; --- Address of variable / parameter "k"
-  SRF  0  8
-; --- Variable / parameter "k"
-  SRF  0  8
-  DRF 
-  STC  1
-  PLUS 
-  ASG 
-</Assignment_to__simple_variable_k>
-</while_instruction_block>
-  JMP L22
-L23:
-</while>
-<Assignment_to__simple_variable_me>
-; --- Address of variable / parameter "me"
-  SRF  0  6
-  DRF 
-; --- Variable / parameter "me"
-  SRF  0  6
-  DRF 
-  DRF 
-  STC  1
-  SBT 
-  ASG 
-</Assignment_to__simple_variable_me>
-<while>
-L24:
-<condition>
-<component_of_array_t>
-; --- Variable / parameter "me"
-  SRF  0  6
-  DRF 
-  DRF 
-; --- Initial ref address of array "t"
-  SRF  0  3
-  DRF 
-  PLUS 
-  DRF 
-</component_of_array_t>
-; --- Variable / parameter "p"
-  SRF  0  7
-  DRF 
-  GT 
-</condition>
-  JMF L25
-<while_instruction_block>
-<Assignment_to__simple_variable_me>
-; --- Address of variable / parameter "me"
-  SRF  0  6
-  DRF 
-; --- Variable / parameter "me"
-  SRF  0  6
-  DRF 
-  DRF 
-  STC  1
-  SBT 
-  ASG 
-</Assignment_to__simple_variable_me>
-</while_instruction_block>
-  JMP L24
-L25:
-</while>
-</while_instruction_block>
-  JMP L20
-L21:
-</while>
-<procedure_call_intercambiar>
-<argument_1>
-<component_of_array_t>
-; --- Array component "t", passed as argument to ref parameter "i".
-; --- Variable / parameter "izq"
+; --Variable / parameter "izq"
   SRF  0  4
-  DRF 
-; --- Initial ref address of array "t"
+  DRF
+; -- Initial address of array "t"
   SRF  0  3
-  DRF 
-  PLUS 
-</component_of_array_t>
+  DRF
+  PLUS
+  DRF
+  ASG
+</Asignacion_a_variable_simple_p>
+<Asignacion_a_variable_simple_k>
+; -- Address of variable / parameter "k"
+  SRF  0  8
+; --Variable / parameter "izq"
+  SRF  0  4
+  DRF
+  ASG
+</Asignacion_a_variable_simple_k>
+<Asignacion_a_variable_simple_me>
+; -- Address of variable / parameter "me"
+  SRF  0  6
+  DRF
+; --Variable / parameter "der"
+  SRF  0  5
+  DRF
+  STC  1
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_me>
+<Asignacion_a_variable_simple_k>
+; -- Address of variable / parameter "k"
+  SRF  0  8
+; --Variable / parameter "k"
+  SRF  0  8
+  DRF
+  STC  1
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_k>
+<while>
+L17:
+<condition>
+; --Variable / parameter "k"
+  SRF  0  8
+  DRF
+; -- Initial address of array "t"
+  SRF  0  3
+  DRF
+  PLUS
+  DRF
+; --Variable / parameter "p"
+  SRF  0  7
+  DRF
+  LTE
+; --Variable / parameter "k"
+  SRF  0  8
+  DRF
+; --Variable / parameter "der"
+  SRF  0  5
+  DRF
+  LT
+  AND
+</condition>
+  JMF L18
+<while_instruction_block>
+<Asignacion_a_variable_simple_k>
+; -- Address of variable / parameter "k"
+  SRF  0  8
+; --Variable / parameter "k"
+  SRF  0  8
+  DRF
+  STC  1
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_k>
+</while_instruction_block>
+  JMP L17
+L18:
+</while>
+<Asignacion_a_variable_simple_me>
+; -- Address of variable / parameter "me"
+  SRF  0  6
+  DRF
+; --Variable / parameter "me"
+  SRF  0  6
+  DRF
+  DRF
+  STC  1
+  SBT
+  ASG
+</Asignacion_a_variable_simple_me>
+<while>
+L19:
+<condition>
+; --Variable / parameter "me"
+  SRF  0  6
+  DRF
+  DRF
+; -- Initial address of array "t"
+  SRF  0  3
+  DRF
+  PLUS
+  DRF
+; --Variable / parameter "p"
+  SRF  0  7
+  DRF
+  GT
+</condition>
+  JMF L20
+<while_instruction_block>
+<Asignacion_a_variable_simple_me>
+; -- Address of variable / parameter "me"
+  SRF  0  6
+  DRF
+; --Variable / parameter "me"
+  SRF  0  6
+  DRF
+  DRF
+  STC  1
+  SBT
+  ASG
+</Asignacion_a_variable_simple_me>
+</while_instruction_block>
+  JMP L19
+L20:
+</while>
+<while>
+L21:
+<condition>
+; --Variable / parameter "k"
+  SRF  0  8
+  DRF
+; --Variable / parameter "me"
+  SRF  0  6
+  DRF
+  DRF
+  LT
+</condition>
+  JMF L22
+<while_instruction_block>
+<procedure_call_intercambiar>
+<argument_1>
+; --Variable / parameter "k"
+  SRF  0  8
+  DRF
+; -- Initial address of array "t"
+  SRF  0  3
+  DRF
+  PLUS
 </argument_1>
 <argument_2>
-<component_of_array_t>
-; --- Array component "t", passed as argument to ref parameter "j".
-; --- Variable / parameter "me"
+; --Variable / parameter "me"
   SRF  0  6
-  DRF 
-  DRF 
-; --- Initial ref address of array "t"
+  DRF
+  DRF
+; -- Initial address of array "t"
   SRF  0  3
-  DRF 
-  PLUS 
-</component_of_array_t>
+  DRF
+  PLUS
 </argument_2>
   OSF  9  1 L9
 </procedure_call_intercambiar>
-  CSF 
-</divide_instruction_block>
-</procedure_divide>
-<procedure_quicksort>
+<Asignacion_a_variable_simple_k>
+; -- Address of variable / parameter "k"
+  SRF  0  8
+; --Variable / parameter "k"
+  SRF  0  8
+  DRF
+  STC  1
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_k>
+<while>
+L23:
+<condition>
+; --Variable / parameter "k"
+  SRF  0  8
+  DRF
+; -- Initial address of array "t"
+  SRF  0  3
+  DRF
+  PLUS
+  DRF
+; --Variable / parameter "p"
+  SRF  0  7
+  DRF
+  LTE
+</condition>
+  JMF L24
+<while_instruction_block>
+<Asignacion_a_variable_simple_k>
+; -- Address of variable / parameter "k"
+  SRF  0  8
+; --Variable / parameter "k"
+  SRF  0  8
+  DRF
+  STC  1
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_k>
+</while_instruction_block>
+  JMP L23
+L24:
+</while>
+<Asignacion_a_variable_simple_me>
+; -- Address of variable / parameter "me"
+  SRF  0  6
+  DRF
+; --Variable / parameter "me"
+  SRF  0  6
+  DRF
+  DRF
+  STC  1
+  SBT
+  ASG
+</Asignacion_a_variable_simple_me>
+<while>
+L25:
+<condition>
+; --Variable / parameter "me"
+  SRF  0  6
+  DRF
+  DRF
+; -- Initial address of array "t"
+  SRF  0  3
+  DRF
+  PLUS
+  DRF
+; --Variable / parameter "p"
+  SRF  0  7
+  DRF
+  GT
+</condition>
+  JMF L26
+<while_instruction_block>
+<Asignacion_a_variable_simple_me>
+; -- Address of variable / parameter "me"
+  SRF  0  6
+  DRF
+; --Variable / parameter "me"
+  SRF  0  6
+  DRF
+  DRF
+  STC  1
+  SBT
+  ASG
+</Asignacion_a_variable_simple_me>
+</while_instruction_block>
+  JMP L25
 L26:
-; --- Ref array parameter "t", type 0, class 1, size 20, level 1, address [3]!
-; --- Simple parameter "izq", type 0, class 0, level 1,  address [4]!
-; --- Simple parameter "der", type 0, class 0, level 1,  address [5]!
+</while>
+</while_instruction_block>
+  JMP L21
+L22:
+</while>
+<procedure_call_intercambiar>
+<argument_1>
+; --Variable / parameter "izq"
+  SRF  0  4
+  DRF
+; -- Initial address of array "t"
+  SRF  0  3
+  DRF
+  PLUS
+</argument_1>
+<argument_2>
+; --Variable / parameter "me"
+  SRF  0  6
+  DRF
+  DRF
+; -- Initial address of array "t"
+  SRF  0  3
+  DRF
+  PLUS
+</argument_2>
+  OSF  9  1 L9
+</procedure_call_intercambiar>
+  CSF
+</instruction_block>
+</procedure>
+<procedure>
+L27:
+; -- Ref array parameter "t", type INT, class REF, size 20, level 1, address [3]
+; -- Simple parameter "izq", type PROCEDURE, level 1, address [4]
+; -- Simple parameter "der", type PROCEDURE, level 1, address [5]
 <recover_argument_3>
-; --- Recover simple val / ref variable parameter "der" (number 3).
+; -- Recover simple val / ref variable parameter "der" (number 3)
   SRF  0  5
-  ASGI 
+  ASGI
 </recover_argument_3>
 <recover_argument_2>
-; --- Recover simple val / ref variable parameter "izq" (number 2).
+; -- Recover simple val / ref variable parameter "izq" (number 2)
   SRF  0  4
-  ASGI 
+  ASGI
 </recover_argument_2>
 <recover_argument_1>
-; --- Recover array ref variable parameter "t" (number 1).
   SRF  0  3
-  ASGI 
+  ASGI
 </recover_argument_1>
-  JMP L27
+  JMP L28
 <variable_declaration>
-; --- Simple variable "me", type 0, level 1,  address [6]!
+; -- Simple variable "me", type INT, level 1, address [6]
 </variable_declaration>
-L27:
-<quicksort_instruction_block>
+L28:
+<instruction_block>
 <if-then>
 <condition>
-; --- Variable / parameter "der"
+; --Variable / parameter "der"
   SRF  0  5
-  DRF 
-; --- Variable / parameter "izq"
+  DRF
+; --Variable / parameter "izq"
   SRF  0  4
-  DRF 
-  GT 
+  DRF
+  GT
 </condition>
-  JMF L28
+  JMF L29
 <then>
 <procedure_call_mostrar>
 <argument_1>
-; --- Variable / parameter "t"
+; -- Variable / parameter "t"
   SRF  0  3
-  DRF 
+  DRF
   STC  0
-  PLUS 
-  DRF 
+  PLUS
+  DRF
   SRF  0  3
-  DRF 
+  DRF
   STC  1
-  PLUS 
-  DRF 
+  PLUS
+  DRF
   SRF  0  3
-  DRF 
+  DRF
   STC  2
-  PLUS 
-  DRF 
+  PLUS
+  DRF
   SRF  0  3
-  DRF 
+  DRF
   STC  3
-  PLUS 
-  DRF 
+  PLUS
+  DRF
   SRF  0  3
-  DRF 
+  DRF
   STC  4
-  PLUS 
-  DRF 
+  PLUS
+  DRF
   SRF  0  3
-  DRF 
+  DRF
   STC  5
-  PLUS 
-  DRF 
+  PLUS
+  DRF
   SRF  0  3
-  DRF 
+  DRF
   STC  6
-  PLUS 
-  DRF 
+  PLUS
+  DRF
   SRF  0  3
-  DRF 
+  DRF
   STC  7
-  PLUS 
-  DRF 
+  PLUS
+  DRF
   SRF  0  3
-  DRF 
+  DRF
   STC  8
-  PLUS 
-  DRF 
+  PLUS
+  DRF
   SRF  0  3
-  DRF 
+  DRF
   STC  9
-  PLUS 
-  DRF 
+  PLUS
+  DRF
   SRF  0  3
-  DRF 
+  DRF
   STC 10
-  PLUS 
-  DRF 
+  PLUS
+  DRF
   SRF  0  3
-  DRF 
+  DRF
   STC 11
-  PLUS 
-  DRF 
+  PLUS
+  DRF
   SRF  0  3
-  DRF 
+  DRF
   STC 12
-  PLUS 
-  DRF 
+  PLUS
+  DRF
   SRF  0  3
-  DRF 
+  DRF
   STC 13
-  PLUS 
-  DRF 
+  PLUS
+  DRF
   SRF  0  3
-  DRF 
+  DRF
   STC 14
-  PLUS 
-  DRF 
+  PLUS
+  DRF
   SRF  0  3
-  DRF 
+  DRF
   STC 15
-  PLUS 
-  DRF 
+  PLUS
+  DRF
   SRF  0  3
-  DRF 
+  DRF
   STC 16
-  PLUS 
-  DRF 
+  PLUS
+  DRF
   SRF  0  3
-  DRF 
+  DRF
   STC 17
-  PLUS 
-  DRF 
+  PLUS
+  DRF
   SRF  0  3
-  DRF 
+  DRF
   STC 18
-  PLUS 
-  DRF 
+  PLUS
+  DRF
   SRF  0  3
-  DRF 
+  DRF
   STC 19
-  PLUS 
-  DRF 
+  PLUS
+  DRF
 </argument_1>
   OSF  7  1 L5
 </procedure_call_mostrar>
 <if-then>
 <condition>
-; --- Variable / parameter "der"
+; --Variable / parameter "der"
   SRF  0  5
-  DRF 
-; --- Variable / parameter "izq"
+  DRF
+; --Variable / parameter "izq"
   SRF  0  4
-  DRF 
-  SBT 
+  DRF
+  SBT
   STC  1
-  EQ 
+  EQ
 </condition>
-  JMF L29
+  JMF L30
 <then>
 <procedure_call_ordenar>
 <argument_1>
-<component_of_array_t>
-; --- Array component "t", passed as argument to ref parameter "i".
-; --- Variable / parameter "izq"
+; --Variable / parameter "izq"
   SRF  0  4
-  DRF 
-; --- Initial ref address of array "t"
+  DRF
+; -- Initial address of array "t"
   SRF  0  3
-  DRF 
-  PLUS 
-</component_of_array_t>
+  DRF
+  PLUS
 </argument_1>
 <argument_2>
-<component_of_array_t>
-; --- Array component "t", passed as argument to ref parameter "j".
-; --- Variable / parameter "der"
+; --Variable / parameter "der"
   SRF  0  5
-  DRF 
-; --- Initial ref address of array "t"
+  DRF
+; -- Initial address of array "t"
   SRF  0  3
-  DRF 
-  PLUS 
-</component_of_array_t>
+  DRF
+  PLUS
 </argument_2>
   OSF  7  1 L11
 </procedure_call_ordenar>
-  JMP L30
+  JMP L31
 </then>
 <else>
-L29:
+L30:
 <procedure_call_divide>
 <argument_1>
-; --- Variable / parameter "t"
+; --Variable / parameter "t"
   SRF  0  3
-  DRF 
+  DRF
 </argument_1>
 <argument_2>
-; --- Variable / parameter "izq"
+; --Variable / parameter "izq"
   SRF  0  4
-  DRF 
+  DRF
 </argument_2>
 <argument_3>
-; --- Variable / parameter "der"
+; --Variable / parameter "der"
   SRF  0  5
-  DRF 
+  DRF
 </argument_3>
 <argument_4>
-; --- Variable / parameter "me"
+; --Variable / parameter "me"
   SRF  0  6
 </argument_4>
-  OSF  7  1 L14
+  OSF  7  1 L15
 </procedure_call_divide>
 <procedure_call_quicksort>
 <argument_1>
-; --- Variable / parameter "t"
+; --Variable / parameter "t"
   SRF  0  3
-  DRF 
+  DRF
 </argument_1>
 <argument_2>
-; --- Variable / parameter "izq"
+; --Variable / parameter "izq"
   SRF  0  4
-  DRF 
+  DRF
 </argument_2>
 <argument_3>
-; --- Variable / parameter "me"
+; --Variable / parameter "me"
   SRF  0  6
-  DRF 
+  DRF
   STC  1
-  SBT 
+  SBT
 </argument_3>
-  OSF  7  1 L26
+  OSF  7  1 L27
 </procedure_call_quicksort>
 <procedure_call_quicksort>
 <argument_1>
-; --- Variable / parameter "t"
+; --Variable / parameter "t"
   SRF  0  3
-  DRF 
+  DRF
 </argument_1>
 <argument_2>
-; --- Variable / parameter "me"
+; --Variable / parameter "me"
   SRF  0  6
-  DRF 
+  DRF
   STC  1
-  PLUS 
+  PLUS
 </argument_2>
 <argument_3>
-; --- Variable / parameter "der"
+; --Variable / parameter "der"
   SRF  0  5
-  DRF 
+  DRF
 </argument_3>
-  OSF  7  1 L26
+  OSF  7  1 L27
 </procedure_call_quicksort>
-<Assignment_to__simple_variable_iteraciones>
-; --- Address of variable / parameter "iteraciones"
+<Asignacion_a_variable_simple_iteraciones>
+; -- Address of variable / parameter "iteraciones"
   SRF  1 24
-; --- Variable / parameter "iteraciones"
+; --Variable / parameter "iteraciones"
   SRF  1 24
-  DRF 
+  DRF
   STC  1
-  PLUS 
-  ASG 
-</Assignment_to__simple_variable_iteraciones>
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_iteraciones>
 </else>
-L30:
+L31:
 </if-then>
+  JMP L32
 </then>
-L28:
+<else>
+L29:
+</else>
+L32:
 </if-then>
-  CSF 
-</quicksort_instruction_block>
-</procedure_quicksort>
+  CSF
+</instruction_block>
+</procedure>
 L0:
-<qsort_instruction_block>
+<put_line>
+; -- Put STRING
 <put>
-; --- Put STRING "Ilustración del funcionamiento del algoritmo quicksort para ordenar 20 enteros." (length 80)
-; --- Standard string writing
   STC 73
   WRT  0
   STC 108
@@ -924,9 +899,7 @@ L0:
   WRT  0
   STC 105
   WRT  0
-  STC -61
-  WRT  0
-  STC -77
+  STC 243
   WRT  0
   STC 110
   WRT  0
@@ -1067,74 +1040,71 @@ L0:
   STC 46
   WRT  0
 </put>
-<put_line>
-; --- CR/LF
+; -- CR/LF
   STC 13
   WRT  0
   STC 10
   WRT  0
 </put_line>
+<put_line>
+; -- Put STRING
 <put>
-; --- Put STRING "" (length 0)
-; --- Standard string writing
 </put>
-<put_line>
-; --- CR/LF
+; -- CR/LF
   STC 13
   WRT  0
   STC 10
   WRT  0
 </put_line>
-<Assignment_to__simple_variable_n>
-; --- Address of variable / parameter "n"
+<Asignacion_a_variable_simple_n>
+; -- Address of variable / parameter "n"
   SRF  0  3
   STC 20
-  ASG 
-</Assignment_to__simple_variable_n>
-<Assignment_to__simple_variable_iteraciones>
-; --- Address of variable / parameter "iteraciones"
+  ASG
+</Asignacion_a_variable_simple_n>
+<Asignacion_a_variable_simple_iteraciones>
+; -- Address of variable / parameter "iteraciones"
   SRF  0 24
   STC  0
-  ASG 
-</Assignment_to__simple_variable_iteraciones>
+  ASG
+</Asignacion_a_variable_simple_iteraciones>
 <procedure_call_inicializar>
 <argument_1>
-; --- Variable / parameter "t"
+; --Variable / parameter "t"
   SRF  0  4
 </argument_1>
   OSF 25  0 L1
 </procedure_call_inicializar>
 <procedure_call_quicksort>
 <argument_1>
-; --- Variable / parameter "t"
+; --Variable / parameter "t"
   SRF  0  4
 </argument_1>
 <argument_2>
   STC  0
 </argument_2>
 <argument_3>
-; --- Variable / parameter "n"
+; --Variable / parameter "n"
   SRF  0  3
-  DRF 
+  DRF
   STC  1
-  SBT 
+  SBT
 </argument_3>
-  OSF 25  0 L26
+  OSF 25  0 L27
 </procedure_call_quicksort>
-<put>
-; --- Put STRING "" (length 0)
-; --- Standard string writing
-</put>
 <put_line>
-; --- CR/LF
+; -- Put STRING
+<put>
+</put>
+; -- CR/LF
   STC 13
   WRT  0
   STC 10
   WRT  0
 </put_line>
+<put_line>
+; -- Put STRING
 <put>
-; --- Put STRING "Iteraciones: " (length 13)
-; --- Standard string writing
   STC 73
   WRT  0
   STC 116
@@ -1163,19 +1133,17 @@ L0:
   WRT  0
 </put>
 <put>
-; --- Variable / parameter "iteraciones"
+; --Variable / parameter "iteraciones"
   SRF  0 24
-  DRF 
-; --- Put INTEGER
+  DRF
+; -- Put INTEGER
   WRT  1
 </put>
-<put_line>
-; --- CR/LF
+; -- CR/LF
   STC 13
   WRT  0
   STC 10
   WRT  0
 </put_line>
-</qsort_instruction_block>
-  LVP 
+  LVP
 </qsort>

@@ -2,1350 +2,1329 @@
 <numero_pi_leibnitz>
   ENP L0
 <variable_declaration>
-; --- Simple variable "n", type 0, level 0,  address [3]!
-; --- Array variable "pi", type 0, size 101, level 0, address [4:104]!
-; --- Array variable "sumando", type 0, size 101, level 0, address [105:205]!
-; --- Array variable "resultado", type 0, size 101, level 0, address [206:306]!
-; --- Simple variable "limite_n", type 0, level 0,  address [307]!
-; --- Simple variable "digitos", type 0, level 0,  address [308]!
-; --- Simple variable "sumo", type 1, level 0,  address [309]!
+; -- Simple variable "n", type INT, level 0, address [3]
+; -- Array variable "pi", type INT, size 101, level 0, address [4:104]!
+; -- Array variable "sumando", type INT, size 101, level 0, address [105:205]!
+; -- Array variable "resultado", type INT, size 101, level 0, address [206:306]!
+; -- Simple variable "limite_n", type INT, level 0, address [307]
+; -- Simple variable "digitos", type INT, level 0, address [308]
+; -- Simple variable "sumo", type BOOL, level 0, address [309]
 </variable_declaration>
-<procedure_iniciar>
+<procedure>
 L1:
-; --- Ref array parameter "s", type 0, class 1, size 101, level 1, address [3]!
+; -- Ref array parameter "s", type INT, class REF, size 101, level 1, address [3]
 <recover_argument_1>
-; --- Recover array ref variable parameter "s" (number 1).
   SRF  0  3
-  ASGI 
+  ASGI
 </recover_argument_1>
   JMP L2
 <variable_declaration>
-; --- Simple variable "i", type 0, level 1,  address [4]!
+; -- Simple variable "i", type INT, level 1, address [4]
 </variable_declaration>
 L2:
-<iniciar_instruction_block>
-<Assignment_to__simple_variable_i>
-; --- Address of variable / parameter "i"
+<instruction_block>
+<Asignacion_a_variable_simple_i>
+; -- Address of variable / parameter "i"
   SRF  0  4
   STC  0
-  ASG 
-</Assignment_to__simple_variable_i>
+  ASG
+</Asignacion_a_variable_simple_i>
 <while>
 L3:
 <condition>
-; --- Variable / parameter "i"
+; --Variable / parameter "i"
   SRF  0  4
-  DRF 
-; --- Variable / parameter "digitos"
+  DRF
+; --Variable / parameter "digitos"
   SRF  1 308
-  DRF 
-  LTE 
+  DRF
+  LTE
 </condition>
   JMF L4
 <while_instruction_block>
-<Assignment_to_component_of_array_s>
-; --- Variable / parameter "i"
+<Asignacion_a_variable_simple_s>
+; --Variable / parameter "i"
   SRF  0  4
-  DRF 
-; --- Initial address of array "s"
+  DRF
+; -- Initial address of array "s"
   SRF  0  3
-  DRF 
-  PLUS 
+  DRF
+  PLUS
   STC  0
-  ASG 
-</Assignment_to_component_of_array_s>
-<Assignment_to__simple_variable_i>
-; --- Address of variable / parameter "i"
+  ASG
+</Asignacion_a_variable_simple_s>
+<Asignacion_a_variable_simple_i>
+; -- Address of variable / parameter "i"
   SRF  0  4
-; --- Variable / parameter "i"
+; --Variable / parameter "i"
   SRF  0  4
-  DRF 
+  DRF
   STC  1
-  PLUS 
-  ASG 
-</Assignment_to__simple_variable_i>
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_i>
 </while_instruction_block>
   JMP L3
 L4:
 </while>
-  CSF 
-</iniciar_instruction_block>
-</procedure_iniciar>
-<procedure_mostrar_numero>
+  CSF
+</instruction_block>
+</procedure>
+<procedure>
 L5:
-; --- Ref array parameter "s", type 0, class 1, size 101, level 1, address [3]!
+; -- Ref array parameter "s", type INT, class REF, size 101, level 1, address [3]
 <recover_argument_1>
-; --- Recover array ref variable parameter "s" (number 1).
   SRF  0  3
-  ASGI 
+  ASGI
 </recover_argument_1>
   JMP L6
 <variable_declaration>
-; --- Simple variable "i", type 0, level 1,  address [4]!
+; -- Simple variable "i", type INT, level 1, address [4]
 </variable_declaration>
 L6:
-<mostrar_numero_instruction_block>
+<instruction_block>
 <put>
-<component_of_array_s>
+<put>
   STC  0
-; --- Initial ref address of array "s"
+; -- Initial address of array "s"
   SRF  0  3
-  DRF 
-  PLUS 
-  DRF 
-</component_of_array_s>
-; --- Put INTEGER
+  DRF
+  PLUS
+  DRF
+; -- Put INTEGER
   WRT  1
 </put>
 <put>
   STC 46
-; --- Put CHARACTER
+; -- Put CHAR
   WRT  0
 </put>
-<Assignment_to__simple_variable_i>
-; --- Address of variable / parameter "i"
+</put>
+<Asignacion_a_variable_simple_i>
+; -- Address of variable / parameter "i"
   SRF  0  4
   STC  1
-  ASG 
-</Assignment_to__simple_variable_i>
+  ASG
+</Asignacion_a_variable_simple_i>
 <while>
 L7:
 <condition>
-; --- Variable / parameter "i"
+; --Variable / parameter "i"
   SRF  0  4
-  DRF 
-; --- Variable / parameter "digitos"
+  DRF
+; --Variable / parameter "digitos"
   SRF  1 308
-  DRF 
-  LTE 
+  DRF
+  LTE
 </condition>
   JMF L8
 <while_instruction_block>
 <if-then>
 <condition>
-; --- Variable / parameter "i"
+; --Variable / parameter "i"
   SRF  0  4
-  DRF 
+  DRF
   STC  1
-  SBT 
+  SBT
   STC  5
-  MOD 
+  MOD
   STC  0
-  EQ 
+  EQ
 </condition>
   JMF L9
 <then>
 <put>
-; --- Put STRING " " (length 1)
-; --- Standard string writing
+; -- Put STRING
+<put>
   STC 32
   WRT  0
 </put>
+</put>
+  JMP L10
 </then>
+<else>
 L9:
+</else>
+L10:
 </if-then>
 <put>
-<component_of_array_s>
-; --- Variable / parameter "i"
+<put>
+; --Variable / parameter "i"
   SRF  0  4
-  DRF 
-; --- Initial ref address of array "s"
+  DRF
+; -- Initial address of array "s"
   SRF  0  3
-  DRF 
-  PLUS 
-  DRF 
-</component_of_array_s>
-; --- Put INTEGER
+  DRF
+  PLUS
+  DRF
+; -- Put INTEGER
   WRT  1
 </put>
-<Assignment_to__simple_variable_i>
-; --- Address of variable / parameter "i"
+</put>
+<Asignacion_a_variable_simple_i>
+; -- Address of variable / parameter "i"
   SRF  0  4
-; --- Variable / parameter "i"
+; --Variable / parameter "i"
   SRF  0  4
-  DRF 
+  DRF
   STC  1
-  PLUS 
-  ASG 
-</Assignment_to__simple_variable_i>
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_i>
 </while_instruction_block>
   JMP L7
 L8:
 </while>
 <put>
+<put>
   STC 13
-; --- Put CHARACTER
+; -- Put CHAR
   WRT  0
 </put>
 <put>
   STC 10
-; --- Put CHARACTER
+; -- Put CHAR
   WRT  0
 </put>
-  CSF 
-</mostrar_numero_instruction_block>
-</procedure_mostrar_numero>
-<procedure_sumar>
-L10:
-; --- Ref array parameter "s", type 0, class 1, size 101, level 1, address [3]!
-; --- Val array parameter "r", type 0, class 0, size 101, level 1, address [4:104]!
+</put>
+  CSF
+</instruction_block>
+</procedure>
+<procedure>
+L11:
+; -- Ref array parameter "s", type INT, class REF, size 101, level 1, address [3]
+; -- Val array parameter "r", type INT, class VAL, size101, level 1, address [4:104]
 <recover_argument_2>
-; --- Recover array val variable parameter "r" (number 2).
+; --  Recover array val variable parameter "r" (number 2)
   SRF  0 104
-  ASGI 
+  ASGI
   SRF  0 103
-  ASGI 
+  ASGI
   SRF  0 102
-  ASGI 
+  ASGI
   SRF  0 101
-  ASGI 
+  ASGI
   SRF  0 100
-  ASGI 
+  ASGI
   SRF  0 99
-  ASGI 
+  ASGI
   SRF  0 98
-  ASGI 
+  ASGI
   SRF  0 97
-  ASGI 
+  ASGI
   SRF  0 96
-  ASGI 
+  ASGI
   SRF  0 95
-  ASGI 
+  ASGI
   SRF  0 94
-  ASGI 
+  ASGI
   SRF  0 93
-  ASGI 
+  ASGI
   SRF  0 92
-  ASGI 
+  ASGI
   SRF  0 91
-  ASGI 
+  ASGI
   SRF  0 90
-  ASGI 
+  ASGI
   SRF  0 89
-  ASGI 
+  ASGI
   SRF  0 88
-  ASGI 
+  ASGI
   SRF  0 87
-  ASGI 
+  ASGI
   SRF  0 86
-  ASGI 
+  ASGI
   SRF  0 85
-  ASGI 
+  ASGI
   SRF  0 84
-  ASGI 
+  ASGI
   SRF  0 83
-  ASGI 
+  ASGI
   SRF  0 82
-  ASGI 
+  ASGI
   SRF  0 81
-  ASGI 
+  ASGI
   SRF  0 80
-  ASGI 
+  ASGI
   SRF  0 79
-  ASGI 
+  ASGI
   SRF  0 78
-  ASGI 
+  ASGI
   SRF  0 77
-  ASGI 
+  ASGI
   SRF  0 76
-  ASGI 
+  ASGI
   SRF  0 75
-  ASGI 
+  ASGI
   SRF  0 74
-  ASGI 
+  ASGI
   SRF  0 73
-  ASGI 
+  ASGI
   SRF  0 72
-  ASGI 
+  ASGI
   SRF  0 71
-  ASGI 
+  ASGI
   SRF  0 70
-  ASGI 
+  ASGI
   SRF  0 69
-  ASGI 
+  ASGI
   SRF  0 68
-  ASGI 
+  ASGI
   SRF  0 67
-  ASGI 
+  ASGI
   SRF  0 66
-  ASGI 
+  ASGI
   SRF  0 65
-  ASGI 
+  ASGI
   SRF  0 64
-  ASGI 
+  ASGI
   SRF  0 63
-  ASGI 
+  ASGI
   SRF  0 62
-  ASGI 
+  ASGI
   SRF  0 61
-  ASGI 
+  ASGI
   SRF  0 60
-  ASGI 
+  ASGI
   SRF  0 59
-  ASGI 
+  ASGI
   SRF  0 58
-  ASGI 
+  ASGI
   SRF  0 57
-  ASGI 
+  ASGI
   SRF  0 56
-  ASGI 
+  ASGI
   SRF  0 55
-  ASGI 
+  ASGI
   SRF  0 54
-  ASGI 
+  ASGI
   SRF  0 53
-  ASGI 
+  ASGI
   SRF  0 52
-  ASGI 
+  ASGI
   SRF  0 51
-  ASGI 
+  ASGI
   SRF  0 50
-  ASGI 
+  ASGI
   SRF  0 49
-  ASGI 
+  ASGI
   SRF  0 48
-  ASGI 
+  ASGI
   SRF  0 47
-  ASGI 
+  ASGI
   SRF  0 46
-  ASGI 
+  ASGI
   SRF  0 45
-  ASGI 
+  ASGI
   SRF  0 44
-  ASGI 
+  ASGI
   SRF  0 43
-  ASGI 
+  ASGI
   SRF  0 42
-  ASGI 
+  ASGI
   SRF  0 41
-  ASGI 
+  ASGI
   SRF  0 40
-  ASGI 
+  ASGI
   SRF  0 39
-  ASGI 
+  ASGI
   SRF  0 38
-  ASGI 
+  ASGI
   SRF  0 37
-  ASGI 
+  ASGI
   SRF  0 36
-  ASGI 
+  ASGI
   SRF  0 35
-  ASGI 
+  ASGI
   SRF  0 34
-  ASGI 
+  ASGI
   SRF  0 33
-  ASGI 
+  ASGI
   SRF  0 32
-  ASGI 
+  ASGI
   SRF  0 31
-  ASGI 
+  ASGI
   SRF  0 30
-  ASGI 
+  ASGI
   SRF  0 29
-  ASGI 
+  ASGI
   SRF  0 28
-  ASGI 
+  ASGI
   SRF  0 27
-  ASGI 
+  ASGI
   SRF  0 26
-  ASGI 
+  ASGI
   SRF  0 25
-  ASGI 
+  ASGI
   SRF  0 24
-  ASGI 
+  ASGI
   SRF  0 23
-  ASGI 
+  ASGI
   SRF  0 22
-  ASGI 
+  ASGI
   SRF  0 21
-  ASGI 
+  ASGI
   SRF  0 20
-  ASGI 
+  ASGI
   SRF  0 19
-  ASGI 
+  ASGI
   SRF  0 18
-  ASGI 
+  ASGI
   SRF  0 17
-  ASGI 
+  ASGI
   SRF  0 16
-  ASGI 
+  ASGI
   SRF  0 15
-  ASGI 
+  ASGI
   SRF  0 14
-  ASGI 
+  ASGI
   SRF  0 13
-  ASGI 
+  ASGI
   SRF  0 12
-  ASGI 
+  ASGI
   SRF  0 11
-  ASGI 
+  ASGI
   SRF  0 10
-  ASGI 
+  ASGI
   SRF  0  9
-  ASGI 
+  ASGI
   SRF  0  8
-  ASGI 
+  ASGI
   SRF  0  7
-  ASGI 
+  ASGI
   SRF  0  6
-  ASGI 
+  ASGI
   SRF  0  5
-  ASGI 
+  ASGI
   SRF  0  4
-  ASGI 
+  ASGI
 </recover_argument_2>
 <recover_argument_1>
-; --- Recover array ref variable parameter "s" (number 1).
   SRF  0  3
-  ASGI 
+  ASGI
 </recover_argument_1>
-  JMP L11
+  JMP L12
 <variable_declaration>
-; --- Simple variable "i", type 0, level 1,  address [105]!
-; --- Simple variable "n", type 0, level 1,  address [106]!
+; -- Simple variable "i", type INT, level 1, address [105]
+; -- Simple variable "n", type INT, level 1, address [106]
 </variable_declaration>
-L11:
-<sumar_instruction_block>
-<Assignment_to__simple_variable_i>
-; --- Address of variable / parameter "i"
-  SRF  0 105
-; --- Variable / parameter "digitos"
-  SRF  1 308
-  DRF 
-  ASG 
-</Assignment_to__simple_variable_i>
-<while>
 L12:
-<condition>
-; --- Variable / parameter "i"
+<instruction_block>
+<Asignacion_a_variable_simple_i>
+; -- Address of variable / parameter "i"
   SRF  0 105
-  DRF 
+; --Variable / parameter "digitos"
+  SRF  1 308
+  DRF
+  ASG
+</Asignacion_a_variable_simple_i>
+<while>
+L13:
+<condition>
+; --Variable / parameter "i"
+  SRF  0 105
+  DRF
   STC  0
-  GTE 
-</condition>
-  JMF L13
-<while_instruction_block>
-<Assignment_to__simple_variable_n>
-; --- Address of variable / parameter "n"
-  SRF  0 106
-<component_of_array_s>
-; --- Variable / parameter "i"
-  SRF  0 105
-  DRF 
-; --- Initial ref address of array "s"
-  SRF  0  3
-  DRF 
-  PLUS 
-  DRF 
-</component_of_array_s>
-<component_of_array_r>
-; --- Variable / parameter "i"
-  SRF  0 105
-  DRF 
-; --- Initial address of array "r"
-  SRF  0  4
-  PLUS 
-  DRF 
-</component_of_array_r>
-  PLUS 
-  ASG 
-</Assignment_to__simple_variable_n>
-<if-then>
-<condition>
-; --- Variable / parameter "n"
-  SRF  0 106
-  DRF 
-  STC  9
-  GT 
+  GTE
 </condition>
   JMF L14
-<then>
-<Assignment_to_component_of_array_s>
-; --- Variable / parameter "i"
-  SRF  0 105
-  DRF 
-; --- Initial address of array "s"
-  SRF  0  3
-  DRF 
-  PLUS 
-; --- Variable / parameter "n"
+<while_instruction_block>
+<Asignacion_a_variable_simple_n>
+; -- Address of variable / parameter "n"
   SRF  0 106
-  DRF 
-  STC 10
-  MOD 
-  ASG 
-</Assignment_to_component_of_array_s>
+; --Variable / parameter "i"
+  SRF  0 105
+  DRF
+; -- Initial address of array "s"
+  SRF  0  3
+  DRF
+  PLUS
+  DRF
+; --Variable / parameter "i"
+  SRF  0 105
+  DRF
+; -- Initial address of array "r"
+  SRF  0  4
+  PLUS
+  DRF
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_n>
 <if-then>
 <condition>
-; --- Variable / parameter "i"
-  SRF  0 105
-  DRF 
-  STC  0
-  GT 
+; --Variable / parameter "n"
+  SRF  0 106
+  DRF
+  STC  9
+  GT
 </condition>
   JMF L15
 <then>
-<Assignment_to_component_of_array_s>
-; --- Variable / parameter "i"
+<Asignacion_a_variable_simple_s>
+; --Variable / parameter "i"
   SRF  0 105
-  DRF 
-  STC  1
-  SBT 
-; --- Initial address of array "s"
+  DRF
+; -- Initial address of array "s"
   SRF  0  3
-  DRF 
-  PLUS 
-<component_of_array_s>
-; --- Variable / parameter "i"
-  SRF  0 105
-  DRF 
-  STC  1
-  SBT 
-; --- Initial ref address of array "s"
-  SRF  0  3
-  DRF 
-  PLUS 
-  DRF 
-</component_of_array_s>
-; --- Variable / parameter "n"
+  DRF
+  PLUS
+; --Variable / parameter "n"
   SRF  0 106
-  DRF 
+  DRF
   STC 10
-  DIV 
-  PLUS 
-  ASG 
-</Assignment_to_component_of_array_s>
-</then>
-L15:
-</if-then>
-  JMP L16
+  MOD
+  ASG
+</Asignacion_a_variable_simple_s>
+<if-then>
+<condition>
+; --Variable / parameter "i"
+  SRF  0 105
+  DRF
+  STC  0
+  GT
+</condition>
+  JMF L16
+<then>
+<Asignacion_a_variable_simple_s>
+; --Variable / parameter "i"
+  SRF  0 105
+  DRF
+  STC  1
+  SBT
+; -- Initial address of array "s"
+  SRF  0  3
+  DRF
+  PLUS
+; --Variable / parameter "i"
+  SRF  0 105
+  DRF
+  STC  1
+  SBT
+; -- Initial address of array "s"
+  SRF  0  3
+  DRF
+  PLUS
+  DRF
+; --Variable / parameter "n"
+  SRF  0 106
+  DRF
+  STC 10
+  DIV
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_s>
+  JMP L17
 </then>
 <else>
-L14:
-<Assignment_to_component_of_array_s>
-; --- Variable / parameter "i"
-  SRF  0 105
-  DRF 
-; --- Initial address of array "s"
-  SRF  0  3
-  DRF 
-  PLUS 
-; --- Variable / parameter "n"
-  SRF  0 106
-  DRF 
-  ASG 
-</Assignment_to_component_of_array_s>
-</else>
 L16:
-</if-then>
-<Assignment_to__simple_variable_i>
-; --- Address of variable / parameter "i"
-  SRF  0 105
-; --- Variable / parameter "i"
-  SRF  0 105
-  DRF 
-  STC  1
-  SBT 
-  ASG 
-</Assignment_to__simple_variable_i>
-</while_instruction_block>
-  JMP L12
-L13:
-</while>
-  CSF 
-</sumar_instruction_block>
-</procedure_sumar>
-<procedure_restar>
+</else>
 L17:
-; --- Ref array parameter "s", type 0, class 1, size 101, level 1, address [3]!
-; --- Val array parameter "r", type 0, class 0, size 101, level 1, address [4:104]!
+</if-then>
+  JMP L18
+</then>
+<else>
+L15:
+<Asignacion_a_variable_simple_s>
+; --Variable / parameter "i"
+  SRF  0 105
+  DRF
+; -- Initial address of array "s"
+  SRF  0  3
+  DRF
+  PLUS
+; --Variable / parameter "n"
+  SRF  0 106
+  DRF
+  ASG
+</Asignacion_a_variable_simple_s>
+</else>
+L18:
+</if-then>
+<Asignacion_a_variable_simple_i>
+; -- Address of variable / parameter "i"
+  SRF  0 105
+; --Variable / parameter "i"
+  SRF  0 105
+  DRF
+  STC  1
+  SBT
+  ASG
+</Asignacion_a_variable_simple_i>
+</while_instruction_block>
+  JMP L13
+L14:
+</while>
+  CSF
+</instruction_block>
+</procedure>
+<procedure>
+L19:
+; -- Ref array parameter "s", type INT, class REF, size 101, level 1, address [3]
+; -- Val array parameter "r", type INT, class VAL, size101, level 1, address [4:104]
 <recover_argument_2>
-; --- Recover array val variable parameter "r" (number 2).
+; --  Recover array val variable parameter "r" (number 2)
   SRF  0 104
-  ASGI 
+  ASGI
   SRF  0 103
-  ASGI 
+  ASGI
   SRF  0 102
-  ASGI 
+  ASGI
   SRF  0 101
-  ASGI 
+  ASGI
   SRF  0 100
-  ASGI 
+  ASGI
   SRF  0 99
-  ASGI 
+  ASGI
   SRF  0 98
-  ASGI 
+  ASGI
   SRF  0 97
-  ASGI 
+  ASGI
   SRF  0 96
-  ASGI 
+  ASGI
   SRF  0 95
-  ASGI 
+  ASGI
   SRF  0 94
-  ASGI 
+  ASGI
   SRF  0 93
-  ASGI 
+  ASGI
   SRF  0 92
-  ASGI 
+  ASGI
   SRF  0 91
-  ASGI 
+  ASGI
   SRF  0 90
-  ASGI 
+  ASGI
   SRF  0 89
-  ASGI 
+  ASGI
   SRF  0 88
-  ASGI 
+  ASGI
   SRF  0 87
-  ASGI 
+  ASGI
   SRF  0 86
-  ASGI 
+  ASGI
   SRF  0 85
-  ASGI 
+  ASGI
   SRF  0 84
-  ASGI 
+  ASGI
   SRF  0 83
-  ASGI 
+  ASGI
   SRF  0 82
-  ASGI 
+  ASGI
   SRF  0 81
-  ASGI 
+  ASGI
   SRF  0 80
-  ASGI 
+  ASGI
   SRF  0 79
-  ASGI 
+  ASGI
   SRF  0 78
-  ASGI 
+  ASGI
   SRF  0 77
-  ASGI 
+  ASGI
   SRF  0 76
-  ASGI 
+  ASGI
   SRF  0 75
-  ASGI 
+  ASGI
   SRF  0 74
-  ASGI 
+  ASGI
   SRF  0 73
-  ASGI 
+  ASGI
   SRF  0 72
-  ASGI 
+  ASGI
   SRF  0 71
-  ASGI 
+  ASGI
   SRF  0 70
-  ASGI 
+  ASGI
   SRF  0 69
-  ASGI 
+  ASGI
   SRF  0 68
-  ASGI 
+  ASGI
   SRF  0 67
-  ASGI 
+  ASGI
   SRF  0 66
-  ASGI 
+  ASGI
   SRF  0 65
-  ASGI 
+  ASGI
   SRF  0 64
-  ASGI 
+  ASGI
   SRF  0 63
-  ASGI 
+  ASGI
   SRF  0 62
-  ASGI 
+  ASGI
   SRF  0 61
-  ASGI 
+  ASGI
   SRF  0 60
-  ASGI 
+  ASGI
   SRF  0 59
-  ASGI 
+  ASGI
   SRF  0 58
-  ASGI 
+  ASGI
   SRF  0 57
-  ASGI 
+  ASGI
   SRF  0 56
-  ASGI 
+  ASGI
   SRF  0 55
-  ASGI 
+  ASGI
   SRF  0 54
-  ASGI 
+  ASGI
   SRF  0 53
-  ASGI 
+  ASGI
   SRF  0 52
-  ASGI 
+  ASGI
   SRF  0 51
-  ASGI 
+  ASGI
   SRF  0 50
-  ASGI 
+  ASGI
   SRF  0 49
-  ASGI 
+  ASGI
   SRF  0 48
-  ASGI 
+  ASGI
   SRF  0 47
-  ASGI 
+  ASGI
   SRF  0 46
-  ASGI 
+  ASGI
   SRF  0 45
-  ASGI 
+  ASGI
   SRF  0 44
-  ASGI 
+  ASGI
   SRF  0 43
-  ASGI 
+  ASGI
   SRF  0 42
-  ASGI 
+  ASGI
   SRF  0 41
-  ASGI 
+  ASGI
   SRF  0 40
-  ASGI 
+  ASGI
   SRF  0 39
-  ASGI 
+  ASGI
   SRF  0 38
-  ASGI 
+  ASGI
   SRF  0 37
-  ASGI 
+  ASGI
   SRF  0 36
-  ASGI 
+  ASGI
   SRF  0 35
-  ASGI 
+  ASGI
   SRF  0 34
-  ASGI 
+  ASGI
   SRF  0 33
-  ASGI 
+  ASGI
   SRF  0 32
-  ASGI 
+  ASGI
   SRF  0 31
-  ASGI 
+  ASGI
   SRF  0 30
-  ASGI 
+  ASGI
   SRF  0 29
-  ASGI 
+  ASGI
   SRF  0 28
-  ASGI 
+  ASGI
   SRF  0 27
-  ASGI 
+  ASGI
   SRF  0 26
-  ASGI 
+  ASGI
   SRF  0 25
-  ASGI 
+  ASGI
   SRF  0 24
-  ASGI 
+  ASGI
   SRF  0 23
-  ASGI 
+  ASGI
   SRF  0 22
-  ASGI 
+  ASGI
   SRF  0 21
-  ASGI 
+  ASGI
   SRF  0 20
-  ASGI 
+  ASGI
   SRF  0 19
-  ASGI 
+  ASGI
   SRF  0 18
-  ASGI 
+  ASGI
   SRF  0 17
-  ASGI 
+  ASGI
   SRF  0 16
-  ASGI 
+  ASGI
   SRF  0 15
-  ASGI 
+  ASGI
   SRF  0 14
-  ASGI 
+  ASGI
   SRF  0 13
-  ASGI 
+  ASGI
   SRF  0 12
-  ASGI 
+  ASGI
   SRF  0 11
-  ASGI 
+  ASGI
   SRF  0 10
-  ASGI 
+  ASGI
   SRF  0  9
-  ASGI 
+  ASGI
   SRF  0  8
-  ASGI 
+  ASGI
   SRF  0  7
-  ASGI 
+  ASGI
   SRF  0  6
-  ASGI 
+  ASGI
   SRF  0  5
-  ASGI 
+  ASGI
   SRF  0  4
-  ASGI 
+  ASGI
 </recover_argument_2>
 <recover_argument_1>
-; --- Recover array ref variable parameter "s" (number 1).
   SRF  0  3
-  ASGI 
+  ASGI
 </recover_argument_1>
-  JMP L18
+  JMP L20
 <variable_declaration>
-; --- Simple variable "i", type 0, level 1,  address [105]!
-; --- Simple variable "n", type 0, level 1,  address [106]!
-; --- Simple variable "llevo_uno", type 1, level 1,  address [107]!
+; -- Simple variable "i", type INT, level 1, address [105]
+; -- Simple variable "n", type INT, level 1, address [106]
+; -- Simple variable "llevo_uno", type BOOL, level 1, address [107]
 </variable_declaration>
-L18:
-<restar_instruction_block>
-<Assignment_to__simple_variable_i>
-; --- Address of variable / parameter "i"
+L20:
+<instruction_block>
+<Asignacion_a_variable_simple_i>
+; -- Address of variable / parameter "i"
   SRF  0 105
-; --- Variable / parameter "digitos"
+; --Variable / parameter "digitos"
   SRF  1 308
-  DRF 
-  ASG 
-</Assignment_to__simple_variable_i>
-<Assignment_to__simple_variable_llevo_uno>
-; --- Address of variable / parameter "llevo_uno"
+  DRF
+  ASG
+</Asignacion_a_variable_simple_i>
+<Asignacion_a_variable_simple_llevo_uno>
+; -- Address of variable / parameter "llevo_uno"
   SRF  0 107
   STC  0
-  ASG 
-</Assignment_to__simple_variable_llevo_uno>
+  ASG
+</Asignacion_a_variable_simple_llevo_uno>
 <while>
-L19:
+L21:
 <condition>
-; --- Variable / parameter "i"
+; --Variable / parameter "i"
   SRF  0 105
-  DRF 
+  DRF
   STC  0
-  GTE 
+  GTE
 </condition>
-  JMF L20
+  JMF L22
 <while_instruction_block>
 <if-then>
 <condition>
-; --- Variable / parameter "llevo_uno"
+; --Variable / parameter "llevo_uno"
   SRF  0 107
-  DRF 
-</condition>
-  JMF L21
-<then>
-<Assignment_to__simple_variable_n>
-; --- Address of variable / parameter "n"
-  SRF  0 106
-<component_of_array_s>
-; --- Variable / parameter "i"
-  SRF  0 105
-  DRF 
-; --- Initial ref address of array "s"
-  SRF  0  3
-  DRF 
-  PLUS 
-  DRF 
-</component_of_array_s>
-  STC  1
-  SBT 
-<component_of_array_r>
-; --- Variable / parameter "i"
-  SRF  0 105
-  DRF 
-; --- Initial address of array "r"
-  SRF  0  4
-  PLUS 
-  DRF 
-</component_of_array_r>
-  SBT 
-  ASG 
-</Assignment_to__simple_variable_n>
-  JMP L22
-</then>
-<else>
-L21:
-<Assignment_to__simple_variable_n>
-; --- Address of variable / parameter "n"
-  SRF  0 106
-<component_of_array_s>
-; --- Variable / parameter "i"
-  SRF  0 105
-  DRF 
-; --- Initial ref address of array "s"
-  SRF  0  3
-  DRF 
-  PLUS 
-  DRF 
-</component_of_array_s>
-<component_of_array_r>
-; --- Variable / parameter "i"
-  SRF  0 105
-  DRF 
-; --- Initial address of array "r"
-  SRF  0  4
-  PLUS 
-  DRF 
-</component_of_array_r>
-  SBT 
-  ASG 
-</Assignment_to__simple_variable_n>
-</else>
-L22:
-</if-then>
-<if-then>
-<condition>
-; --- Variable / parameter "n"
-  SRF  0 106
-  DRF 
-  STC  0
-  LT 
+  DRF
 </condition>
   JMF L23
 <then>
-<Assignment_to_component_of_array_s>
-; --- Variable / parameter "i"
-  SRF  0 105
-  DRF 
-; --- Initial address of array "s"
-  SRF  0  3
-  DRF 
-  PLUS 
-; --- Variable / parameter "n"
+<Asignacion_a_variable_simple_n>
+; -- Address of variable / parameter "n"
   SRF  0 106
-  DRF 
-  STC 10
-  PLUS 
-  ASG 
-</Assignment_to_component_of_array_s>
-<Assignment_to__simple_variable_llevo_uno>
-; --- Address of variable / parameter "llevo_uno"
-  SRF  0 107
+; --Variable / parameter "i"
+  SRF  0 105
+  DRF
+; -- Initial address of array "s"
+  SRF  0  3
+  DRF
+  PLUS
+  DRF
   STC  1
-  ASG 
-</Assignment_to__simple_variable_llevo_uno>
+  SBT
+; --Variable / parameter "i"
+  SRF  0 105
+  DRF
+; -- Initial address of array "r"
+  SRF  0  4
+  PLUS
+  DRF
+  SBT
+  ASG
+</Asignacion_a_variable_simple_n>
   JMP L24
 </then>
 <else>
 L23:
-<Assignment_to_component_of_array_s>
-; --- Variable / parameter "i"
-  SRF  0 105
-  DRF 
-; --- Initial address of array "s"
-  SRF  0  3
-  DRF 
-  PLUS 
-; --- Variable / parameter "n"
+<Asignacion_a_variable_simple_n>
+; -- Address of variable / parameter "n"
   SRF  0 106
-  DRF 
-  ASG 
-</Assignment_to_component_of_array_s>
-<Assignment_to__simple_variable_llevo_uno>
-; --- Address of variable / parameter "llevo_uno"
-  SRF  0 107
-  STC  0
-  ASG 
-</Assignment_to__simple_variable_llevo_uno>
+; --Variable / parameter "i"
+  SRF  0 105
+  DRF
+; -- Initial address of array "s"
+  SRF  0  3
+  DRF
+  PLUS
+  DRF
+; --Variable / parameter "i"
+  SRF  0 105
+  DRF
+; -- Initial address of array "r"
+  SRF  0  4
+  PLUS
+  DRF
+  SBT
+  ASG
+</Asignacion_a_variable_simple_n>
 </else>
 L24:
 </if-then>
-<Assignment_to__simple_variable_i>
-; --- Address of variable / parameter "i"
+<if-then>
+<condition>
+; --Variable / parameter "n"
+  SRF  0 106
+  DRF
+  STC  0
+  LT
+</condition>
+  JMF L25
+<then>
+<Asignacion_a_variable_simple_s>
+; --Variable / parameter "i"
   SRF  0 105
-; --- Variable / parameter "i"
-  SRF  0 105
-  DRF 
+  DRF
+; -- Initial address of array "s"
+  SRF  0  3
+  DRF
+  PLUS
+; --Variable / parameter "n"
+  SRF  0 106
+  DRF
+  STC 10
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_s>
+<Asignacion_a_variable_simple_llevo_uno>
+; -- Address of variable / parameter "llevo_uno"
+  SRF  0 107
   STC  1
-  SBT 
-  ASG 
-</Assignment_to__simple_variable_i>
-</while_instruction_block>
-  JMP L19
-L20:
-</while>
-  CSF 
-</restar_instruction_block>
-</procedure_restar>
-<procedure_dividir>
+  ASG
+</Asignacion_a_variable_simple_llevo_uno>
+  JMP L26
+</then>
+<else>
 L25:
-; --- Val array parameter "s", type 0, class 0, size 101, level 1, address [3:103]!
-; --- Ref array parameter "r", type 0, class 1, size 101, level 1, address [104]!
-; --- Simple parameter "n", type 0, class 1, level 1,  address [105]!
-<recover_argument_3>
-; --- Recover simple val / ref variable parameter "n" (number 3).
+<Asignacion_a_variable_simple_s>
+; --Variable / parameter "i"
   SRF  0 105
-  ASGI 
+  DRF
+; -- Initial address of array "s"
+  SRF  0  3
+  DRF
+  PLUS
+; --Variable / parameter "n"
+  SRF  0 106
+  DRF
+  ASG
+</Asignacion_a_variable_simple_s>
+<Asignacion_a_variable_simple_llevo_uno>
+; -- Address of variable / parameter "llevo_uno"
+  SRF  0 107
+  STC  0
+  ASG
+</Asignacion_a_variable_simple_llevo_uno>
+</else>
+L26:
+</if-then>
+<Asignacion_a_variable_simple_i>
+; -- Address of variable / parameter "i"
+  SRF  0 105
+; --Variable / parameter "i"
+  SRF  0 105
+  DRF
+  STC  1
+  SBT
+  ASG
+</Asignacion_a_variable_simple_i>
+</while_instruction_block>
+  JMP L21
+L22:
+</while>
+  CSF
+</instruction_block>
+</procedure>
+<procedure>
+L27:
+; -- Val array parameter "s", type INT, class VAL, size101, level 1, address [3:103]
+; -- Ref array parameter "r", type INT, class REF, size 101, level 1, address [104]
+; -- Simple parameter "n", type PROCEDURE, level 1, address [105]
+<recover_argument_3>
+; -- Recover simple val / ref variable parameter "n" (number 3)
+  SRF  0 105
+  ASGI
 </recover_argument_3>
 <recover_argument_2>
-; --- Recover array ref variable parameter "r" (number 2).
   SRF  0 104
-  ASGI 
+  ASGI
 </recover_argument_2>
 <recover_argument_1>
-; --- Recover array val variable parameter "s" (number 1).
+; --  Recover array val variable parameter "s" (number 1)
   SRF  0 103
-  ASGI 
+  ASGI
   SRF  0 102
-  ASGI 
+  ASGI
   SRF  0 101
-  ASGI 
+  ASGI
   SRF  0 100
-  ASGI 
+  ASGI
   SRF  0 99
-  ASGI 
+  ASGI
   SRF  0 98
-  ASGI 
+  ASGI
   SRF  0 97
-  ASGI 
+  ASGI
   SRF  0 96
-  ASGI 
+  ASGI
   SRF  0 95
-  ASGI 
+  ASGI
   SRF  0 94
-  ASGI 
+  ASGI
   SRF  0 93
-  ASGI 
+  ASGI
   SRF  0 92
-  ASGI 
+  ASGI
   SRF  0 91
-  ASGI 
+  ASGI
   SRF  0 90
-  ASGI 
+  ASGI
   SRF  0 89
-  ASGI 
+  ASGI
   SRF  0 88
-  ASGI 
+  ASGI
   SRF  0 87
-  ASGI 
+  ASGI
   SRF  0 86
-  ASGI 
+  ASGI
   SRF  0 85
-  ASGI 
+  ASGI
   SRF  0 84
-  ASGI 
+  ASGI
   SRF  0 83
-  ASGI 
+  ASGI
   SRF  0 82
-  ASGI 
+  ASGI
   SRF  0 81
-  ASGI 
+  ASGI
   SRF  0 80
-  ASGI 
+  ASGI
   SRF  0 79
-  ASGI 
+  ASGI
   SRF  0 78
-  ASGI 
+  ASGI
   SRF  0 77
-  ASGI 
+  ASGI
   SRF  0 76
-  ASGI 
+  ASGI
   SRF  0 75
-  ASGI 
+  ASGI
   SRF  0 74
-  ASGI 
+  ASGI
   SRF  0 73
-  ASGI 
+  ASGI
   SRF  0 72
-  ASGI 
+  ASGI
   SRF  0 71
-  ASGI 
+  ASGI
   SRF  0 70
-  ASGI 
+  ASGI
   SRF  0 69
-  ASGI 
+  ASGI
   SRF  0 68
-  ASGI 
+  ASGI
   SRF  0 67
-  ASGI 
+  ASGI
   SRF  0 66
-  ASGI 
+  ASGI
   SRF  0 65
-  ASGI 
+  ASGI
   SRF  0 64
-  ASGI 
+  ASGI
   SRF  0 63
-  ASGI 
+  ASGI
   SRF  0 62
-  ASGI 
+  ASGI
   SRF  0 61
-  ASGI 
+  ASGI
   SRF  0 60
-  ASGI 
+  ASGI
   SRF  0 59
-  ASGI 
+  ASGI
   SRF  0 58
-  ASGI 
+  ASGI
   SRF  0 57
-  ASGI 
+  ASGI
   SRF  0 56
-  ASGI 
+  ASGI
   SRF  0 55
-  ASGI 
+  ASGI
   SRF  0 54
-  ASGI 
+  ASGI
   SRF  0 53
-  ASGI 
+  ASGI
   SRF  0 52
-  ASGI 
+  ASGI
   SRF  0 51
-  ASGI 
+  ASGI
   SRF  0 50
-  ASGI 
+  ASGI
   SRF  0 49
-  ASGI 
+  ASGI
   SRF  0 48
-  ASGI 
+  ASGI
   SRF  0 47
-  ASGI 
+  ASGI
   SRF  0 46
-  ASGI 
+  ASGI
   SRF  0 45
-  ASGI 
+  ASGI
   SRF  0 44
-  ASGI 
+  ASGI
   SRF  0 43
-  ASGI 
+  ASGI
   SRF  0 42
-  ASGI 
+  ASGI
   SRF  0 41
-  ASGI 
+  ASGI
   SRF  0 40
-  ASGI 
+  ASGI
   SRF  0 39
-  ASGI 
+  ASGI
   SRF  0 38
-  ASGI 
+  ASGI
   SRF  0 37
-  ASGI 
+  ASGI
   SRF  0 36
-  ASGI 
+  ASGI
   SRF  0 35
-  ASGI 
+  ASGI
   SRF  0 34
-  ASGI 
+  ASGI
   SRF  0 33
-  ASGI 
+  ASGI
   SRF  0 32
-  ASGI 
+  ASGI
   SRF  0 31
-  ASGI 
+  ASGI
   SRF  0 30
-  ASGI 
+  ASGI
   SRF  0 29
-  ASGI 
+  ASGI
   SRF  0 28
-  ASGI 
+  ASGI
   SRF  0 27
-  ASGI 
+  ASGI
   SRF  0 26
-  ASGI 
+  ASGI
   SRF  0 25
-  ASGI 
+  ASGI
   SRF  0 24
-  ASGI 
+  ASGI
   SRF  0 23
-  ASGI 
+  ASGI
   SRF  0 22
-  ASGI 
+  ASGI
   SRF  0 21
-  ASGI 
+  ASGI
   SRF  0 20
-  ASGI 
+  ASGI
   SRF  0 19
-  ASGI 
+  ASGI
   SRF  0 18
-  ASGI 
+  ASGI
   SRF  0 17
-  ASGI 
+  ASGI
   SRF  0 16
-  ASGI 
+  ASGI
   SRF  0 15
-  ASGI 
+  ASGI
   SRF  0 14
-  ASGI 
+  ASGI
   SRF  0 13
-  ASGI 
+  ASGI
   SRF  0 12
-  ASGI 
+  ASGI
   SRF  0 11
-  ASGI 
+  ASGI
   SRF  0 10
-  ASGI 
+  ASGI
   SRF  0  9
-  ASGI 
+  ASGI
   SRF  0  8
-  ASGI 
+  ASGI
   SRF  0  7
-  ASGI 
+  ASGI
   SRF  0  6
-  ASGI 
+  ASGI
   SRF  0  5
-  ASGI 
+  ASGI
   SRF  0  4
-  ASGI 
+  ASGI
   SRF  0  3
-  ASGI 
+  ASGI
 </recover_argument_1>
-  JMP L26
+  JMP L28
 <variable_declaration>
-; --- Simple variable "i", type 0, level 1,  address [106]!
+; -- Simple variable "i", type INT, level 1, address [106]
 </variable_declaration>
-L26:
-<dividir_instruction_block>
-<Assignment_to__simple_variable_i>
-; --- Address of variable / parameter "i"
+L28:
+<instruction_block>
+<Asignacion_a_variable_simple_i>
+; -- Address of variable / parameter "i"
   SRF  0 106
   STC  0
-  ASG 
-</Assignment_to__simple_variable_i>
+  ASG
+</Asignacion_a_variable_simple_i>
 <while>
-L27:
+L29:
 <condition>
-; --- Variable / parameter "i"
+; --Variable / parameter "i"
   SRF  0 106
-  DRF 
-; --- Variable / parameter "digitos"
+  DRF
+; --Variable / parameter "digitos"
   SRF  1 308
-  DRF 
-  LT 
+  DRF
+  LT
 </condition>
-  JMF L28
+  JMF L30
 <while_instruction_block>
 <if-then>
 <condition>
-<component_of_array_s>
-; --- Variable / parameter "i"
+; --Variable / parameter "i"
   SRF  0 106
-  DRF 
-; --- Initial address of array "s"
+  DRF
+; -- Initial address of array "s"
   SRF  0  3
-  PLUS 
-  DRF 
-</component_of_array_s>
-; --- Variable / parameter "n"
+  PLUS
+  DRF
+; --Variable / parameter "n"
   SRF  0 105
-  DRF 
-  DRF 
-  DIV 
+  DRF
+  DRF
+  DIV
   STC  0
-  GT 
+  GT
 </condition>
-  JMF L29
+  JMF L31
 <then>
-<Assignment_to_component_of_array_r>
-; --- Variable / parameter "i"
+<Asignacion_a_variable_simple_r>
+; --Variable / parameter "i"
   SRF  0 106
-  DRF 
-; --- Initial address of array "r"
+  DRF
+; -- Initial address of array "r"
   SRF  0 104
-  DRF 
-  PLUS 
-<component_of_array_s>
-; --- Variable / parameter "i"
+  DRF
+  PLUS
+; --Variable / parameter "i"
   SRF  0 106
-  DRF 
-; --- Initial address of array "s"
+  DRF
+; -- Initial address of array "s"
   SRF  0  3
-  PLUS 
-  DRF 
-</component_of_array_s>
-; --- Variable / parameter "n"
+  PLUS
+  DRF
+; --Variable / parameter "n"
   SRF  0 105
-  DRF 
-  DRF 
-  DIV 
-  ASG 
-</Assignment_to_component_of_array_r>
-<Assignment_to_component_of_array_s>
-; --- Variable / parameter "i"
+  DRF
+  DRF
+  DIV
+  ASG
+</Asignacion_a_variable_simple_r>
+<Asignacion_a_variable_simple_s>
+; --Variable / parameter "i"
   SRF  0 106
-  DRF 
+  DRF
   STC  1
-  PLUS 
-; --- Initial address of array "s"
+  PLUS
+; -- Initial address of array "s"
   SRF  0  3
-  PLUS 
-<component_of_array_s>
-; --- Variable / parameter "i"
+  PLUS
+; --Variable / parameter "i"
   SRF  0 106
-  DRF 
-; --- Initial address of array "s"
+  DRF
+; -- Initial address of array "s"
   SRF  0  3
-  PLUS 
-  DRF 
-</component_of_array_s>
-; --- Variable / parameter "n"
+  PLUS
+  DRF
+; --Variable / parameter "n"
   SRF  0 105
-  DRF 
-  DRF 
-  MOD 
+  DRF
+  DRF
+  MOD
   STC 10
-  TMS 
-<component_of_array_s>
-; --- Variable / parameter "i"
+  TMS
+; --Variable / parameter "i"
   SRF  0 106
-  DRF 
+  DRF
   STC  1
-  PLUS 
-; --- Initial address of array "s"
+  PLUS
+; -- Initial address of array "s"
   SRF  0  3
-  PLUS 
-  DRF 
-</component_of_array_s>
-  PLUS 
-  ASG 
-</Assignment_to_component_of_array_s>
-  JMP L30
+  PLUS
+  DRF
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_s>
+  JMP L32
 </then>
 <else>
-L29:
-<Assignment_to_component_of_array_r>
-; --- Variable / parameter "i"
+L31:
+<Asignacion_a_variable_simple_r>
+; --Variable / parameter "i"
   SRF  0 106
-  DRF 
-; --- Initial address of array "r"
+  DRF
+; -- Initial address of array "r"
   SRF  0 104
-  DRF 
-  PLUS 
+  DRF
+  PLUS
   STC  0
-  ASG 
-</Assignment_to_component_of_array_r>
-<Assignment_to_component_of_array_s>
-; --- Variable / parameter "i"
+  ASG
+</Asignacion_a_variable_simple_r>
+<Asignacion_a_variable_simple_s>
+; --Variable / parameter "i"
   SRF  0 106
-  DRF 
+  DRF
   STC  1
-  PLUS 
-; --- Initial address of array "s"
+  PLUS
+; -- Initial address of array "s"
   SRF  0  3
-  PLUS 
-<component_of_array_s>
-; --- Variable / parameter "i"
+  PLUS
+; --Variable / parameter "i"
   SRF  0 106
-  DRF 
-; --- Initial address of array "s"
+  DRF
+; -- Initial address of array "s"
   SRF  0  3
-  PLUS 
-  DRF 
-</component_of_array_s>
+  PLUS
+  DRF
   STC 10
-  TMS 
-<component_of_array_s>
-; --- Variable / parameter "i"
+  TMS
+; --Variable / parameter "i"
   SRF  0 106
-  DRF 
+  DRF
   STC  1
-  PLUS 
-; --- Initial address of array "s"
+  PLUS
+; -- Initial address of array "s"
   SRF  0  3
-  PLUS 
-  DRF 
-</component_of_array_s>
-  PLUS 
-  ASG 
-</Assignment_to_component_of_array_s>
+  PLUS
+  DRF
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_s>
 </else>
-L30:
+L32:
 </if-then>
-<Assignment_to__simple_variable_i>
-; --- Address of variable / parameter "i"
+<Asignacion_a_variable_simple_i>
+; -- Address of variable / parameter "i"
   SRF  0 106
-; --- Variable / parameter "i"
+; --Variable / parameter "i"
   SRF  0 106
-  DRF 
+  DRF
   STC  1
-  PLUS 
-  ASG 
-</Assignment_to__simple_variable_i>
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_i>
 </while_instruction_block>
-  JMP L27
-L28:
+  JMP L29
+L30:
 </while>
-  CSF 
-</dividir_instruction_block>
-</procedure_dividir>
+  CSF
+</instruction_block>
+</procedure>
 L0:
-<numero_pi_leibnitz_instruction_block>
+<put_line>
+; -- Put STRING
 <put>
-; --- Put STRING "Aproximación del número Pi utilizando la serie infinita e = 4 - 4/3 + 4/5 - 4/7 + 4/9 ..." (length 91)
-; --- Standard string writing
   STC 65
   WRT  0
   STC 112
@@ -1366,9 +1345,7 @@ L0:
   WRT  0
   STC 105
   WRT  0
-  STC -61
-  WRT  0
-  STC -77
+  STC 243
   WRT  0
   STC 110
   WRT  0
@@ -1384,9 +1361,7 @@ L0:
   WRT  0
   STC 110
   WRT  0
-  STC -61
-  WRT  0
-  STC -70
+  STC 250
   WRT  0
   STC 109
   WRT  0
@@ -1529,19 +1504,17 @@ L0:
   STC 46
   WRT  0
 </put>
-<put_line>
-; --- CR/LF
+; -- CR/LF
   STC 13
   WRT  0
   STC 10
   WRT  0
 </put_line>
+<put_line>
+; -- Put STRING
 <put>
-; --- Put STRING "" (length 0)
-; --- Standard string writing
 </put>
-<put_line>
-; --- CR/LF
+; -- CR/LF
   STC 13
   WRT  0
   STC 10
@@ -1549,738 +1522,738 @@ L0:
 </put_line>
 <procedure_call_iniciar>
 <argument_1>
-; --- Variable / parameter "sumando"
+; --Variable / parameter "sumando"
   SRF  0 105
 </argument_1>
   OSF 310  0 L1
 </procedure_call_iniciar>
 <procedure_call_iniciar>
 <argument_1>
-; --- Variable / parameter "pi"
+; --Variable / parameter "pi"
   SRF  0  4
 </argument_1>
   OSF 310  0 L1
 </procedure_call_iniciar>
-<Assignment_to_component_of_array_sumando>
+<Asignacion_a_variable_simple_sumando>
   STC  0
-; --- Initial address of array "sumando"
+; -- Initial address of array "sumando"
   SRF  0 105
-  PLUS 
+  PLUS
   STC  4
-  ASG 
-</Assignment_to_component_of_array_sumando>
-<Assignment_to_component_of_array_pi>
+  ASG
+</Asignacion_a_variable_simple_sumando>
+<Asignacion_a_variable_simple_pi>
   STC  0
-; --- Initial address of array "pi"
+; -- Initial address of array "pi"
   SRF  0  4
-  PLUS 
+  PLUS
   STC  4
-  ASG 
-</Assignment_to_component_of_array_pi>
-<Assignment_to__simple_variable_n>
-; --- Address of variable / parameter "n"
+  ASG
+</Asignacion_a_variable_simple_pi>
+<Asignacion_a_variable_simple_n>
+; -- Address of variable / parameter "n"
   SRF  0  3
   STC  3
-  ASG 
-</Assignment_to__simple_variable_n>
-<Assignment_to__simple_variable_digitos>
-; --- Address of variable / parameter "digitos"
+  ASG
+</Asignacion_a_variable_simple_n>
+<Asignacion_a_variable_simple_digitos>
+; -- Address of variable / parameter "digitos"
   SRF  0 308
   STC 50
-  ASG 
-</Assignment_to__simple_variable_digitos>
-<Assignment_to__simple_variable_limite_n>
-; --- Address of variable / parameter "limite_n"
+  ASG
+</Asignacion_a_variable_simple_digitos>
+<Asignacion_a_variable_simple_limite_n>
+; -- Address of variable / parameter "limite_n"
   SRF  0 307
   STC 100
-  ASG 
-</Assignment_to__simple_variable_limite_n>
-<Assignment_to__simple_variable_sumo>
-; --- Address of variable / parameter "sumo"
+  ASG
+</Asignacion_a_variable_simple_limite_n>
+<Asignacion_a_variable_simple_sumo>
+; -- Address of variable / parameter "sumo"
   SRF  0 309
   STC  0
-  ASG 
-</Assignment_to__simple_variable_sumo>
+  ASG
+</Asignacion_a_variable_simple_sumo>
 <while>
-L31:
+L33:
 <condition>
-; --- Variable / parameter "n"
+; --Variable / parameter "n"
   SRF  0  3
-  DRF 
-; --- Variable / parameter "limite_n"
+  DRF
+; --Variable / parameter "limite_n"
   SRF  0 307
-  DRF 
-  LT 
+  DRF
+  LT
 </condition>
-  JMF L32
+  JMF L34
 <while_instruction_block>
 <procedure_call_dividir>
 <argument_1>
-; --- Variable / parameter "sumando"
+; -- Variable / parameter "sumando"
   SRF  0 105
-  DRF 
+  DRF
   SRF  0 106
-  DRF 
+  DRF
   SRF  0 107
-  DRF 
+  DRF
   SRF  0 108
-  DRF 
+  DRF
   SRF  0 109
-  DRF 
+  DRF
   SRF  0 110
-  DRF 
+  DRF
   SRF  0 111
-  DRF 
+  DRF
   SRF  0 112
-  DRF 
+  DRF
   SRF  0 113
-  DRF 
+  DRF
   SRF  0 114
-  DRF 
+  DRF
   SRF  0 115
-  DRF 
+  DRF
   SRF  0 116
-  DRF 
+  DRF
   SRF  0 117
-  DRF 
+  DRF
   SRF  0 118
-  DRF 
+  DRF
   SRF  0 119
-  DRF 
+  DRF
   SRF  0 120
-  DRF 
+  DRF
   SRF  0 121
-  DRF 
+  DRF
   SRF  0 122
-  DRF 
+  DRF
   SRF  0 123
-  DRF 
+  DRF
   SRF  0 124
-  DRF 
+  DRF
   SRF  0 125
-  DRF 
+  DRF
   SRF  0 126
-  DRF 
+  DRF
   SRF  0 127
-  DRF 
+  DRF
   SRF  0 128
-  DRF 
+  DRF
   SRF  0 129
-  DRF 
+  DRF
   SRF  0 130
-  DRF 
+  DRF
   SRF  0 131
-  DRF 
+  DRF
   SRF  0 132
-  DRF 
+  DRF
   SRF  0 133
-  DRF 
+  DRF
   SRF  0 134
-  DRF 
+  DRF
   SRF  0 135
-  DRF 
+  DRF
   SRF  0 136
-  DRF 
+  DRF
   SRF  0 137
-  DRF 
+  DRF
   SRF  0 138
-  DRF 
+  DRF
   SRF  0 139
-  DRF 
+  DRF
   SRF  0 140
-  DRF 
+  DRF
   SRF  0 141
-  DRF 
+  DRF
   SRF  0 142
-  DRF 
+  DRF
   SRF  0 143
-  DRF 
+  DRF
   SRF  0 144
-  DRF 
+  DRF
   SRF  0 145
-  DRF 
+  DRF
   SRF  0 146
-  DRF 
+  DRF
   SRF  0 147
-  DRF 
+  DRF
   SRF  0 148
-  DRF 
+  DRF
   SRF  0 149
-  DRF 
+  DRF
   SRF  0 150
-  DRF 
+  DRF
   SRF  0 151
-  DRF 
+  DRF
   SRF  0 152
-  DRF 
+  DRF
   SRF  0 153
-  DRF 
+  DRF
   SRF  0 154
-  DRF 
+  DRF
   SRF  0 155
-  DRF 
+  DRF
   SRF  0 156
-  DRF 
+  DRF
   SRF  0 157
-  DRF 
+  DRF
   SRF  0 158
-  DRF 
+  DRF
   SRF  0 159
-  DRF 
+  DRF
   SRF  0 160
-  DRF 
+  DRF
   SRF  0 161
-  DRF 
+  DRF
   SRF  0 162
-  DRF 
+  DRF
   SRF  0 163
-  DRF 
+  DRF
   SRF  0 164
-  DRF 
+  DRF
   SRF  0 165
-  DRF 
+  DRF
   SRF  0 166
-  DRF 
+  DRF
   SRF  0 167
-  DRF 
+  DRF
   SRF  0 168
-  DRF 
+  DRF
   SRF  0 169
-  DRF 
+  DRF
   SRF  0 170
-  DRF 
+  DRF
   SRF  0 171
-  DRF 
+  DRF
   SRF  0 172
-  DRF 
+  DRF
   SRF  0 173
-  DRF 
+  DRF
   SRF  0 174
-  DRF 
+  DRF
   SRF  0 175
-  DRF 
+  DRF
   SRF  0 176
-  DRF 
+  DRF
   SRF  0 177
-  DRF 
+  DRF
   SRF  0 178
-  DRF 
+  DRF
   SRF  0 179
-  DRF 
+  DRF
   SRF  0 180
-  DRF 
+  DRF
   SRF  0 181
-  DRF 
+  DRF
   SRF  0 182
-  DRF 
+  DRF
   SRF  0 183
-  DRF 
+  DRF
   SRF  0 184
-  DRF 
+  DRF
   SRF  0 185
-  DRF 
+  DRF
   SRF  0 186
-  DRF 
+  DRF
   SRF  0 187
-  DRF 
+  DRF
   SRF  0 188
-  DRF 
+  DRF
   SRF  0 189
-  DRF 
+  DRF
   SRF  0 190
-  DRF 
+  DRF
   SRF  0 191
-  DRF 
+  DRF
   SRF  0 192
-  DRF 
+  DRF
   SRF  0 193
-  DRF 
+  DRF
   SRF  0 194
-  DRF 
+  DRF
   SRF  0 195
-  DRF 
+  DRF
   SRF  0 196
-  DRF 
+  DRF
   SRF  0 197
-  DRF 
+  DRF
   SRF  0 198
-  DRF 
+  DRF
   SRF  0 199
-  DRF 
+  DRF
   SRF  0 200
-  DRF 
+  DRF
   SRF  0 201
-  DRF 
+  DRF
   SRF  0 202
-  DRF 
+  DRF
   SRF  0 203
-  DRF 
+  DRF
   SRF  0 204
-  DRF 
+  DRF
   SRF  0 205
-  DRF 
+  DRF
 </argument_1>
 <argument_2>
-; --- Variable / parameter "resultado"
+; --Variable / parameter "resultado"
   SRF  0 206
 </argument_2>
 <argument_3>
-; --- Variable / parameter "n"
+; --Variable / parameter "n"
   SRF  0  3
 </argument_3>
-  OSF 310  0 L25
+  OSF 310  0 L27
 </procedure_call_dividir>
 <if-then>
 <condition>
-; --- Variable / parameter "sumo"
+; --Variable / parameter "sumo"
   SRF  0 309
-  DRF 
+  DRF
 </condition>
-  JMF L33
+  JMF L35
 <then>
 <procedure_call_sumar>
 <argument_1>
-; --- Variable / parameter "pi"
+; --Variable / parameter "pi"
   SRF  0  4
 </argument_1>
 <argument_2>
-; --- Variable / parameter "resultado"
+; -- Variable / parameter "resultado"
   SRF  0 206
-  DRF 
+  DRF
   SRF  0 207
-  DRF 
+  DRF
   SRF  0 208
-  DRF 
+  DRF
   SRF  0 209
-  DRF 
+  DRF
   SRF  0 210
-  DRF 
+  DRF
   SRF  0 211
-  DRF 
+  DRF
   SRF  0 212
-  DRF 
+  DRF
   SRF  0 213
-  DRF 
+  DRF
   SRF  0 214
-  DRF 
+  DRF
   SRF  0 215
-  DRF 
+  DRF
   SRF  0 216
-  DRF 
+  DRF
   SRF  0 217
-  DRF 
+  DRF
   SRF  0 218
-  DRF 
+  DRF
   SRF  0 219
-  DRF 
+  DRF
   SRF  0 220
-  DRF 
+  DRF
   SRF  0 221
-  DRF 
+  DRF
   SRF  0 222
-  DRF 
+  DRF
   SRF  0 223
-  DRF 
+  DRF
   SRF  0 224
-  DRF 
+  DRF
   SRF  0 225
-  DRF 
+  DRF
   SRF  0 226
-  DRF 
+  DRF
   SRF  0 227
-  DRF 
+  DRF
   SRF  0 228
-  DRF 
+  DRF
   SRF  0 229
-  DRF 
+  DRF
   SRF  0 230
-  DRF 
+  DRF
   SRF  0 231
-  DRF 
+  DRF
   SRF  0 232
-  DRF 
+  DRF
   SRF  0 233
-  DRF 
+  DRF
   SRF  0 234
-  DRF 
+  DRF
   SRF  0 235
-  DRF 
+  DRF
   SRF  0 236
-  DRF 
+  DRF
   SRF  0 237
-  DRF 
+  DRF
   SRF  0 238
-  DRF 
+  DRF
   SRF  0 239
-  DRF 
+  DRF
   SRF  0 240
-  DRF 
+  DRF
   SRF  0 241
-  DRF 
+  DRF
   SRF  0 242
-  DRF 
+  DRF
   SRF  0 243
-  DRF 
+  DRF
   SRF  0 244
-  DRF 
+  DRF
   SRF  0 245
-  DRF 
+  DRF
   SRF  0 246
-  DRF 
+  DRF
   SRF  0 247
-  DRF 
+  DRF
   SRF  0 248
-  DRF 
+  DRF
   SRF  0 249
-  DRF 
+  DRF
   SRF  0 250
-  DRF 
+  DRF
   SRF  0 251
-  DRF 
+  DRF
   SRF  0 252
-  DRF 
+  DRF
   SRF  0 253
-  DRF 
+  DRF
   SRF  0 254
-  DRF 
+  DRF
   SRF  0 255
-  DRF 
+  DRF
   SRF  0 256
-  DRF 
+  DRF
   SRF  0 257
-  DRF 
+  DRF
   SRF  0 258
-  DRF 
+  DRF
   SRF  0 259
-  DRF 
+  DRF
   SRF  0 260
-  DRF 
+  DRF
   SRF  0 261
-  DRF 
+  DRF
   SRF  0 262
-  DRF 
+  DRF
   SRF  0 263
-  DRF 
+  DRF
   SRF  0 264
-  DRF 
+  DRF
   SRF  0 265
-  DRF 
+  DRF
   SRF  0 266
-  DRF 
+  DRF
   SRF  0 267
-  DRF 
+  DRF
   SRF  0 268
-  DRF 
+  DRF
   SRF  0 269
-  DRF 
+  DRF
   SRF  0 270
-  DRF 
+  DRF
   SRF  0 271
-  DRF 
+  DRF
   SRF  0 272
-  DRF 
+  DRF
   SRF  0 273
-  DRF 
+  DRF
   SRF  0 274
-  DRF 
+  DRF
   SRF  0 275
-  DRF 
+  DRF
   SRF  0 276
-  DRF 
+  DRF
   SRF  0 277
-  DRF 
+  DRF
   SRF  0 278
-  DRF 
+  DRF
   SRF  0 279
-  DRF 
+  DRF
   SRF  0 280
-  DRF 
+  DRF
   SRF  0 281
-  DRF 
+  DRF
   SRF  0 282
-  DRF 
+  DRF
   SRF  0 283
-  DRF 
+  DRF
   SRF  0 284
-  DRF 
+  DRF
   SRF  0 285
-  DRF 
+  DRF
   SRF  0 286
-  DRF 
+  DRF
   SRF  0 287
-  DRF 
+  DRF
   SRF  0 288
-  DRF 
+  DRF
   SRF  0 289
-  DRF 
+  DRF
   SRF  0 290
-  DRF 
+  DRF
   SRF  0 291
-  DRF 
+  DRF
   SRF  0 292
-  DRF 
+  DRF
   SRF  0 293
-  DRF 
+  DRF
   SRF  0 294
-  DRF 
+  DRF
   SRF  0 295
-  DRF 
+  DRF
   SRF  0 296
-  DRF 
+  DRF
   SRF  0 297
-  DRF 
+  DRF
   SRF  0 298
-  DRF 
+  DRF
   SRF  0 299
-  DRF 
+  DRF
   SRF  0 300
-  DRF 
+  DRF
   SRF  0 301
-  DRF 
+  DRF
   SRF  0 302
-  DRF 
+  DRF
   SRF  0 303
-  DRF 
+  DRF
   SRF  0 304
-  DRF 
+  DRF
   SRF  0 305
-  DRF 
+  DRF
   SRF  0 306
-  DRF 
+  DRF
 </argument_2>
-  OSF 310  0 L10
+  OSF 310  0 L11
 </procedure_call_sumar>
-  JMP L34
+  JMP L36
 </then>
 <else>
-L33:
+L35:
 <procedure_call_restar>
 <argument_1>
-; --- Variable / parameter "pi"
+; --Variable / parameter "pi"
   SRF  0  4
 </argument_1>
 <argument_2>
-; --- Variable / parameter "resultado"
+; -- Variable / parameter "resultado"
   SRF  0 206
-  DRF 
+  DRF
   SRF  0 207
-  DRF 
+  DRF
   SRF  0 208
-  DRF 
+  DRF
   SRF  0 209
-  DRF 
+  DRF
   SRF  0 210
-  DRF 
+  DRF
   SRF  0 211
-  DRF 
+  DRF
   SRF  0 212
-  DRF 
+  DRF
   SRF  0 213
-  DRF 
+  DRF
   SRF  0 214
-  DRF 
+  DRF
   SRF  0 215
-  DRF 
+  DRF
   SRF  0 216
-  DRF 
+  DRF
   SRF  0 217
-  DRF 
+  DRF
   SRF  0 218
-  DRF 
+  DRF
   SRF  0 219
-  DRF 
+  DRF
   SRF  0 220
-  DRF 
+  DRF
   SRF  0 221
-  DRF 
+  DRF
   SRF  0 222
-  DRF 
+  DRF
   SRF  0 223
-  DRF 
+  DRF
   SRF  0 224
-  DRF 
+  DRF
   SRF  0 225
-  DRF 
+  DRF
   SRF  0 226
-  DRF 
+  DRF
   SRF  0 227
-  DRF 
+  DRF
   SRF  0 228
-  DRF 
+  DRF
   SRF  0 229
-  DRF 
+  DRF
   SRF  0 230
-  DRF 
+  DRF
   SRF  0 231
-  DRF 
+  DRF
   SRF  0 232
-  DRF 
+  DRF
   SRF  0 233
-  DRF 
+  DRF
   SRF  0 234
-  DRF 
+  DRF
   SRF  0 235
-  DRF 
+  DRF
   SRF  0 236
-  DRF 
+  DRF
   SRF  0 237
-  DRF 
+  DRF
   SRF  0 238
-  DRF 
+  DRF
   SRF  0 239
-  DRF 
+  DRF
   SRF  0 240
-  DRF 
+  DRF
   SRF  0 241
-  DRF 
+  DRF
   SRF  0 242
-  DRF 
+  DRF
   SRF  0 243
-  DRF 
+  DRF
   SRF  0 244
-  DRF 
+  DRF
   SRF  0 245
-  DRF 
+  DRF
   SRF  0 246
-  DRF 
+  DRF
   SRF  0 247
-  DRF 
+  DRF
   SRF  0 248
-  DRF 
+  DRF
   SRF  0 249
-  DRF 
+  DRF
   SRF  0 250
-  DRF 
+  DRF
   SRF  0 251
-  DRF 
+  DRF
   SRF  0 252
-  DRF 
+  DRF
   SRF  0 253
-  DRF 
+  DRF
   SRF  0 254
-  DRF 
+  DRF
   SRF  0 255
-  DRF 
+  DRF
   SRF  0 256
-  DRF 
+  DRF
   SRF  0 257
-  DRF 
+  DRF
   SRF  0 258
-  DRF 
+  DRF
   SRF  0 259
-  DRF 
+  DRF
   SRF  0 260
-  DRF 
+  DRF
   SRF  0 261
-  DRF 
+  DRF
   SRF  0 262
-  DRF 
+  DRF
   SRF  0 263
-  DRF 
+  DRF
   SRF  0 264
-  DRF 
+  DRF
   SRF  0 265
-  DRF 
+  DRF
   SRF  0 266
-  DRF 
+  DRF
   SRF  0 267
-  DRF 
+  DRF
   SRF  0 268
-  DRF 
+  DRF
   SRF  0 269
-  DRF 
+  DRF
   SRF  0 270
-  DRF 
+  DRF
   SRF  0 271
-  DRF 
+  DRF
   SRF  0 272
-  DRF 
+  DRF
   SRF  0 273
-  DRF 
+  DRF
   SRF  0 274
-  DRF 
+  DRF
   SRF  0 275
-  DRF 
+  DRF
   SRF  0 276
-  DRF 
+  DRF
   SRF  0 277
-  DRF 
+  DRF
   SRF  0 278
-  DRF 
+  DRF
   SRF  0 279
-  DRF 
+  DRF
   SRF  0 280
-  DRF 
+  DRF
   SRF  0 281
-  DRF 
+  DRF
   SRF  0 282
-  DRF 
+  DRF
   SRF  0 283
-  DRF 
+  DRF
   SRF  0 284
-  DRF 
+  DRF
   SRF  0 285
-  DRF 
+  DRF
   SRF  0 286
-  DRF 
+  DRF
   SRF  0 287
-  DRF 
+  DRF
   SRF  0 288
-  DRF 
+  DRF
   SRF  0 289
-  DRF 
+  DRF
   SRF  0 290
-  DRF 
+  DRF
   SRF  0 291
-  DRF 
+  DRF
   SRF  0 292
-  DRF 
+  DRF
   SRF  0 293
-  DRF 
+  DRF
   SRF  0 294
-  DRF 
+  DRF
   SRF  0 295
-  DRF 
+  DRF
   SRF  0 296
-  DRF 
+  DRF
   SRF  0 297
-  DRF 
+  DRF
   SRF  0 298
-  DRF 
+  DRF
   SRF  0 299
-  DRF 
+  DRF
   SRF  0 300
-  DRF 
+  DRF
   SRF  0 301
-  DRF 
+  DRF
   SRF  0 302
-  DRF 
+  DRF
   SRF  0 303
-  DRF 
+  DRF
   SRF  0 304
-  DRF 
+  DRF
   SRF  0 305
-  DRF 
+  DRF
   SRF  0 306
-  DRF 
+  DRF
 </argument_2>
-  OSF 310  0 L17
+  OSF 310  0 L19
 </procedure_call_restar>
 </else>
-L34:
+L36:
 </if-then>
-<Assignment_to__simple_variable_sumo>
-; --- Address of variable / parameter "sumo"
+<Asignacion_a_variable_simple_sumo>
+; -- Address of variable / parameter "sumo"
   SRF  0 309
-; --- Variable / parameter "sumo"
+; --Variable / parameter "sumo"
   SRF  0 309
-  DRF 
-  NGB 
-  ASG 
-</Assignment_to__simple_variable_sumo>
+  DRF
+  NGB
+  ASG
+</Asignacion_a_variable_simple_sumo>
 <put>
-; --- Put STRING "Pi con " (length 7)
-; --- Standard string writing
+; -- Put STRING
+<put>
   STC 80
   WRT  0
   STC 105
@@ -2297,19 +2270,18 @@ L34:
   WRT  0
 </put>
 <put>
-; --- Variable / parameter "n"
+; --Variable / parameter "n"
   SRF  0  3
-  DRF 
+  DRF
   STC  1
-  SBT 
+  SBT
   STC  2
-  DIV 
-; --- Put INTEGER
+  DIV
+; -- Put INTEGER
   WRT  1
 </put>
+; -- Put STRING
 <put>
-; --- Put STRING " componentes de la serie: " (length 26)
-; --- Standard string writing
   STC 32
   WRT  0
   STC 99
@@ -2363,41 +2335,41 @@ L34:
   STC 32
   WRT  0
 </put>
+</put>
 <procedure_call_mostrar_numero>
 <argument_1>
-; --- Variable / parameter "pi"
+; --Variable / parameter "pi"
   SRF  0  4
 </argument_1>
   OSF 310  0 L5
 </procedure_call_mostrar_numero>
-<Assignment_to__simple_variable_n>
-; --- Address of variable / parameter "n"
+<Asignacion_a_variable_simple_n>
+; -- Address of variable / parameter "n"
   SRF  0  3
-; --- Variable / parameter "n"
+; --Variable / parameter "n"
   SRF  0  3
-  DRF 
+  DRF
   STC  2
-  PLUS 
-  ASG 
-</Assignment_to__simple_variable_n>
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_n>
 </while_instruction_block>
-  JMP L31
-L32:
+  JMP L33
+L34:
 </while>
-<put>
-; --- Put STRING "" (length 0)
-; --- Standard string writing
-</put>
 <put_line>
-; --- CR/LF
+; -- Put STRING
+<put>
+</put>
+; -- CR/LF
   STC 13
   WRT  0
   STC 10
   WRT  0
 </put_line>
+<put_line>
+; -- Put STRING
 <put>
-; --- Put STRING "La convergencia es lenta porque los términos de la suma son prooprcionales a 1/k" (length 81)
-; --- Standard string writing
   STC 76
   WRT  0
   STC 97
@@ -2472,9 +2444,7 @@ L32:
   WRT  0
   STC 116
   WRT  0
-  STC -61
-  WRT  0
-  STC -87
+  STC 233
   WRT  0
   STC 114
   WRT  0
@@ -2561,13 +2531,11 @@ L32:
   STC 107
   WRT  0
 </put>
-<put_line>
-; --- CR/LF
+; -- CR/LF
   STC 13
   WRT  0
   STC 10
   WRT  0
 </put_line>
-</numero_pi_leibnitz_instruction_block>
-  LVP 
+  LVP
 </numero_pi_leibnitz>

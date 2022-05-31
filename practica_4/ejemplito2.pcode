@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cerea>
+  ENP L0
+<variable_declaration>
+; --- Array variable "i", type 0, size 3, level 0, address [3:5]!
+</variable_declaration>
+<procedure_f>
+L1:
+; --- Val array parameter "i", type 0, class 0, size 3, level 1, address [3:5]!
+<recover_argument_1>
+; --- Recover array val variable parameter "i" (number 1).
+  SRF  0  5
+  ASGI 
+  SRF  0  4
+  ASGI 
+  SRF  0  3
+  ASGI 
+</recover_argument_1>
+  JMP L2
+<variable_declaration>
+</variable_declaration>
+L2:
+<f_instruction_block>
+  CSF 
+</f_instruction_block>
+</procedure_f>
+L0:
+<cerea_instruction_block>
+<procedure_call_f>
+<argument_1>
+; --- Variable / parameter "i"
+  SRF  0  3
+  DRF 
+  SRF  0  4
+  DRF 
+  SRF  0  5
+  DRF 
+</argument_1>
+  OSF  6  0 L1
+</procedure_call_f>
+</cerea_instruction_block>
+  LVP 
+</cerea>

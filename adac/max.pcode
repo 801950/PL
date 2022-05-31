@@ -2,54 +2,52 @@
 <max>
   ENP L0
 <variable_declaration>
-; --- Simple variable "i", type 0, level 0,  address [3]!
-; --- Simple variable "j", type 0, level 0,  address [4]!
+; -- Simple variable "i", type INT, level 0, address [3]
+; -- Simple variable "j", type INT, level 0, address [4]
 </variable_declaration>
 L0:
-<max_instruction_block>
-<get>
-; --- Get simple variable/parameter "i".
+; -- Address of variable / parameter "i"
   SRF  0  3
   RD  1
-</get>
-<get>
-; --- Get simple variable/parameter "j".
+; -- Address of variable / parameter "j"
   SRF  0  4
   RD  1
-</get>
 <if-then>
 <condition>
-; --- Variable / parameter "i"
+; --Variable / parameter "i"
   SRF  0  3
-  DRF 
-; --- Variable / parameter "j"
+  DRF
+; --Variable / parameter "j"
   SRF  0  4
-  DRF 
-  GT 
+  DRF
+  GT
 </condition>
   JMF L1
 <then>
 <put>
-; --- Variable / parameter "i"
+<put>
+; --Variable / parameter "i"
   SRF  0  3
-  DRF 
-; --- Put INTEGER
+  DRF
+; -- Put INTEGER
   WRT  1
+</put>
 </put>
   JMP L2
 </then>
 <else>
 L1:
 <put>
-; --- Variable / parameter "j"
+<put>
+; --Variable / parameter "j"
   SRF  0  4
-  DRF 
-; --- Put INTEGER
+  DRF
+; -- Put INTEGER
   WRT  1
+</put>
 </put>
 </else>
 L2:
 </if-then>
-</max_instruction_block>
-  LVP 
+  LVP
 </max>
