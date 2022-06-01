@@ -116,6 +116,9 @@ public class SemanticFunctions {
 			at.constante = true;
 			errSem.deteccion("Tipos incorrectos", at.token);
 		} else if(at3.type != null && at2.type != null){
+			// System.out.println("at1: " + at1.token.image + " " +  at1.constante + " " + at1.parClass + " " + at1.code.toString());
+			// System. out.println("at2: " + at2.token.image + " " + at2.constante + " " + at2.parClass + " " + at2.code.toString());
+			// System.out.println("at3: " + at3.token.image + " " +  at3.code.toString());
 			at.type = at1.type;
 			at.token = new Token(at1.token.kind);
 			at.token.beginLine = at1.token.beginLine;
@@ -124,21 +127,13 @@ public class SemanticFunctions {
 			at.token.endColumn = at2.token.endColumn;
 			at.token.image = at1.token.image + " " + at3.token.image + " " + at2.token.image;
 			at.constante = true;
-			at.code.addBlock(at1.code);
-			if(!at1.constante) at.code.addInst(OpCode.DRF);
-			if(at1.parClass != null && at1.parClass == Symbol.ParameterClass.REF) at.code.addInst(OpCode.DRF);
-			at.code.addBlock(at2.code);
-			if(!at2.constante) at.code.addInst(OpCode.DRF);
-			if(at2.parClass != null && at2.parClass == Symbol.ParameterClass.REF) at.code.addInst(OpCode.DRF);
-			at.code.addBlock(at3.code);
-		} else { 
-			at.type = at1.type;
-			at.token = at1.token;
-			at.constante = at1.constante;
-			at.dimension = at1.dimension;
-			at.parClass = at1.parClass;
-			at.code.addBlock(at1.code);
-		}
+		//	if(!at1.constante) at.code.addInst(OpCode.DRF);
+		//	if(at1.parClass != null && at1.parClass == Symbol.ParameterClass.REF) at.code.addInst(OpCode.DRF);
+		//	at.code.addBlock(at2.code);
+		//	if(!at2.constante) at.code.addInst(OpCode.DRF);
+		//	if(at2.parClass != null && at2.parClass == Symbol.ParameterClass.REF) at.code.addInst(OpCode.DRF);
+		//	at.code.addBlock(at3.code);
+		} 
 	}
 
 	/**

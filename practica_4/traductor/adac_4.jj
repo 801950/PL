@@ -430,6 +430,7 @@ void declaracion_funciones(Attributes at):
 			code2.addBlock(at3.code);
 			code1.addBlock(code2);
 			code2.clearBlock();
+			at1.dir = at3.dir;
 		}
 	(declaracion_proc_func(at1))* 
 		{
@@ -740,6 +741,7 @@ void asignable(Attributes at):
 	Attributes at1 = new Attributes();
 	Token t;
 	Symbol s;
+	at1.dir = at.dir;
 }
 {
 	LOOKAHEAD(2)
@@ -773,6 +775,7 @@ void inst_iteracion(Attributes at):
 	CodeBlock codeOut = new CodeBlock();
 	int n = at.lastLabel + 1,n2;
 	at1.dir = at.dir;
+	at2.dir = at.dir;
 	CodeBlock code2 = new CodeBlock();
 }
 {
@@ -816,6 +819,7 @@ void inst_return(Attributes at):
 	SymbolFunction sf = new SymbolFunction("",null,null);
 	Token t;
 	CodeBlock code1 = new CodeBlock();
+	//System.out.println("return: " + at.dir);
 }
 {
 	t = <tRET>	expresion(at1)
@@ -834,6 +838,7 @@ void inst_leer(Attributes at):
 {
 	Attributes at1 = new Attributes(), at2 = new Attributes();
 	CodeBlock codeOut = new CodeBlock();
+	at1.dir = at.dir;
 }
 {
 	try {
@@ -856,6 +861,8 @@ void inst_leer(Attributes at):
 void lista_asignables(Attributes at):
 {
 	Attributes at1 = new Attributes(), at2 = new Attributes();
+	at1.dir = at.dir;
+	at2.dir = at.dir;
 }
 {
 	asignable(at1) (<tCOMA> lista_asignables(at2))?
@@ -1000,6 +1007,7 @@ void inst_invoc_proc(Attributes at):
 	Attributes at2;
 	SymbolArray sa;
 	int i,n;
+	at1.dir = at.dir;
 }
 {
     try {
@@ -1052,9 +1060,9 @@ void inst_invoc_proc(Attributes at):
 					} else if(s1.parClass == Symbol.ParameterClass.REF){
 						
 						at2 = at1.par.get(i);
-						System.out.println(t.image + " " + s1.type + " " + s1.parClass + " " + at2.parClass);
+					//	System.out.println(t.image + " " + s1.type + " " + s1.parClass + " " + at2.parClass + " " + at2.constante);
 						code2.addBlock(at2.code);
-						if(at2.parClass != null && at2.parClass == Symbol.ParameterClass.REF && at2.type == Symbol.Types.ARRAY) code2.addInst(PCodeInstruction.OpCode.DRF);
+						if(at2.parClass != null && at2.parClass == Symbol.ParameterClass.REF && !at2.constante) code2.addInst(PCodeInstruction.OpCode.DRF);
 						n = i+1;
 						code2.encloseXMLTags("argument_"+n);
 						code1.addBlock(code2);
@@ -1146,9 +1154,9 @@ void inst_saltar_linea(Attributes at):
 			{
 				code1.addLabel("L"+n);
 				code1.addComment(" Temporary hidden compiler variable used for reading until LF");
-				code1.addInst(PCodeInstruction.OpCode.SRF,stack.size(),(int)at.dir);
+				code1.addInst(PCodeInstruction.OpCode.SRF,0,(int)at.dir);
 				code1.addInst(PCodeInstruction.OpCode.RD,0);
-				code1.addInst(PCodeInstruction.OpCode.SRF,stack.size(),(int)at.dir);
+				code1.addInst(PCodeInstruction.OpCode.SRF,0,(int)at.dir);
 				code1.addInst(PCodeInstruction.OpCode.DRF);
 				code1.addInst(PCodeInstruction.OpCode.STC,10);
 				code1.addInst(PCodeInstruction.OpCode.EQ);
@@ -1163,20 +1171,12 @@ void inst_saltar_linea(Attributes at):
 	}
 }
 
-void lista_cero_o_mas_exps():
-{
-	Attributes at = new Attributes();
-}
-{
-	( lista_una_o_mas_exps(at) )?
-	
-}
-
 void lista_una_o_mas_exps(Attributes at):
 {
 	Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
 	at1.dir = at.dir;
 	at2.dir = at.dir;
+	//System.out.println("lista: " + at.dir);
 }
 {
 	expresion(at1) (at3.token = <tCOMA> lista_una_o_mas_exps(at2))?
@@ -1190,6 +1190,7 @@ void expresion(Attributes at):
 	Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
 	at1.dir = at.dir;
 	at2.dir = at.dir;
+	//System.out.println("expresion: "+ at.dir);
 }
 {
 	expresion_simple(at1) ( operador_relacional(at3) expresion_simple(at2) )?
@@ -1241,16 +1242,60 @@ void expresion_simple(Attributes at):
 	at1.dir = at.dir;
 	at2.dir = at.dir;
 	Token t = new Token();
+	//System.out.println("expresion_simple: " + at.dir);
 }
 {
 	(t = <tRES> | <tSUM>)?
-	termino(at1) (operador_aditivo(at3) termino(at2))*
+		
+	termino(at1) 
 		{
 			if(t.image != null){
 				at1.code.addInst(PCodeInstruction.OpCode.NGI);
 			}
-			semFuncs.check2typesWithOperator(at1,at2,at3,at);
+			at.type = at1.type;
+			at.token = at1.token;
+			at.constante = at1.constante;
+			at.dimension = at1.dimension;
+			at.parClass = at1.parClass;
+			at.code.addBlock(at1.code);
 		}
+	(exp_simpl2(at1,at))?
+		{
+			
+			
+		}
+}
+
+void exp_simpl2(Attributes at1, Attributes at):
+{
+	Attributes at2 = new Attributes(), at3 = new Attributes(), at4 = new Attributes();
+	//at1.dir = at.dir;
+	at2.dir = at.dir;
+	Token t = new Token();
+	CodeBlock code1 = new CodeBlock();
+	//System.out.println("exp_simpl2: " + at.dir + " " + at1.dir);
+}
+{
+//	(t = <tRES> | <tSUM>)?
+	operador_aditivo(at3) termino(at2) 
+	
+		{
+			semFuncs.check2typesWithOperator(at1,at2,at3,at);
+			if(!at1.constante) at.code.addInst(OpCode.DRF);
+			if(at1.parClass != null && at1.parClass == Symbol.ParameterClass.REF) at.code.addInst(OpCode.DRF);
+			at.code.addBlock(at2.code);
+			if(!at2.constante) at.code.addInst(OpCode.DRF);
+			if(at2.parClass != null && at2.parClass == Symbol.ParameterClass.REF) at.code.addInst(OpCode.DRF);
+			at.code.addBlock(at3.code);
+			at2.constante = true;
+			at2.parClass = Symbol.ParameterClass.NONE;
+			at.parClass = Symbol.ParameterClass.NONE;
+			// if(t.image != null){
+			// 	at1.code.addInst(PCodeInstruction.OpCode.NGI);
+			// }
+		//	semFuncs.check2typesWithOperator(at1,at2,at3,at);
+		}
+		(exp_simpl2(at2,at))?
 }
 
 void operador_aditivo(Attributes at):
@@ -1285,13 +1330,52 @@ void termino(Attributes at):
 	at1.dir = at.dir;
 	at2.dir = at.dir;
 	Symbol.Types expected;
+	//System.out.println("termino: " + at.dir + " " + at1.dir);
 }
 {
-	factor(at1) (operador_multiplicativo(at3) factor(at2))*
+	factor(at1)
 		{
-			semFuncs.check2typesWithOperator(at1,at2,at3,at); 
+			at.type = at1.type;
+			at.token = at1.token;
+			at.constante = at1.constante;
+			at.dimension = at1.dimension;
+			at.parClass = at1.parClass;
+			at.code.addBlock(at1.code);
+		}	
+	(termino2(at1,at))?
+	//(operador_multiplicativo(at3) termino(at2))?
+		{
+			//semFuncs.check2typesWithOperator(at1,at2,at3,at); 
 		}
 }
+
+void termino2(Attributes at1, Attributes at):
+{
+	Attributes at2 = new Attributes(), at3 = new Attributes(), at4 = new Attributes();
+	at1.dir = at.dir;
+	at2.dir = at.dir;
+	Token t = new Token();
+	CodeBlock code1 = new CodeBlock();
+	//System.out.println("termino2: " + at.dir + " " + at1.dir);
+}
+{
+	
+	operador_multiplicativo(at3) factor(at2)
+		{
+			semFuncs.check2typesWithOperator(at1,at2,at3,at);
+			if(!at1.constante) at.code.addInst(OpCode.DRF);
+			if(at1.parClass != null && at1.parClass == Symbol.ParameterClass.REF) at.code.addInst(OpCode.DRF);
+			at.code.addBlock(at2.code);
+			if(!at2.constante) at.code.addInst(OpCode.DRF);
+			if(at2.parClass != null && at2.parClass == Symbol.ParameterClass.REF) at.code.addInst(OpCode.DRF);
+			at.code.addBlock(at3.code);
+			at2.constante = true;
+			at2.parClass = Symbol.ParameterClass.NONE;
+			at.parClass = Symbol.ParameterClass.NONE;
+		}
+	(termino2(at2,at))?
+}
+	
 
 
 void operador_multiplicativo(Attributes at):
@@ -1330,6 +1414,7 @@ void factor(Attributes at):
 	Token t;
 	Symbol s;
 	Symbol.Types tipo;
+	//System.out.println("factor: " + at.dir);
 }
 {
 	 
@@ -1360,6 +1445,7 @@ void factor(Attributes at):
 			if(at.parClass != null && at.parClass == Symbol.ParameterClass.REF) at.code.addInst(PCodeInstruction.OpCode.DRF);
 			at.code.addInst(PCodeInstruction.OpCode.PLUS);
 			if(at.parClass != null && at.parClass == Symbol.ParameterClass.REF) at.constante = true;
+			
 		//	at.code.addInst(PCodeInstruction.OpCode.DRF);
 		}
 |	t = <tID>
@@ -1429,6 +1515,7 @@ void factor_con_par(Attributes at):
 	SymbolArray sa;
 	SymbolFunction sp;
 	int i, n;
+	at1.dir = at.dir;
 }
 {
 	try {

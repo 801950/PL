@@ -1,3 +1,4 @@
+echo "$1"
 ./ensamblador adac/"$1"
 ./maquinap adac/"$1"
 ./ensamblador pcodes/"$1"

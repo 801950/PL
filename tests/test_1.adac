@@ -27,7 +27,7 @@ procedure test_1 is
             put_line("Laberinto demasido grande. Se esperaban 500000 componentes, redibidas: ", ncolumnas*nfilas);
             return false;
         else if nfilas*ncolumnas < 4*3 then
-            put_line("El laberinto es demasiado pequeño");
+            put_line("El laberinto es demasiado pequeno");
             return false;
         else
             i := 0;

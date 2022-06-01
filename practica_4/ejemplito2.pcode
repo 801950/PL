@@ -3,16 +3,19 @@
   ENP L0
 <variable_declaration>
 ; --- Array variable "i", type 0, size 3, level 0, address [3:5]!
+; --- Simple variable "tamano_tablero", type 0, level 0,  address [6]!
 </variable_declaration>
-<procedure_f>
+<function_sitio>
 L1:
-; --- Val array parameter "i", type 0, class 0, size 3, level 1, address [3:5]!
-<recover_argument_1>
-; --- Recover array val variable parameter "i" (number 1).
-  SRF  0  5
-  ASGI 
+; --- Simple parameter "fila", type 0, class 0, level 1,  address [3]!
+; --- Simple parameter "columna", type 0, class 0, level 1,  address [4]!
+<recover_argument_2>
+; --- Recover simple val / ref variable parameter "columna" (number 2).
   SRF  0  4
   ASGI 
+</recover_argument_2>
+<recover_argument_1>
+; --- Recover simple val / ref variable parameter "fila" (number 1).
   SRF  0  3
   ASGI 
 </recover_argument_1>
@@ -20,24 +23,54 @@ L1:
 <variable_declaration>
 </variable_declaration>
 L2:
-<f_instruction_block>
-  CSF 
-</f_instruction_block>
-</procedure_f>
-L0:
-<cerea_instruction_block>
-<procedure_call_f>
-<argument_1>
-; --- Variable / parameter "i"
+<sitio_instruction_block>
+<return>
+; --- Variable / parameter "fila"
   SRF  0  3
   DRF 
+  STC  1
+  SBT 
+; --- Variable / parameter "tamano_tablero"
+  SRF  1  6
+  DRF 
+  TMS 
+; --- Variable / parameter "columna"
   SRF  0  4
   DRF 
-  SRF  0  5
+  PLUS 
+  STC  1
+  SBT 
+  STC  6
+  PLUS 
+  STC  7
+  SBT 
+; --- Variable / parameter "columna"
+  SRF  0  4
   DRF 
+  PLUS 
+  CSF 
+</return>
+  CSF 
+</sitio_instruction_block>
+</function_sitio>
+L0:
+<cerea_instruction_block>
+<Assignment_to_component_of_array_i>
+  STC  1
+; --- Initial address of array "i"
+  SRF  0  3
+  PLUS 
+<function_call_sitio>
+<argument_1>
+  STC  2
 </argument_1>
-  OSF  6  0 L1
-</procedure_call_f>
+<argument_2>
+  STC  3
+</argument_2>
+  OSF  7  0 L1
+</function_call_sitio>
+  ASG 
+</Assignment_to_component_of_array_i>
 </cerea_instruction_block>
   LVP 
 </cerea>

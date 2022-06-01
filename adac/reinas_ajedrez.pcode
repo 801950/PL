@@ -170,8 +170,9 @@ L12:
   TMS
 ; --Variable / parameter "columna"
   SRF  0  4
-  STC  1
+  DRF
   PLUS
+  STC  1
   SBT
   CSF
 </return>
@@ -320,7 +321,7 @@ L18:
   SRF  0  5
   DRF
 </argument_2>
-  OSF  0  1 L11
+  OSF  7  1 L11
 </function_call_sitio>
 ; -- Initial address of array "tablero"
   SRF  0  3
@@ -370,7 +371,7 @@ L20:
   SRF  0  5
   DRF
 </argument_2>
-  OSF  0  1 L11
+  OSF  6  1 L11
 </function_call_sitio>
 ; -- Initial address of array "tablero"
   SRF  0  3
@@ -437,7 +438,7 @@ L22:
   SRF  0  5
   DRF
 </argument_2>
-  OSF  0  1 L11
+  OSF  6  1 L11
 </function_call_sitio>
 ; -- Initial address of array "tablero"
   SRF  0  3

@@ -278,10 +278,12 @@ L12:
 <argument_1>
 ; --Variable / parameter "i"
   SRF  0  3
+  DRF
 </argument_1>
 <argument_2>
 ; --Variable / parameter "j"
   SRF  0  4
+  DRF
 </argument_2>
   OSF  5  1 L9
 </procedure_call_intercambiar>

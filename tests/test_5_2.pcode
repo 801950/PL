@@ -1,0 +1,922 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_5>
+  ENP L0
+<variable_declaration>
+; --- Simple variable "formato", type 0, level 0,  address [3]!
+; --- Simple variable "fils", type 0, level 0,  address [4]!
+; --- Simple variable "cols", type 0, level 0,  address [5]!
+; --- Simple variable "max_gris", type 0, level 0,  address [6]!
+; --- Array variable "image", type 2, size 500000, level 0, address [7:500006]!
+; --- Array variable "rotated", type 2, size 500000, level 0, address [500007:1000006]!
+</variable_declaration>
+<function_indice>
+L1:
+; --- Simple parameter "fils", type 0, class 0, level 1,  address [3]!
+; --- Simple parameter "cols", type 0, class 0, level 1,  address [4]!
+; --- Simple parameter "i", type 0, class 0, level 1,  address [5]!
+; --- Simple parameter "j", type 0, class 0, level 1,  address [6]!
+<recover_argument_4>
+; --- Recover simple val / ref variable parameter "j" (number 4).
+  SRF  0  6
+  ASGI 
+</recover_argument_4>
+<recover_argument_3>
+; --- Recover simple val / ref variable parameter "i" (number 3).
+  SRF  0  5
+  ASGI 
+</recover_argument_3>
+<recover_argument_2>
+; --- Recover simple val / ref variable parameter "cols" (number 2).
+  SRF  0  4
+  ASGI 
+</recover_argument_2>
+<recover_argument_1>
+; --- Recover simple val / ref variable parameter "fils" (number 1).
+  SRF  0  3
+  ASGI 
+</recover_argument_1>
+  JMP L2
+<variable_declaration>
+</variable_declaration>
+L2:
+<indice_instruction_block>
+<return>
+; --- Variable / parameter "i"
+  SRF  0  5
+  DRF 
+; --- Variable / parameter "cols"
+  SRF  0  4
+  DRF 
+  TMS 
+; --- Variable / parameter "j"
+  SRF  0  6
+  DRF 
+  PLUS 
+  CSF 
+</return>
+  CSF 
+</indice_instruction_block>
+</function_indice>
+<function_cargar_imagen>
+L3:
+; --- Simple parameter "formato", type 0, class 1, level 1,  address [3]!
+; --- Simple parameter "fils", type 0, class 1, level 1,  address [4]!
+; --- Simple parameter "cols", type 0, class 1, level 1,  address [5]!
+; --- Simple parameter "prof", type 0, class 1, level 1,  address [6]!
+; --- Ref array parameter "imagen", type 2, class 1, size 500000, level 1, address [7]!
+<recover_argument_5>
+; --- Recover array ref variable parameter "imagen" (number 5).
+  SRF  0  7
+  ASGI 
+</recover_argument_5>
+<recover_argument_4>
+; --- Recover simple val / ref variable parameter "prof" (number 4).
+  SRF  0  6
+  ASGI 
+</recover_argument_4>
+<recover_argument_3>
+; --- Recover simple val / ref variable parameter "cols" (number 3).
+  SRF  0  5
+  ASGI 
+</recover_argument_3>
+<recover_argument_2>
+; --- Recover simple val / ref variable parameter "fils" (number 2).
+  SRF  0  4
+  ASGI 
+</recover_argument_2>
+<recover_argument_1>
+; --- Recover simple val / ref variable parameter "formato" (number 1).
+  SRF  0  3
+  ASGI 
+</recover_argument_1>
+  JMP L4
+<variable_declaration>
+; --- Simple variable "c", type 2, level 1,  address [8]!
+; --- Simple variable "i", type 0, level 1,  address [9]!
+; --- Simple variable "j", type 0, level 1,  address [10]!
+</variable_declaration>
+L4:
+<cargar_imagen_instruction_block>
+<get>
+; --- Get simple variable/parameter "c".
+  SRF  0  8
+  RD  0
+</get>
+<get>
+; --- Get simple variable/parameter "formato".
+  SRF  0  3
+  DRF 
+  RD  1
+</get>
+<get>
+; --- Get simple variable/parameter "fils".
+  SRF  0  4
+  DRF 
+  RD  1
+</get>
+<get>
+; --- Get simple variable/parameter "cols".
+  SRF  0  5
+  DRF 
+  RD  1
+</get>
+<get>
+; --- Get simple variable/parameter "max_gris".
+  SRF  1  6
+  RD  1
+</get>
+<skip_line>
+L5:
+; --- Temporary hidden compiler variable used for reading until LF
+  SRF  0 11
+  RD  0
+  SRF  0 11
+  DRF 
+  STC 10
+  EQ 
+  JMF L5
+</skip_line>
+<if-then>
+<condition>
+; --- Variable / parameter "fils"
+  SRF  0  4
+  DRF 
+  DRF 
+; --- Variable / parameter "cols"
+  SRF  0  5
+  DRF 
+  DRF 
+  TMS 
+  STC 500000
+  GT 
+</condition>
+  JMF L6
+<then>
+<put>
+; --- Put STRING "Imagen de dimensiones (" (length 23)
+; --- Standard string writing
+  STC 73
+  WRT  0
+  STC 109
+  WRT  0
+  STC 97
+  WRT  0
+  STC 103
+  WRT  0
+  STC 101
+  WRT  0
+  STC 110
+  WRT  0
+  STC 32
+  WRT  0
+  STC 100
+  WRT  0
+  STC 101
+  WRT  0
+  STC 32
+  WRT  0
+  STC 100
+  WRT  0
+  STC 105
+  WRT  0
+  STC 109
+  WRT  0
+  STC 101
+  WRT  0
+  STC 110
+  WRT  0
+  STC 115
+  WRT  0
+  STC 105
+  WRT  0
+  STC 111
+  WRT  0
+  STC 110
+  WRT  0
+  STC 101
+  WRT  0
+  STC 115
+  WRT  0
+  STC 32
+  WRT  0
+  STC 40
+  WRT  0
+</put>
+<put>
+; --- Variable / parameter "fils"
+  SRF  0  4
+  DRF 
+  DRF 
+; --- Put INTEGER
+  WRT  1
+</put>
+<put>
+; --- Put STRING ", " (length 2)
+; --- Standard string writing
+  STC 44
+  WRT  0
+  STC 32
+  WRT  0
+</put>
+<put>
+; --- Variable / parameter "cols"
+  SRF  0  5
+  DRF 
+  DRF 
+; --- Put INTEGER
+  WRT  1
+</put>
+<put>
+; --- Put STRING ") demasiado grande (max 500000 pixels)!" (length 39)
+; --- Standard string writing
+  STC 41
+  WRT  0
+  STC 32
+  WRT  0
+  STC 100
+  WRT  0
+  STC 101
+  WRT  0
+  STC 109
+  WRT  0
+  STC 97
+  WRT  0
+  STC 115
+  WRT  0
+  STC 105
+  WRT  0
+  STC 97
+  WRT  0
+  STC 100
+  WRT  0
+  STC 111
+  WRT  0
+  STC 32
+  WRT  0
+  STC 103
+  WRT  0
+  STC 114
+  WRT  0
+  STC 97
+  WRT  0
+  STC 110
+  WRT  0
+  STC 100
+  WRT  0
+  STC 101
+  WRT  0
+  STC 32
+  WRT  0
+  STC 40
+  WRT  0
+  STC 109
+  WRT  0
+  STC 97
+  WRT  0
+  STC 120
+  WRT  0
+  STC 32
+  WRT  0
+  STC 53
+  WRT  0
+  STC 48
+  WRT  0
+  STC 48
+  WRT  0
+  STC 48
+  WRT  0
+  STC 48
+  WRT  0
+  STC 48
+  WRT  0
+  STC 32
+  WRT  0
+  STC 112
+  WRT  0
+  STC 105
+  WRT  0
+  STC 120
+  WRT  0
+  STC 101
+  WRT  0
+  STC 108
+  WRT  0
+  STC 115
+  WRT  0
+  STC 41
+  WRT  0
+  STC 33
+  WRT  0
+</put>
+<put_line>
+; --- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<return>
+  STC  0
+  CSF 
+</return>
+  JMP L7
+</then>
+<else>
+L6:
+<Assignment_to__simple_variable_i>
+; --- Address of variable / parameter "i"
+  SRF  0  9
+  STC  0
+  ASG 
+</Assignment_to__simple_variable_i>
+<while>
+L8:
+<condition>
+; --- Variable / parameter "i"
+  SRF  0  9
+  DRF 
+; --- Variable / parameter "fils"
+  SRF  0  4
+  DRF 
+  DRF 
+  LT 
+</condition>
+  JMF L9
+<while_instruction_block>
+<Assignment_to__simple_variable_j>
+; --- Address of variable / parameter "j"
+  SRF  0 10
+  STC  0
+  ASG 
+</Assignment_to__simple_variable_j>
+<while>
+L10:
+<condition>
+; --- Variable / parameter "j"
+  SRF  0 10
+  DRF 
+; --- Variable / parameter "cols"
+  SRF  0  5
+  DRF 
+  DRF 
+  LT 
+</condition>
+  JMF L11
+<while_instruction_block>
+<get>
+<function_call_indice>
+<argument_1>
+; --- Variable / parameter "fils"
+  SRF  0  4
+  DRF 
+  DRF 
+</argument_1>
+<argument_2>
+; --- Variable / parameter "cols"
+  SRF  0  5
+  DRF 
+  DRF 
+</argument_2>
+<argument_3>
+; --- Variable / parameter "i"
+  SRF  0  9
+  DRF 
+</argument_3>
+<argument_4>
+; --- Variable / parameter "j"
+  SRF  0 10
+  DRF 
+</argument_4>
+  OSF 11  1 L1
+</function_call_indice>
+; --- Get variable/parameter component "imagen".
+; --- Initial address of array "imagen"
+  SRF  0  7
+  DRF 
+  PLUS 
+  RD  0
+</get>
+<Assignment_to__simple_variable_j>
+; --- Address of variable / parameter "j"
+  SRF  0 10
+; --- Variable / parameter "j"
+  SRF  0 10
+  DRF 
+  STC  1
+  PLUS 
+  ASG 
+</Assignment_to__simple_variable_j>
+</while_instruction_block>
+  JMP L10
+L11:
+</while>
+<Assignment_to__simple_variable_i>
+; --- Address of variable / parameter "i"
+  SRF  0  9
+; --- Variable / parameter "i"
+  SRF  0  9
+  DRF 
+  STC  1
+  PLUS 
+  ASG 
+</Assignment_to__simple_variable_i>
+</while_instruction_block>
+  JMP L8
+L9:
+</while>
+<return>
+  STC  1
+  CSF 
+</return>
+</else>
+L7:
+</if-then>
+  CSF 
+</cargar_imagen_instruction_block>
+</function_cargar_imagen>
+<procedure_guardar_imagen>
+L12:
+; --- Simple parameter "formato", type 0, class 0, level 1,  address [3]!
+; --- Simple parameter "fils", type 0, class 0, level 1,  address [4]!
+; --- Simple parameter "cols", type 0, class 0, level 1,  address [5]!
+; --- Simple parameter "prof", type 0, class 0, level 1,  address [6]!
+; --- Ref array parameter "imagen", type 2, class 1, size 500000, level 1, address [7]!
+<recover_argument_5>
+; --- Recover array ref variable parameter "imagen" (number 5).
+  SRF  0  7
+  ASGI 
+</recover_argument_5>
+<recover_argument_4>
+; --- Recover simple val / ref variable parameter "prof" (number 4).
+  SRF  0  6
+  ASGI 
+</recover_argument_4>
+<recover_argument_3>
+; --- Recover simple val / ref variable parameter "cols" (number 3).
+  SRF  0  5
+  ASGI 
+</recover_argument_3>
+<recover_argument_2>
+; --- Recover simple val / ref variable parameter "fils" (number 2).
+  SRF  0  4
+  ASGI 
+</recover_argument_2>
+<recover_argument_1>
+; --- Recover simple val / ref variable parameter "formato" (number 1).
+  SRF  0  3
+  ASGI 
+</recover_argument_1>
+  JMP L13
+<variable_declaration>
+; --- Simple variable "c", type 2, level 1,  address [8]!
+; --- Simple variable "i", type 0, level 1,  address [9]!
+; --- Simple variable "j", type 0, level 1,  address [10]!
+</variable_declaration>
+L13:
+<guardar_imagen_instruction_block>
+<put>
+  STC 80
+; --- Put CHARACTER
+  WRT  0
+</put>
+<put>
+; --- Variable / parameter "formato"
+  SRF  0  3
+  DRF 
+; --- Put INTEGER
+  WRT  1
+</put>
+<put_line>
+; --- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put>
+; --- Variable / parameter "fils"
+  SRF  0  4
+  DRF 
+; --- Put INTEGER
+  WRT  1
+</put>
+<put>
+  STC 32
+; --- Put CHARACTER
+  WRT  0
+</put>
+<put>
+; --- Variable / parameter "cols"
+  SRF  0  5
+  DRF 
+; --- Put INTEGER
+  WRT  1
+</put>
+<put_line>
+; --- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put>
+; --- Variable / parameter "prof"
+  SRF  0  6
+  DRF 
+; --- Put INTEGER
+  WRT  1
+</put>
+<put_line>
+; --- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<Assignment_to__simple_variable_i>
+; --- Address of variable / parameter "i"
+  SRF  0  9
+  STC  0
+  ASG 
+</Assignment_to__simple_variable_i>
+<while>
+L14:
+<condition>
+; --- Variable / parameter "i"
+  SRF  0  9
+  DRF 
+; --- Variable / parameter "fils"
+  SRF  0  4
+  DRF 
+  LT 
+</condition>
+  JMF L15
+<while_instruction_block>
+<Assignment_to__simple_variable_j>
+; --- Address of variable / parameter "j"
+  SRF  0 10
+  STC  0
+  ASG 
+</Assignment_to__simple_variable_j>
+<while>
+L16:
+<condition>
+; --- Variable / parameter "j"
+  SRF  0 10
+  DRF 
+; --- Variable / parameter "cols"
+  SRF  0  5
+  DRF 
+  LT 
+</condition>
+  JMF L17
+<while_instruction_block>
+<put>
+<component_of_array_imagen>
+<function_call_indice>
+<argument_1>
+; --- Variable / parameter "fils"
+  SRF  0  4
+  DRF 
+</argument_1>
+<argument_2>
+; --- Variable / parameter "cols"
+  SRF  0  5
+  DRF 
+</argument_2>
+<argument_3>
+; --- Variable / parameter "i"
+  SRF  0  9
+  DRF 
+</argument_3>
+<argument_4>
+; --- Variable / parameter "j"
+  SRF  0 10
+  DRF 
+</argument_4>
+  OSF 11  1 L1
+</function_call_indice>
+; --- Initial ref address of array "imagen"
+  SRF  0  7
+  DRF 
+  PLUS 
+  DRF 
+</component_of_array_imagen>
+; --- Put CHARACTER
+  WRT  0
+</put>
+<Assignment_to__simple_variable_j>
+; --- Address of variable / parameter "j"
+  SRF  0 10
+; --- Variable / parameter "j"
+  SRF  0 10
+  DRF 
+  STC  1
+  PLUS 
+  ASG 
+</Assignment_to__simple_variable_j>
+</while_instruction_block>
+  JMP L16
+L17:
+</while>
+<Assignment_to__simple_variable_i>
+; --- Address of variable / parameter "i"
+  SRF  0  9
+; --- Variable / parameter "i"
+  SRF  0  9
+  DRF 
+  STC  1
+  PLUS 
+  ASG 
+</Assignment_to__simple_variable_i>
+</while_instruction_block>
+  JMP L14
+L15:
+</while>
+  CSF 
+</guardar_imagen_instruction_block>
+</procedure_guardar_imagen>
+<procedure_girar_imagen>
+L18:
+; --- Simple parameter "fils", type 0, class 0, level 1,  address [3]!
+; --- Simple parameter "cols", type 0, class 0, level 1,  address [4]!
+; --- Simple parameter "prof", type 0, class 0, level 1,  address [5]!
+; --- Ref array parameter "imagen", type 2, class 1, size 500000, level 1, address [6]!
+; --- Ref array parameter "rotated", type 2, class 1, size 500000, level 1, address [7]!
+<recover_argument_5>
+; --- Recover array ref variable parameter "rotated" (number 5).
+  SRF  0  7
+  ASGI 
+</recover_argument_5>
+<recover_argument_4>
+; --- Recover array ref variable parameter "imagen" (number 4).
+  SRF  0  6
+  ASGI 
+</recover_argument_4>
+<recover_argument_3>
+; --- Recover simple val / ref variable parameter "prof" (number 3).
+  SRF  0  5
+  ASGI 
+</recover_argument_3>
+<recover_argument_2>
+; --- Recover simple val / ref variable parameter "cols" (number 2).
+  SRF  0  4
+  ASGI 
+</recover_argument_2>
+<recover_argument_1>
+; --- Recover simple val / ref variable parameter "fils" (number 1).
+  SRF  0  3
+  ASGI 
+</recover_argument_1>
+  JMP L19
+<variable_declaration>
+; --- Simple variable "c", type 2, level 1,  address [8]!
+; --- Simple variable "i", type 0, level 1,  address [9]!
+; --- Simple variable "j", type 0, level 1,  address [10]!
+; --- Simple variable "idx", type 0, level 1,  address [11]!
+; --- Simple variable "idx_r", type 0, level 1,  address [12]!
+</variable_declaration>
+L19:
+<girar_imagen_instruction_block>
+<Assignment_to__simple_variable_i>
+; --- Address of variable / parameter "i"
+  SRF  0  9
+  STC  0
+  ASG 
+</Assignment_to__simple_variable_i>
+<while>
+L20:
+<condition>
+; --- Variable / parameter "i"
+  SRF  0  9
+  DRF 
+; --- Variable / parameter "fils"
+  SRF  0  3
+  DRF 
+  LT 
+</condition>
+  JMF L21
+<while_instruction_block>
+<Assignment_to__simple_variable_j>
+; --- Address of variable / parameter "j"
+  SRF  0 10
+  STC  0
+  ASG 
+</Assignment_to__simple_variable_j>
+<while>
+L22:
+<condition>
+; --- Variable / parameter "j"
+  SRF  0 10
+  DRF 
+; --- Variable / parameter "cols"
+  SRF  0  4
+  DRF 
+  LT 
+</condition>
+  JMF L23
+<while_instruction_block>
+<Assignment_to__simple_variable_idx>
+; --- Address of variable / parameter "idx"
+  SRF  0 11
+<function_call_indice>
+<argument_1>
+; --- Variable / parameter "fils"
+  SRF  0  3
+  DRF 
+</argument_1>
+<argument_2>
+; --- Variable / parameter "cols"
+  SRF  0  4
+  DRF 
+</argument_2>
+<argument_3>
+; --- Variable / parameter "i"
+  SRF  0  9
+  DRF 
+</argument_3>
+<argument_4>
+; --- Variable / parameter "j"
+  SRF  0 10
+  DRF 
+</argument_4>
+  OSF 13  1 L1
+</function_call_indice>
+  ASG 
+</Assignment_to__simple_variable_idx>
+<Assignment_to__simple_variable_idx_r>
+; --- Address of variable / parameter "idx_r"
+  SRF  0 12
+<function_call_indice>
+<argument_1>
+; --- Variable / parameter "fils"
+  SRF  0  3
+  DRF 
+</argument_1>
+<argument_2>
+; --- Variable / parameter "cols"
+  SRF  0  4
+  DRF 
+</argument_2>
+<argument_3>
+; --- Variable / parameter "fils"
+  SRF  0  3
+  DRF 
+; --- Variable / parameter "i"
+  SRF  0  9
+  DRF 
+  SBT 
+</argument_3>
+<argument_4>
+; --- Variable / parameter "cols"
+  SRF  0  4
+  DRF 
+; --- Variable / parameter "j"
+  SRF  0 10
+  DRF 
+  SBT 
+</argument_4>
+  OSF 13  1 L1
+</function_call_indice>
+  ASG 
+</Assignment_to__simple_variable_idx_r>
+<Assignment_to_component_of_array_rotated>
+; --- Variable / parameter "idx_r"
+  SRF  0 12
+  DRF 
+; --- Initial address of array "rotated"
+  SRF  0  7
+  DRF 
+  PLUS 
+<component_of_array_imagen>
+; --- Variable / parameter "idx"
+  SRF  0 11
+  DRF 
+; --- Initial ref address of array "imagen"
+  SRF  0  6
+  DRF 
+  PLUS 
+  DRF 
+</component_of_array_imagen>
+  ASG 
+</Assignment_to_component_of_array_rotated>
+<Assignment_to__simple_variable_j>
+; --- Address of variable / parameter "j"
+  SRF  0 10
+; --- Variable / parameter "j"
+  SRF  0 10
+  DRF 
+  STC  1
+  PLUS 
+  ASG 
+</Assignment_to__simple_variable_j>
+</while_instruction_block>
+  JMP L22
+L23:
+</while>
+<Assignment_to__simple_variable_i>
+; --- Address of variable / parameter "i"
+  SRF  0  9
+; --- Variable / parameter "i"
+  SRF  0  9
+  DRF 
+  STC  1
+  PLUS 
+  ASG 
+</Assignment_to__simple_variable_i>
+</while_instruction_block>
+  JMP L20
+L21:
+</while>
+  CSF 
+</girar_imagen_instruction_block>
+</procedure_girar_imagen>
+L0:
+<test_5_instruction_block>
+<if-then>
+<condition>
+<function_call_cargar_imagen>
+<argument_1>
+; --- Variable / parameter "formato"
+  SRF  0  3
+</argument_1>
+<argument_2>
+; --- Variable / parameter "fils"
+  SRF  0  4
+</argument_2>
+<argument_3>
+; --- Variable / parameter "cols"
+  SRF  0  5
+</argument_3>
+<argument_4>
+; --- Variable / parameter "max_gris"
+  SRF  0  6
+</argument_4>
+<argument_5>
+; --- Variable / parameter "image"
+  SRF  0  7
+</argument_5>
+  OSF 1000007  0 L3
+</function_call_cargar_imagen>
+</condition>
+  JMF L24
+<then>
+<procedure_call_girar_imagen>
+<argument_1>
+; --- Variable / parameter "fils"
+  SRF  0  4
+  DRF 
+</argument_1>
+<argument_2>
+; --- Variable / parameter "cols"
+  SRF  0  5
+  DRF 
+</argument_2>
+<argument_3>
+; --- Variable / parameter "max_gris"
+  SRF  0  6
+  DRF 
+</argument_3>
+<argument_4>
+; --- Variable / parameter "image"
+  SRF  0  7
+</argument_4>
+<argument_5>
+; --- Variable / parameter "rotated"
+  SRF  0 500007
+</argument_5>
+  OSF 1000007  0 L18
+</procedure_call_girar_imagen>
+<procedure_call_guardar_imagen>
+<argument_1>
+; --- Variable / parameter "formato"
+  SRF  0  3
+  DRF 
+</argument_1>
+<argument_2>
+; --- Variable / parameter "fils"
+  SRF  0  4
+  DRF 
+</argument_2>
+<argument_3>
+; --- Variable / parameter "cols"
+  SRF  0  5
+  DRF 
+</argument_3>
+<argument_4>
+; --- Variable / parameter "max_gris"
+  SRF  0  6
+  DRF 
+</argument_4>
+<argument_5>
+; --- Variable / parameter "rotated"
+  SRF  0 500007
+</argument_5>
+  OSF 1000007  0 L12
+</procedure_call_guardar_imagen>
+</then>
+L24:
+</if-then>
+</test_5_instruction_block>
+  LVP 
+</test_5>

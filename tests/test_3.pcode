@@ -1,0 +1,608 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_3>
+  ENP L0
+<variable_declaration>
+</variable_declaration>
+<procedure>
+L1:
+  JMP L2
+<variable_declaration>
+</variable_declaration>
+L2:
+<instruction_block>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- Put STRING
+<put>
+  STC 12504
+  WRT  0
+  STC 40
+  WRT  0
+  STC 94
+  WRT  0
+  STC 95
+  WRT  0
+  STC 94
+  WRT  0
+  STC 12504
+  WRT  0
+  STC 41
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- Put STRING
+<put>
+  STC 32
+  WRT  0
+  STC 32
+  WRT  0
+  STC 32
+  WRT  0
+  STC 92
+  WRT  0
+  STC 32
+  WRT  0
+  STC 32
+  WRT  0
+  STC 92
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- Put STRING
+<put>
+  STC 32
+  WRT  0
+  STC 32
+  WRT  0
+  STC 32
+  WRT  0
+  STC 32
+  WRT  0
+  STC 45
+  WRT  0
+  STC 45
+  WRT  0
+  STC 45
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- Put STRING
+<put>
+  STC 32
+  WRT  0
+  STC 32
+  WRT  0
+  STC 32
+  WRT  0
+  STC 32
+  WRT  0
+  STC 124
+  WRT  0
+  STC 32
+  WRT  0
+  STC 124
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+  CSF
+</instruction_block>
+</procedure>
+<procedure>
+L3:
+  JMP L4
+<variable_declaration>
+</variable_declaration>
+L4:
+<instruction_block>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- Put STRING
+<put>
+  STC 40
+  WRT  0
+  STC 12494
+  WRT  0
+  STC 94
+  WRT  0
+  STC 95
+  WRT  0
+  STC 94
+  WRT  0
+  STC 41
+  WRT  0
+  STC 12494
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- Put STRING
+<put>
+  STC 32
+  WRT  0
+  STC 47
+  WRT  0
+  STC 32
+  WRT  0
+  STC 32
+  WRT  0
+  STC 47
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- Put STRING
+<put>
+  STC 32
+  WRT  0
+  STC 45
+  WRT  0
+  STC 45
+  WRT  0
+  STC 45
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- Put STRING
+<put>
+  STC 32
+  WRT  0
+  STC 124
+  WRT  0
+  STC 32
+  WRT  0
+  STC 124
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+  CSF
+</instruction_block>
+</procedure>
+<procedure>
+L5:
+  JMP L6
+<variable_declaration>
+; -- Simple variable "i", type INT, level 1, address [3]
+; -- Simple variable "j", type INT, level 1, address [4]
+</variable_declaration>
+L6:
+<instruction_block>
+<Asignacion_a_variable_simple_i>
+; -- Address of variable / parameter "i"
+  SRF  0  3
+  STC  0
+  ASG
+</Asignacion_a_variable_simple_i>
+<while>
+L7:
+<condition>
+; --Variable / parameter "i"
+  SRF  0  3
+  DRF
+  STC 10000
+  LT
+</condition>
+  JMF L8
+<while_instruction_block>
+<procedure_call_mover_izquierda>
+  OSF  5  1 L1
+</procedure_call_mover_izquierda>
+<procedure_call_mover_derecha>
+  OSF  5  1 L3
+</procedure_call_mover_derecha>
+<Asignacion_a_variable_simple_i>
+; -- Address of variable / parameter "i"
+  SRF  0  3
+; --Variable / parameter "i"
+  SRF  0  3
+  DRF
+  STC  1
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_i>
+</while_instruction_block>
+  JMP L7
+L8:
+</while>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- Put STRING
+<put>
+  STC 92
+  WRT  0
+  STC 40
+  WRT  0
+  STC 79
+  WRT  0
+  STC 32
+  WRT  0
+  STC 111
+  WRT  0
+  STC 32
+  WRT  0
+  STC 79
+  WRT  0
+  STC 41
+  WRT  0
+  STC 47
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- Put STRING
+<put>
+  STC 32
+  WRT  0
+  STC 32
+  WRT  0
+  STC 32
+  WRT  0
+  STC 92
+  WRT  0
+  STC 32
+  WRT  0
+  STC 32
+  WRT  0
+  STC 92
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- Put STRING
+<put>
+  STC 32
+  WRT  0
+  STC 32
+  WRT  0
+  STC 32
+  WRT  0
+  STC 32
+  WRT  0
+  STC 45
+  WRT  0
+  STC 45
+  WRT  0
+  STC 45
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- Put STRING
+<put>
+  STC 32
+  WRT  0
+  STC 32
+  WRT  0
+  STC 32
+  WRT  0
+  STC 47
+  WRT  0
+  STC 32
+  WRT  0
+  STC 32
+  WRT  0
+  STC 47
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+  CSF
+</instruction_block>
+</procedure>
+L0:
+<procedure_call_bailar>
+  OSF  3  0 L5
+</procedure_call_bailar>
+  LVP
+</test_3>

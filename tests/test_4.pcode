@@ -1,0 +1,1519 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_4>
+  ENP L0
+<variable_declaration>
+</variable_declaration>
+<procedure>
+L1:
+  JMP L2
+<variable_declaration>
+</variable_declaration>
+L2:
+<instruction_block>
+<put_line>
+; -- Put STRING
+<put>
+  STC 77
+  WRT  0
+  STC 69
+  WRT  0
+  STC 78
+  WRT  0
+  STC 85
+  WRT  0
+  STC 58
+  WRT  0
+  STC 32
+  WRT  0
+  STC 99
+  WRT  0
+  STC 97
+  WRT  0
+  STC 108
+  WRT  0
+  STC 99
+  WRT  0
+  STC 117
+  WRT  0
+  STC 108
+  WRT  0
+  STC 97
+  WRT  0
+  STC 100
+  WRT  0
+  STC 111
+  WRT  0
+  STC 114
+  WRT  0
+  STC 97
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- Put STRING
+<put>
+  STC 73
+  WRT  0
+  STC 110
+  WRT  0
+  STC 116
+  WRT  0
+  STC 114
+  WRT  0
+  STC 111
+  WRT  0
+  STC 100
+  WRT  0
+  STC 117
+  WRT  0
+  STC 122
+  WRT  0
+  STC 99
+  WRT  0
+  STC 97
+  WRT  0
+  STC 32
+  WRT  0
+  STC 101
+  WRT  0
+  STC 108
+  WRT  0
+  STC 32
+  WRT  0
+  STC 110
+  WRT  0
+  STC 250
+  WRT  0
+  STC 109
+  WRT  0
+  STC 101
+  WRT  0
+  STC 114
+  WRT  0
+  STC 111
+  WRT  0
+  STC 32
+  WRT  0
+  STC 100
+  WRT  0
+  STC 101
+  WRT  0
+  STC 32
+  WRT  0
+  STC 108
+  WRT  0
+  STC 97
+  WRT  0
+  STC 32
+  WRT  0
+  STC 111
+  WRT  0
+  STC 112
+  WRT  0
+  STC 101
+  WRT  0
+  STC 114
+  WRT  0
+  STC 97
+  WRT  0
+  STC 99
+  WRT  0
+  STC 105
+  WRT  0
+  STC 243
+  WRT  0
+  STC 110
+  WRT  0
+  STC 32
+  WRT  0
+  STC 99
+  WRT  0
+  STC 111
+  WRT  0
+  STC 114
+  WRT  0
+  STC 114
+  WRT  0
+  STC 101
+  WRT  0
+  STC 115
+  WRT  0
+  STC 112
+  WRT  0
+  STC 111
+  WRT  0
+  STC 110
+  WRT  0
+  STC 100
+  WRT  0
+  STC 105
+  WRT  0
+  STC 101
+  WRT  0
+  STC 110
+  WRT  0
+  STC 116
+  WRT  0
+  STC 101
+  WRT  0
+  STC 58
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- Put STRING
+<put>
+  STC 48
+  WRT  0
+  STC 32
+  WRT  0
+  STC 45
+  WRT  0
+  STC 32
+  WRT  0
+  STC 80
+  WRT  0
+  STC 97
+  WRT  0
+  STC 114
+  WRT  0
+  STC 97
+  WRT  0
+  STC 32
+  WRT  0
+  STC 115
+  WRT  0
+  STC 97
+  WRT  0
+  STC 108
+  WRT  0
+  STC 105
+  WRT  0
+  STC 114
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- Put STRING
+<put>
+  STC 49
+  WRT  0
+  STC 32
+  WRT  0
+  STC 45
+  WRT  0
+  STC 32
+  WRT  0
+  STC 80
+  WRT  0
+  STC 97
+  WRT  0
+  STC 114
+  WRT  0
+  STC 97
+  WRT  0
+  STC 32
+  WRT  0
+  STC 114
+  WRT  0
+  STC 101
+  WRT  0
+  STC 97
+  WRT  0
+  STC 108
+  WRT  0
+  STC 105
+  WRT  0
+  STC 122
+  WRT  0
+  STC 97
+  WRT  0
+  STC 114
+  WRT  0
+  STC 32
+  WRT  0
+  STC 117
+  WRT  0
+  STC 110
+  WRT  0
+  STC 97
+  WRT  0
+  STC 32
+  WRT  0
+  STC 115
+  WRT  0
+  STC 117
+  WRT  0
+  STC 109
+  WRT  0
+  STC 97
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- Put STRING
+<put>
+  STC 50
+  WRT  0
+  STC 32
+  WRT  0
+  STC 45
+  WRT  0
+  STC 32
+  WRT  0
+  STC 80
+  WRT  0
+  STC 97
+  WRT  0
+  STC 114
+  WRT  0
+  STC 97
+  WRT  0
+  STC 32
+  WRT  0
+  STC 114
+  WRT  0
+  STC 101
+  WRT  0
+  STC 97
+  WRT  0
+  STC 108
+  WRT  0
+  STC 105
+  WRT  0
+  STC 122
+  WRT  0
+  STC 97
+  WRT  0
+  STC 114
+  WRT  0
+  STC 32
+  WRT  0
+  STC 117
+  WRT  0
+  STC 110
+  WRT  0
+  STC 97
+  WRT  0
+  STC 32
+  WRT  0
+  STC 114
+  WRT  0
+  STC 101
+  WRT  0
+  STC 115
+  WRT  0
+  STC 116
+  WRT  0
+  STC 97
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- Put STRING
+<put>
+  STC 51
+  WRT  0
+  STC 32
+  WRT  0
+  STC 45
+  WRT  0
+  STC 32
+  WRT  0
+  STC 80
+  WRT  0
+  STC 97
+  WRT  0
+  STC 114
+  WRT  0
+  STC 97
+  WRT  0
+  STC 32
+  WRT  0
+  STC 114
+  WRT  0
+  STC 101
+  WRT  0
+  STC 97
+  WRT  0
+  STC 108
+  WRT  0
+  STC 105
+  WRT  0
+  STC 122
+  WRT  0
+  STC 97
+  WRT  0
+  STC 114
+  WRT  0
+  STC 32
+  WRT  0
+  STC 117
+  WRT  0
+  STC 110
+  WRT  0
+  STC 97
+  WRT  0
+  STC 32
+  WRT  0
+  STC 109
+  WRT  0
+  STC 117
+  WRT  0
+  STC 108
+  WRT  0
+  STC 116
+  WRT  0
+  STC 105
+  WRT  0
+  STC 112
+  WRT  0
+  STC 108
+  WRT  0
+  STC 105
+  WRT  0
+  STC 99
+  WRT  0
+  STC 97
+  WRT  0
+  STC 99
+  WRT  0
+  STC 105
+  WRT  0
+  STC 243
+  WRT  0
+  STC 110
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- Put STRING
+<put>
+  STC 52
+  WRT  0
+  STC 32
+  WRT  0
+  STC 45
+  WRT  0
+  STC 32
+  WRT  0
+  STC 80
+  WRT  0
+  STC 97
+  WRT  0
+  STC 114
+  WRT  0
+  STC 97
+  WRT  0
+  STC 32
+  WRT  0
+  STC 114
+  WRT  0
+  STC 101
+  WRT  0
+  STC 97
+  WRT  0
+  STC 108
+  WRT  0
+  STC 105
+  WRT  0
+  STC 122
+  WRT  0
+  STC 97
+  WRT  0
+  STC 114
+  WRT  0
+  STC 32
+  WRT  0
+  STC 117
+  WRT  0
+  STC 110
+  WRT  0
+  STC 97
+  WRT  0
+  STC 32
+  WRT  0
+  STC 100
+  WRT  0
+  STC 105
+  WRT  0
+  STC 118
+  WRT  0
+  STC 105
+  WRT  0
+  STC 115
+  WRT  0
+  STC 105
+  WRT  0
+  STC 243
+  WRT  0
+  STC 110
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- Put STRING
+<put>
+  STC 53
+  WRT  0
+  STC 32
+  WRT  0
+  STC 45
+  WRT  0
+  STC 32
+  WRT  0
+  STC 80
+  WRT  0
+  STC 97
+  WRT  0
+  STC 114
+  WRT  0
+  STC 97
+  WRT  0
+  STC 32
+  WRT  0
+  STC 99
+  WRT  0
+  STC 97
+  WRT  0
+  STC 108
+  WRT  0
+  STC 99
+  WRT  0
+  STC 117
+  WRT  0
+  STC 108
+  WRT  0
+  STC 97
+  WRT  0
+  STC 114
+  WRT  0
+  STC 32
+  WRT  0
+  STC 101
+  WRT  0
+  STC 108
+  WRT  0
+  STC 32
+  WRT  0
+  STC 109
+  WRT  0
+  STC 243
+  WRT  0
+  STC 100
+  WRT  0
+  STC 117
+  WRT  0
+  STC 108
+  WRT  0
+  STC 111
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+  CSF
+</instruction_block>
+</procedure>
+<procedure>
+L3:
+  JMP L4
+<variable_declaration>
+; -- Simple variable "op", type INT, level 1, address [3]
+</variable_declaration>
+L4:
+<instruction_block>
+; -- Address of variable / parameter "op"
+  SRF  0  3
+  RD  1
+<while>
+L5:
+<condition>
+; --Variable / parameter "op"
+  SRF  0  3
+  DRF
+  STC  0
+  LT
+; --Variable / parameter "op"
+  SRF  0  3
+  DRF
+  STC  5
+  GT
+  OR
+</condition>
+  JMF L6
+<while_instruction_block>
+<put_line>
+; -- Put STRING
+<put>
+  STC 79
+  WRT  0
+  STC 112
+  WRT  0
+  STC 101
+  WRT  0
+  STC 114
+  WRT  0
+  STC 97
+  WRT  0
+  STC 99
+  WRT  0
+  STC 105
+  WRT  0
+  STC 243
+  WRT  0
+  STC 110
+  WRT  0
+  STC 32
+  WRT  0
+  STC 110
+  WRT  0
+  STC 111
+  WRT  0
+  STC 32
+  WRT  0
+  STC 114
+  WRT  0
+  STC 101
+  WRT  0
+  STC 99
+  WRT  0
+  STC 111
+  WRT  0
+  STC 110
+  WRT  0
+  STC 111
+  WRT  0
+  STC 99
+  WRT  0
+  STC 105
+  WRT  0
+  STC 100
+  WRT  0
+  STC 97
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<procedure_call_mostrar_menu>
+  OSF  4  1 L1
+</procedure_call_mostrar_menu>
+; -- Address of variable / parameter "op"
+  SRF  0  3
+  RD  1
+</while_instruction_block>
+  JMP L5
+L6:
+</while>
+<return>
+; --Variable / parameter "op"
+  SRF  0  3
+  DRF
+  CSF
+</return>
+  CSF
+</instruction_block>
+</procedure>
+<procedure>
+L7:
+  JMP L8
+<variable_declaration>
+; -- Simple variable "x", type INT, level 1, address [3]
+</variable_declaration>
+L8:
+<instruction_block>
+<put_line>
+; -- Put STRING
+<put>
+  STC 73
+  WRT  0
+  STC 110
+  WRT  0
+  STC 116
+  WRT  0
+  STC 114
+  WRT  0
+  STC 111
+  WRT  0
+  STC 100
+  WRT  0
+  STC 117
+  WRT  0
+  STC 99
+  WRT  0
+  STC 101
+  WRT  0
+  STC 32
+  WRT  0
+  STC 117
+  WRT  0
+  STC 110
+  WRT  0
+  STC 32
+  WRT  0
+  STC 110
+  WRT  0
+  STC 250
+  WRT  0
+  STC 109
+  WRT  0
+  STC 101
+  WRT  0
+  STC 114
+  WRT  0
+  STC 111
+  WRT  0
+  STC 32
+  WRT  0
+  STC 101
+  WRT  0
+  STC 110
+  WRT  0
+  STC 116
+  WRT  0
+  STC 101
+  WRT  0
+  STC 114
+  WRT  0
+  STC 111
+  WRT  0
+  STC 58
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+; -- Address of variable / parameter "x"
+  SRF  0  3
+  RD  1
+<return>
+; --Variable / parameter "x"
+  SRF  0  3
+  DRF
+  CSF
+</return>
+  CSF
+</instruction_block>
+</procedure>
+<procedure>
+L9:
+  JMP L10
+<variable_declaration>
+; -- Simple variable "x", type INT, level 1, address [3]
+</variable_declaration>
+L10:
+<instruction_block>
+<put_line>
+; -- Put STRING
+<put>
+  STC 73
+  WRT  0
+  STC 110
+  WRT  0
+  STC 116
+  WRT  0
+  STC 114
+  WRT  0
+  STC 111
+  WRT  0
+  STC 100
+  WRT  0
+  STC 117
+  WRT  0
+  STC 99
+  WRT  0
+  STC 101
+  WRT  0
+  STC 32
+  WRT  0
+  STC 111
+  WRT  0
+  STC 116
+  WRT  0
+  STC 114
+  WRT  0
+  STC 111
+  WRT  0
+  STC 32
+  WRT  0
+  STC 110
+  WRT  0
+  STC 250
+  WRT  0
+  STC 109
+  WRT  0
+  STC 101
+  WRT  0
+  STC 114
+  WRT  0
+  STC 111
+  WRT  0
+  STC 32
+  WRT  0
+  STC 101
+  WRT  0
+  STC 110
+  WRT  0
+  STC 116
+  WRT  0
+  STC 101
+  WRT  0
+  STC 114
+  WRT  0
+  STC 111
+  WRT  0
+  STC 58
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+; -- Address of variable / parameter "x"
+  SRF  0  3
+  RD  1
+<return>
+; --Variable / parameter "x"
+  SRF  0  3
+  DRF
+  CSF
+</return>
+  CSF
+</instruction_block>
+</procedure>
+<procedure>
+L11:
+  JMP L12
+<variable_declaration>
+; -- Simple variable "a", type INT, level 1, address [3]
+; -- Simple variable "b", type INT, level 1, address [4]
+; -- Simple variable "op", type INT, level 1, address [5]
+</variable_declaration>
+L12:
+<instruction_block>
+<procedure_call_mostrar_menu>
+  OSF  6  1 L1
+</procedure_call_mostrar_menu>
+<Asignacion_a_variable_simple_op>
+; -- Address of variable / parameter "op"
+  SRF  0  5
+<function_call_get_operacion>
+  OSF  6  1 L3
+</function_call_get_operacion>
+  ASG
+</Asignacion_a_variable_simple_op>
+<while>
+L13:
+<condition>
+; --Variable / parameter "op"
+  SRF  0  5
+  DRF
+  STC  0
+  NEQ
+</condition>
+  JMF L14
+<while_instruction_block>
+<Asignacion_a_variable_simple_a>
+; -- Address of variable / parameter "a"
+  SRF  0  3
+<function_call_get_param1>
+  OSF  6  1 L7
+</function_call_get_param1>
+  ASG
+</Asignacion_a_variable_simple_a>
+<Asignacion_a_variable_simple_b>
+; -- Address of variable / parameter "b"
+  SRF  0  4
+<function_call_get_param2>
+  OSF  6  1 L9
+</function_call_get_param2>
+  ASG
+</Asignacion_a_variable_simple_b>
+<if-then>
+<condition>
+; --Variable / parameter "op"
+  SRF  0  5
+  DRF
+  STC  1
+  EQ
+</condition>
+  JMF L15
+<then>
+<put_line>
+<put>
+; --Variable / parameter "a"
+  SRF  0  3
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- Put STRING
+<put>
+  STC 32
+  WRT  0
+  STC 43
+  WRT  0
+  STC 32
+  WRT  0
+</put>
+<put>
+; --Variable / parameter "b"
+  SRF  0  4
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- Put STRING
+<put>
+  STC 32
+  WRT  0
+  STC 61
+  WRT  0
+  STC 32
+  WRT  0
+</put>
+<put>
+; --Variable / parameter "a"
+  SRF  0  3
+  DRF
+; --Variable / parameter "b"
+  SRF  0  4
+  DRF
+  PLUS
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+  JMP L16
+</then>
+<else>
+L15:
+<if-then>
+<condition>
+; --Variable / parameter "op"
+  SRF  0  5
+  DRF
+  STC  2
+  EQ
+</condition>
+  JMF L17
+<then>
+<put_line>
+<put>
+; --Variable / parameter "a"
+  SRF  0  3
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- Put STRING
+<put>
+  STC 32
+  WRT  0
+  STC 45
+  WRT  0
+  STC 32
+  WRT  0
+</put>
+<put>
+; --Variable / parameter "b"
+  SRF  0  4
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- Put STRING
+<put>
+  STC 32
+  WRT  0
+  STC 61
+  WRT  0
+  STC 32
+  WRT  0
+</put>
+<put>
+; --Variable / parameter "a"
+  SRF  0  3
+  DRF
+; --Variable / parameter "b"
+  SRF  0  4
+  DRF
+  SBT
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+  JMP L18
+</then>
+<else>
+L17:
+<if-then>
+<condition>
+; --Variable / parameter "op"
+  SRF  0  5
+  DRF
+  STC  3
+  EQ
+</condition>
+  JMF L19
+<then>
+<put_line>
+<put>
+; --Variable / parameter "a"
+  SRF  0  3
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- Put STRING
+<put>
+  STC 32
+  WRT  0
+  STC 42
+  WRT  0
+  STC 32
+  WRT  0
+</put>
+<put>
+; --Variable / parameter "b"
+  SRF  0  4
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- Put STRING
+<put>
+  STC 32
+  WRT  0
+  STC 61
+  WRT  0
+  STC 32
+  WRT  0
+</put>
+<put>
+; --Variable / parameter "a"
+  SRF  0  3
+  DRF
+; --Variable / parameter "b"
+  SRF  0  4
+  DRF
+  TMS
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+  JMP L20
+</then>
+<else>
+L19:
+<if-then>
+<condition>
+; --Variable / parameter "op"
+  SRF  0  5
+  DRF
+  STC  4
+  EQ
+</condition>
+  JMF L21
+<then>
+<if-then>
+<condition>
+; --Variable / parameter "b"
+  SRF  0  4
+  DRF
+  STC  0
+  EQ
+</condition>
+  JMF L22
+<then>
+<put_line>
+; -- Put STRING
+<put>
+  STC 69
+  WRT  0
+  STC 82
+  WRT  0
+  STC 82
+  WRT  0
+  STC 79
+  WRT  0
+  STC 82
+  WRT  0
+  STC 33
+  WRT  0
+  STC 32
+  WRT  0
+  STC 78
+  WRT  0
+  STC 79
+  WRT  0
+  STC 32
+  WRT  0
+  STC 83
+  WRT  0
+  STC 69
+  WRT  0
+  STC 32
+  WRT  0
+  STC 80
+  WRT  0
+  STC 85
+  WRT  0
+  STC 69
+  WRT  0
+  STC 68
+  WRT  0
+  STC 69
+  WRT  0
+  STC 32
+  WRT  0
+  STC 68
+  WRT  0
+  STC 73
+  WRT  0
+  STC 86
+  WRT  0
+  STC 73
+  WRT  0
+  STC 68
+  WRT  0
+  STC 73
+  WRT  0
+  STC 82
+  WRT  0
+  STC 32
+  WRT  0
+  STC 69
+  WRT  0
+  STC 78
+  WRT  0
+  STC 84
+  WRT  0
+  STC 82
+  WRT  0
+  STC 69
+  WRT  0
+  STC 32
+  WRT  0
+  STC 48
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+  JMP L23
+</then>
+<else>
+L22:
+<put_line>
+<put>
+; --Variable / parameter "a"
+  SRF  0  3
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- Put STRING
+<put>
+  STC 32
+  WRT  0
+  STC 47
+  WRT  0
+  STC 32
+  WRT  0
+</put>
+<put>
+; --Variable / parameter "b"
+  SRF  0  4
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- Put STRING
+<put>
+  STC 32
+  WRT  0
+  STC 61
+  WRT  0
+  STC 32
+  WRT  0
+</put>
+<put>
+; --Variable / parameter "a"
+  SRF  0  3
+  DRF
+; --Variable / parameter "b"
+  SRF  0  4
+  DRF
+  DIV
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+</else>
+L23:
+</if-then>
+  JMP L24
+</then>
+<else>
+L21:
+<if-then>
+<condition>
+; --Variable / parameter "op"
+  SRF  0  5
+  DRF
+  STC  5
+  EQ
+</condition>
+  JMF L25
+<then>
+<if-then>
+<condition>
+; --Variable / parameter "b"
+  SRF  0  4
+  DRF
+  STC  0
+  LTE
+</condition>
+  JMF L26
+<then>
+<put_line>
+; -- Put STRING
+<put>
+  STC 69
+  WRT  0
+  STC 82
+  WRT  0
+  STC 82
+  WRT  0
+  STC 79
+  WRT  0
+  STC 82
+  WRT  0
+  STC 33
+  WRT  0
+  STC 32
+  WRT  0
+  STC 78
+  WRT  0
+  STC 79
+  WRT  0
+  STC 32
+  WRT  0
+  STC 83
+  WRT  0
+  STC 69
+  WRT  0
+  STC 32
+  WRT  0
+  STC 80
+  WRT  0
+  STC 85
+  WRT  0
+  STC 69
+  WRT  0
+  STC 68
+  WRT  0
+  STC 69
+  WRT  0
+  STC 32
+  WRT  0
+  STC 67
+  WRT  0
+  STC 65
+  WRT  0
+  STC 76
+  WRT  0
+  STC 67
+  WRT  0
+  STC 85
+  WRT  0
+  STC 76
+  WRT  0
+  STC 65
+  WRT  0
+  STC 82
+  WRT  0
+  STC 32
+  WRT  0
+  STC 69
+  WRT  0
+  STC 76
+  WRT  0
+  STC 32
+  WRT  0
+  STC 77
+  WRT  0
+  STC 211
+  WRT  0
+  STC 68
+  WRT  0
+  STC 85
+  WRT  0
+  STC 76
+  WRT  0
+  STC 79
+  WRT  0
+  STC 32
+  WRT  0
+  STC 68
+  WRT  0
+  STC 69
+  WRT  0
+  STC 32
+  WRT  0
+  STC 48
+  WRT  0
+  STC 32
+  WRT  0
+  STC 79
+  WRT  0
+  STC 32
+  WRT  0
+  STC 78
+  WRT  0
+  STC 85
+  WRT  0
+  STC 77
+  WRT  0
+  STC 69
+  WRT  0
+  STC 82
+  WRT  0
+  STC 79
+  WRT  0
+  STC 32
+  WRT  0
+  STC 78
+  WRT  0
+  STC 69
+  WRT  0
+  STC 71
+  WRT  0
+  STC 65
+  WRT  0
+  STC 84
+  WRT  0
+  STC 73
+  WRT  0
+  STC 86
+  WRT  0
+  STC 79
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+  JMP L27
+</then>
+<else>
+L26:
+<put_line>
+<put>
+; --Variable / parameter "a"
+  SRF  0  3
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- Put STRING
+<put>
+  STC 32
+  WRT  0
+  STC 109
+  WRT  0
+  STC 111
+  WRT  0
+  STC 100
+  WRT  0
+  STC 32
+  WRT  0
+</put>
+<put>
+; --Variable / parameter "b"
+  SRF  0  4
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- Put STRING
+<put>
+  STC 32
+  WRT  0
+  STC 61
+  WRT  0
+  STC 32
+  WRT  0
+</put>
+<put>
+; --Variable / parameter "a"
+  SRF  0  3
+  DRF
+; --Variable / parameter "b"
+  SRF  0  4
+  DRF
+  MOD
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+</else>
+L27:
+</if-then>
+  JMP L28
+</then>
+<else>
+L25:
+</else>
+L28:
+</if-then>
+</else>
+L24:
+</if-then>
+</else>
+L20:
+</if-then>
+</else>
+L18:
+</if-then>
+</else>
+L16:
+</if-then>
+<procedure_call_mostrar_menu>
+  OSF  6  1 L1
+</procedure_call_mostrar_menu>
+<Asignacion_a_variable_simple_op>
+; -- Address of variable / parameter "op"
+  SRF  0  5
+<function_call_get_operacion>
+  OSF  6  1 L3
+</function_call_get_operacion>
+  ASG
+</Asignacion_a_variable_simple_op>
+</while_instruction_block>
+  JMP L13
+L14:
+</while>
+<put_line>
+; -- Put STRING
+<put>
+  STC 65
+  WRT  0
+  STC 68
+  WRT  0
+  STC 73
+  WRT  0
+  STC 79
+  WRT  0
+  STC 83
+  WRT  0
+  STC 33
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+  CSF
+</instruction_block>
+</procedure>
+L0:
+<procedure_call_calcular>
+  OSF  3  0 L11
+</procedure_call_calcular>
+  LVP
+</test_4>

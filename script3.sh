@@ -1,0 +1,15 @@
+./script2.sh cambio_base
+./script2.sh conjetura_goldbach
+./script2.sh criba_eratostenes
+./script2.sh factorial
+./script2.sh fibonacci_iterativo
+./script2.sh fibonacci_iterativo
+./script2.sh hello_world
+./script2.sh juego_de_la_vida
+./script2.sh max
+./script2.sh mcd
+./script2.sh numero_euler
+./script2.sh numero_pi_leibnitz
+./script2.sh quicksort
+./script2.sh reinas_ajedrez
+./script2.sh torres_de_hanoi

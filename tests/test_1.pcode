@@ -1,0 +1,1628 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test_1>
+  ENP L0
+<variable_declaration>
+; -- Simple variable "filas", type INT, level 0, address [3]
+; -- Simple variable "columnas", type INT, level 0, address [4]
+; -- Array variable "laberinto_structure", type CHAR, size 500000, level 0, address [5:500004]!
+; -- Simple variable "posicionx", type INT, level 0, address [500005]
+; -- Simple variable "posiciony", type INT, level 0, address [500006]
+; -- Simple variable "finx", type INT, level 0, address [500007]
+; -- Simple variable "finy", type INT, level 0, address [500008]
+</variable_declaration>
+<procedure>
+L1:
+; -- Simple parameter "columnas", type FUNCTION, level 1, address [3]
+; -- Simple parameter "i", type FUNCTION, level 1, address [4]
+; -- Simple parameter "j", type FUNCTION, level 1, address [5]
+<recover_argument_3>
+; -- Recover simple val / ref variable parameter "j" (number 3)
+  SRF  0  5
+  ASGI
+</recover_argument_3>
+<recover_argument_2>
+; -- Recover simple val / ref variable parameter "i" (number 2)
+  SRF  0  4
+  ASGI
+</recover_argument_2>
+<recover_argument_1>
+; -- Recover simple val / ref variable parameter "columnas" (number 1)
+  SRF  0  3
+  ASGI
+</recover_argument_1>
+  JMP L2
+<variable_declaration>
+</variable_declaration>
+L2:
+<instruction_block>
+<return>
+; --Variable / parameter "j"
+  SRF  0  5
+  DRF
+; --Variable / parameter "columnas"
+  SRF  0  3
+  DRF
+  TMS
+; --Variable / parameter "i"
+  SRF  0  4
+  DRF
+  PLUS
+  CSF
+</return>
+  CSF
+</instruction_block>
+</procedure>
+<procedure>
+L3:
+; -- Simple parameter "nfilas", type FUNCTION, level 1, address [3]
+; -- Simple parameter "ncolumnas", type FUNCTION, level 1, address [4]
+; -- Ref array parameter "laberinto", type CHAR, class REF, size 500000, level 1, address [5]
+<recover_argument_3>
+; --  Recover array ref variable parameter "laberinto" (number 3)
+  SRF  0  5
+  ASGI
+</recover_argument_3>
+<recover_argument_2>
+; -- Recover simple val / ref variable parameter "ncolumnas" (number 2)
+  SRF  0  4
+  ASGI
+</recover_argument_2>
+<recover_argument_1>
+; -- Recover simple val / ref variable parameter "nfilas" (number 1)
+  SRF  0  3
+  ASGI
+</recover_argument_1>
+  JMP L4
+<variable_declaration>
+; -- Simple variable "i", type INT, level 1, address [6]
+; -- Simple variable "j", type INT, level 1, address [7]
+</variable_declaration>
+L4:
+<instruction_block>
+; -- Address of variable / parameter "filas"
+  SRF  1  3
+  RD  1
+; -- Address of variable / parameter "columnas"
+  SRF  1  4
+  RD  1
+<skip_line>
+L5:
+; -- Temporary hidden compiler variable used for reading until LF
+  SRF  0  8
+  RD  0
+  SRF  0  8
+  DRF
+  STC 10
+  EQ
+  JMF L5
+</skip_line>
+<if-then>
+<condition>
+; --Variable / parameter "ncolumnas"
+  SRF  0  4
+  DRF
+  DRF
+; --Variable / parameter "nfilas"
+  SRF  0  3
+  DRF
+  DRF
+  TMS
+  STC 500000
+  GT
+</condition>
+  JMF L6
+<then>
+<put_line>
+; -- Put STRING
+<put>
+  STC 76
+  WRT  0
+  STC 97
+  WRT  0
+  STC 98
+  WRT  0
+  STC 101
+  WRT  0
+  STC 114
+  WRT  0
+  STC 105
+  WRT  0
+  STC 110
+  WRT  0
+  STC 116
+  WRT  0
+  STC 111
+  WRT  0
+  STC 32
+  WRT  0
+  STC 100
+  WRT  0
+  STC 101
+  WRT  0
+  STC 109
+  WRT  0
+  STC 97
+  WRT  0
+  STC 115
+  WRT  0
+  STC 105
+  WRT  0
+  STC 100
+  WRT  0
+  STC 111
+  WRT  0
+  STC 32
+  WRT  0
+  STC 103
+  WRT  0
+  STC 114
+  WRT  0
+  STC 97
+  WRT  0
+  STC 110
+  WRT  0
+  STC 100
+  WRT  0
+  STC 101
+  WRT  0
+  STC 46
+  WRT  0
+  STC 32
+  WRT  0
+  STC 83
+  WRT  0
+  STC 101
+  WRT  0
+  STC 32
+  WRT  0
+  STC 101
+  WRT  0
+  STC 115
+  WRT  0
+  STC 112
+  WRT  0
+  STC 101
+  WRT  0
+  STC 114
+  WRT  0
+  STC 97
+  WRT  0
+  STC 98
+  WRT  0
+  STC 97
+  WRT  0
+  STC 110
+  WRT  0
+  STC 32
+  WRT  0
+  STC 53
+  WRT  0
+  STC 48
+  WRT  0
+  STC 48
+  WRT  0
+  STC 48
+  WRT  0
+  STC 48
+  WRT  0
+  STC 48
+  WRT  0
+  STC 32
+  WRT  0
+  STC 99
+  WRT  0
+  STC 111
+  WRT  0
+  STC 109
+  WRT  0
+  STC 112
+  WRT  0
+  STC 111
+  WRT  0
+  STC 110
+  WRT  0
+  STC 101
+  WRT  0
+  STC 110
+  WRT  0
+  STC 116
+  WRT  0
+  STC 101
+  WRT  0
+  STC 115
+  WRT  0
+  STC 44
+  WRT  0
+  STC 32
+  WRT  0
+  STC 114
+  WRT  0
+  STC 101
+  WRT  0
+  STC 100
+  WRT  0
+  STC 105
+  WRT  0
+  STC 98
+  WRT  0
+  STC 105
+  WRT  0
+  STC 100
+  WRT  0
+  STC 97
+  WRT  0
+  STC 115
+  WRT  0
+  STC 58
+  WRT  0
+  STC 32
+  WRT  0
+</put>
+<put>
+; --Variable / parameter "ncolumnas"
+  SRF  0  4
+  DRF
+  DRF
+; --Variable / parameter "nfilas"
+  SRF  0  3
+  DRF
+  DRF
+  TMS
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<return>
+  STC  0
+  CSF
+</return>
+  JMP L7
+</then>
+<else>
+L6:
+<if-then>
+<condition>
+; --Variable / parameter "nfilas"
+  SRF  0  3
+  DRF
+  DRF
+; --Variable / parameter "ncolumnas"
+  SRF  0  4
+  DRF
+  DRF
+  TMS
+  STC  4
+  STC  3
+  TMS
+  LT
+</condition>
+  JMF L8
+<then>
+<put_line>
+; -- Put STRING
+<put>
+  STC 69
+  WRT  0
+  STC 108
+  WRT  0
+  STC 32
+  WRT  0
+  STC 108
+  WRT  0
+  STC 97
+  WRT  0
+  STC 98
+  WRT  0
+  STC 101
+  WRT  0
+  STC 114
+  WRT  0
+  STC 105
+  WRT  0
+  STC 110
+  WRT  0
+  STC 116
+  WRT  0
+  STC 111
+  WRT  0
+  STC 32
+  WRT  0
+  STC 101
+  WRT  0
+  STC 115
+  WRT  0
+  STC 32
+  WRT  0
+  STC 100
+  WRT  0
+  STC 101
+  WRT  0
+  STC 109
+  WRT  0
+  STC 97
+  WRT  0
+  STC 115
+  WRT  0
+  STC 105
+  WRT  0
+  STC 97
+  WRT  0
+  STC 100
+  WRT  0
+  STC 111
+  WRT  0
+  STC 32
+  WRT  0
+  STC 112
+  WRT  0
+  STC 101
+  WRT  0
+  STC 113
+  WRT  0
+  STC 117
+  WRT  0
+  STC 101
+  WRT  0
+  STC 110
+  WRT  0
+  STC 111
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<return>
+  STC  0
+  CSF
+</return>
+  JMP L9
+</then>
+<else>
+L8:
+<Asignacion_a_variable_simple_i>
+; -- Address of variable / parameter "i"
+  SRF  0  6
+  STC  0
+  ASG
+</Asignacion_a_variable_simple_i>
+<while>
+L10:
+<condition>
+; --Variable / parameter "i"
+  SRF  0  6
+  DRF
+; --Variable / parameter "filas"
+  SRF  1  3
+  DRF
+  LT
+</condition>
+  JMF L11
+<while_instruction_block>
+<Asignacion_a_variable_simple_j>
+; -- Address of variable / parameter "j"
+  SRF  0  7
+  STC  0
+  ASG
+</Asignacion_a_variable_simple_j>
+<while>
+L12:
+<condition>
+; --Variable / parameter "j"
+  SRF  0  7
+  DRF
+; --Variable / parameter "columnas"
+  SRF  1  4
+  DRF
+  LT
+</condition>
+  JMF L13
+<while_instruction_block>
+<function_call_indice>
+<argument_1>
+; --Variable / parameter "columnas"
+  SRF  1  4
+  DRF
+</argument_1>
+<argument_2>
+; --Variable / parameter "i"
+  SRF  0  6
+  DRF
+</argument_2>
+<argument_3>
+; --Variable / parameter "j"
+  SRF  0  7
+  DRF
+</argument_3>
+  OSF  8  1 L1
+</function_call_indice>
+; -- Initial address of array "laberinto"
+  SRF  0  5
+  DRF
+  PLUS
+  RD  0
+<Asignacion_a_variable_simple_j>
+; -- Address of variable / parameter "j"
+  SRF  0  7
+; --Variable / parameter "j"
+  SRF  0  7
+  DRF
+  STC  1
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_j>
+</while_instruction_block>
+  JMP L12
+L13:
+</while>
+<Asignacion_a_variable_simple_i>
+; -- Address of variable / parameter "i"
+  SRF  0  6
+; --Variable / parameter "i"
+  SRF  0  6
+  DRF
+  STC  1
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_i>
+</while_instruction_block>
+  JMP L10
+L11:
+</while>
+<return>
+  STC  1
+  CSF
+</return>
+</else>
+L9:
+</if-then>
+</else>
+L7:
+</if-then>
+<return>
+  STC  1
+  CSF
+</return>
+  CSF
+</instruction_block>
+</procedure>
+<procedure>
+L14:
+; -- Simple parameter "filas", type PROCEDURE, level 1, address [3]
+; -- Simple parameter "columnas", type PROCEDURE, level 1, address [4]
+; -- Ref array parameter "laberinto", type CHAR, class REF, size 500000, level 1, address [5]
+<recover_argument_3>
+  SRF  0  5
+  ASGI
+</recover_argument_3>
+<recover_argument_2>
+; -- Recover simple val / ref variable parameter "columnas" (number 2)
+  SRF  0  4
+  ASGI
+</recover_argument_2>
+<recover_argument_1>
+; -- Recover simple val / ref variable parameter "filas" (number 1)
+  SRF  0  3
+  ASGI
+</recover_argument_1>
+  JMP L15
+<variable_declaration>
+; -- Simple variable "i", type INT, level 1, address [6]
+; -- Simple variable "j", type INT, level 1, address [7]
+</variable_declaration>
+L15:
+<instruction_block>
+<Asignacion_a_variable_simple_i>
+; -- Address of variable / parameter "i"
+  SRF  0  6
+  STC  0
+  ASG
+</Asignacion_a_variable_simple_i>
+<while>
+L16:
+<condition>
+; --Variable / parameter "i"
+  SRF  0  6
+  DRF
+; --Variable / parameter "filas"
+  SRF  0  3
+  DRF
+  LT
+</condition>
+  JMF L17
+<while_instruction_block>
+<Asignacion_a_variable_simple_j>
+; -- Address of variable / parameter "j"
+  SRF  0  7
+  STC  0
+  ASG
+</Asignacion_a_variable_simple_j>
+<while>
+L18:
+<condition>
+; --Variable / parameter "j"
+  SRF  0  7
+  DRF
+; --Variable / parameter "columnas"
+  SRF  0  4
+  DRF
+  LT
+</condition>
+  JMF L19
+<while_instruction_block>
+<put>
+<put>
+<function_call_indice>
+<argument_1>
+; --Variable / parameter "columnas"
+  SRF  0  4
+  DRF
+</argument_1>
+<argument_2>
+; --Variable / parameter "i"
+  SRF  0  6
+  DRF
+</argument_2>
+<argument_3>
+; --Variable / parameter "j"
+  SRF  0  7
+  DRF
+</argument_3>
+  OSF  8  1 L1
+</function_call_indice>
+; -- Initial address of array "laberinto"
+  SRF  0  5
+  DRF
+  PLUS
+  DRF
+; -- Put CHAR
+  WRT  0
+</put>
+</put>
+<Asignacion_a_variable_simple_j>
+; -- Address of variable / parameter "j"
+  SRF  0  7
+; --Variable / parameter "j"
+  SRF  0  7
+  DRF
+  STC  1
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_j>
+</while_instruction_block>
+  JMP L18
+L19:
+</while>
+<Asignacion_a_variable_simple_i>
+; -- Address of variable / parameter "i"
+  SRF  0  6
+; --Variable / parameter "i"
+  SRF  0  6
+  DRF
+  STC  1
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_i>
+</while_instruction_block>
+  JMP L16
+L17:
+</while>
+<put_line>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+  CSF
+</instruction_block>
+</procedure>
+<procedure>
+L20:
+; -- Simple parameter "salx", type FUNCTION, level 1, address [3]
+; -- Simple parameter "saly", type FUNCTION, level 1, address [4]
+; -- Simple parameter "posx", type FUNCTION, level 1, address [5]
+; -- Simple parameter "posy", type FUNCTION, level 1, address [6]
+<recover_argument_4>
+; -- Recover simple val / ref variable parameter "posy" (number 4)
+  SRF  0  6
+  ASGI
+</recover_argument_4>
+<recover_argument_3>
+; -- Recover simple val / ref variable parameter "posx" (number 3)
+  SRF  0  5
+  ASGI
+</recover_argument_3>
+<recover_argument_2>
+; -- Recover simple val / ref variable parameter "saly" (number 2)
+  SRF  0  4
+  ASGI
+</recover_argument_2>
+<recover_argument_1>
+; -- Recover simple val / ref variable parameter "salx" (number 1)
+  SRF  0  3
+  ASGI
+</recover_argument_1>
+  JMP L21
+<variable_declaration>
+</variable_declaration>
+L21:
+<instruction_block>
+<return>
+; --Variable / parameter "salx"
+  SRF  0  3
+  DRF
+; --Variable / parameter "posx"
+  SRF  0  5
+  DRF
+  EQ
+; --Variable / parameter "saly"
+  SRF  0  4
+  DRF
+; --Variable / parameter "posy"
+  SRF  0  6
+  DRF
+  EQ
+  AND
+  CSF
+</return>
+  CSF
+</instruction_block>
+</procedure>
+<procedure>
+L22:
+; -- Ref array parameter "lab", type CHAR, class REF, size 500000, level 1, address [3]
+; -- Simple parameter "posx", type FUNCTION, level 1, address [4]
+; -- Simple parameter "posy", type FUNCTION, level 1, address [5]
+; -- Simple parameter "cols", type FUNCTION, level 1, address [6]
+; -- Simple parameter "c", type FUNCTION, level 1, address [7]
+<recover_argument_5>
+; -- Recover simple val / ref variable parameter "c" (number 5)
+  SRF  0  7
+  ASGI
+</recover_argument_5>
+<recover_argument_4>
+; -- Recover simple val / ref variable parameter "cols" (number 4)
+  SRF  0  6
+  ASGI
+</recover_argument_4>
+<recover_argument_3>
+; -- Recover simple val / ref variable parameter "posy" (number 3)
+  SRF  0  5
+  ASGI
+</recover_argument_3>
+<recover_argument_2>
+; -- Recover simple val / ref variable parameter "posx" (number 2)
+  SRF  0  4
+  ASGI
+</recover_argument_2>
+<recover_argument_1>
+; --  Recover array ref variable parameter "lab" (number 1)
+  SRF  0  3
+  ASGI
+</recover_argument_1>
+  JMP L23
+<variable_declaration>
+; -- Simple variable "ind", type INT, level 1, address [8]
+</variable_declaration>
+L23:
+<instruction_block>
+<Asignacion_a_variable_simple_ind>
+; -- Address of variable / parameter "ind"
+  SRF  0  8
+<function_call_indice>
+<argument_1>
+; --Variable / parameter "cols"
+  SRF  0  6
+  DRF
+</argument_1>
+<argument_2>
+; --Variable / parameter "posx"
+  SRF  0  4
+  DRF
+</argument_2>
+<argument_3>
+; --Variable / parameter "posy"
+  SRF  0  5
+  DRF
+</argument_3>
+  OSF  9  1 L1
+</function_call_indice>
+  ASG
+</Asignacion_a_variable_simple_ind>
+<return>
+; --Variable / parameter "ind"
+  SRF  0  8
+  DRF
+; -- Initial address of array "lab"
+  SRF  0  3
+  DRF
+  PLUS
+  DRF
+; --Variable / parameter "c"
+  SRF  0  7
+  DRF
+  EQ
+  CSF
+</return>
+  CSF
+</instruction_block>
+</procedure>
+<procedure>
+L24:
+; -- Ref array parameter "lab", type CHAR, class REF, size 500000, level 1, address [3]
+; -- Simple parameter "posx", type PROCEDURE, level 1, address [4]
+; -- Simple parameter "posy", type PROCEDURE, level 1, address [5]
+; -- Simple parameter "cols", type PROCEDURE, level 1, address [6]
+; -- Simple parameter "c", type PROCEDURE, level 1, address [7]
+<recover_argument_5>
+; -- Recover simple val / ref variable parameter "c" (number 5)
+  SRF  0  7
+  ASGI
+</recover_argument_5>
+<recover_argument_4>
+; -- Recover simple val / ref variable parameter "cols" (number 4)
+  SRF  0  6
+  ASGI
+</recover_argument_4>
+<recover_argument_3>
+; -- Recover simple val / ref variable parameter "posy" (number 3)
+  SRF  0  5
+  ASGI
+</recover_argument_3>
+<recover_argument_2>
+; -- Recover simple val / ref variable parameter "posx" (number 2)
+  SRF  0  4
+  ASGI
+</recover_argument_2>
+<recover_argument_1>
+  SRF  0  3
+  ASGI
+</recover_argument_1>
+  JMP L25
+<variable_declaration>
+</variable_declaration>
+L25:
+<instruction_block>
+<Asignacion_a_variable_simple_lab>
+<function_call_indice>
+<argument_1>
+; --Variable / parameter "cols"
+  SRF  0  6
+  DRF
+</argument_1>
+<argument_2>
+; --Variable / parameter "posx"
+  SRF  0  4
+  DRF
+</argument_2>
+<argument_3>
+; --Variable / parameter "posy"
+  SRF  0  5
+  DRF
+</argument_3>
+  OSF  8  1 L1
+</function_call_indice>
+; -- Initial address of array "lab"
+  SRF  0  3
+  DRF
+  PLUS
+; --Variable / parameter "c"
+  SRF  0  7
+  DRF
+  ASG
+</Asignacion_a_variable_simple_lab>
+  CSF
+</instruction_block>
+</procedure>
+<procedure>
+L26:
+; -- Ref array parameter "lab", type CHAR, class REF, size 500000, level 1, address [3]
+; -- Simple parameter "filas", type FUNCTION, level 1, address [4]
+; -- Simple parameter "columnas", type FUNCTION, level 1, address [5]
+; -- Simple parameter "salx", type FUNCTION, level 1, address [6]
+; -- Simple parameter "saly", type FUNCTION, level 1, address [7]
+; -- Simple parameter "posx", type FUNCTION, level 1, address [8]
+; -- Simple parameter "posy", type FUNCTION, level 1, address [9]
+<recover_argument_7>
+; -- Recover simple val / ref variable parameter "posy" (number 7)
+  SRF  0  9
+  ASGI
+</recover_argument_7>
+<recover_argument_6>
+; -- Recover simple val / ref variable parameter "posx" (number 6)
+  SRF  0  8
+  ASGI
+</recover_argument_6>
+<recover_argument_5>
+; -- Recover simple val / ref variable parameter "saly" (number 5)
+  SRF  0  7
+  ASGI
+</recover_argument_5>
+<recover_argument_4>
+; -- Recover simple val / ref variable parameter "salx" (number 4)
+  SRF  0  6
+  ASGI
+</recover_argument_4>
+<recover_argument_3>
+; -- Recover simple val / ref variable parameter "columnas" (number 3)
+  SRF  0  5
+  ASGI
+</recover_argument_3>
+<recover_argument_2>
+; -- Recover simple val / ref variable parameter "filas" (number 2)
+  SRF  0  4
+  ASGI
+</recover_argument_2>
+<recover_argument_1>
+; --  Recover array ref variable parameter "lab" (number 1)
+  SRF  0  3
+  ASGI
+</recover_argument_1>
+  JMP L27
+<variable_declaration>
+</variable_declaration>
+L27:
+<instruction_block>
+<procedure_call_imprimir_laberinto>
+<argument_1>
+; --Variable / parameter "filas"
+  SRF  0  4
+  DRF
+</argument_1>
+<argument_2>
+; --Variable / parameter "columnas"
+  SRF  0  5
+  DRF
+</argument_2>
+<argument_3>
+; --Variable / parameter "lab"
+  SRF  0  3
+  DRF
+</argument_3>
+  OSF 10  1 L14
+</procedure_call_imprimir_laberinto>
+<put_line>
+; -- Put STRING
+<put>
+  STC 80
+  WRT  0
+  STC 111
+  WRT  0
+  STC 115
+  WRT  0
+  STC 105
+  WRT  0
+  STC 99
+  WRT  0
+  STC 105
+  WRT  0
+  STC 111
+  WRT  0
+  STC 110
+  WRT  0
+  STC 58
+  WRT  0
+  STC 32
+  WRT  0
+  STC 120
+  WRT  0
+  STC 61
+  WRT  0
+</put>
+<put>
+; --Variable / parameter "posy"
+  SRF  0  9
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- Put STRING
+<put>
+  STC 32
+  WRT  0
+  STC 121
+  WRT  0
+  STC 61
+  WRT  0
+</put>
+<put>
+; --Variable / parameter "posx"
+  SRF  0  8
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<if-then>
+<condition>
+<function_call_estoy_en_la_salida>
+<argument_1>
+; --Variable / parameter "salx"
+  SRF  0  6
+  DRF
+</argument_1>
+<argument_2>
+; --Variable / parameter "saly"
+  SRF  0  7
+  DRF
+</argument_2>
+<argument_3>
+; --Variable / parameter "posx"
+  SRF  0  8
+  DRF
+</argument_3>
+<argument_4>
+; --Variable / parameter "posy"
+  SRF  0  9
+  DRF
+</argument_4>
+  OSF 10  1 L20
+</function_call_estoy_en_la_salida>
+  NGB
+</condition>
+  JMF L28
+<then>
+<if-then>
+<condition>
+<function_call_valido>
+<argument_1>
+; --Variable / parameter "lab"
+  SRF  0  3
+  DRF
+</argument_1>
+<argument_2>
+; --Variable / parameter "posx"
+  SRF  0  8
+  DRF
+</argument_2>
+<argument_3>
+; --Variable / parameter "posy"
+  SRF  0  9
+  DRF
+</argument_3>
+<argument_4>
+; --Variable / parameter "columnas"
+  SRF  0  5
+  DRF
+</argument_4>
+<argument_5>
+  STC 32
+</argument_5>
+  OSF 10  1 L22
+</function_call_valido>
+</condition>
+  JMF L29
+<then>
+<procedure_call_marcar>
+<argument_1>
+; --Variable / parameter "lab"
+  SRF  0  3
+  DRF
+</argument_1>
+<argument_2>
+; --Variable / parameter "posx"
+  SRF  0  8
+  DRF
+</argument_2>
+<argument_3>
+; --Variable / parameter "posy"
+  SRF  0  9
+  DRF
+</argument_3>
+<argument_4>
+; --Variable / parameter "columnas"
+  SRF  0  5
+  DRF
+</argument_4>
+<argument_5>
+  STC 111
+</argument_5>
+  OSF 10  1 L24
+</procedure_call_marcar>
+<if-then>
+<condition>
+<function_call_salir>
+<argument_1>
+; --Variable / parameter "lab"
+  SRF  0  3
+  DRF
+</argument_1>
+<argument_2>
+; --Variable / parameter "filas"
+  SRF  0  4
+  DRF
+</argument_2>
+<argument_3>
+; --Variable / parameter "columnas"
+  SRF  0  5
+  DRF
+</argument_3>
+<argument_4>
+; --Variable / parameter "salx"
+  SRF  0  6
+  DRF
+</argument_4>
+<argument_5>
+; --Variable / parameter "saly"
+  SRF  0  7
+  DRF
+</argument_5>
+<argument_6>
+; --Variable / parameter "posx"
+  SRF  0  8
+  DRF
+  STC  1
+  PLUS
+</argument_6>
+<argument_7>
+; --Variable / parameter "posy"
+  SRF  0  9
+  DRF
+</argument_7>
+  OSF 10  1 L26
+</function_call_salir>
+</condition>
+  JMF L30
+<then>
+<return>
+  STC  1
+  CSF
+</return>
+  JMP L31
+</then>
+<else>
+L30:
+<if-then>
+<condition>
+<function_call_salir>
+<argument_1>
+; --Variable / parameter "lab"
+  SRF  0  3
+  DRF
+</argument_1>
+<argument_2>
+; --Variable / parameter "filas"
+  SRF  0  4
+  DRF
+</argument_2>
+<argument_3>
+; --Variable / parameter "columnas"
+  SRF  0  5
+  DRF
+</argument_3>
+<argument_4>
+; --Variable / parameter "salx"
+  SRF  0  6
+  DRF
+</argument_4>
+<argument_5>
+; --Variable / parameter "saly"
+  SRF  0  7
+  DRF
+</argument_5>
+<argument_6>
+; --Variable / parameter "posx"
+  SRF  0  8
+  DRF
+</argument_6>
+<argument_7>
+; --Variable / parameter "posy"
+  SRF  0  9
+  DRF
+  STC  1
+  SBT
+</argument_7>
+  OSF 10  1 L26
+</function_call_salir>
+</condition>
+  JMF L32
+<then>
+<return>
+  STC  1
+  CSF
+</return>
+  JMP L33
+</then>
+<else>
+L32:
+<if-then>
+<condition>
+<function_call_salir>
+<argument_1>
+; --Variable / parameter "lab"
+  SRF  0  3
+  DRF
+</argument_1>
+<argument_2>
+; --Variable / parameter "filas"
+  SRF  0  4
+  DRF
+</argument_2>
+<argument_3>
+; --Variable / parameter "columnas"
+  SRF  0  5
+  DRF
+</argument_3>
+<argument_4>
+; --Variable / parameter "salx"
+  SRF  0  6
+  DRF
+</argument_4>
+<argument_5>
+; --Variable / parameter "saly"
+  SRF  0  7
+  DRF
+</argument_5>
+<argument_6>
+; --Variable / parameter "posx"
+  SRF  0  8
+  DRF
+  STC  1
+  SBT
+</argument_6>
+<argument_7>
+; --Variable / parameter "posy"
+  SRF  0  9
+  DRF
+</argument_7>
+  OSF 10  1 L26
+</function_call_salir>
+</condition>
+  JMF L34
+<then>
+<return>
+  STC  1
+  CSF
+</return>
+  JMP L35
+</then>
+<else>
+L34:
+<if-then>
+<condition>
+<function_call_salir>
+<argument_1>
+; --Variable / parameter "lab"
+  SRF  0  3
+  DRF
+</argument_1>
+<argument_2>
+; --Variable / parameter "filas"
+  SRF  0  4
+  DRF
+</argument_2>
+<argument_3>
+; --Variable / parameter "columnas"
+  SRF  0  5
+  DRF
+</argument_3>
+<argument_4>
+; --Variable / parameter "salx"
+  SRF  0  6
+  DRF
+</argument_4>
+<argument_5>
+; --Variable / parameter "saly"
+  SRF  0  7
+  DRF
+</argument_5>
+<argument_6>
+; --Variable / parameter "posx"
+  SRF  0  8
+  DRF
+</argument_6>
+<argument_7>
+; --Variable / parameter "posy"
+  SRF  0  9
+  DRF
+  STC  1
+  PLUS
+</argument_7>
+  OSF 10  1 L26
+</function_call_salir>
+</condition>
+  JMF L36
+<then>
+<return>
+  STC  1
+  CSF
+</return>
+  JMP L37
+</then>
+<else>
+L36:
+<if-then>
+<condition>
+<function_call_valido>
+<argument_1>
+; --Variable / parameter "lab"
+  SRF  0  3
+  DRF
+</argument_1>
+<argument_2>
+; --Variable / parameter "posx"
+  SRF  0  8
+  DRF
+</argument_2>
+<argument_3>
+; --Variable / parameter "posy"
+  SRF  0  9
+  DRF
+</argument_3>
+<argument_4>
+; --Variable / parameter "columnas"
+  SRF  0  5
+  DRF
+</argument_4>
+<argument_5>
+  STC 111
+</argument_5>
+  OSF 10  1 L22
+</function_call_valido>
+</condition>
+  JMF L38
+<then>
+<procedure_call_marcar>
+<argument_1>
+; --Variable / parameter "lab"
+  SRF  0  3
+  DRF
+</argument_1>
+<argument_2>
+; --Variable / parameter "posx"
+  SRF  0  8
+  DRF
+</argument_2>
+<argument_3>
+; --Variable / parameter "posy"
+  SRF  0  9
+  DRF
+</argument_3>
+<argument_4>
+; --Variable / parameter "columnas"
+  SRF  0  5
+  DRF
+</argument_4>
+<argument_5>
+  STC 32
+</argument_5>
+  OSF 10  1 L24
+</procedure_call_marcar>
+  JMP L39
+</then>
+<else>
+L38:
+</else>
+L39:
+</if-then>
+</else>
+L37:
+</if-then>
+</else>
+L35:
+</if-then>
+</else>
+L33:
+</if-then>
+</else>
+L31:
+</if-then>
+  JMP L40
+</then>
+<else>
+L29:
+</else>
+L40:
+</if-then>
+  JMP L41
+</then>
+<else>
+L28:
+<return>
+  STC  1
+  CSF
+</return>
+</else>
+L41:
+</if-then>
+<return>
+  STC  0
+  CSF
+</return>
+  CSF
+</instruction_block>
+</procedure>
+L0:
+<if-then>
+<condition>
+<function_call_cargar_laberinto>
+<argument_1>
+; --Variable / parameter "filas"
+  SRF  0  3
+</argument_1>
+<argument_2>
+; --Variable / parameter "columnas"
+  SRF  0  4
+</argument_2>
+<argument_3>
+; --Variable / parameter "laberinto_structure"
+  SRF  0  5
+</argument_3>
+  OSF 500009  0 L3
+</function_call_cargar_laberinto>
+</condition>
+  JMF L42
+<then>
+<Asignacion_a_variable_simple_finx>
+; -- Address of variable / parameter "finx"
+  SRF  0 500007
+; --Variable / parameter "filas"
+  SRF  0  3
+  DRF
+  STC  2
+  SBT
+  ASG
+</Asignacion_a_variable_simple_finx>
+<Asignacion_a_variable_simple_finy>
+; -- Address of variable / parameter "finy"
+  SRF  0 500008
+; --Variable / parameter "columnas"
+  SRF  0  4
+  DRF
+  STC  2
+  SBT
+  ASG
+</Asignacion_a_variable_simple_finy>
+<Asignacion_a_variable_simple_posicionx>
+; -- Address of variable / parameter "posicionx"
+  SRF  0 500005
+  STC  1
+  ASG
+</Asignacion_a_variable_simple_posicionx>
+<Asignacion_a_variable_simple_posiciony>
+; -- Address of variable / parameter "posiciony"
+  SRF  0 500006
+  STC  1
+  ASG
+</Asignacion_a_variable_simple_posiciony>
+<if-then>
+<condition>
+<function_call_salir>
+<argument_1>
+; --Variable / parameter "laberinto_structure"
+  SRF  0  5
+</argument_1>
+<argument_2>
+; --Variable / parameter "filas"
+  SRF  0  3
+  DRF
+</argument_2>
+<argument_3>
+; --Variable / parameter "columnas"
+  SRF  0  4
+  DRF
+</argument_3>
+<argument_4>
+; --Variable / parameter "finx"
+  SRF  0 500007
+  DRF
+</argument_4>
+<argument_5>
+; --Variable / parameter "finy"
+  SRF  0 500008
+  DRF
+</argument_5>
+<argument_6>
+  STC  1
+</argument_6>
+<argument_7>
+  STC  1
+</argument_7>
+  OSF 500009  0 L26
+</function_call_salir>
+</condition>
+  JMF L43
+<then>
+<put_line>
+; -- Put STRING
+<put>
+  STC 72
+  WRT  0
+  STC 97
+  WRT  0
+  STC 32
+  WRT  0
+  STC 115
+  WRT  0
+  STC 97
+  WRT  0
+  STC 108
+  WRT  0
+  STC 105
+  WRT  0
+  STC 100
+  WRT  0
+  STC 111
+  WRT  0
+  STC 32
+  WRT  0
+  STC 99
+  WRT  0
+  STC 111
+  WRT  0
+  STC 110
+  WRT  0
+  STC 32
+  WRT  0
+  STC 101
+  WRT  0
+  STC 120
+  WRT  0
+  STC 105
+  WRT  0
+  STC 116
+  WRT  0
+  STC 111
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+<procedure_call_imprimir_laberinto>
+<argument_1>
+; --Variable / parameter "filas"
+  SRF  0  3
+  DRF
+</argument_1>
+<argument_2>
+; --Variable / parameter "columnas"
+  SRF  0  4
+  DRF
+</argument_2>
+<argument_3>
+; --Variable / parameter "laberinto_structure"
+  SRF  0  5
+</argument_3>
+  OSF 500009  0 L14
+</procedure_call_imprimir_laberinto>
+  JMP L44
+</then>
+<else>
+L43:
+<put_line>
+; -- Put STRING
+<put>
+  STC 78
+  WRT  0
+  STC 111
+  WRT  0
+  STC 32
+  WRT  0
+  STC 104
+  WRT  0
+  STC 97
+  WRT  0
+  STC 32
+  WRT  0
+  STC 101
+  WRT  0
+  STC 110
+  WRT  0
+  STC 99
+  WRT  0
+  STC 111
+  WRT  0
+  STC 110
+  WRT  0
+  STC 116
+  WRT  0
+  STC 114
+  WRT  0
+  STC 97
+  WRT  0
+  STC 100
+  WRT  0
+  STC 111
+  WRT  0
+  STC 32
+  WRT  0
+  STC 115
+  WRT  0
+  STC 97
+  WRT  0
+  STC 108
+  WRT  0
+  STC 105
+  WRT  0
+  STC 100
+  WRT  0
+  STC 97
+  WRT  0
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+</else>
+L44:
+</if-then>
+<put_line>
+; -- Put STRING
+<put>
+  STC 83
+  WRT  0
+  STC 97
+  WRT  0
+  STC 108
+  WRT  0
+  STC 105
+  WRT  0
+  STC 100
+  WRT  0
+  STC 97
+  WRT  0
+  STC 58
+  WRT  0
+  STC 32
+  WRT  0
+  STC 120
+  WRT  0
+  STC 61
+  WRT  0
+</put>
+<put>
+; --Variable / parameter "finy"
+  SRF  0 500008
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- Put STRING
+<put>
+  STC 32
+  WRT  0
+  STC 121
+  WRT  0
+  STC 61
+  WRT  0
+</put>
+<put>
+; --Variable / parameter "finx"
+  SRF  0 500007
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+  JMP L45
+</then>
+<else>
+L42:
+</else>
+L45:
+</if-then>
+  LVP
+</test_1>

@@ -1,12 +1,16 @@
 procedure cerea is
 
 integer i[3];
+integer tamano_tablero;
 
-procedure f(val integer i[3]) is
+function integer sitio (val integer fila, columna) is
 begin
-   
+    --return (((fila - 1) * tamano_tablero) + columna - 1 + 6 - 7 + columna);
+    return (((fila - 1) * tamano_tablero) + columna - 1 + 6 - 7 + columna);
+  --return (fila + columna + 3);
 end
 
 begin
-    f(i);
+    i[1] := sitio(2,3);
+  --  put_line((3 - 1)*2);
 end
