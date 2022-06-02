@@ -56,15 +56,9 @@ L4:
   ASG
 </Asignacion_a_variable_simple_correcto>
 <while>
-L5:
-<condition>
-; --Variable / parameter "correcto"
-  SRF  0  4
-  DRF
-  NGB
-</condition>
-  JMF L6
+  JMP L5
 <while_instruction_block>
+L6:
 <put>
 ; -- Put STRING
 <put>
@@ -216,22 +210,24 @@ L5:
   STC 10
   WRT  0
 </put_line>
-  JMP L8
 </then>
-<else>
 L7:
-</else>
-L8:
 </if-then>
 </while_instruction_block>
-  JMP L5
-L6:
+L5:
+<condition>
+; --Variable / parameter "correcto"
+  SRF  0  4
+  DRF
+  NGB
+</condition>
+  JMT L6
 </while>
   CSF
 </instruction_block>
 </procedure>
 <procedure>
-L9:
+L8:
 ; -- Simple parameter "n", type PROCEDURE, level 1, address [3]
 ; -- Simple parameter "r", type PROCEDURE, level 1, address [4]
 <recover_argument_2>
@@ -244,12 +240,12 @@ L9:
   SRF  0  3
   ASGI
 </recover_argument_1>
-  JMP L10
+  JMP L9
 <variable_declaration>
 ; -- Simple variable "r1", type INT, level 1, address [5]
 ; -- Simple variable "r2", type INT, level 1, address [6]
 </variable_declaration>
-L10:
+L9:
 <instruction_block>
 <if-then>
 <condition>
@@ -259,7 +255,7 @@ L10:
   STC  1
   GT
 </condition>
-  JMF L11
+  JMF L10
 <then>
 <procedure_call_fib>
 <argument_1>
@@ -273,7 +269,7 @@ L10:
 ; --Variable / parameter "r1"
   SRF  0  5
 </argument_2>
-  OSF  7  1 L9
+  OSF  7  1 L8
 </procedure_call_fib>
 <procedure_call_fib>
 <argument_1>
@@ -287,7 +283,7 @@ L10:
 ; --Variable / parameter "r2"
   SRF  0  6
 </argument_2>
-  OSF  7  1 L9
+  OSF  7  1 L8
 </procedure_call_fib>
 <Asignacion_a_variable_simple_r>
 ; -- Address of variable / parameter "r"
@@ -302,10 +298,10 @@ L10:
   PLUS
   ASG
 </Asignacion_a_variable_simple_r>
-  JMP L12
+  JMP L11
 </then>
 <else>
-L11:
+L10:
 <Asignacion_a_variable_simple_r>
 ; -- Address of variable / parameter "r"
   SRF  0  4
@@ -316,7 +312,7 @@ L11:
   ASG
 </Asignacion_a_variable_simple_r>
 </else>
-L12:
+L11:
 </if-then>
   CSF
 </instruction_block>
@@ -686,18 +682,9 @@ L0:
   ASG
 </Asignacion_a_variable_simple_i>
 <while>
-L13:
-<condition>
-; --Variable / parameter "i"
-  SRF  0  3
-  DRF
-; --Variable / parameter "n"
-  SRF  0  4
-  DRF
-  LTE
-</condition>
-  JMF L14
+  JMP L12
 <while_instruction_block>
+L13:
 <procedure_call_fib>
 <argument_1>
 ; --Variable / parameter "i"
@@ -708,7 +695,7 @@ L13:
 ; --Variable / parameter "r"
   SRF  0  5
 </argument_2>
-  OSF  6  0 L9
+  OSF  6  0 L8
 </procedure_call_fib>
 <put_line>
 ; -- Put STRING
@@ -764,8 +751,17 @@ L13:
   ASG
 </Asignacion_a_variable_simple_i>
 </while_instruction_block>
-  JMP L13
-L14:
+L12:
+<condition>
+; --Variable / parameter "i"
+  SRF  0  3
+  DRF
+; --Variable / parameter "n"
+  SRF  0  4
+  DRF
+  LTE
+</condition>
+  JMT L13
 </while>
 <procedure_call_cambiar_de_linea>
   OSF  6  0 L1

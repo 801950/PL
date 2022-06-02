@@ -27,18 +27,9 @@ L2:
   ASG
 </Asignacion_a_variable_simple_i>
 <while>
-L3:
-<condition>
-; --Variable / parameter "i"
-  SRF  0  4
-  DRF
-; --Variable / parameter "elementos"
-  SRF  1 85
-  DRF
-  LT
-</condition>
-  JMF L4
+  JMP L3
 <while_instruction_block>
+L4:
 <Asignacion_a_variable_simple_colonia>
 ; --Variable / parameter "i"
   SRF  0  4
@@ -67,8 +58,17 @@ L3:
   ASG
 </Asignacion_a_variable_simple_i>
 </while_instruction_block>
-  JMP L3
-L4:
+L3:
+<condition>
+; --Variable / parameter "i"
+  SRF  0  4
+  DRF
+; --Variable / parameter "elementos"
+  SRF  1 85
+  DRF
+  LT
+</condition>
+  JMT L4
 </while>
   CSF
 </instruction_block>
@@ -93,16 +93,9 @@ L6:
   ASG
 </Asignacion_a_variable_simple_i>
 <while>
-L7:
-<condition>
-; --Variable / parameter "i"
-  SRF  0  4
-  DRF
-  STC 80
-  LT
-</condition>
-  JMF L8
+  JMP L7
 <while_instruction_block>
+L8:
 <Asignacion_a_variable_simple_colonia>
 ; --Variable / parameter "i"
   SRF  0  4
@@ -135,8 +128,15 @@ L7:
   ASG
 </Asignacion_a_variable_simple_i>
 </while_instruction_block>
-  JMP L7
-L8:
+L7:
+<condition>
+; --Variable / parameter "i"
+  SRF  0  4
+  DRF
+  STC 80
+  LT
+</condition>
+  JMT L8
 </while>
   CSF
 </instruction_block>
@@ -325,18 +325,9 @@ L10:
   ASG
 </Asignacion_a_variable_simple_i>
 <while>
-L11:
-<condition>
-; --Variable / parameter "i"
-  SRF  0 84
-  DRF
-; --Variable / parameter "elementos"
-  SRF  1 85
-  DRF
-  LT
-</condition>
-  JMF L12
+  JMP L11
 <while_instruction_block>
+L12:
 <Asignacion_a_variable_simple_colonia>
 ; --Variable / parameter "i"
   SRF  0 84
@@ -365,8 +356,17 @@ L11:
   ASG
 </Asignacion_a_variable_simple_i>
 </while_instruction_block>
-  JMP L11
-L12:
+L11:
+<condition>
+; --Variable / parameter "i"
+  SRF  0 84
+  DRF
+; --Variable / parameter "elementos"
+  SRF  1 85
+  DRF
+  LT
+</condition>
+  JMT L12
 </while>
   CSF
 </instruction_block>
@@ -558,19 +558,11 @@ L20:
   PLUS
   ASG
 </Asignacion_a_variable_simple_vivos>
-  JMP L23
 </then>
-<else>
 L22:
-</else>
-L23:
 </if-then>
-  JMP L24
 </then>
-<else>
 L21:
-</else>
-L24:
 </if-then>
 <if-then>
 <condition>
@@ -580,7 +572,7 @@ L24:
   STC  1
   GT
 </condition>
-  JMF L25
+  JMF L23
 <then>
 <if-then>
 <condition>
@@ -589,6 +581,47 @@ L24:
   DRF
   STC  2
   SBT
+; -- Initial address of array "colonia"
+  SRF  0  3
+  DRF
+  PLUS
+</condition>
+  DRF
+  JMF L24
+<then>
+<Asignacion_a_variable_simple_vivos>
+; -- Address of variable / parameter "vivos"
+  SRF  0  5
+; --Variable / parameter "vivos"
+  SRF  0  5
+  DRF
+  STC  1
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_vivos>
+</then>
+L24:
+</if-then>
+</then>
+L23:
+</if-then>
+<if-then>
+<condition>
+; --Variable / parameter "i"
+  SRF  0  4
+  DRF
+  STC 79
+  LT
+</condition>
+  JMF L25
+<then>
+<if-then>
+<condition>
+; --Variable / parameter "i"
+  SRF  0  4
+  DRF
+  STC  1
+  PLUS
 ; -- Initial address of array "colonia"
   SRF  0  3
   DRF
@@ -607,68 +640,11 @@ L24:
   PLUS
   ASG
 </Asignacion_a_variable_simple_vivos>
-  JMP L27
 </then>
-<else>
 L26:
-</else>
-L27:
 </if-then>
-  JMP L28
 </then>
-<else>
 L25:
-</else>
-L28:
-</if-then>
-<if-then>
-<condition>
-; --Variable / parameter "i"
-  SRF  0  4
-  DRF
-  STC 79
-  LT
-</condition>
-  JMF L29
-<then>
-<if-then>
-<condition>
-; --Variable / parameter "i"
-  SRF  0  4
-  DRF
-  STC  1
-  PLUS
-; -- Initial address of array "colonia"
-  SRF  0  3
-  DRF
-  PLUS
-</condition>
-  DRF
-  JMF L30
-<then>
-<Asignacion_a_variable_simple_vivos>
-; -- Address of variable / parameter "vivos"
-  SRF  0  5
-; --Variable / parameter "vivos"
-  SRF  0  5
-  DRF
-  STC  1
-  PLUS
-  ASG
-</Asignacion_a_variable_simple_vivos>
-  JMP L31
-</then>
-<else>
-L30:
-</else>
-L31:
-</if-then>
-  JMP L32
-</then>
-<else>
-L29:
-</else>
-L32:
 </if-then>
 <if-then>
 <condition>
@@ -678,7 +654,7 @@ L32:
   STC 78
   LT
 </condition>
-  JMF L33
+  JMF L27
 <then>
 <if-then>
 <condition>
@@ -693,7 +669,7 @@ L32:
   PLUS
 </condition>
   DRF
-  JMF L34
+  JMF L28
 <then>
 <Asignacion_a_variable_simple_vivos>
 ; -- Address of variable / parameter "vivos"
@@ -705,19 +681,11 @@ L32:
   PLUS
   ASG
 </Asignacion_a_variable_simple_vivos>
-  JMP L35
 </then>
-<else>
-L34:
-</else>
-L35:
+L28:
 </if-then>
-  JMP L36
 </then>
-<else>
-L33:
-</else>
-L36:
+L27:
 </if-then>
 <if-then>
 <condition>
@@ -731,7 +699,7 @@ L36:
   DRF
   NGB
 </condition>
-  JMF L37
+  JMF L29
 <then>
 <return>
 ; --Variable / parameter "vivos"
@@ -747,10 +715,10 @@ L36:
   OR
   CSF
 </return>
-  JMP L38
+  JMP L30
 </then>
 <else>
-L37:
+L29:
 <return>
 ; --Variable / parameter "vivos"
   SRF  0  5
@@ -766,24 +734,24 @@ L37:
   CSF
 </return>
 </else>
-L38:
+L30:
 </if-then>
   CSF
 </instruction_block>
 </procedure>
 <procedure>
-L39:
+L31:
 ; -- Ref array parameter "colonia", type BOOL, class REF, size 80, level 1, address [3]
 <recover_argument_1>
   SRF  0  3
   ASGI
 </recover_argument_1>
-  JMP L40
+  JMP L32
 <variable_declaration>
 ; -- Simple variable "i", type INT, level 1, address [4]
 ; -- Array variable "siguiente", type BOOL, size 80, level 0, address [5:84]!
 </variable_declaration>
-L40:
+L32:
 <instruction_block>
 <Asignacion_a_variable_simple_i>
 ; -- Address of variable / parameter "i"
@@ -792,18 +760,9 @@ L40:
   ASG
 </Asignacion_a_variable_simple_i>
 <while>
-L41:
-<condition>
-; --Variable / parameter "i"
-  SRF  0  4
-  DRF
-; --Variable / parameter "elementos"
-  SRF  1 85
-  DRF
-  LT
-</condition>
-  JMF L42
+  JMP L33
 <while_instruction_block>
+L34:
 <Asignacion_a_variable_simple_siguiente>
 ; --Variable / parameter "i"
   SRF  0  4
@@ -837,8 +796,17 @@ L41:
   ASG
 </Asignacion_a_variable_simple_i>
 </while_instruction_block>
-  JMP L41
-L42:
+L33:
+<condition>
+; --Variable / parameter "i"
+  SRF  0  4
+  DRF
+; --Variable / parameter "elementos"
+  SRF  1 85
+  DRF
+  LT
+</condition>
+  JMT L34
 </while>
 <procedure_call_asignar>
 <argument_1>
@@ -1015,7 +983,7 @@ L42:
 </instruction_block>
 </procedure>
 <procedure>
-L43:
+L35:
 ; -- Val array parameter "colonia", type BOOL, class VAL, size80, level 1, address [3:82]
 <recover_argument_1>
 ; --  Recover array val variable parameter "colonia" (number 1)
@@ -1180,11 +1148,11 @@ L43:
   SRF  0  3
   ASGI
 </recover_argument_1>
-  JMP L44
+  JMP L36
 <variable_declaration>
 ; -- Simple variable "i", type INT, level 1, address [83]
 </variable_declaration>
-L44:
+L36:
 <instruction_block>
 <Asignacion_a_variable_simple_i>
 ; -- Address of variable / parameter "i"
@@ -1193,18 +1161,9 @@ L44:
   ASG
 </Asignacion_a_variable_simple_i>
 <while>
-L45:
-<condition>
-; --Variable / parameter "i"
-  SRF  0 83
-  DRF
-; --Variable / parameter "elementos"
-  SRF  1 85
-  DRF
-  LT
-</condition>
-  JMF L46
+  JMP L37
 <while_instruction_block>
+L38:
 <if-then>
 <condition>
 ; --Variable / parameter "i"
@@ -1215,7 +1174,7 @@ L45:
   PLUS
   DRF
 </condition>
-  JMF L47
+  JMF L39
 <then>
 <put>
 <put>
@@ -1224,10 +1183,10 @@ L45:
   WRT  0
 </put>
 </put>
-  JMP L48
+  JMP L40
 </then>
 <else>
-L47:
+L39:
 <put>
 <put>
   STC 32
@@ -1236,7 +1195,7 @@ L47:
 </put>
 </put>
 </else>
-L48:
+L40:
 </if-then>
 <Asignacion_a_variable_simple_i>
 ; -- Address of variable / parameter "i"
@@ -1249,8 +1208,17 @@ L48:
   ASG
 </Asignacion_a_variable_simple_i>
 </while_instruction_block>
-  JMP L45
-L46:
+L37:
+<condition>
+; --Variable / parameter "i"
+  SRF  0 83
+  DRF
+; --Variable / parameter "elementos"
+  SRF  1 85
+  DRF
+  LT
+</condition>
+  JMT L38
 </while>
 <put>
 <put>
@@ -1707,7 +1675,7 @@ L0:
   SRF  0 82
   DRF
 </argument_1>
-  OSF 86  0 L43
+  OSF 86  0 L35
 </procedure_call_mostrarcolonia>
 <Asignacion_a_variable_simple_i>
 ; -- Address of variable / parameter "i"
@@ -1722,24 +1690,15 @@ L0:
   ASG
 </Asignacion_a_variable_simple_iteraciones>
 <while>
-L49:
-<condition>
-; --Variable / parameter "i"
-  SRF  0 83
-  DRF
-; --Variable / parameter "iteraciones"
-  SRF  0 84
-  DRF
-  LTE
-</condition>
-  JMF L50
+  JMP L41
 <while_instruction_block>
+L42:
 <procedure_call_siguientegeneracion>
 <argument_1>
 ; --Variable / parameter "colonia"
   SRF  0  3
 </argument_1>
-  OSF 86  0 L39
+  OSF 86  0 L31
 </procedure_call_siguientegeneracion>
 <procedure_call_mostrarcolonia>
 <argument_1>
@@ -1905,7 +1864,7 @@ L49:
   SRF  0 82
   DRF
 </argument_1>
-  OSF 86  0 L43
+  OSF 86  0 L35
 </procedure_call_mostrarcolonia>
 <Asignacion_a_variable_simple_i>
 ; -- Address of variable / parameter "i"
@@ -1918,8 +1877,17 @@ L49:
   ASG
 </Asignacion_a_variable_simple_i>
 </while_instruction_block>
-  JMP L49
-L50:
+L41:
+<condition>
+; --Variable / parameter "i"
+  SRF  0 83
+  DRF
+; --Variable / parameter "iteraciones"
+  SRF  0 84
+  DRF
+  LTE
+</condition>
+  JMT L42
 </while>
   LVP
 </juego_de_la_vida>

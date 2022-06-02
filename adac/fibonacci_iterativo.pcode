@@ -51,17 +51,9 @@ L4:
   ASG
 </Asignacion_a_variable_simple_dato>
 <while>
-L5:
-<condition>
-; --Variable / parameter "dato"
-  SRF  0  3
-  DRF
-  DRF
-  STC  0
-  LTE
-</condition>
-  JMF L6
+  JMP L5
 <while_instruction_block>
+L6:
 <put>
 ; -- Put STRING
 <put>
@@ -128,8 +120,16 @@ L5:
   DRF
   RD  1
 </while_instruction_block>
-  JMP L5
-L6:
+L5:
+<condition>
+; --Variable / parameter "dato"
+  SRF  0  3
+  DRF
+  DRF
+  STC  0
+  LTE
+</condition>
+  JMT L6
 </while>
   CSF
 </instruction_block>
@@ -162,15 +162,9 @@ L8:
   ASG
 </Asignacion_a_variable_simple_correcto>
 <while>
-L9:
-<condition>
-; --Variable / parameter "correcto"
-  SRF  0  4
-  DRF
-  NGB
-</condition>
-  JMF L10
+  JMP L9
 <while_instruction_block>
+L10:
 <procedure_call_pedir_dato>
 <argument_1>
 ; --Variable / parameter "dato"
@@ -258,16 +252,18 @@ L9:
   WRT  0
 </put>
 </put>
-  JMP L12
 </then>
-<else>
 L11:
-</else>
-L12:
 </if-then>
 </while_instruction_block>
-  JMP L9
-L10:
+L9:
+<condition>
+; --Variable / parameter "correcto"
+  SRF  0  4
+  DRF
+  NGB
+</condition>
+  JMT L10
 </while>
   CSF
 </instruction_block>
@@ -907,18 +903,9 @@ L0:
   ASG
 </Asignacion_a_variable_simple_fnm2>
 <while>
-L13:
-<condition>
-; --Variable / parameter "i"
-  SRF  0  3
-  DRF
-; --Variable / parameter "n"
-  SRF  0  4
-  DRF
-  LTE
-</condition>
-  JMF L14
+  JMP L12
 <while_instruction_block>
+L13:
 <Asignacion_a_variable_simple_fn>
 ; -- Address of variable / parameter "fn"
   SRF  0  5
@@ -1001,8 +988,17 @@ L13:
   ASG
 </Asignacion_a_variable_simple_i>
 </while_instruction_block>
-  JMP L13
-L14:
+L12:
+<condition>
+; --Variable / parameter "i"
+  SRF  0  3
+  DRF
+; --Variable / parameter "n"
+  SRF  0  4
+  DRF
+  LTE
+</condition>
+  JMT L13
 </while>
 <procedure_call_cambiar_de_linea>
   OSF  8  0 L1

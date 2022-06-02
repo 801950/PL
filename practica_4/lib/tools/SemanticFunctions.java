@@ -61,7 +61,7 @@ public class SemanticFunctions {
 	
 	/**
 	 * Comprueba que los atributos at1 y at2 puedan ser comparados con un
-	 * operador relacional.
+	 * operador relacional. Se añaden los bloques de código correspondientes.
 	 */
 	public void check2typesWithRelationalOperator(Attributes at1, Attributes at2, Attributes at3, Attributes at){
 		if(at2.type == null) {
@@ -102,7 +102,7 @@ public class SemanticFunctions {
 
 	/**
 	 * Comprueba que los atributos at1 y at2 puedan ser comparados con un
-	 * operador aritmético o con un operador booleano.
+	 * operador aritmético o con un operador booleano. 
 	 */
 	public void check2typesWithOperator(Attributes at1, Attributes at2, Attributes at3, Attributes at) {
 		if(at3.type != null && at2.type != null && (at1.type != at3.type|| at2.type != at3.type)){
@@ -116,9 +116,6 @@ public class SemanticFunctions {
 			at.constante = true;
 			errSem.deteccion("Tipos incorrectos", at.token);
 		} else if(at3.type != null && at2.type != null){
-			// System.out.println("at1: " + at1.token.image + " " +  at1.constante + " " + at1.parClass + " " + at1.code.toString());
-			// System. out.println("at2: " + at2.token.image + " " + at2.constante + " " + at2.parClass + " " + at2.code.toString());
-			// System.out.println("at3: " + at3.token.image + " " +  at3.code.toString());
 			at.type = at1.type;
 			at.token = new Token(at1.token.kind);
 			at.token.beginLine = at1.token.beginLine;
@@ -127,12 +124,6 @@ public class SemanticFunctions {
 			at.token.endColumn = at2.token.endColumn;
 			at.token.image = at1.token.image + " " + at3.token.image + " " + at2.token.image;
 			at.constante = true;
-		//	if(!at1.constante) at.code.addInst(OpCode.DRF);
-		//	if(at1.parClass != null && at1.parClass == Symbol.ParameterClass.REF) at.code.addInst(OpCode.DRF);
-		//	at.code.addBlock(at2.code);
-		//	if(!at2.constante) at.code.addInst(OpCode.DRF);
-		//	if(at2.parClass != null && at2.parClass == Symbol.ParameterClass.REF) at.code.addInst(OpCode.DRF);
-		//	at.code.addBlock(at3.code);
 		} 
 	}
 
@@ -184,6 +175,8 @@ public class SemanticFunctions {
 	/**
 	 * Inserta en la tabla de símbolos ts un SymbolArray con nombre t1, índice 
 	 * mínimo 0, índice máximo t2-1 y tipo ARRAY. 
+	 * Se añaden comentarios a la generación de código sobre el código
+	 * insertado.
 	 */
 	public void insertArraySymbolTab(SymbolTable ts, Token t1, Attributes at, Token t2){
 		try{
@@ -203,6 +196,8 @@ public class SemanticFunctions {
 	/**
 	 * Inserta en la tabla de símbolos ts un Symbol del tipo correspondiente al 
 	 * tipo de at.
+	 * Añade a la generación de código información sobre la variable que se 
+	 * inserta.
 	 */
 	public void insertVariableSymbolTab(SymbolTable ts, Token t1, Attributes at){
 		try{
@@ -243,7 +238,6 @@ public class SemanticFunctions {
 			errSem.deteccion(e, t);
 		}
 		ts.insertBlock();
-		//return p;
 	}
 
 	/**
@@ -334,9 +328,6 @@ public class SemanticFunctions {
 		if(at1.type == null || (at1.type != Symbol.Types.INT && at1.type != Symbol.Types.CHAR)){
 			errSem.deteccion("Tipo no asignable para la funcion get()", at1.token);
 		}
-		// } else if (at2.type != null && (at2.type != Symbol.Types.INT && at2.type != Symbol.Types.CHAR)){
-		// 	errSem.deteccion("Tipo no asignable para la funcion get()", at2.token);
-		// } 
 	}
 
 	/**
@@ -411,6 +402,8 @@ public class SemanticFunctions {
 	 * at1 contiene información sobre el tipo base del parámetro
 	 * Después de la ejecución inserta el parámetro en el bloque 
 	 * correspondiente.
+	 * Se añaden comentarios a la generación de código sobre el parámetro que
+	 * se inserta.
 	 */
 	public void insertParametro(SymbolTable ts, Attributes at, Attributes at1, Token t){
 		Symbol s, s2;
@@ -626,6 +619,8 @@ public class SemanticFunctions {
 	 * está insertando el vector.
 	 * at1 contiene información sobre el tipo base del vector
 	 * Después de la ejecución inserta el vector en el bloque correspondiente.
+	 * Se añade al bloque de código generado información sobre el vector a modo
+	 *  de comentario.
 	 */
 	public void insertVector(SymbolTable ts, Token t1, Token t2, Attributes at, Attributes at1){
 		Symbol s, s1;

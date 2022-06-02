@@ -2,73 +2,68 @@
 <cerea>
   ENP L0
 <variable_declaration>
-; -- Array variable "i", type INT, size 3, level 0, address [3:5]!
-; -- Simple variable "tamano_tablero", type INT, level 0, address [6]
+; -- Simple variable "i", type INT, level 0, address [3]
+; -- Simple variable "j", type INT, level 0, address [4]
+; -- Simple variable "tamano_tablero", type INT, level 0, address [5]
 </variable_declaration>
-<procedure>
-L1:
-; -- Simple parameter "fila", type FUNCTION, level 1, address [3]
-; -- Simple parameter "columna", type FUNCTION, level 1, address [4]
-<recover_argument_2>
-; -- Recover simple val / ref variable parameter "columna" (number 2)
-  SRF  0  4
-  ASGI
-</recover_argument_2>
-<recover_argument_1>
-; -- Recover simple val / ref variable parameter "fila" (number 1)
-  SRF  0  3
-  ASGI
-</recover_argument_1>
-  JMP L2
-<variable_declaration>
-</variable_declaration>
-L2:
-<instruction_block>
-<return>
-; --Variable / parameter "fila"
-  SRF  0  3
-  DRF
-  STC  1
-  SBT
-; --Variable / parameter "tamano_tablero"
-  SRF  1  6
-  DRF
-  TMS
-; --Variable / parameter "columna"
-  SRF  0  4
-  DRF
-  PLUS
-  STC  1
-  SBT
-  STC  6
-  PLUS
-  STC  7
-  SBT
-; --Variable / parameter "columna"
-  SRF  0  4
-  DRF
-  PLUS
-  CSF
-</return>
-  CSF
-</instruction_block>
-</procedure>
 L0:
-<Asignacion_a_variable_simple_i>
-  STC  1
-; -- Initial address of array "i"
+<while>
+  JMP L1
+<while_instruction_block>
+L2:
+<while>
+  JMP L3
+<while_instruction_block>
+L4:
+<put_line>
+<put>
+; --Variable / parameter "j"
+  SRF  0  4
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+</while_instruction_block>
+L3:
+<condition>
+; --Variable / parameter "j"
+  SRF  0  4
+  DRF
+  STC  0
+  GT
+</condition>
+  JMT L4
+</while>
+<put_line>
+<put>
+; --Variable / parameter "i"
   SRF  0  3
-  PLUS
-<function_call_sitio>
-<argument_1>
-  STC  2
-</argument_1>
-<argument_2>
-  STC  3
-</argument_2>
-  OSF  7  0 L1
-</function_call_sitio>
-  ASG
-</Asignacion_a_variable_simple_i>
+  DRF
+; -- Put INTEGER
+  WRT  1
+</put>
+; -- CR/LF
+  STC 13
+  WRT  0
+  STC 10
+  WRT  0
+</put_line>
+</while_instruction_block>
+L1:
+<condition>
+; --Variable / parameter "i"
+  SRF  0  3
+  DRF
+  STC  0
+  GT
+</condition>
+  JMT L2
+</while>
   LVP
 </cerea>

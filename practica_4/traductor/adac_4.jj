@@ -1,5 +1,5 @@
 //*****************************************************************
-// File:   adac.jj
+// File:   adac_4.jj
 // Author: Nerea Gallego, César Borja
 // Date:   ...........
 // Coms:   Un tutorial sobre el análisis léxico con javacc
@@ -33,7 +33,7 @@ import java.io.FileWriter;
 public class adac_4 {
 
 	static SymbolTable ts = new SymbolTable();
-//	static ErrorSemantico err =  new ErrorSemantico();
+	
 	static SemanticFunctions semFuncs = new SemanticFunctions();
 
 	static Stack<Symbol> stack = new Stack<Symbol>();
@@ -46,7 +46,8 @@ public class adac_4 {
     	adac_4 parser;
 		
 		try{
-			f = new FileWriter(args[0].substring(0,args[0].lastIndexOf('.'))+".pcode");
+			// fichero de generación de código
+			f = new FileWriter(args[0].substring(0,args[0].lastIndexOf('.'))+".pcode"); 
 			f.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		} catch(IOException e) {
 			System.out.println(e);
@@ -207,7 +208,7 @@ void S () :
 	< EOF >
 }
 
-//------------ Símbolo inicial de la gramática. Para análisis léxico no hace falta más
+//------------ Símbolo inicial de la gramática.
 void prog () : 
 {
 	Token t;
@@ -219,10 +220,6 @@ void prog () :
   	<tPROC>
 		{
 			codeOut.addInst(PCodeInstruction.OpCode.ENP,"L0");
-		//	s = codeOut.toString();
-		//	escribirCodigo(s);
-		//	codeOut.clearBlock();
-			
 		}
   	t = <tID>
 		{
@@ -235,9 +232,7 @@ void prog () :
  	declaracion_variables(at)
   	declaracion_procs_funcs(at)
 		{
-		//	codeOut.addBlock(at.code);
 			at.code.addLabel("L0");
-			//codeOut.clearBlock();
 		}
 	bloque_sentencias(at)
 		{
@@ -251,6 +246,7 @@ void prog () :
 		}
 }
 
+// bloque de declaración de las variables del programa principal o de una función
 void declaracion_variables(Attributes at):
 {
 
@@ -266,6 +262,7 @@ void declaracion_variables(Attributes at):
 	}
 }
 
+// declaración de una lista de variables del mismo tipo
 void declaracion(Attributes at):
 {
 	Symbol s = null;
@@ -275,11 +272,9 @@ void declaracion(Attributes at):
 {
 	tipo_variable(at) 
 	lista_vars(at)
-	{
-		//at.code.addBlock(at1.code);
-		//escribirCodigo(at.code.toString());
-	}
 }
+
+// recoge el tipo de una variable en concreto
 void tipo_variable(Attributes at):
 {
 
@@ -299,16 +294,17 @@ void tipo_variable(Attributes at):
 		}
 }
 
+// lista que contiene los identificadores de las variables de un tipo
 void lista_vars(Attributes at):
 {
 
-	
 }
 {
 	variable(at) ( <tCOMA> variable(at) )*
 
 }
 
+// identificador de una variable
 void variable(Attributes at):
 {
 	Token t1, t2;	
@@ -327,6 +323,7 @@ void variable(Attributes at):
 		}
 }
 
+// bloque de declaración de procedimientos o funciones
 void declaracion_procs_funcs(Attributes at):
 {
 
@@ -336,7 +333,7 @@ void declaracion_procs_funcs(Attributes at):
 }
 
 
-
+// declaración de un procedimiento o una variable
 void declaracion_proc_func(Attributes at):
 {
 
@@ -348,16 +345,16 @@ void declaracion_proc_func(Attributes at):
 	
 }
 
+// declaración de un procedimiento
 void declaracion_procedimientos(Attributes at):
 {
+	// se informa a los bloques inferiores sobre, direcciones a ocupar, bloque y etiquetas
 	Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
 	at3.dir = 3;
-	//at1.lastLabel = at.lastLabel;
 	int n = at.lastLabel + 1, n2;
 	CodeBlock code1 = new CodeBlock();
 	CodeBlock code2 = new CodeBlock();
 	at3.funcDirection = n;
-	//at3.lastLabel = at.lastLabel;
 }
 {
 	cabecera_procedimiento(at3)
@@ -402,11 +399,12 @@ void declaracion_procedimientos(Attributes at):
 		}
 }
 
+// declaración de una función
 void declaracion_funciones(Attributes at):
 {
+	// se informa a los bloques inferiores sobre, direcciones a ocupar, bloque y etiquetas
 	Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
 	at3.dir = 3;
-	//at1.lastLabel = at.lastLabel;
 	int n = at.lastLabel + 1, n2;
 	CodeBlock code1 = new CodeBlock();
 	CodeBlock code2 = new CodeBlock();
@@ -455,6 +453,7 @@ void declaracion_funciones(Attributes at):
 		}
 }
 
+// cabecera de un procedimiento. Se tratan los argumentos según sean por valor o por referencia, y según sean o no de tipo ARRAY
 void cabecera_procedimiento(Attributes at):
 {
 	Token t;
@@ -519,6 +518,7 @@ void cabecera_procedimiento(Attributes at):
 		
 }
 
+// cabecera de una función. Se tratan los argumentos según sean por valor o por referencia, y según sean o no de tipo ARRAY
 void cabecera_funcion(Attributes at):
 {
 	Token t;
@@ -529,6 +529,7 @@ void cabecera_funcion(Attributes at):
 	SymbolArray sa;
 }
 {
+	// contiene el tipo base de la función, el nombre de la misma y su declaración de parámetros
 	<tFUNC> tipo_variable(at) t = <tID>
 		{
 			
@@ -585,6 +586,8 @@ void cabecera_funcion(Attributes at):
 		
 }
 
+// lista de parámetros de un procedimiento o una función.
+// contiene 0 o más parámetros
 void lista_parametros(Attributes at):
 {
 
@@ -593,6 +596,8 @@ void lista_parametros(Attributes at):
 	(parametro(at) (<tPC> parametro(at))*)?
 }
 
+// parametro de una función o procedimiento.
+// Se indica si es pasado por valor o por referencia, el tipo de parámetros y los identificadores que corresponden a tal definición
 void parametro(Attributes at):
 {
 	Symbol.Types tipo;
@@ -613,6 +618,7 @@ void parametro(Attributes at):
 	tipo_variable(at1) lista_parametros_formales(at,at1)
 }
 
+// lista de parámetros del mismo tipo de una función o procedimiento
 void lista_parametros_formales(Attributes at, Attributes at1):
 {
 
@@ -621,6 +627,7 @@ void lista_parametros_formales(Attributes at, Attributes at1):
 	parametro_formal(at,at1) ( <tCOMA> parametro_formal(at,at1) )*
 }
 
+// parámetro de la cabecera de un procedimiento o función de un determinado tipo
 void parametro_formal(Attributes at, Attributes at1):
 {
 	Token t1, t2;
@@ -630,26 +637,23 @@ void parametro_formal(Attributes at, Attributes at1):
 	t1 = <tID> <tCORCHETEOPEN> t2 = <tNUM> <tCORCHETECLOSE>
 		{
 			semFuncs.insertVector(ts,t1,t2,at,at1);
-		//	semFuncs.insertArraySymbolTab(ts,t1,at,t2);
 		}
 | 	t1 = <tID>
 		{
 			semFuncs.insertParametro(ts,at,at1,t1);
-		//	semFuncs.insertVariableSymbolTab(ts,t1,at);
 		}
 }
 
+// bloque de instrucciones de código
 void bloque_sentencias(Attributes at):
 {
-	//Attributes at1 = new Attributes();
+	
 }
 {
 	try {
 		<tBEGIN>
 		(inst(at))*
 		<tEND>
-		{
-		}
 	} catch (ParseException e){
 		Set<Integer> conjSinc = infoParseException(e);
 		conjSinc.add(tEND);
@@ -657,18 +661,21 @@ void bloque_sentencias(Attributes at):
 	}
 }
 
+// instrucción. Pueden ser también sentencias if-else o while
 void inst(Attributes at):
 {
-
+	// información de si hay instrucciones para realizar optimizaciónes de código
+	at.hayAlgo = true;
 }
 {
 	inst_acaban_pc(at) 
 |	inst_acaban_end(at)
 }
 
+// instrucciones accabadas en punto y coma
 void inst_acaban_pc(Attributes at):
 {
-	//Attributes at1 = new Attributes();
+
 }
 {
 	try {
@@ -681,9 +688,7 @@ void inst_acaban_pc(Attributes at):
 		|	inst_return(at)
 		)
 			<tPC>
-			{
-				//at.code.addBlock(at1.code);
-			}
+			
 	} catch(ParseException e){
 		Set<Integer> conjSinc = infoParseException(e);
 		conjSinc.add(tPC);
@@ -691,17 +696,15 @@ void inst_acaban_pc(Attributes at):
 	}
 }
 
+// instrucciones que acaban en la sentencia end
 void inst_acaban_end(Attributes at):
 {
-	Attributes at1 = new Attributes();
 }
 {
 	try{
 		(inst_iteracion(at)
 	|	inst_seleccion(at) ) <tEND>
-			{
-				//at.code.addBlock(at1.code);
-			}
+			
 	} catch(ParseException e){
 		Set<Integer> conjSinc = infoParseException(e);
 		conjSinc.add(tEND);
@@ -709,8 +712,7 @@ void inst_acaban_end(Attributes at):
 	}
 }
 
-
-
+// instrucciones de asignación
 void inst_asignacion(Attributes at):
 {
 	Attributes at1 = new Attributes(), at2 = new Attributes();
@@ -732,10 +734,10 @@ void inst_asignacion(Attributes at):
 			codeOut.addInst(PCodeInstruction.OpCode.ASG);
 			codeOut.encloseXMLTags("Asignacion_a_variable_simple_"+at1.token.image);
 			at.code.addBlock(codeOut);
-			//escribirCodigo(codeOut.toString());
 		}
 }
 
+// asignable, se busca el identifiador de la variable a la que se quiere asignar algo
 void asignable(Attributes at):
 {
 	Attributes at1 = new Attributes();
@@ -769,11 +771,15 @@ void asignable(Attributes at):
 		
 }
 
+// instrucción de bucle while
 void inst_iteracion(Attributes at):
 {
 	Attributes at1 = new Attributes(), at2 = new Attributes();
 	CodeBlock codeOut = new CodeBlock();
 	int n = at.lastLabel + 1,n2;
+	at.lastLabel++;
+	n2 = at.lastLabel+1;
+	at.lastLabel++;
 	at1.dir = at.dir;
 	at2.dir = at.dir;
 	CodeBlock code2 = new CodeBlock();
@@ -783,34 +789,37 @@ void inst_iteracion(Attributes at):
 	expresion(at1)
 		{
 			semFuncs.checkBool(at1);
-			codeOut.addLabel("L"+n);
-			at.lastLabel++;
-			code2.addBlock(at1.code);
-			if(!at1.constante) code2.addInst(PCodeInstruction.OpCode.DRF);
-			code2.encloseXMLTags("condition");
-			if(at1.parClass != null && at1.parClass == Symbol.ParameterClass.REF) code2.addInst(PCodeInstruction.OpCode.DRF);
-			codeOut.addBlock(code2);
-			code2.clearBlock();
-			n2 = at.lastLabel+1;
-			at.lastLabel++;
-			codeOut.addInst(PCodeInstruction.OpCode.JMF, "L"+n2);
+			codeOut.addInst(PCodeInstruction.OpCode.JMP,"L"+n);			
+			
 			at2.lastLabel = at.lastLabel;
 			at2.dir = at.dir;
 		}
 	<tDO>
 	(inst(at2))*
-		{
-			code2.addBlock(at2.code);
+		{	
 			at.lastLabel = at2.lastLabel;
-			code2.encloseXMLTags("while_instruction_block");
-			code2.addInst(PCodeInstruction.OpCode.JMP,"L"+n);
+
 			code2.addLabel("L"+n2);
+			code2.addBlock(at2.code);
+			code2.encloseXMLTags("while_instruction_block");
 			codeOut.addBlock(code2);
+			code2.clearBlock();
+			
+			codeOut.addLabel("L"+n);
+			code2.addBlock(at1.code);
+			if(!at1.constante) code2.addInst(PCodeInstruction.OpCode.DRF);
+			code2.encloseXMLTags("condition");
+			if(at1.parClass != null && at1.parClass == Symbol.ParameterClass.REF) code2.addInst(PCodeInstruction.OpCode.DRF);
+			code2.addInst(PCodeInstruction.OpCode.JMT, "L"+n2);
+			codeOut.addBlock(code2);
+			code2.clearBlock();
+
 			codeOut.encloseXMLTags("while");
 			at.code.addBlock(codeOut);
 		}
 }
 
+// instrucción de return
 void inst_return(Attributes at):
 {
 	Attributes at1 = new Attributes();
@@ -819,7 +828,6 @@ void inst_return(Attributes at):
 	SymbolFunction sf = new SymbolFunction("",null,null);
 	Token t;
 	CodeBlock code1 = new CodeBlock();
-	//System.out.println("return: " + at.dir);
 }
 {
 	t = <tRET>	expresion(at1)
@@ -834,6 +842,7 @@ void inst_return(Attributes at):
 		}
 }
 
+// instrucción de lectura por la entrada estándar
 void inst_leer(Attributes at):
 {
 	Attributes at1 = new Attributes(), at2 = new Attributes();
@@ -849,7 +858,6 @@ void inst_leer(Attributes at):
 					codeOut.addInst(PCodeInstruction.OpCode.RD,(a.type==Symbol.Types.CHAR)?0:1);
 				}
 				at.code.addBlock(codeOut);
-			//	escribirCodigo(codeOut.toString());
 			}
 	} catch(ParseException e){
 		Set<Integer> conjSinc = infoParseException(e);
@@ -858,6 +866,7 @@ void inst_leer(Attributes at):
 	}
 }
 
+// lista de variables que se pueden asignar
 void lista_asignables(Attributes at):
 {
 	Attributes at1 = new Attributes(), at2 = new Attributes();
@@ -873,6 +882,7 @@ void lista_asignables(Attributes at):
 		}
 }
 
+// instrucción de escribir por la salida estándar
 void inst_escribir(Attributes at):
 {
 	Attributes at1 = new Attributes();
@@ -930,6 +940,7 @@ void inst_escribir(Attributes at):
 	}
 }
 
+// instrucción de escribir una linea por la salida estándar
 void inst_escribir_linea(Attributes at):
 {
 	Attributes at1 = new Attributes();
@@ -996,6 +1007,7 @@ void inst_escribir_linea(Attributes at):
 	}
 }
 
+// invocación a un procedimiento
 void inst_invoc_proc(Attributes at):
 {
 	Attributes at1 = new Attributes();
@@ -1060,7 +1072,6 @@ void inst_invoc_proc(Attributes at):
 					} else if(s1.parClass == Symbol.ParameterClass.REF){
 						
 						at2 = at1.par.get(i);
-					//	System.out.println(t.image + " " + s1.type + " " + s1.parClass + " " + at2.parClass + " " + at2.constante);
 						code2.addBlock(at2.code);
 						if(at2.parClass != null && at2.parClass == Symbol.ParameterClass.REF && !at2.constante) code2.addInst(PCodeInstruction.OpCode.DRF);
 						n = i+1;
@@ -1083,6 +1094,7 @@ void inst_invoc_proc(Attributes at):
 	}
 }
 
+// instrucción <if-then>
 void inst_seleccion(Attributes at):
 {
 	Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
@@ -1091,10 +1103,11 @@ void inst_seleccion(Attributes at):
 	at1.dir = at.dir;
 	at1.lastLabel = at.lastLabel;
 	CodeBlock code2 = new CodeBlock();
+	boolean hayElse = false;
+	Token t;
 }
 {
-	/**
-	 * FALTARIA DE PASAR INFO DE LAST LABEL Y ULTIMA DIRECCIÓN A at1, at2 y at3 */
+	
 	<tIF> 
 	expresion(at1) 
 		{
@@ -1119,29 +1132,36 @@ void inst_seleccion(Attributes at):
 		codeOut.addBlock(at2.code);
 		n2 = at2.lastLabel + 1;
 		at.lastLabel = at2.lastLabel+1;
-		// PRUEBA
-		//at.lastLabel ++;
 		
-		codeOut.addInst(PCodeInstruction.OpCode.JMP, "L"+n2);
-		codeOut.encloseXMLTags("then");
-		code2.addBlock(codeOut);
 		at3.lastLabel = at.lastLabel;
 		at3.dir = at.dir;
+		at3.hayAlgo = false;
 	}
 	(<tELSE> (inst(at3))* )? 
 	{
+		at.lastLabel = at3.lastLabel;
+		if(at3.hayAlgo){
+			codeOut.addInst(PCodeInstruction.OpCode.JMP, "L"+n2);
+		} else {
+			at.lastLabel --;
+		}
+		codeOut.encloseXMLTags("then");
+		code2.addBlock(codeOut);
 		codeOut.clearBlock();
 		codeOut.addLabel("L"+n);
-		codeOut.addBlock(at3.code);
-		codeOut.encloseXMLTags("else");
-		codeOut.addLabel("L"+n2);
+		if(at3.hayAlgo){
+			codeOut.addBlock(at3.code);
+			codeOut.encloseXMLTags("else");
+			codeOut.addLabel("L"+n2);
+		}
 		code2.addBlock(codeOut);
 		code2.encloseXMLTags("if-then");
 		at.code.addBlock(code2);
-		at.lastLabel = at3.lastLabel;
+		
 	}
 }
 
+// saltar caracteres de la entrada estándar hasta la llegada de un salto de linea
 void inst_saltar_linea(Attributes at):
 {
 	CodeBlock code1 = new CodeBlock();
@@ -1171,12 +1191,12 @@ void inst_saltar_linea(Attributes at):
 	}
 }
 
+// lista de una o más expresiones, separadas por comas
 void lista_una_o_mas_exps(Attributes at):
 {
 	Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
 	at1.dir = at.dir;
 	at2.dir = at.dir;
-	//System.out.println("lista: " + at.dir);
 }
 {
 	expresion(at1) (at3.token = <tCOMA> lista_una_o_mas_exps(at2))?
@@ -1185,12 +1205,12 @@ void lista_una_o_mas_exps(Attributes at):
 		}
 }
 
+// expresión
 void expresion(Attributes at):
 {
 	Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
 	at1.dir = at.dir;
 	at2.dir = at.dir;
-	//System.out.println("expresion: "+ at.dir);
 }
 {
 	expresion_simple(at1) ( operador_relacional(at3) expresion_simple(at2) )?
@@ -1199,6 +1219,7 @@ void expresion(Attributes at):
 		}
 }
 
+// operador lógico relacional
 void operador_relacional(Attributes at):
 {
 	Token t;
@@ -1236,13 +1257,13 @@ void operador_relacional(Attributes at):
 		}
 }
 
+// expresión simple
 void expresion_simple(Attributes at):
 {
 	Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
 	at1.dir = at.dir;
 	at2.dir = at.dir;
 	Token t = new Token();
-	//System.out.println("expresion_simple: " + at.dir);
 }
 {
 	(t = <tRES> | <tSUM>)?
@@ -1260,23 +1281,18 @@ void expresion_simple(Attributes at):
 			at.code.addBlock(at1.code);
 		}
 	(exp_simpl2(at1,at))?
-		{
-			
-			
-		}
+		
 }
 
+// función auxiliar para la implementación de recursividad por la izquierda
 void exp_simpl2(Attributes at1, Attributes at):
 {
 	Attributes at2 = new Attributes(), at3 = new Attributes(), at4 = new Attributes();
-	//at1.dir = at.dir;
 	at2.dir = at.dir;
 	Token t = new Token();
 	CodeBlock code1 = new CodeBlock();
-	//System.out.println("exp_simpl2: " + at.dir + " " + at1.dir);
 }
 {
-//	(t = <tRES> | <tSUM>)?
 	operador_aditivo(at3) termino(at2) 
 	
 		{
@@ -1290,14 +1306,11 @@ void exp_simpl2(Attributes at1, Attributes at):
 			at2.constante = true;
 			at2.parClass = Symbol.ParameterClass.NONE;
 			at.parClass = Symbol.ParameterClass.NONE;
-			// if(t.image != null){
-			// 	at1.code.addInst(PCodeInstruction.OpCode.NGI);
-			// }
-		//	semFuncs.check2typesWithOperator(at1,at2,at3,at);
 		}
 		(exp_simpl2(at2,at))?
 }
 
+// operadores aditivos
 void operador_aditivo(Attributes at):
 {
 	Token t;
@@ -1323,6 +1336,7 @@ void operador_aditivo(Attributes at):
 		}
 }
 
+// termino
 void termino(Attributes at):
 {
 	Attributes at1 = new Attributes(), at2 = new Attributes(), at3 = new Attributes();
@@ -1330,7 +1344,6 @@ void termino(Attributes at):
 	at1.dir = at.dir;
 	at2.dir = at.dir;
 	Symbol.Types expected;
-	//System.out.println("termino: " + at.dir + " " + at1.dir);
 }
 {
 	factor(at1)
@@ -1343,12 +1356,9 @@ void termino(Attributes at):
 			at.code.addBlock(at1.code);
 		}	
 	(termino2(at1,at))?
-	//(operador_multiplicativo(at3) termino(at2))?
-		{
-			//semFuncs.check2typesWithOperator(at1,at2,at3,at); 
-		}
 }
 
+// función auxiliar para realizar la recursividad por la izquierda
 void termino2(Attributes at1, Attributes at):
 {
 	Attributes at2 = new Attributes(), at3 = new Attributes(), at4 = new Attributes();
@@ -1356,7 +1366,6 @@ void termino2(Attributes at1, Attributes at):
 	at2.dir = at.dir;
 	Token t = new Token();
 	CodeBlock code1 = new CodeBlock();
-	//System.out.println("termino2: " + at.dir + " " + at1.dir);
 }
 {
 	
@@ -1376,8 +1385,7 @@ void termino2(Attributes at1, Attributes at):
 	(termino2(at2,at))?
 }
 	
-
-
+// operador multiplicativo
 void operador_multiplicativo(Attributes at):
 {
 	Token t;
@@ -1409,12 +1417,12 @@ void operador_multiplicativo(Attributes at):
 		}
 }
 
+// factor
 void factor(Attributes at):
 {
 	Token t;
 	Symbol s;
 	Symbol.Types tipo;
-	//System.out.println("factor: " + at.dir);
 }
 {
 	 
@@ -1435,7 +1443,6 @@ void factor(Attributes at):
 			if(!at.constante) at.code.addInst(PCodeInstruction.OpCode.DRF);
 			if(at.parClass != null && at.parClass == Symbol.ParameterClass.REF) at.code.addInst(PCodeInstruction.OpCode.DRF);
 			at.constante = false;
-		//	at.code.addBlock(at.code);
 			s = ts.getSymbol(t.image);
 			at.parClass = s.parClass;
 			at.nivel = s.nivel;
@@ -1445,8 +1452,6 @@ void factor(Attributes at):
 			if(at.parClass != null && at.parClass == Symbol.ParameterClass.REF) at.code.addInst(PCodeInstruction.OpCode.DRF);
 			at.code.addInst(PCodeInstruction.OpCode.PLUS);
 			if(at.parClass != null && at.parClass == Symbol.ParameterClass.REF) at.constante = true;
-			
-		//	at.code.addInst(PCodeInstruction.OpCode.DRF);
 		}
 |	t = <tID>
 		{
@@ -1472,10 +1477,7 @@ void factor(Attributes at):
 			at.token = t;
 			at.constante = true;
 			String str = at.token.image;
-			//str = str.substring(1,str.length()-1);
-		//	for(int i = 1; i < str.length()-1; i++){
 			at.code.addInst(PCodeInstruction.OpCode.STC,(int)str.charAt(1));
-		//	}
 		}
 | 	t = <tSTRING>
 		{
@@ -1483,7 +1485,6 @@ void factor(Attributes at):
 			at.token = t;
 			at.constante = true;
 			String str = at.token.image;
-			//str = str.substring(1,str.length()-1);
 			for(int i = 1; i < str.length()-1; i++){
 				at.code.addInst(PCodeInstruction.OpCode.STC,(int)str.charAt(i));
 				at.code.addInst(PCodeInstruction.OpCode.WRT,0);
@@ -1505,6 +1506,9 @@ void factor(Attributes at):
 		}
 }
 
+// factor que contiene paréntesis
+// invocaciones a función
+// int2char, char2int
 void factor_con_par(Attributes at):
 {
 	Token t;
@@ -1570,7 +1574,6 @@ void factor_con_par(Attributes at):
 						}
 					} else if(s1.parClass == Symbol.ParameterClass.REF){
 						at2 = at1.par.get(i);
-				//		code2.addComment("Variable / parameter \"" + at2.token.image + "\"");
 						code2.addBlock(at2.code);
 						if(at2.parClass != null && at2.parClass == Symbol.ParameterClass.REF) code2.addInst(PCodeInstruction.OpCode.DRF);
 						n = i+1;

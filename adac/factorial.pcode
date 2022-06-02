@@ -318,16 +318,9 @@ L0:
   ASG
 </Asignacion_a_variable_simple_n>
 <while>
-L5:
-<condition>
-; --Variable / parameter "n"
-  SRF  0  3
-  DRF
-  STC 20
-  LTE
-</condition>
-  JMF L6
+  JMP L5
 <while_instruction_block>
+L6:
 <put_line>
 <put>
 ; --Variable / parameter "n"
@@ -376,8 +369,15 @@ L5:
   ASG
 </Asignacion_a_variable_simple_n>
 </while_instruction_block>
-  JMP L5
-L6:
+L5:
+<condition>
+; --Variable / parameter "n"
+  SRF  0  3
+  DRF
+  STC 20
+  LTE
+</condition>
+  JMT L6
 </while>
   LVP
 </factorial>

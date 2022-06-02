@@ -1,16 +1,13 @@
 procedure cerea is
 
-integer i[3];
+integer i,j;
 integer tamano_tablero;
 
-function integer sitio (val integer fila, columna) is
 begin
-    --return (((fila - 1) * tamano_tablero) + columna - 1 + 6 - 7 + columna);
-    return (((fila - 1) * tamano_tablero) + columna - 1 + 6 - 7 + columna);
-  --return (fila + columna + 3);
-end
-
-begin
-    i[1] := sitio(2,3);
-  --  put_line((3 - 1)*2);
+    while i > 0 do
+      while j > 0 do
+        put_line(j);
+      end
+      put_line(i);
+    end
 end

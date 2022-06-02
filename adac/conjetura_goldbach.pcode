@@ -20,24 +20,9 @@ L2:
   ASG
 </Asignacion_a_variable_simple_n>
 <while>
-L3:
-<condition>
-; --Variable / parameter "n"
-  SRF  0  3
-  DRF
-  STC  2
-  LTE
-; --Variable / parameter "n"
-  SRF  0  3
-  DRF
-  STC  2
-  MOD
-  STC  0
-  NEQ
-  OR
-</condition>
-  JMF L4
+  JMP L3
 <while_instruction_block>
+L4:
 <put>
 ; -- Put STRING
 <put>
@@ -111,8 +96,23 @@ L3:
   SRF  0  3
   RD  1
 </while_instruction_block>
-  JMP L3
-L4:
+L3:
+<condition>
+; --Variable / parameter "n"
+  SRF  0  3
+  DRF
+  STC  2
+  LTE
+; --Variable / parameter "n"
+  SRF  0  3
+  DRF
+  STC  2
+  MOD
+  STC  0
+  NEQ
+  OR
+</condition>
+  JMT L4
 </while>
 <return>
 ; --Variable / parameter "n"
@@ -151,24 +151,9 @@ L6:
   ASG
 </Asignacion_a_variable_simple_primo>
 <while>
-L7:
-<condition>
-; --Variable / parameter "i"
-  SRF  0  4
-  DRF
-; --Variable / parameter "k"
-  SRF  0  3
-  DRF
-  STC  2
-  DIV
-  LTE
-; --Variable / parameter "primo"
-  SRF  0  5
-  DRF
-  AND
-</condition>
-  JMF L8
+  JMP L7
 <while_instruction_block>
+L8:
 <Asignacion_a_variable_simple_primo>
 ; -- Address of variable / parameter "primo"
   SRF  0  5
@@ -194,8 +179,23 @@ L7:
   ASG
 </Asignacion_a_variable_simple_i>
 </while_instruction_block>
-  JMP L7
-L8:
+L7:
+<condition>
+; --Variable / parameter "i"
+  SRF  0  4
+  DRF
+; --Variable / parameter "k"
+  SRF  0  3
+  DRF
+  STC  2
+  DIV
+  LTE
+; --Variable / parameter "primo"
+  SRF  0  5
+  DRF
+  AND
+</condition>
+  JMT L8
 </while>
 <return>
 ; --Variable / parameter "primo"
@@ -286,26 +286,9 @@ L10:
 </put>
 </put>
 <while>
-L11:
-<condition>
-; --Variable / parameter "a"
-  SRF  0  6
-  DRF
-; --Variable / parameter "k"
-  SRF  0  3
-  DRF
-  LT
-; --Variable / parameter "b"
-  SRF  0  7
-  DRF
-; --Variable / parameter "k"
-  SRF  0  3
-  DRF
-  LT
-  AND
-</condition>
-  JMF L12
+  JMP L11
 <while_instruction_block>
+L12:
 <if-then>
 <condition>
 <function_call_es_primo>
@@ -378,12 +361,8 @@ L11:
   PLUS
   ASG
 </Asignacion_a_variable_simple_n>
-  JMP L14
 </then>
-<else>
 L13:
-</else>
-L14:
 </if-then>
 <Asignacion_a_variable_simple_a>
 ; -- Address of variable / parameter "a"
@@ -405,7 +384,7 @@ L14:
   DRF
   EQ
 </condition>
-  JMF L15
+  JMF L14
 <then>
 <Asignacion_a_variable_simple_b>
 ; -- Address of variable / parameter "b"
@@ -425,16 +404,29 @@ L14:
   DRF
   ASG
 </Asignacion_a_variable_simple_a>
-  JMP L16
 </then>
-<else>
-L15:
-</else>
-L16:
+L14:
 </if-then>
 </while_instruction_block>
-  JMP L11
-L12:
+L11:
+<condition>
+; --Variable / parameter "a"
+  SRF  0  6
+  DRF
+; --Variable / parameter "k"
+  SRF  0  3
+  DRF
+  LT
+; --Variable / parameter "b"
+  SRF  0  7
+  DRF
+; --Variable / parameter "k"
+  SRF  0  3
+  DRF
+  LT
+  AND
+</condition>
+  JMT L12
 </while>
 <put_line>
 <put>
@@ -1012,18 +1004,9 @@ L0:
   ASG
 </Asignacion_a_variable_simple_i>
 <while>
-L17:
-<condition>
-; --Variable / parameter "i"
-  SRF  0  4
-  DRF
-; --Variable / parameter "n"
-  SRF  0  3
-  DRF
-  LTE
-</condition>
-  JMF L18
+  JMP L15
 <while_instruction_block>
+L16:
 <if-then>
 <condition>
 <function_call_hay_un_par>
@@ -1036,7 +1019,7 @@ L17:
 </function_call_hay_un_par>
   NGB
 </condition>
-  JMF L19
+  JMF L17
 <then>
 <put_line>
 ; -- Put STRING
@@ -1198,12 +1181,8 @@ L17:
   STC 10
   WRT  0
 </put_line>
-  JMP L20
 </then>
-<else>
-L19:
-</else>
-L20:
+L17:
 </if-then>
 <Asignacion_a_variable_simple_i>
 ; -- Address of variable / parameter "i"
@@ -1216,8 +1195,17 @@ L20:
   ASG
 </Asignacion_a_variable_simple_i>
 </while_instruction_block>
-  JMP L17
-L18:
+L15:
+<condition>
+; --Variable / parameter "i"
+  SRF  0  4
+  DRF
+; --Variable / parameter "n"
+  SRF  0  3
+  DRF
+  LTE
+</condition>
+  JMT L16
 </while>
   LVP
 </goldbach>

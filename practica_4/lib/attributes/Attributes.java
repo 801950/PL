@@ -34,6 +34,7 @@ public class Attributes implements Cloneable {
     public int nivel;
     public int lastLabel;
     public int funcDirection;
+    public boolean hayAlgo;
 
     public CodeBlock code = new CodeBlock();
 
@@ -63,6 +64,5 @@ public class Attributes implements Cloneable {
             "parClass = " + parClass + "\n" +
             "token = " + token.image + "\n" +
             "constante = " + constante + "\n";
-            //COMPLETAR
     }
 }

@@ -514,6 +514,37 @@ L24:
   ASG
 </Asignacion_a_variable_simple_f>
 <while>
+  JMP L25
+<while_instruction_block>
+L26:
+<procedure_call_marcar_componente>
+<argument_1>
+; --Variable / parameter "tablero"
+  SRF  1  4
+</argument_1>
+<argument_2>
+; --Variable / parameter "f"
+  SRF  0  5
+  DRF
+</argument_2>
+<argument_3>
+; --Variable / parameter "columna"
+  SRF  0  4
+  DRF
+</argument_3>
+  OSF  7  1 L19
+</procedure_call_marcar_componente>
+<Asignacion_a_variable_simple_f>
+; -- Address of variable / parameter "f"
+  SRF  0  5
+; --Variable / parameter "f"
+  SRF  0  5
+  DRF
+  STC  1
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_f>
+</while_instruction_block>
 L25:
 <condition>
 ; --Variable / parameter "f"
@@ -524,38 +555,7 @@ L25:
   DRF
   LTE
 </condition>
-  JMF L26
-<while_instruction_block>
-<procedure_call_marcar_componente>
-<argument_1>
-; --Variable / parameter "tablero"
-  SRF  1  4
-</argument_1>
-<argument_2>
-; --Variable / parameter "f"
-  SRF  0  5
-  DRF
-</argument_2>
-<argument_3>
-; --Variable / parameter "columna"
-  SRF  0  4
-  DRF
-</argument_3>
-  OSF  7  1 L19
-</procedure_call_marcar_componente>
-<Asignacion_a_variable_simple_f>
-; -- Address of variable / parameter "f"
-  SRF  0  5
-; --Variable / parameter "f"
-  SRF  0  5
-  DRF
-  STC  1
-  PLUS
-  ASG
-</Asignacion_a_variable_simple_f>
-</while_instruction_block>
-  JMP L25
-L26:
+  JMT L26
 </while>
 <Asignacion_a_variable_simple_c>
 ; -- Address of variable / parameter "c"
@@ -564,6 +564,37 @@ L26:
   ASG
 </Asignacion_a_variable_simple_c>
 <while>
+  JMP L27
+<while_instruction_block>
+L28:
+<procedure_call_marcar_componente>
+<argument_1>
+; --Variable / parameter "tablero"
+  SRF  1  4
+</argument_1>
+<argument_2>
+; --Variable / parameter "fila"
+  SRF  0  3
+  DRF
+</argument_2>
+<argument_3>
+; --Variable / parameter "c"
+  SRF  0  6
+  DRF
+</argument_3>
+  OSF  7  1 L19
+</procedure_call_marcar_componente>
+<Asignacion_a_variable_simple_c>
+; -- Address of variable / parameter "c"
+  SRF  0  6
+; --Variable / parameter "c"
+  SRF  0  6
+  DRF
+  STC  1
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_c>
+</while_instruction_block>
 L27:
 <condition>
 ; --Variable / parameter "c"
@@ -574,38 +605,7 @@ L27:
   DRF
   LTE
 </condition>
-  JMF L28
-<while_instruction_block>
-<procedure_call_marcar_componente>
-<argument_1>
-; --Variable / parameter "tablero"
-  SRF  1  4
-</argument_1>
-<argument_2>
-; --Variable / parameter "fila"
-  SRF  0  3
-  DRF
-</argument_2>
-<argument_3>
-; --Variable / parameter "c"
-  SRF  0  6
-  DRF
-</argument_3>
-  OSF  7  1 L19
-</procedure_call_marcar_componente>
-<Asignacion_a_variable_simple_c>
-; -- Address of variable / parameter "c"
-  SRF  0  6
-; --Variable / parameter "c"
-  SRF  0  6
-  DRF
-  STC  1
-  PLUS
-  ASG
-</Asignacion_a_variable_simple_c>
-</while_instruction_block>
-  JMP L27
-L28:
+  JMT L28
 </while>
 <Asignacion_a_variable_simple_f>
 ; -- Address of variable / parameter "f"
@@ -624,6 +624,30 @@ L28:
   ASG
 </Asignacion_a_variable_simple_c>
 <while>
+  JMP L29
+<while_instruction_block>
+L30:
+<Asignacion_a_variable_simple_f>
+; -- Address of variable / parameter "f"
+  SRF  0  5
+; --Variable / parameter "f"
+  SRF  0  5
+  DRF
+  STC  1
+  SBT
+  ASG
+</Asignacion_a_variable_simple_f>
+<Asignacion_a_variable_simple_c>
+; -- Address of variable / parameter "c"
+  SRF  0  6
+; --Variable / parameter "c"
+  SRF  0  6
+  DRF
+  STC  1
+  SBT
+  ASG
+</Asignacion_a_variable_simple_c>
+</while_instruction_block>
 L29:
 <condition>
 ; --Variable / parameter "f"
@@ -638,8 +662,29 @@ L29:
   GT
   AND
 </condition>
-  JMF L30
+  JMT L30
+</while>
+<while>
+  JMP L31
 <while_instruction_block>
+L32:
+<procedure_call_marcar_componente>
+<argument_1>
+; --Variable / parameter "tablero"
+  SRF  1  4
+</argument_1>
+<argument_2>
+; --Variable / parameter "f"
+  SRF  0  5
+  DRF
+</argument_2>
+<argument_3>
+; --Variable / parameter "c"
+  SRF  0  6
+  DRF
+</argument_3>
+  OSF  7  1 L19
+</procedure_call_marcar_componente>
 <Asignacion_a_variable_simple_f>
 ; -- Address of variable / parameter "f"
   SRF  0  5
@@ -647,7 +692,7 @@ L29:
   SRF  0  5
   DRF
   STC  1
-  SBT
+  PLUS
   ASG
 </Asignacion_a_variable_simple_f>
 <Asignacion_a_variable_simple_c>
@@ -657,14 +702,10 @@ L29:
   SRF  0  6
   DRF
   STC  1
-  SBT
+  PLUS
   ASG
 </Asignacion_a_variable_simple_c>
 </while_instruction_block>
-  JMP L29
-L30:
-</while>
-<while>
 L31:
 <condition>
 ; --Variable / parameter "f"
@@ -683,48 +724,7 @@ L31:
   LTE
   AND
 </condition>
-  JMF L32
-<while_instruction_block>
-<procedure_call_marcar_componente>
-<argument_1>
-; --Variable / parameter "tablero"
-  SRF  1  4
-</argument_1>
-<argument_2>
-; --Variable / parameter "f"
-  SRF  0  5
-  DRF
-</argument_2>
-<argument_3>
-; --Variable / parameter "c"
-  SRF  0  6
-  DRF
-</argument_3>
-  OSF  7  1 L19
-</procedure_call_marcar_componente>
-<Asignacion_a_variable_simple_f>
-; -- Address of variable / parameter "f"
-  SRF  0  5
-; --Variable / parameter "f"
-  SRF  0  5
-  DRF
-  STC  1
-  PLUS
-  ASG
-</Asignacion_a_variable_simple_f>
-<Asignacion_a_variable_simple_c>
-; -- Address of variable / parameter "c"
-  SRF  0  6
-; --Variable / parameter "c"
-  SRF  0  6
-  DRF
-  STC  1
-  PLUS
-  ASG
-</Asignacion_a_variable_simple_c>
-</while_instruction_block>
-  JMP L31
-L32:
+  JMT L32
 </while>
 <Asignacion_a_variable_simple_f>
 ; -- Address of variable / parameter "f"
@@ -743,24 +743,9 @@ L32:
   ASG
 </Asignacion_a_variable_simple_c>
 <while>
-L33:
-<condition>
-; --Variable / parameter "f"
-  SRF  0  5
-  DRF
-  STC  1
-  GT
-; --Variable / parameter "c"
-  SRF  0  6
-  DRF
-; --Variable / parameter "tamano_tablero"
-  SRF  1  3
-  DRF
-  LT
-  AND
-</condition>
-  JMF L34
+  JMP L33
 <while_instruction_block>
+L34:
 <Asignacion_a_variable_simple_f>
 ; -- Address of variable / parameter "f"
   SRF  0  5
@@ -782,28 +767,28 @@ L33:
   ASG
 </Asignacion_a_variable_simple_c>
 </while_instruction_block>
-  JMP L33
-L34:
-</while>
-<while>
-L35:
+L33:
 <condition>
 ; --Variable / parameter "f"
   SRF  0  5
   DRF
-; --Variable / parameter "tamano_tablero"
-  SRF  1  3
-  DRF
-  LTE
+  STC  1
+  GT
 ; --Variable / parameter "c"
   SRF  0  6
   DRF
-  STC  1
-  GTE
+; --Variable / parameter "tamano_tablero"
+  SRF  1  3
+  DRF
+  LT
   AND
 </condition>
-  JMF L36
+  JMT L34
+</while>
+<while>
+  JMP L35
 <while_instruction_block>
+L36:
 <procedure_call_marcar_componente>
 <argument_1>
 ; --Variable / parameter "tablero"
@@ -842,8 +827,23 @@ L35:
   ASG
 </Asignacion_a_variable_simple_c>
 </while_instruction_block>
-  JMP L35
-L36:
+L35:
+<condition>
+; --Variable / parameter "f"
+  SRF  0  5
+  DRF
+; --Variable / parameter "tamano_tablero"
+  SRF  1  3
+  DRF
+  LTE
+; --Variable / parameter "c"
+  SRF  0  6
+  DRF
+  STC  1
+  GTE
+  AND
+</condition>
+  JMT L36
 </while>
   CSF
 </instruction_block>
@@ -864,18 +864,9 @@ L38:
   ASG
 </Asignacion_a_variable_simple_f>
 <while>
-L39:
-<condition>
-; --Variable / parameter "f"
-  SRF  0  3
-  DRF
-; --Variable / parameter "tamano_tablero"
-  SRF  1  3
-  DRF
-  LTE
-</condition>
-  JMF L40
+  JMP L39
 <while_instruction_block>
+L40:
 <Asignacion_a_variable_simple_c>
 ; -- Address of variable / parameter "c"
   SRF  0  4
@@ -883,18 +874,9 @@ L39:
   ASG
 </Asignacion_a_variable_simple_c>
 <while>
-L41:
-<condition>
-; --Variable / parameter "c"
-  SRF  0  4
-  DRF
-; --Variable / parameter "tamano_tablero"
-  SRF  1  3
-  DRF
-  LTE
-</condition>
-  JMF L42
+  JMP L41
 <while_instruction_block>
+L42:
 <procedure_call_asignar_componente>
 <argument_1>
 ; --Variable / parameter "tablero"
@@ -946,8 +928,17 @@ L41:
   ASG
 </Asignacion_a_variable_simple_c>
 </while_instruction_block>
-  JMP L41
-L42:
+L41:
+<condition>
+; --Variable / parameter "c"
+  SRF  0  4
+  DRF
+; --Variable / parameter "tamano_tablero"
+  SRF  1  3
+  DRF
+  LTE
+</condition>
+  JMT L42
 </while>
 <Asignacion_a_variable_simple_f>
 ; -- Address of variable / parameter "f"
@@ -960,8 +951,17 @@ L42:
   ASG
 </Asignacion_a_variable_simple_f>
 </while_instruction_block>
-  JMP L39
-L40:
+L39:
+<condition>
+; --Variable / parameter "f"
+  SRF  0  3
+  DRF
+; --Variable / parameter "tamano_tablero"
+  SRF  1  3
+  DRF
+  LTE
+</condition>
+  JMT L40
 </while>
   CSF
 </instruction_block>
@@ -1045,18 +1045,9 @@ L44:
   ASG
 </Asignacion_a_variable_simple_f>
 <while>
-L45:
-<condition>
-; --Variable / parameter "f"
-  SRF  0  4
-  DRF
-; --Variable / parameter "tamano_tablero"
-  SRF  1  3
-  DRF
-  LTE
-</condition>
-  JMF L46
+  JMP L45
 <while_instruction_block>
+L46:
 <Asignacion_a_variable_simple_c>
 ; -- Address of variable / parameter "c"
   SRF  0  5
@@ -1064,18 +1055,9 @@ L45:
   ASG
 </Asignacion_a_variable_simple_c>
 <while>
-L47:
-<condition>
-; --Variable / parameter "c"
-  SRF  0  5
-  DRF
-; --Variable / parameter "tamano_tablero"
-  SRF  1  3
-  DRF
-  LTE
-</condition>
-  JMF L48
+  JMP L47
 <while_instruction_block>
+L48:
 <if-then>
 <condition>
 <function_call_componente>
@@ -1137,8 +1119,17 @@ L50:
   ASG
 </Asignacion_a_variable_simple_c>
 </while_instruction_block>
-  JMP L47
-L48:
+L47:
+<condition>
+; --Variable / parameter "c"
+  SRF  0  5
+  DRF
+; --Variable / parameter "tamano_tablero"
+  SRF  1  3
+  DRF
+  LTE
+</condition>
+  JMT L48
 </while>
 <procedure_call_linea>
   OSF  6  1 L9
@@ -1154,8 +1145,17 @@ L48:
   ASG
 </Asignacion_a_variable_simple_f>
 </while_instruction_block>
-  JMP L45
-L46:
+L45:
+<condition>
+; --Variable / parameter "f"
+  SRF  0  4
+  DRF
+; --Variable / parameter "tamano_tablero"
+  SRF  1  3
+  DRF
+  LTE
+</condition>
+  JMT L46
 </while>
   CSF
 </instruction_block>
@@ -1201,15 +1201,9 @@ L52:
   ASG
 </Asignacion_a_variable_simple_endal>
 <while>
-L53:
-<condition>
-; --Variable / parameter "endal"
-  SRF  0  5
-  DRF
-  NGB
-</condition>
-  JMF L54
+  JMP L53
 <while_instruction_block>
+L54:
 <if-then>
 <condition>
 ; --Variable / parameter "fila"
@@ -1325,8 +1319,14 @@ L58:
 L56:
 </if-then>
 </while_instruction_block>
-  JMP L53
-L54:
+L53:
+<condition>
+; --Variable / parameter "endal"
+  SRF  0  5
+  DRF
+  NGB
+</condition>
+  JMT L54
 </while>
 <return>
 ; --Variable / parameter "fila"
@@ -1576,26 +1576,9 @@ L0:
   ASG
 </Asignacion_a_variable_simple_nreinas>
 <while>
-L61:
-<condition>
-; --Variable / parameter "fila"
-  SRF  0 2005
-  DRF
-; --Variable / parameter "tamano_tablero"
-  SRF  0  3
-  DRF
-  LTE
-; --Variable / parameter "nreinas"
-  SRF  0 2004
-  DRF
-; --Variable / parameter "tamano_tablero"
-  SRF  0  3
-  DRF
-  LT
-  AND
-</condition>
-  JMF L62
+  JMP L61
 <while_instruction_block>
+L62:
 <Asignacion_a_variable_simple_columna>
 ; -- Address of variable / parameter "columna"
   SRF  0 2006
@@ -1603,26 +1586,9 @@ L61:
   ASG
 </Asignacion_a_variable_simple_columna>
 <while>
-L63:
-<condition>
-; --Variable / parameter "columna"
-  SRF  0 2006
-  DRF
-; --Variable / parameter "tamano_tablero"
-  SRF  0  3
-  DRF
-  LTE
-; --Variable / parameter "nreinas"
-  SRF  0 2004
-  DRF
-; --Variable / parameter "tamano_tablero"
-  SRF  0  3
-  DRF
-  LT
-  AND
-</condition>
-  JMF L64
+  JMP L63
 <while_instruction_block>
+L64:
 <Asignacion_a_variable_simple_nreinas>
 ; -- Address of variable / parameter "nreinas"
   SRF  0 2004
@@ -1646,30 +1612,9 @@ L63:
   OSF 2009  0 L23
 </procedure_call_colocar_reina>
 <while>
-L65:
-<condition>
-; --Variable / parameter "nreinas"
-  SRF  0 2004
-  DRF
-; --Variable / parameter "tamano_tablero"
-  SRF  0  3
-  DRF
-  LT
-<function_call_libre>
-<argument_1>
-; --Variable / parameter "f"
-  SRF  0 2007
-</argument_1>
-<argument_2>
-; --Variable / parameter "c"
-  SRF  0 2008
-</argument_2>
-  OSF 2009  0 L51
-</function_call_libre>
-  AND
-</condition>
-  JMF L66
+  JMP L65
 <while_instruction_block>
+L66:
 <procedure_call_colocar_reina>
 <argument_1>
 ; --Variable / parameter "f"
@@ -1694,8 +1639,29 @@ L65:
   ASG
 </Asignacion_a_variable_simple_nreinas>
 </while_instruction_block>
-  JMP L65
-L66:
+L65:
+<condition>
+; --Variable / parameter "nreinas"
+  SRF  0 2004
+  DRF
+; --Variable / parameter "tamano_tablero"
+  SRF  0  3
+  DRF
+  LT
+<function_call_libre>
+<argument_1>
+; --Variable / parameter "f"
+  SRF  0 2007
+</argument_1>
+<argument_2>
+; --Variable / parameter "c"
+  SRF  0 2008
+</argument_2>
+  OSF 2009  0 L51
+</function_call_libre>
+  AND
+</condition>
+  JMT L66
 </while>
 <if-then>
 <condition>
@@ -1716,12 +1682,8 @@ L66:
 </argument_1>
   OSF 2009  0 L43
 </procedure_call_mostrar_tablero>
-  JMP L68
 </then>
-<else>
 L67:
-</else>
-L68:
 </if-then>
 <Asignacion_a_variable_simple_columna>
 ; -- Address of variable / parameter "columna"
@@ -1734,8 +1696,25 @@ L68:
   ASG
 </Asignacion_a_variable_simple_columna>
 </while_instruction_block>
-  JMP L63
-L64:
+L63:
+<condition>
+; --Variable / parameter "columna"
+  SRF  0 2006
+  DRF
+; --Variable / parameter "tamano_tablero"
+  SRF  0  3
+  DRF
+  LTE
+; --Variable / parameter "nreinas"
+  SRF  0 2004
+  DRF
+; --Variable / parameter "tamano_tablero"
+  SRF  0  3
+  DRF
+  LT
+  AND
+</condition>
+  JMT L64
 </while>
 <Asignacion_a_variable_simple_fila>
 ; -- Address of variable / parameter "fila"
@@ -1748,8 +1727,25 @@ L64:
   ASG
 </Asignacion_a_variable_simple_fila>
 </while_instruction_block>
-  JMP L61
-L62:
+L61:
+<condition>
+; --Variable / parameter "fila"
+  SRF  0 2005
+  DRF
+; --Variable / parameter "tamano_tablero"
+  SRF  0  3
+  DRF
+  LTE
+; --Variable / parameter "nreinas"
+  SRF  0 2004
+  DRF
+; --Variable / parameter "tamano_tablero"
+  SRF  0  3
+  DRF
+  LT
+  AND
+</condition>
+  JMT L62
 </while>
 <put_line>
 ; -- Put STRING

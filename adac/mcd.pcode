@@ -26,17 +26,9 @@ L2:
   ASG
 </Asignacion_a_variable_simple_d>
 <while>
-L3:
-<condition>
-; --Variable / parameter "d"
-  SRF  0  3
-  DRF
-  DRF
-  STC  0
-  LTE
-</condition>
-  JMF L4
+  JMP L3
 <while_instruction_block>
+L4:
 <put>
 ; -- Put STRING
 <put>
@@ -161,22 +153,26 @@ L3:
   STC 10
   WRT  0
 </put_line>
-  JMP L6
 </then>
-<else>
 L5:
-</else>
-L6:
 </if-then>
 </while_instruction_block>
-  JMP L3
-L4:
+L3:
+<condition>
+; --Variable / parameter "d"
+  SRF  0  3
+  DRF
+  DRF
+  STC  0
+  LTE
+</condition>
+  JMT L4
 </while>
   CSF
 </instruction_block>
 </procedure>
 <procedure>
-L7:
+L6:
 ; -- Simple parameter "a", type FUNCTION, level 1, address [3]
 ; -- Simple parameter "b", type FUNCTION, level 1, address [4]
 <recover_argument_2>
@@ -189,13 +185,13 @@ L7:
   SRF  0  3
   ASGI
 </recover_argument_1>
-  JMP L8
+  JMP L7
 <variable_declaration>
 ; -- Simple variable "i", type INT, level 1, address [5]
 ; -- Simple variable "j", type INT, level 1, address [6]
 ; -- Simple variable "k", type INT, level 1, address [7]
 </variable_declaration>
-L8:
+L7:
 <instruction_block>
 <Asignacion_a_variable_simple_j>
 ; -- Address of variable / parameter "j"
@@ -226,16 +222,9 @@ L8:
   ASG
 </Asignacion_a_variable_simple_i>
 <while>
-L9:
-<condition>
-; --Variable / parameter "i"
-  SRF  0  5
-  DRF
-  STC  0
-  NEQ
-</condition>
-  JMF L10
+  JMP L8
 <while_instruction_block>
+L9:
 <Asignacion_a_variable_simple_j>
 ; -- Address of variable / parameter "j"
   SRF  0  6
@@ -265,8 +254,15 @@ L9:
   ASG
 </Asignacion_a_variable_simple_i>
 </while_instruction_block>
-  JMP L9
-L10:
+L8:
+<condition>
+; --Variable / parameter "i"
+  SRF  0  5
+  DRF
+  STC  0
+  NEQ
+</condition>
+  JMT L9
 </while>
 <return>
 ; --Variable / parameter "k"
@@ -516,7 +512,7 @@ L0:
   SRF  0  4
   DRF
 </argument_2>
-  OSF  5  0 L7
+  OSF  5  0 L6
 </function_call_mcd>
 ; -- Put INTEGER
   WRT  1

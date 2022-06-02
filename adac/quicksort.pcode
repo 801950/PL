@@ -26,18 +26,9 @@ L2:
   ASG
 </Asignacion_a_variable_simple_i>
 <while>
-L3:
-<condition>
-; --Variable / parameter "i"
-  SRF  0  4
-  DRF
-; --Variable / parameter "n"
-  SRF  1  3
-  DRF
-  LT
-</condition>
-  JMF L4
+  JMP L3
 <while_instruction_block>
+L4:
 <Asignacion_a_variable_simple_t>
 ; --Variable / parameter "i"
   SRF  0  4
@@ -66,8 +57,17 @@ L3:
   ASG
 </Asignacion_a_variable_simple_i>
 </while_instruction_block>
-  JMP L3
-L4:
+L3:
+<condition>
+; --Variable / parameter "i"
+  SRF  0  4
+  DRF
+; --Variable / parameter "n"
+  SRF  1  3
+  DRF
+  LT
+</condition>
+  JMT L4
 </while>
   CSF
 </instruction_block>
@@ -131,18 +131,9 @@ L6:
   ASG
 </Asignacion_a_variable_simple_i>
 <while>
-L7:
-<condition>
-; --Variable / parameter "i"
-  SRF  0 23
-  DRF
-; --Variable / parameter "n"
-  SRF  1  3
-  DRF
-  LT
-</condition>
-  JMF L8
+  JMP L7
 <while_instruction_block>
+L8:
 <put>
 <put>
 ; --Variable / parameter "i"
@@ -172,8 +163,17 @@ L7:
   ASG
 </Asignacion_a_variable_simple_i>
 </while_instruction_block>
-  JMP L7
-L8:
+L7:
+<condition>
+; --Variable / parameter "i"
+  SRF  0 23
+  DRF
+; --Variable / parameter "n"
+  SRF  1  3
+  DRF
+  LT
+</condition>
+  JMT L8
 </while>
 <put>
 <put>
@@ -287,18 +287,14 @@ L12:
 </argument_2>
   OSF  5  1 L9
 </procedure_call_intercambiar>
-  JMP L14
 </then>
-<else>
 L13:
-</else>
-L14:
 </if-then>
   CSF
 </instruction_block>
 </procedure>
 <procedure>
-L15:
+L14:
 ; -- Ref array parameter "t", type INT, class REF, size 20, level 1, address [3]
 ; -- Simple parameter "izq", type PROCEDURE, level 1, address [4]
 ; -- Simple parameter "der", type PROCEDURE, level 1, address [5]
@@ -322,12 +318,12 @@ L15:
   SRF  0  3
   ASGI
 </recover_argument_1>
-  JMP L16
+  JMP L15
 <variable_declaration>
 ; -- Simple variable "p", type INT, level 1, address [7]
 ; -- Simple variable "k", type INT, level 1, address [8]
 </variable_declaration>
-L16:
+L15:
 <instruction_block>
 <Asignacion_a_variable_simple_p>
 ; -- Address of variable / parameter "p"
@@ -372,7 +368,21 @@ L16:
   ASG
 </Asignacion_a_variable_simple_k>
 <while>
+  JMP L16
+<while_instruction_block>
 L17:
+<Asignacion_a_variable_simple_k>
+; -- Address of variable / parameter "k"
+  SRF  0  8
+; --Variable / parameter "k"
+  SRF  0  8
+  DRF
+  STC  1
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_k>
+</while_instruction_block>
+L16:
 <condition>
 ; --Variable / parameter "k"
   SRF  0  8
@@ -395,21 +405,7 @@ L17:
   LT
   AND
 </condition>
-  JMF L18
-<while_instruction_block>
-<Asignacion_a_variable_simple_k>
-; -- Address of variable / parameter "k"
-  SRF  0  8
-; --Variable / parameter "k"
-  SRF  0  8
-  DRF
-  STC  1
-  PLUS
-  ASG
-</Asignacion_a_variable_simple_k>
-</while_instruction_block>
-  JMP L17
-L18:
+  JMT L17
 </while>
 <Asignacion_a_variable_simple_me>
 ; -- Address of variable / parameter "me"
@@ -424,7 +420,23 @@ L18:
   ASG
 </Asignacion_a_variable_simple_me>
 <while>
+  JMP L18
+<while_instruction_block>
 L19:
+<Asignacion_a_variable_simple_me>
+; -- Address of variable / parameter "me"
+  SRF  0  6
+  DRF
+; --Variable / parameter "me"
+  SRF  0  6
+  DRF
+  DRF
+  STC  1
+  SBT
+  ASG
+</Asignacion_a_variable_simple_me>
+</while_instruction_block>
+L18:
 <condition>
 ; --Variable / parameter "me"
   SRF  0  6
@@ -440,38 +452,12 @@ L19:
   DRF
   GT
 </condition>
-  JMF L20
-<while_instruction_block>
-<Asignacion_a_variable_simple_me>
-; -- Address of variable / parameter "me"
-  SRF  0  6
-  DRF
-; --Variable / parameter "me"
-  SRF  0  6
-  DRF
-  DRF
-  STC  1
-  SBT
-  ASG
-</Asignacion_a_variable_simple_me>
-</while_instruction_block>
-  JMP L19
-L20:
+  JMT L19
 </while>
 <while>
-L21:
-<condition>
-; --Variable / parameter "k"
-  SRF  0  8
-  DRF
-; --Variable / parameter "me"
-  SRF  0  6
-  DRF
-  DRF
-  LT
-</condition>
-  JMF L22
+  JMP L20
 <while_instruction_block>
+L21:
 <procedure_call_intercambiar>
 <argument_1>
 ; --Variable / parameter "k"
@@ -505,7 +491,21 @@ L21:
   ASG
 </Asignacion_a_variable_simple_k>
 <while>
+  JMP L22
+<while_instruction_block>
 L23:
+<Asignacion_a_variable_simple_k>
+; -- Address of variable / parameter "k"
+  SRF  0  8
+; --Variable / parameter "k"
+  SRF  0  8
+  DRF
+  STC  1
+  PLUS
+  ASG
+</Asignacion_a_variable_simple_k>
+</while_instruction_block>
+L22:
 <condition>
 ; --Variable / parameter "k"
   SRF  0  8
@@ -520,21 +520,7 @@ L23:
   DRF
   LTE
 </condition>
-  JMF L24
-<while_instruction_block>
-<Asignacion_a_variable_simple_k>
-; -- Address of variable / parameter "k"
-  SRF  0  8
-; --Variable / parameter "k"
-  SRF  0  8
-  DRF
-  STC  1
-  PLUS
-  ASG
-</Asignacion_a_variable_simple_k>
-</while_instruction_block>
-  JMP L23
-L24:
+  JMT L23
 </while>
 <Asignacion_a_variable_simple_me>
 ; -- Address of variable / parameter "me"
@@ -549,7 +535,23 @@ L24:
   ASG
 </Asignacion_a_variable_simple_me>
 <while>
+  JMP L24
+<while_instruction_block>
 L25:
+<Asignacion_a_variable_simple_me>
+; -- Address of variable / parameter "me"
+  SRF  0  6
+  DRF
+; --Variable / parameter "me"
+  SRF  0  6
+  DRF
+  DRF
+  STC  1
+  SBT
+  ASG
+</Asignacion_a_variable_simple_me>
+</while_instruction_block>
+L24:
 <condition>
 ; --Variable / parameter "me"
   SRF  0  6
@@ -565,27 +567,21 @@ L25:
   DRF
   GT
 </condition>
-  JMF L26
-<while_instruction_block>
-<Asignacion_a_variable_simple_me>
-; -- Address of variable / parameter "me"
-  SRF  0  6
+  JMT L25
+</while>
+</while_instruction_block>
+L20:
+<condition>
+; --Variable / parameter "k"
+  SRF  0  8
   DRF
 ; --Variable / parameter "me"
   SRF  0  6
   DRF
   DRF
-  STC  1
-  SBT
-  ASG
-</Asignacion_a_variable_simple_me>
-</while_instruction_block>
-  JMP L25
-L26:
-</while>
-</while_instruction_block>
-  JMP L21
-L22:
+  LT
+</condition>
+  JMT L21
 </while>
 <procedure_call_intercambiar>
 <argument_1>
@@ -613,7 +609,7 @@ L22:
 </instruction_block>
 </procedure>
 <procedure>
-L27:
+L26:
 ; -- Ref array parameter "t", type INT, class REF, size 20, level 1, address [3]
 ; -- Simple parameter "izq", type PROCEDURE, level 1, address [4]
 ; -- Simple parameter "der", type PROCEDURE, level 1, address [5]
@@ -631,11 +627,11 @@ L27:
   SRF  0  3
   ASGI
 </recover_argument_1>
-  JMP L28
+  JMP L27
 <variable_declaration>
 ; -- Simple variable "me", type INT, level 1, address [6]
 </variable_declaration>
-L28:
+L27:
 <instruction_block>
 <if-then>
 <condition>
@@ -647,7 +643,7 @@ L28:
   DRF
   GT
 </condition>
-  JMF L29
+  JMF L28
 <then>
 <procedure_call_mostrar>
 <argument_1>
@@ -767,7 +763,7 @@ L28:
   STC  1
   EQ
 </condition>
-  JMF L30
+  JMF L29
 <then>
 <procedure_call_ordenar>
 <argument_1>
@@ -790,10 +786,10 @@ L28:
 </argument_2>
   OSF  7  1 L11
 </procedure_call_ordenar>
-  JMP L31
+  JMP L30
 </then>
 <else>
-L30:
+L29:
 <procedure_call_divide>
 <argument_1>
 ; --Variable / parameter "t"
@@ -814,7 +810,7 @@ L30:
 ; --Variable / parameter "me"
   SRF  0  6
 </argument_4>
-  OSF  7  1 L15
+  OSF  7  1 L14
 </procedure_call_divide>
 <procedure_call_quicksort>
 <argument_1>
@@ -834,7 +830,7 @@ L30:
   STC  1
   SBT
 </argument_3>
-  OSF  7  1 L27
+  OSF  7  1 L26
 </procedure_call_quicksort>
 <procedure_call_quicksort>
 <argument_1>
@@ -854,7 +850,7 @@ L30:
   SRF  0  5
   DRF
 </argument_3>
-  OSF  7  1 L27
+  OSF  7  1 L26
 </procedure_call_quicksort>
 <Asignacion_a_variable_simple_iteraciones>
 ; -- Address of variable / parameter "iteraciones"
@@ -867,14 +863,10 @@ L30:
   ASG
 </Asignacion_a_variable_simple_iteraciones>
 </else>
-L31:
+L30:
 </if-then>
-  JMP L32
 </then>
-<else>
-L29:
-</else>
-L32:
+L28:
 </if-then>
   CSF
 </instruction_block>
@@ -1092,7 +1084,7 @@ L0:
   STC  1
   SBT
 </argument_3>
-  OSF 25  0 L27
+  OSF 25  0 L26
 </procedure_call_quicksort>
 <put_line>
 ; -- Put STRING
