@@ -32,35 +32,6 @@ Práctica 3: Construcción de un analizador semántico para "adac"
     declaraciones de variables simples y vectores. Además permite la 
     declaración anidada de procedimientos y funciones.
 
-    La organización del proyecto es la siguiente:
-
-    practica_3/
-    ├── build.xml
-    ├── doc
-    │   └── README.txt
-    ├── lib
-    │   ├── attributes
-    │   │   ├── Attributes.java
-    │   │   └── Parameter.java
-    │   ├── errores
-    │   │   └── ErrorSemantico.java
-    │   ├── symbolTable
-    │   │   ├── exceptions
-    │   │   │   ├── AlreadyDefinedSymbolException.java
-    │   │   │   └── SymbolNotFoundException.java
-    │   │   ├── SymbolArray.java
-    │   │   ├── SymbolBool.java
-    │   │   ├── SymbolChar.java
-    │   │   ├── SymbolFunction.java
-    │   │   ├── SymbolInt.java
-    │   │   ├── Symbol.java
-    │   │   ├── SymbolProcedure.java
-    │   │   └── SymbolTable.java
-    │   └── tools
-    │       └── SemanticFunctions.java
-    └── traductor
-        └── adac_4.jj
-
     Se ha añadido la clase Parameter. En ella se pasa información a cerca
     de los parámetros que tiene una función o procedimiento. Esta clase es
     de gran ayuda para realizar la comprobación de los parámetros y las invocaciones de las mismas.
@@ -77,7 +48,62 @@ Práctica 3: Construcción de un analizador semántico para "adac"
 
 Práctica 4: Generación de código para la máquina P
 
+    Se ha aplicado optimización de código en las sentencias if-else y while.
 
-    La organización del proyecto es la siguiente
+    Se ha generado el código correspondiente al nivel 4 de evaluación.
 
+    Las pruebas realizadas con el compilador construido han transcurrido de la siguiente manera:
+
+        Se ha realizado una construcción gradual desde las expresiones hasta
+        la construcción de procedimientos y funciones. Para garantizar el
+        correcto funcionamiento de cada bloque se ha ido probando el código
+        construido con el que ya se había hecho anteriormente.
+        
+        Dichas pruebas fueron mediante la comparación del código pcode generado 
+        con el que genera el compilador proporcionado por los profesores de la 
+        asignatura. Cuando los programas eran demasiado extensos y se podía 
+        comprobar su corrección con la ejecución, se realizaba de esta manera.
+
+        Cuando un bloque se había comprobado que funcionaba correctamente, se 
+        procedía a construir el siguiente.
+
+        Finalmente, se han realizado pruebas globales, ejecutanto los programas 
+        proporcionados por los profesores de la asignatura, tanto como con los 
+        programas propios presentados en la práctica 2.
     
+    La organización del proyecto es la siguiente:
+
+    practica_4/
+    ├── build.xml
+    ├── doc
+    │   └── README.txt
+    ├── lib
+    │   ├── attributes
+    │   │   ├── Attributes.java
+    │   │   └── Parameter.java
+    │   ├── errores
+    │   │   └── ErrorSemantico.java
+    │   ├── symbolTable
+    │   │   ├── exceptions
+    │   │   │   ├── AlreadyDefinedSymbolException.java
+    │   │   │   └── SymbolNotFoundException.java
+    │   │   ├── SymbolArray.java
+    │   │   ├── SymbolBool.java
+    │   │   ├── SymbolChar.java
+    │   │   ├── SymbolFunction.java
+    │   │   ├── SymbolInt.java
+    │   │   ├── Symbol.java
+    │   │   ├── SymbolProcedure.java
+    │   │   └── SymbolTable.java
+    │   └── tools
+    │       ├── codeGeneration
+    │       │   ├── CGUtils.java
+    │       │   ├── CodeBlock.java
+    │       │   ├── CodeElement.java
+    │       │   ├── Comment.java
+    │       │   ├── Label.java
+    │       │   ├── PCodeInstruction.java
+    │       │   └── XMLTag.java
+    │       └── SemanticFunctions.java
+    └── traductor
+        └── adac_4.jj
